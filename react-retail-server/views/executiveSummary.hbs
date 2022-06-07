@@ -1,0 +1,297 @@
+<style>
+/*.mm_countSubmenudropdown{display: block;}*/
+.nav-second-level.collapse.count{display: block;}
+.main_home,.main_admin,.main_supplychain,.main_zplprinter{
+    display: none;
+}
+.error_block{}
+.error{color:red;}
+.small-text{
+    font-size: 12px !important;
+}
+#undernum p , #underper p , #expectednum p, #expectedper p, #item_accuracy2 p{
+    color:#fff;
+}
+.content-wrapper .right img{
+height:33px !important;
+}
+
+</style>
+
+
+<div class="content-wrapper pb-4 ">
+           
+    <div class="body-sec pl-2 pr-2" id="executive-summary-count-dashboard">
+        <div class="card mb-5 pb-3">
+            <div class="card-header">
+                <div class="left d-inline-block">
+                    <h4 class="mb-0">Stock Count Summary</h4>
+                    <p class="mb-0 dateTime"></p>
+                </div>
+                <div class="right d-inline-block float-right mt-2">
+                    <span style="cursor:pointer" class="run_job">
+                        <button class="btn btn-danger stock_download_btn" style="font-size: 18px; padding-left: 25px; padding-right: 25px; border-radius: 10px;">Refresh</button>
+                        {{!-- <img src="/assets/images/refresh_stock.jpg" class="stock_download_btn"> --}}
+                    </span>
+                </div>
+            </div>
+            <div class="card-body p-1">
+              
+                <div class="alert_msg"></div>
+                <div class="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
+                    <h4 class="d-inline-block mr-4 mb-0  text-light">Filters</h4>
+                    <div class="form-group d-inline-block mb-0">
+                        <select class="sw150 d-inline-block mr-2 selectpicker"   data-live-search="true"  name="SoteID" id="StoreID">
+                            <option value="">Store ID</option>
+                        </select>
+                              
+                        <select class="sw150 d-inline-block mr-2 selectpicker" data-live-search="true" name="DepartmentID" id="DepartmentID">
+                            <option value="">Department</option>
+                        </select>
+                        
+                        <select class="sw150 d-inline-block selectpicker" data-live-search="true" name="BrandID" id="BrandID">
+                            <option value="">Brand</option>
+                        </select>
+
+                        <select class="sw150 d-inline-block selectpicker" data-live-search="true" name="Color" id="Color">
+                            <option value="">Color</option>
+                        </select>
+
+                         <select class="sw150 d-inline-block selectpicker" data-live-search="true" name="Size" id="Size">
+                            <option value="">Size</option>
+                        </select>
+
+                        <input  class="form-control d-inline-block mr-2 datepicker33" 
+                        id="summarydate"  name="date" 
+                        valid='Date' placeholder="Ex: yyyy-mm-dd" autocomplete="off">
+                        <span id="show_over_checkbox" style="display:none;">
+                        Show overs 
+                        <input type="checkbox" class="form-control d-inline-block mr-2" 
+                        id="show_over"  name="show_over" value='1' style="min-width:20px;"
+                         >
+                        </span>
+
+                        
+                        <span id="iot_notification"></span>
+                        
+                       
+                    </div>
+                     <div class="d-inline-block w-25">
+                        <button type="button" id="executiveSummary" class="btn btn-primary btn-md run btn-block">Run</button>
+                    </div>
+
+                   
+                    
+                </div>
+                {{!-- <div class="error_block">
+                    <span class='error StoreID_error'></span>
+                    <span class='error Date_error'></span>
+                </div> --}}
+                <style>
+                    .hide{
+                        display: none;
+                    }
+                </style>
+                <div class="row ml-0 mr-0 hide" id="CountDynamic">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6 pl-1 pr-1 pr-md-2">
+                                <div class="card-box p-3 top-cards item-accuracy-card">
+                                    <h4>Item-Count <span>Accuracy</span></h4>
+                                    <h2 class="text-center">
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                        <span id="item_accuracy"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-1 pr-1 pl-md-2">
+                                <div class="card-box p-3 top-cards item-accuracy-card">
+                                    <h4>Operational <span>Accuracy</span></h4>
+                                    <h2 class="text-centerOn Hand Matching">
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' 
+                                            height='32px'>
+                                        </span>
+                                        <span id="operational_accuracy"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-4 pl-1 pr-1  pr-md-2">
+                                <div class="card-box p-4 item-accuracy-count">
+                                    <h4 class="d-inline-block mb-0">On Hand</h4>
+                                    <a  href="" target="_blank" class="OneHandSimple" style="cursor:pointer" >
+                                        <img src="/assets/images/count/icon-open-list-white.png" 
+                                        class="float-right" height="15px"></i>
+                                    </a>    
+
+                                    <h2 class="text-center mb-4 mt-4 lower-font">
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                        <span id="onehand"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1 pr-1  pr-md-2 pl-md-2">
+                                <div class="card-box p-4 item-accuracy-count">
+                                    <h4 class="d-inline-block mb-0">Count</h4>
+                                    <a href="" target="_blank" style="cursor:pointer " class="Count22" >
+                                        <img src="/assets/images/count/icon-open-list-white.png" 
+                                        class="float-right" height="15px"></i>
+                                    </a>  
+
+                                    <h2 class="text-center mb-4 mt-4 lower-font">
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                        <span id="inventoryCount"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pl-1 pr-1 pl-md-2">
+                                <div class="card-box px-3 py-2 item-accuracy-front-back">
+                                    <h4 class="d-inline-block mb-0">Front</h4>
+                                    <a href="" target="_blank" style="cursor:pointer" class="Front">
+                                        <img src="/assets/images/count/icon-open-list-white.png" 
+                                        class="float-right" height="15px"></i>
+                                    </a>    
+
+                                    <h2 class="text-center mb-1 mt-1 sec-lower-font">
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                        <span id="frontval"></span>
+                                    </h2>
+                                </div>
+                                <div class="card-box px-3 py-2  mt-2 item-accuracy-front-back">
+                                    <h4 class="d-inline-block mb-0">Back Store</h4>
+                                    <a href="" target="_blank" style="cursor:pointer" class="BackStore">
+                                        <img src="/assets/images/count/icon-open-list-white.png" 
+                                        class="float-right" height="15px"></i>
+                                    </a>    
+                                    <h2 class="text-center mb-1 mt-1 sec-lower-font">
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                        <span id="counted_sr"></span>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card-box-dark p-3 mb-2 black-right-card">
+                            <h4 class="d-inline-block mb-0 text-light">On Hand Matching</h4>
+                           
+                           <!--- 
+                           <a style="cursor:pointer" class="OnHandMatching" target="_blank"  >
+                                <img src="/assets/images/count/icon-open-list-white.png"
+                                class="float-right" height="15px"></i>
+                            </a>
+                            ----->   
+                            <div>
+                                <h3 class="mb-0  d-inline-block"><span class="small-text">Count</span>
+                                <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                    <span id="onehand2"></span>
+                                </h3>
+                                <h3 class="mb-0  d-inline-block float-right"><span></span> 
+                                    <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                    <span id="item_accuracy2" class="mt-2" style="padding-top: 10px;"></span>
+                                </h3> 
+                            </div>
+                        </div>
+                        <div class="card-box-dark p-3 mb-2 black-right-card">
+                            {{!-- <a href="underOvers" style="color:#fff;"> --}}
+                                <h4 class="d-inline-block mb-0 text-danger">Unders</h4>
+                                
+                                <a  href="" target="_blank" style="cursor:pointer" class="Unders">
+                                    <img src="/assets/images/count/icon-open-list-white.png"
+                                    class="float-right" height="15px"></i>
+                                </a>
+                                <div>
+                                    <h3 class="mb-0  d-inline-block"><span class="small-text">Count</span>
+                                    <span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    </span>
+                                        <span id="undernum">
+                                                
+                                        </span>
+                                    </h3>
+                                    <h3 class="mb-0  d-inline-block float-right"><span class="small-text">Percentage</span>
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+                                        <span id="underper" class="d-inline-block">
+
+                                        </span>
+                                    </h3> 
+                                </div>
+                            {{!-- </a> --}}    
+                        </div>
+                        <div class="card-box-dark p-3 mb-2 black-right-card">
+                            {{!-- <a href="allovers" style="color:#fff;"> --}}
+                                <h4 class="d-inline-block mb-0 text-success">Overs</h4>
+                                
+                                <a href="" target="_blank" class="AllOvers" style="cursor:pointer" >
+                                <img src="/assets/images/count/icon-open-list-white.png"
+                                class="float-right" height="15px"></i>
+                            </a>
+                                <div>
+                                    <h3 class="mb-0  d-inline-block"><span class="small-text">Count</span>
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' 
+                                            height='32px'>
+                                        </span>
+                                            <span id="expectednum">
+                                                    
+                                            </span>
+                                    </h3>
+                                    <h3 class="mb-0  d-inline-block float-right"><span class="small-text">Percentage</span>
+                                        <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px'
+                                            height='32px'>
+                                        </span>
+                                            <span id="expectedper" class="d-inline-block">
+
+                                            </span>
+                                    </h3> 
+                                </div>
+                            {{!-- </a> --}}    
+                        </div>
+                        <div class="card-box-dark p-3 mb-2 black-right-card">
+                            <h4 class="d-inline-block mb-0 text-danger">Critical Out Of Stock</h4>
+                            
+                            <a href="" target="_blank" style="cursor:pointer" class="CriticalOutOfStock" >
+                                <img src="/assets/images/count/icon-open-list-white.png"
+                                class="float-right" height="15px"></i>
+                            </a>
+                            <div>
+                                <h3 class="mb-0 mt-3 d-inline-block">
+                                    <span class="small-text">Count</span> 
+                                    <span id="CriticalStock"></span> </h3>
+                                <h3 class="mb-0 mt-3 d-inline-block float-right" id="criticalper">
+                                    <span class="small-text">Percentage</span> 
+                                    <span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px'
+                                            height='32px'>
+                                        </span>
+                                        0%
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mb-0 p-2 light time-load-text">Page Load: 0.35s</p>
+            </div>
+        </div>
+    </div>
+</div>
+

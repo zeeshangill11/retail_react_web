@@ -1,0 +1,820 @@
+<style>
+.hide_menu{
+  display: none !important;
+}
+.dropdown-item:focus, .dropdown-item:hover{
+  background-color: #373E43;
+  border-bottom: solid 1px #ffffff;
+}
+</style>
+
+<script>
+// setInterval(function(){
+        
+//   $("tbody tr td.epmty_datatables").attr("colspan","6");
+// },500); 
+   // if(typeof temp[3] !=="undefined"){
+   //    var page_name = temp[3];
+   //  }
+  $(document).ready(function(){
+
+    full_url =  (window.location.href);
+    temp     =  full_url.split( '/' );
+    page_name = temp[3];
+    page_name = page_name.split('?');
+    
+    //alert(page_name[0]);
+    //alert(edit_page[0]);
+
+  $.ajax({ 
+          type:'POST',
+          url: "/api/1.0.0/stockCountRecords/getuserdetails",
+          success: function(data)
+          {
+              var response_data = JSON.parse(data);
+              //console.log(response_data);
+              var username =  response_data[0].username;
+            
+              $('.main-header').css('display','block');
+              // $('.main-sidebar').css('display','block');
+              // $('.main-footer').css('display','block');
+              
+            $('#username').html('<span>'+username+'</span>');
+          }
+      });
+    function check_permission(page_name,array1){
+        return new Promise((resolve) => {
+            var pagename = array1;
+            var status = '0'
+            if(pagename == page_name){
+                status = "1";
+                
+            }else{
+                var obj =  array1;
+                    
+                    //console.log(obj.length);
+                for(i=0 ; i<obj.length; i++){
+              
+                    if(obj[i]==page_name)
+                    {
+                      status = "1";
+                      break;
+                    }
+                     
+                }
+                        
+            }
+
+            //console.log(status);
+           resolve({status:status})
+        });
+    }
+    function isJson(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        } 
+        return true;
+    } 
+    $.ajax({
+      type:'POST',
+      url: "/api/1.0.0/stockCountRecords/getuserPermissions",
+      success: function(data)
+      {
+          
+            var response = '';
+            
+            if(isJson(data)){
+              response = JSON.parse(data);
+              response = response.map(v => v.toLowerCase());
+                
+            }else{
+              response = data ;  
+            }
+          
+          $(".customNav").css("visibility","visible");
+        
+          var my_current = window.location.href;
+          var page_name_url = page_name[0];
+          page_name_url = page_name_url.toLowerCase();
+        
+            if($.inArray(page_name_url, response) !== -1){
+              
+            }else{
+
+              var temp2 = page_name[0].split("home2");
+             
+              if(temp2[0] !== "dashboard_"){
+                
+                window.location.href='dashboard_home2?permission=PermssionNotAllowed';
+              }
+            } 
+         
+            check_permission('admin',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.admin_menu').addClass('active222');
+                }else{
+                   $('.admin_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('count',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.count_menu').addClass('active222');
+                }else{  
+                   $('.count_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('supplychain',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.supplychain_menu').addClass('active222');
+                }else{
+                   $('.supplychain_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('tagit',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.tagit_menu').addClass('active222');
+                }else{
+                   $('.tagit_menu').addClass('hide_menu'); 
+                }
+               
+            })
+         
+             check_permission('usersinfo',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.userinfo_menu').addClass('active222');
+                }else{
+                   $('.userinfo_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('dashboard',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.dashboard_menu').addClass('active222');
+                }else{
+                   $('.dashboard_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('handhelddevices',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.device_menu').addClass('active222');
+                }else{
+                   $('.device_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('new_asndata',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.new_asndata_menu').addClass('active222');
+                }else{
+                   $('.new_asndata_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('storeinfo',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.storeinfo_menu').addClass('active222');
+                }else{
+                   $('.storeinfo_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('zpl',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.zpl_menu').addClass('active222');
+                }else{
+                   $('.zpl_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('printer',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.printer_menu').addClass('active222');
+                }else{
+                   $('.printer_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('auditinfo',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.auditinfo_menu').addClass('active222');
+                }else{
+                   $('.auditinfo_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('ibt_difference',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.ibt_difference_menu').addClass('active222');
+                }else{
+                   $('.ibt_difference_menu').addClass('hide_menu'); 
+                }
+               
+            })
+
+            check_permission('admin_menu',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.admin_menu_menu').addClass('active222');
+                }else{
+                   $('.admin_menu_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            
+            check_permission('userroles',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.userroles_menu').addClass('active222');
+                }else{
+                   $('.userroles_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('manual_receiving_asn',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.manual_receiving_asn_menu').addClass('active222');
+                }else{
+                   $('.manual_receiving_asn_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('executivesummary',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.executiveSummary_menu').addClass('active222');
+                }else{
+                   $('.executiveSummary_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('stocksummary',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.operations_menu').addClass('active222');
+                }else{
+                   $('.operations_menu').addClass('hide_menu'); 
+                }
+               
+            })
+            check_permission('stocksummary_initial',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.operations0_menu').addClass('active222');
+                }else{
+                   $('.operations0_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('inventorybyitem',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.inventroy_menu').addClass('active222');
+                }else{
+                   $('.inventroy_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('asndata',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.asndata_menu').addClass('active222');
+                }else{
+                   $('.asndata_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('goodssummary',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.goodssummary_menu').addClass('active222');
+                }else{
+                   $('.goodssummary_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('goodsstockstore',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.GoodsStockStore_menu').addClass('active222');
+                }else{
+                   $('.GoodsStockStore_menu').addClass('hide_menu'); 
+                }
+               
+            })
+             check_permission('goodsstockwarehouse',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.GoodsStockWareHouse_menu').addClass('active222');
+                }else{
+                   $('.GoodsStockWareHouse_menu').addClass('hide_menu'); 
+                }
+               
+            })
+
+             check_permission('zplprinter_new',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.zplprinter_menu').addClass('active222');
+                }else{
+                   $('.zplprinter_menu').addClass('hide_menu'); 
+                }
+               
+            })
+
+            check_permission('zplreport_sku',response).then(function(res2){
+               var status = res2.status
+                if(status == '1'){
+                    $('.zplreport_sku_menu').addClass('active222');
+                }else{
+                   $('.zplreport_sku_menu').addClass('hide_menu'); 
+                }
+               
+            })
+        }
+    }); 
+})
+  
+
+
+    //alert(temp)
+    $(document).ready(function (){
+
+        var page_name = temp[3];
+     
+
+      $.ajax({
+          type:'POST',
+          url: "/api/1.0.0/stockCountRecords/getuserdetails",
+          success: function(data)
+          {
+              var response_data = JSON.parse(data); 
+              $('#username').html('<span>'+response_data[0].username+'</span>');
+          }
+      });
+
+     
+      
+        
+        if(typeof temp[3] !=="undefined")
+        {
+            page_name = temp[3];
+           //alert(page_name)
+            /*count pages*/
+          
+            
+            if(page_name=="dashboard_home")
+            { 
+              
+              $(".mm_dashboardhomeSubmenu").addClass("subMenuActive");
+              $(".mm_dashboard").addClass("active");
+              $(".mm_dashboardSubmenudropdown").addClass("show");
+                
+            }
+            if(page_name=="dashboard")
+            { 
+
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenu").addClass("subMenuActive");    
+            }
+             if(page_name=="usersinfo")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuuserinfo").addClass("subMenuActive");
+            }
+
+            if(page_name=="UserRoles")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersRolesSubmenu").addClass("subMenuActive");
+            }
+            if(page_name=="addUserRoles")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersRolesSubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="handheldDevices")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuhandheldDevices").addClass("subMenuActive");
+            }
+             if(page_name=="new_asndata")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenunew_asndata").addClass("subMenuActive");
+            }
+             if(page_name=="manual_receiving_asn")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenunew_manual_receiving_asn").addClass("subMenuActive");
+            }
+
+            if(page_name=="storeinfo")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenustoreinfo").addClass("subMenuActive");
+            }
+
+            if(page_name=="printer")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuprinter").addClass("subMenuActive");
+            }
+
+            if(page_name=="zpl")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuzpl").addClass("subMenuActive");
+            }
+
+            if(page_name=="AuditInfo")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuAuditInfo").addClass("subMenuActive");
+            }
+            //
+            if(page_name=="ibt_difference")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuibt_difference").addClass("subMenuActive");
+            }
+            if(page_name=="admin_menu")
+            {
+              $(".mm_users").addClass("active");
+              $(".mm_usersSubmenudropdown").addClass("show");
+              $(".mm_usersSubmenuadmin_menu").addClass("subMenuActive");
+            }
+
+            if(page_name=="executiveSummary")
+            {
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".mm_countSubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="stockSummary")
+            {
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".stockSummarySubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="stockSummary_initial")
+            {
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".operations0_Submenu").addClass("subMenuActive");
+            }
+            
+
+          
+            if(page_name=="epc_report")
+            {
+
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".epc_reportSubmenu").addClass("subMenuActive");
+
+              $(".supplychaindashboardSubmenudropdown").hide();
+            }
+
+            if(page_name=="inventorybyitem")
+            {
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".inventorybyitemSubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="enterpriseReportDateWise")
+            {
+                //alert();
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".enterpriseReportDateWiseSubmenu").addClass("subMenuActive");
+            }
+            if(page_name=="all_under_over")
+            {
+                //alert();
+              $(".mm_count").addClass("active");
+              $(".mm_countSubmenudropdown").addClass("show");
+              $(".overall_underover_Submenu").addClass("subMenuActive");
+            }
+
+
+            
+            // if(page_name=="supplychaindashboard")
+            // {
+            //   $(".mm_supplychaindashboard").addClass("active");
+            //   $(".supplychaindashboardSubmenudropdown").addClass("show");
+            //   $(".supplychaindashboardSubmenu").addClass("subMenuActive");
+            // }
+
+            if(page_name=="asndata")
+            {
+              $(".mm_supplychaindashboard").addClass("active");
+              $(".supplychaindashboardSubmenudropdown").addClass("show");
+              $(".asndataSubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="GoodsSummary")
+            {
+              $(".mm_supplychaindashboard").addClass("active");
+              $(".supplychaindashboardSubmenudropdown").addClass("show");
+              $(".goodssummarySubmenu").addClass("subMenuActive");
+            }
+
+             if(page_name=="cancel_asndata")
+            {
+              $(".mm_supplychaindashboard").addClass("active");
+              $(".supplychaindashboardSubmenudropdown").addClass("show");
+              $(".cancel_asndataSubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="GoodsStockStore")
+            {
+              $(".mm_supplychaindashboard").addClass("active");
+             $(".supplychaindashboardSubmenudropdown").addClass("show");
+              $(".GoodsStockStoreSubmenu").addClass("subMenuActive");
+            }
+
+            if(page_name=="GoodsStockWareHouse")
+            {
+              $(".mm_supplychaindashboard").addClass("active");
+              $(".supplychaindashboardSubmenudropdown").addClass("show");
+              $(".GoodsStockWareHouseSubmenu").addClass("subMenuActive");
+            }
+
+           
+
+            if(page_name=="zplprinter")
+            {
+              $(".mm_tagit").addClass("active");
+              $(".mm_tagitSubmenudropdown").addClass("show");
+              $(".mm_tagitSubmenu").addClass("subMenuActive");
+            }
+
+
+           
+
+
+        }
+    });
+    </script>
+  <div class="wrapper">
+    <style> 
+      .hide{
+        display: none;
+      }
+      .customNav{ visibility:hidden}
+    </style>
+      <header class="main-header">
+        
+        <nav class="navbar navbar-expand-lg navbar customNav">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                       <!--- 
+                    <li class="nav-item dropdown has-mega-menu " style="position:static;">
+                        <a class="nav-link dropdown-toggle mm_dashboard" href="dashboard_home" role="button" aria-haspopup="true" aria-expanded="false"><img src="/assets/images/Icon feather-home.png" alt=""> Home</a>
+
+                    
+                        <div class="dropdown-menu " style="width:100%">
+                            <div class="px-0">
+                                    <div class="CustomsubMenu">
+                                        <a class="dropdown-item mm_dashboardhomeSubmenu nav-link" 
+                                        href="dashboard_home"><img src="/assets/images/icon-dashboard.png" alt=""> Dashboard</a>
+                                    </div>
+                               
+                            </div>
+                        </div>
+                       
+                    </li>  --->
+
+                    <li class="nav-item dropdown has-mega-menu " style="position:static;">
+                        <a class="nav-link dropdown-toggle mm_users nav-link admin_menu"  href="dashboard" data-pjax='main-content' role="button" 
+                        aria-haspopup="true" aria-expanded="false"><img src="/assets/images/icon-admin.png" alt=""> Admin</a>
+
+                        <div class="dropdown-menu mm_usersSubmenudropdown" style="width:100%">
+                            <div class="px-0">
+                                    <div class="CustomsubMenu">
+                                       <a class="dropdown-item mm_usersSubmenu dashboard_menu" data-pjax='main-content' href="dashboard"><img src="/assets/images/icon-dashboard.png" alt=""> Dashboard</a>
+                                        <a class="dropdown-item mm_usersSubmenuuserinfo userinfo_menu" 
+                                         href="usersinfo" data-pjax='main-content'><img src="/assets/images/icon-user.png" alt=""> Users</a>
+                                        <a class="dropdown-item mm_usersSubmenuhandheldDevices device_menu" 
+                                         href="handheldDevices" data-pjax='main-content'><img src="/assets/images/icon-device.png" alt=""> Devices</a>
+
+                                        <a class="dropdown-item mm_usersSubmenunew_asndata new_asndata_menu" 
+                                         href="new_asndata" data-pjax='main-content'><img src="/assets/images/icons/icon-transfers.png" alt="">Transfer Cancelation
+                                       </a>
+                                        <a class="dropdown-item mm_usersSubmenugi_cancellation gi_cancellation_menu" 
+                                         href="gi_cancellation" data-pjax='main-content'>
+                                            <img src="/assets/images/icons/icon-transfers.png" alt="">GI Cancelation
+                                        </a>
+
+                                        <a class="dropdown-item mm_manual_receiving_asnSubmenu manual_receiving_asn_menu" 
+                                          href="manual_receiving_asn" data-pjax='main-content'
+                                        >
+                                        <img src="/assets/images/icons/role.png" alt=""> 
+                                        Manual Receiving IBT
+                                        </a>
+                                        
+
+
+                                        <a class="dropdown-item mm_usersSubmenustoreinfo storeinfo_menu" 
+                                         href="storeinfo" data-pjax='main-content'><img src="/assets/images/icon-store.png" alt=""> Stores</a>
+                                        <a class="dropdown-item mm_usersSubmenuprinter printer_menu" 
+                                          href="printer" data-pjax='main-content'><img src="/assets/images/icon-printer.png" alt=""> Printers</a>
+                                        <a class="dropdown-item mm_usersSubmenuzpl zpl_menu" 
+                                          href="zpl" data-pjax='main-content'><img src="/assets/images/icon-zpl.png" alt=""> ZPL</a>
+                                        <a class="dropdown-item mm_usersSubmenuAuditInfo auditinfo_menu" 
+                                          href="AuditInfo" data-pjax='main-content'><img src="/assets/images/icons/audit.png" alt=""> Audit</a>
+
+
+                                        <a class="dropdown-item mm_usersSubmenuibt_difference ibt_difference_menu" 
+                                          href="ibt_difference" data-pjax='main-content'
+                                        >
+                                        <img src="/assets/images/icons/role.png" alt=""> 
+                                        IBT Differences 
+                                        </a>
+
+                                        <a class="dropdown-item mm_usersSubmenuadmin_menu admin_menu_menu" 
+                                          href="admin_menu" data-pjax='main-content'
+                                        >
+                                        <img src="/assets/images/icons/icon-transfers.png" alt=""> 
+                                        Admin menu
+                                        </a>
+
+                                        <a class="dropdown-item mm_usersRolesSubmenu userroles_menu" 
+                                          href="UserRoles" data-pjax='main-content'
+                                        style="max-width: 92px !important;"><img src="/assets/images/icons/role.png" alt=""> Roles</a>
+                                       
+                                    </div>
+                               
+                            </div>
+                        </div>
+                    </li> <!-- li -->
+
+                    <li class="nav-item dropdown has-mega-menu " style="position:static;">
+                        <a class="nav-link dropdown-toggle mm_count count_menu" 
+                          href="executiveSummary" data-pjax='main-content'
+                        role="button" aria-haspopup="true" aria-expanded="false">
+                          <img src="/assets/images/icon-count.png" alt=""> Count</a>
+
+                        <div class="dropdown-menu mm_countSubmenudropdown" style="width:100%">
+                            <div class="px-0">
+                                    <div class="CustomsubMenu">
+                                        <a class="dropdown-item mm_countSubmenu executiveSummary_menu" href="executiveSummary"  data-pjax='main-content'><img src="/assets/images/icon-dashboard.png" alt=""> Dashboard</a>
+                                        <a class="dropdown-item stockSummarySubmenu operations_menu" 
+                                          href="stockSummary" data-pjax='main-content'><img src="/assets/images/count/Icon ionic-ios-flower.png" alt=""> Operation</a>
+                                          
+                                        <a class="dropdown-item operations0_Submenu operations0_menu" 
+                                          href="stockSummary_initial" data-pjax='main-content'>
+                                          <img src="/assets/images/count/Icon ionic-ios-flower.png" alt=""> Operation 0
+                                        </a>  
+                                       
+                                    
+                                        <a class="dropdown-item inventorybyitemSubmenu inventroy_menu" href="inventorybyitem" data-pjax='main-content' ><img src="/assets/images/icon-inventory.png" alt=""> Inventory (EPC)</a>
+
+                                         <a class="dropdown-item inventorybyitemSubmenu enterpriseReportDateWise_menu" href="enterpriseReportDateWise" data-pjax='main-content' ><img src="/assets/images/Icon ionic-ios-flower.png" alt=""> Daily StockCount Report </a>
+
+                                         <a class="dropdown-item overall_underover_Submenu inventroy_menu" href="all_under_over" data-pjax='main-content' ><img src="/assets/images/Icon ionic-ios-flower.png" alt="">Overall underover</a>
+
+                                         
+
+                                    </div> 
+
+
+
+                               
+                            </div>
+                        </div>
+                    </li> <!-- li -->
+
+                    <li class="nav-item dropdown has-mega-menu " style="position:static;">
+                        <a class="nav-link dropdown-toggle mm_supplychaindashboard supplychain_menu" href="asndata" data-pjax='main-content'
+                         role="button" aria-haspopup="true" aria-expanded="false"><img src="/assets/images/Group 21.png" alt=""> Supply Chain</a>
+
+                        <div class="dropdown-menu supplychaindashboardSubmenudropdown" style="width:100%">
+                            <div class="px-0">
+                                    <div class="CustomsubMenu">
+                                   <!-- 
+                                   <a class="dropdown-item supplychaindashboardSubmenu" 
+                                    href="supplychaindashboard">
+                                        <img src="/assets/images/icon-dashboard.png" alt=""> 
+                                        Dashboard
+                                    </a>
+                                    --->
+                                    <a class="dropdown-item asndataSubmenu asndata_menu" href="asndata" data-pjax='main-content'
+                                     >
+                                        <img src="/assets/images/icons/icon-transfers.png" alt="">
+                                        Transfers
+                                    </a>
+                                     <a class="dropdown-item goodssummarySubmenu goodssummary_menu" 
+                                    href="GoodsSummary" data-pjax='main-content'
+                                     >
+                                        <img src="/assets/images/icons/icon-stores.png" alt="">
+                                        GI Summary
+                                    </a>
+
+                                    <a class="dropdown-item GoodsStockStoreSubmenu GoodsStockStore_menu" 
+                                    href="GoodsStockStore" data-pjax='main-content'
+                                     >
+                                        <img src="/assets/images/icons/icon-stores.png" alt="">
+                                        IN-Store GI
+                                    </a>
+
+                                    <a class="dropdown-item GoodsStockWareHouseSubmenu GoodsStockWareHouse_menu" href="GoodsStockWareHouse" data-pjax='main-content'
+                                     >
+                                        <img src="/assets/images/icons/icon-enterprise.png" alt="">
+                                        Warrehouse GI
+                                    </a>
+
+
+                                   
+
+                                    </div>
+                               
+                            </div>
+                        </div>
+                    </li> <!-- li -->
+                    
+                    <li class="nav-item dropdown has-mega-menu " style="position:static;">
+                        <a class="nav-link dropdown-toggle mm_tagit Tagit tagit_menu"   href="zplprinter_new" data-pjax='main-content' role="button" aria-haspopup="true" aria-expanded="false"> 
+                          <img src="/assets/images/icon-tag.png" alt=""> TagIT</a>
+
+                        <div class="dropdown-menu mm_tagitSubmenudropdown" style="width:100%">
+                            <div class="px-0">
+                                    <div class="CustomsubMenu">
+                                        <a class="dropdown-item mm_tagitSubmenu zplprinter_menu" data-pjax='main-content' href="zplprinter_new"><img src="/assets/images/icon-dashboard.png" alt=""> Zpl Printer</a>
+
+                                        <a class="dropdown-item "   
+                                        data-pjax='main-content' href="zplReport">
+                                        <img src="/assets/images/icon-dashboard.png" alt=""> Zpl Report</a>
+
+                                        <a class="dropdown-item zplreport_sku_menu"   
+                                        data-pjax='main-content' href="zplReport_sku">
+                                        <img src="/assets/images/icon-dashboard.png" alt=""> Zpl Report (Sku)</a>
+
+
+                                    </div>
+                               
+                            </div>
+                        </div>
+                    </li>
+
+                    {{!-- <li class="nav-item"><a href="zplprinter" class="nav-link">
+                      <img src="/assets/images/icon-tag.png" alt=""> TagIT</a></li>
+
+                     <li class="float-right nav-item">
+                        <a href="#" class="nav-link">  
+                          <img src="/assets/images/Icon feather-user.png" height="26px">
+                            <span class="ml-2 d-inline-block" id="username"><br></span>
+                          <span style="cursor:pointer" onclick="window.location.href='{{sitelink}}/api/1.0.0/inventoryData/logout/'">
+                              <img src="/assets/images/Icon awesome-power-off.png" height="26px" class="ml-4">
+                          </span>  
+                        </a>
+                     </li> --}}   
+                </ul>
+            </div>
+        </nav>
+
+
+      <div class="float-right border-left auth-sec">
+        <img src="/assets/images/Icon feather-user.png" height="26px">
+          <span class="ml-2 d-inline-block" id="username"><br></span>
+        <span style="cursor:pointer" onclick="window.location.href='{{sitelink}}/api/1.0.0/inventoryData/logout/'">
+            <img src="/assets/images/Icon awesome-power-off.png" height="26px" class="ml-4">
+        </span>
+      </div>
+    </header>

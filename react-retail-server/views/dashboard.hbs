@@ -1,0 +1,251 @@
+﻿<style>
+	/*.mm_usersSubmenudropdown{
+		display: block;
+	}*/
+	.main_admin .nav-second-level.collapse.admin{display: block;}
+	button.btn.dropdown-toggle.bs-placeholder.btn-light{
+		width: 50%;
+		background-color: #000;
+	}
+	.main_home,.main_count,.main_supplychain,.main_zplprinter{
+		display: none;
+	}
+
+	.mainheading{
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	.cardBodyData{
+		font-size: 13px;
+	}
+	.crdheader{
+		background-color: #D3D8DB;
+	    border: none !important;
+
+	}
+
+	.dash_board{
+		border: 1px solid lightgrey;
+	}
+
+	.cad .card-header .right.float-right img {
+    height: 20px;
+    padding-right: 3px;
+    padding-left: 3px;
+	}
+	.card-header{
+		background-color: #D3D8DB;
+	}
+	.mainCard{
+		background-color: #2E2D2D;
+		border-radius: 10px;
+		height:100%
+	}
+	.crdBody{
+		text-align: center;
+		padding: 2px;
+	}
+
+	.crdBody p{
+		font-size: 12px;
+		color: yellow;
+	}
+
+	.crdBody h4{
+		color: white;
+		margin-top: -12px;
+	}
+
+</style>
+<!--abdul changes here--->
+
+	<div class="content-wrapper  pb-4 " id="dashboard">
+	 	<div class="col-12 mt-1">
+            <div class="cad dash_board">
+				
+				<div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Dashboard</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        
+                       <span style="cursor:pointer" onclick="window.location.href='{{sitelink}}/api/1.0.0/inventoryData/GetInventoryByItem_ex/'">
+                           
+                        </span>
+                    </div>
+                </div>
+
+				<div class="row ml-2 mr-2">
+					<div class="col-md-4 pl-2 pr-2">
+						<div class="card" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<a href="storeinfo" style="color: #212529;text-decoration:none" 
+								target="_blank">
+									<span>Total Stores</span>
+									<img src="/assets/images/plus-icon.png" class="float-right" height="20px">
+									<h2 class="text-center mb-0 mt-2" id="CountDynamic">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<p style="margin-bottom: 0" id="totalstore"></p>
+									</h2>	
+								</a>
+							</div>
+						</div>
+					</div>
+					
+						<div class="col-md-4 pl-2 pr-2">
+						<div class="card" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<a href="usersinfo"  style="color: #212529;text-decoration:none" 
+								target="_blank">
+									<span>Total Users</span>
+									<img src="/assets/images/plus-icon.png" class="float-right" height="20px">
+									<h2 class="text-center mb-0 mt-2" id="TotalUsers">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<p style="margin-bottom: 0" id="total_users"></p>
+
+									</h2>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 pl-2 pr-2">
+						<div class="card" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<span>Total Devices</span>
+								<a href="{{sitelink}}/handheldDevices" style="color: #212529;text-decoration:none" class="handheldDevices"  
+								target="_blank">
+									<img src="/assets/images/plus-icon.png" class="float-right" height="20px">
+								<h2 class="text-center mb-0 mt-2" id="TotalDevices">
+									<span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+								</h2>
+								</a>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="row row-eq-height dashboard-new mt-1 ml-2 mr-2">
+					<div class="col-md-8 pl-2 pr-2">
+						<div class="card activities mt-3">
+							<div class="card-body p-3" >
+								<h3 class="mainheading">Activities
+									<a href="{{sitelink}}/AuditInfo" style="color: #212529;text-decoration:none" class="handheldDevice22s"  
+								target="_blank">
+									<img src="/assets/images/icon-open-list.png" class="float-right" height="15px">
+								</a>	
+								</h3>
+								<div id="Activities">
+									<span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 pl-2 pr-2">
+						<div class="card mt-3" id="CountDynamic">
+							<div class="card-body p-3">
+								<span>Last Scan</span>
+								<span class="float-right" id="DateDisplay"></span>
+								
+								<style>
+									button.btn.dropdown-toggle.bs-placeholder.btn-light{
+										color:#000;
+									}
+								</style>
+								<div class="form-group mt-3">
+									<select name="StoreID" class="selectpicker form-control" 
+									id="StoreID" data-live-search="true">
+										<option value="">Store ID</option>
+									</select>
+								</div>
+								<div class="matchingg progress-sec">
+									<p class="mb-0 d-inline-block left">Matching</p>
+									<p class="mb-0 d-inline-block right matching_text">0%</p>
+									<div class="center mr-1 matching">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<div class="progress" style="height: 4px;">
+											<div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="overs progress-sec">
+									<p class="mb-0 d-inline-block left">Overs</p> 
+									<p class="mb-0 d-inline-block right over_text">0%</p>
+									<div class="center overs mr-1">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<div class="progress" style="height: 4px;">
+											<div class="progress-bar bg-info" role="progressbar" 
+												style="width: 100%;" 
+												aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="unders progress-sec">
+									<p class="mb-0 d-inline-block left">Unders</p> 
+									<p class="mb-0 d-inline-block right under_text">0%</p>
+									<div class="center unders mr-1">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<div class="progress" style="height: 4px;">
+											<div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row row-eq-height last-scan-row">
+									<div class="col-md-6">
+										<div class="crd mainCard">
+											<div class="card-body crdBody">
+												<p>Stock On Hand</p>
+												<h4 id="Onhand">0</h4>
+												<p>Count</p>
+												<h4 id="Count">0</h4>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="crd mainCard">
+											<div class="card-body crdBody">
+												<p>Back Store</p>
+												<h4 id="back"><span class="ftbk-vl">0</span></h4>
+												<p>Sales Floor</p>
+												<h4 id="front"><span class="ftbk-vl">0</span></h4>
+											</div>
+										</div>
+									</div>
+							</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>	
+	</div>
+	<footer class="main-footer">
+		<div class="row ml-0 mr-0">
+			<div class="col-sm-6">
+					<p class="mb-0 pt-1 light">INNOVENT IOT Platform | Release v3.2.417</p>
+					<p class="mb-0 pt-1 light">Time Zone</p>
+			</div>
+			<div class="col-sm-6">
+				<p class="mb-0 pt-2 light text-right">Page Load: 0.35s</p>
+			</div>
+		</div>
+	</footer>

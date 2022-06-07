@@ -1,0 +1,182 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}   
+    /*.supplychaindashboardSubmenudropdown{display: block;} */
+    .nav-second-level.collapse.supplychain{display: block;}
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .main_home,.main_admin,.main_count,.main_zplprinter{
+        display: none;
+    }  
+    .error{color:red;}
+</style>
+<div class="content-wrapper pb-4 dashboard-change">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <img src="/assets/images/icons/icon-stores.png" alt=""> 
+                        GI Cancellation</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+
+                        <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    
+                    </div>
+                </div>
+                <div class="card-body">
+                     <div class="containe">
+                        <form id="GoodsInForm">
+                                <div class="row custom-filter">
+                                    <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+                                      
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control datepicker22" 
+                                                id="FromDate" 
+                                                name="FromDate" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="From yyyy-mm-dd" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control datepicker22" 
+                                                id="ToDate" 
+                                                name="ToDate" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="To yyyy-mm-dd" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                            <div class="col-md-2">
+                                               <select name="StoreID" class="form-control selectpicker" 
+                                                    id="StoreID" data-live-search="true">
+                                                        <option value="0">All Destinations</option>
+                                                </select> 
+                                                <div class="error Destination_error">       
+                                            </div>
+
+                                        </div>
+                                        
+                                         <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control" 
+                                                id="EPC" 
+                                                type="text" 
+                                                name="EPC" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="EPC" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                         <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control" 
+                                                id="SKU" 
+                                                type="text" 
+                                                name="SKU" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="SKU" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="error Date_error" style="display: inline-block;position: absolute;left: 75px;top: 128px;">
+                                                
+                                        </div> 
+                                        <div>
+                                            
+                                        </div>
+                                        <div class="col-md-2" style="margin-left:103px;">
+                                            <div class="form-group">
+                                                <input class="form-control" 
+                                                id="supplier_number" 
+                                                type="text" 
+                                                name="supplier_number" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="Supplier Number" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control" 
+                                                id="shipment_number" 
+                                                type="text" 
+                                                name="shipment_number" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="Shipment Number" autocomplete="off">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <input class="form-control" 
+                                                id="Retail_Item_Batch_Id" 
+                                                type="text" 
+                                                name="Retail_Item_Batch_Id" 
+                                                style="color: #fff !important;background:transparent"
+                                                placeholder="Retail Item Batch Id" autocomplete="off">
+                                            </div>
+                                        </div>
+                                       
+                                    <div class="col-md-2">     
+                                            
+                                        <div class="form-group">
+                                            
+                                            <button type="button" 
+                                            class="btn btn-primary  run  sw150" 
+                                            >Search</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                        </form>   
+                    </div>
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                       
+                             <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>SKU</th>
+                                    <th>Retail Item Batch Id</th>
+                                    <th>Supplier Number</th>
+                                    <th>Shipment Number</th>
+                                    <th>Store</th>
+                                    <th>Purchase Order</th>
+                                    <th>Epc</th> 
+                                    <th>Remarks</th> 
+                                    <th>Id</th>
+                                    <th>Status</th>        
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table> 
+                      
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Dark table end -->
+    </div>
+</div>    

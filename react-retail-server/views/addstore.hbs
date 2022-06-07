@@ -1,0 +1,105 @@
+ <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+        .error{
+            color:red;
+        }
+    </style>
+<div class="content-wrapper pb-4">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> 
+                            <i class="ti-stats-up" style="color:#000"></i> 
+                            Add Store
+                        </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        
+                       
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form autocomplete="off" id="AddStoreForm" name="registration">
+                       <span class="error_msg"></span>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Name">Store Name *</label>
+                                <input type="text" class="form-control" name="StoreName" 
+                                id="StoreName" placeholder="Store Name">
+                                <span class="error StoreName_error"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label for="status">Status *</label>
+                              <select class="form-control selectpicker" name="status" id="Status" data-live-search="true"  name="roles">
+                                    <option value="1">Active</option>
+                                    <option value="0">Disable</option>
+                                </select>
+                                 <span class="error error_status"></span>
+                            </div> 
+
+                            <div class="form-group col-md-6">
+                                <label for="storename">Store Location *</label>
+                                <input type="text" name="StoreLocation" 
+                                id="StoreLocation" 
+                                class="form-control" placeholder="Store Location">
+                                <span class="error error_StoreLocation"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="storename">Lat Long *</label>
+                                <input type="text" name="LatLng" id="LatLng" class="form-control" placeholder="Lat Long">
+                                <span class="error error_LatLng"></span>
+                            </div> 
+                           
+                             <div class="form-group col-md-6">
+                                <label for="storename">Country name *</label>
+                                <input type="text" name="CountryName" id="CountryName" class="form-control" placeholder="Country Name">
+                                <span class="error error_CountryName"></span>  
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="storename">Company *</label>
+                                <input type="text" name="Company" id="Company" class="form-control" placeholder="Company Name">
+                                <span class="error error_Company"></span>  
+                            </div>
+
+                             <div class="form-group col-md-6">
+                              <label for="type">Store Type *</label>
+                              <select class="form-control selectpicker" name="store_type" id="store_type" data-live-search="true">
+                                    <option value="WareHouse">WareHouse</option>
+                                    <option value="StoreFront">StoreFront</option>
+                                </select>
+                                 <span class="error error_status"></span>
+                            </div> 
+                            <div class="form-group  col-md-12" style="text-align:center;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="but mt-5">
+                                            <button type="submit" id="submit" class="btn btn-default btn-block">   
+                                             Add Store
+                                            </button>
+                                        </div>   
+                                    </div>
+                                </div>  
+                                  
+                            </div>
+                               
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

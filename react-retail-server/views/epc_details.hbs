@@ -1,0 +1,105 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+    .supplychaindashboardSubmenudropdown{display: block;}
+    .nav-second-level.collapse.supplychain{display: block;}
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .main_home,.main_admin,.main_count,.main_zplprinter{
+        display: none;
+    }
+</style>
+<div class="content-wrapper pb-4">
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <img src="/assets/images/icons/icon-transfers.png" alt=""> 
+                        Epc Details</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+
+                        <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="containe">
+                        <div class="row custom-filter">
+                            <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="source" 
+                                    class="form-control selectpicker" 
+                                    id="store_id" data-live-search="true">
+                                        <option value="">Store</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    
+                                    <input class="form-control datepicker22" 
+                                    style="color: #fff !important;width:160px !important;background:transparent;" 
+                                    id="Date" 
+                                    placeholder="Ex: yyyy-mm-dd" autocomplete="off">
+                                </div>
+                            </div>
+                            
+                            
+                           {{!--  <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" 
+                                            id="epc" style="color: #000 !important;" 
+                                            placeholder="Epc">
+                                </div>
+                            </div> --}}
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button type="button" 
+                                    class="btn btn-danger btn-md run  btn-block" 
+                                    >Search</button>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Store</th>
+                                    <th>Epc</th>
+                                    <th>Sku</th>
+                                    <th>Zone</th>
+                                    <th>Department</th>
+                                    <th>Brand</th>
+                                    <th>Color</th> 
+                                    <th>Size</th>                  
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
+</div>    

@@ -1,0 +1,113 @@
+<style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .error{color:red;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+        label#password-field-error{
+            display: block;
+            position: absolute;
+            top: 100%;
+        }   
+    </style>
+
+<div class="content-wrapper pb-4">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> 
+                        Add Retail Api</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form autocomplete="off" id="SubmitRecord" name="registration">
+                        <span class="error_msg"></span>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                 
+                                <div class="form-group">
+                                    <label for="name">Request name *</label>
+                                    <input type="text" name="request_name" class="form-control" id="request_name">
+                                    <span class="error error_request_name"></span>
+                                </div>   
+                                
+
+
+                                <div class="form-group">
+                                    <label for="name">Envoirment *</label>
+                                     <select class="form-control selectpicker" name="envoirment" id="envoirment" data-live-search="true">
+                                        <option value="select">Select Envoirment</option>
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                        <option value="PATCH">PATCH</option>
+                                    </select>
+                                    <span class="error error_envoirment"></span>
+                                </div>
+
+                                 <div class="form-group">
+                                   <label for="status">Payload *</label>
+                                     <textarea type="text" class="form-control" name="payload" 
+                                     id="payload" rows="7" cols="50"></textarea>
+                                     <span class="error error_payload"></span>
+                            </div>
+                               
+                            </div>
+
+                            <div class="col-md-6">
+
+                               <div class="form-group">
+                                    <label for="username">Endpoint *</label>
+                                    <input type="text" name="endpoint" class="form-control" 
+                                    id="endpoint">
+                                    <div class="error endpoint_error">
+                                        
+                                    </div>  
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="name">Server IP Protocol *</label>
+                                     <select class="form-control selectpicker" name="server_protocol" id="server_protocol" data-live-search="true">
+                                        <option value="select">Server Protocol</option>
+                                        <option value="http">HTTP</option>
+                                        <option value="https">HTTPS</option>
+                                        
+                                    </select>
+                                    <span class="error error_server_protocol"></span>
+                                </div>
+
+                                
+
+                            </div>  
+
+
+                           
+
+                            <div class="col-md-6 mt-1">
+                                
+                                 <button type="submit" id="submit" name="submit" 
+                                    class="btn btn-default btn-block">
+                                    Add Retail Api
+                                </button> 
+
+                            </div>
+
+                           
+                               
+                        </div>
+                     </form>       
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

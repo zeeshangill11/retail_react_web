@@ -1,0 +1,119 @@
+<script>
+    $(document).ready(function (){
+       setInterval(function(){
+        
+        $("tbody tr td").attr("colspan","1");
+       },500); 
+    });
+    </script>
+
+    <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+        .mm_countSubmenudropdown{display: block;}
+        .nav-second-level.collapse.count{display: block;}
+        .main_home,.main_admin,.main_supplychain,.main_zplprinter{
+            display: none;
+        }
+        .card-body{background: #373e43;}
+    </style>
+    
+<div class="content-wrapper pb-4">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                    <h4 class="mb-0"> <img src="/assets/images/count/Icon ionic-md-analytics.png" alt="">
+                    Store Sku Discrepancy Outliers</h4>
+                    <p class="mb-0 dateTime"></p>
+                </div>
+                </div>           
+                <div class="card-body">
+                    <div class="containerr">
+                        <div class="custom-filter">    
+                            <div class="row">
+                                <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">       
+                                            <select name="SoteID" 
+                                                class="form-control selectpicker" 
+                                                id="StoreID" data-live-search="true">
+                                                    <option value="0">All Store</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">    
+                                            <select name="DepartmentID" class="form-control selectpicker" 
+                                            id="DepartmentID" data-live-search="true">
+                                                <option value="0">Department ID</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">    
+                                            <select name="BrandID" class="form-control selectpicker" 
+                                            id="BrandID" data-live-search="true">
+                                                <option value="0">Brand</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">    
+                                            <input class="form-control mr-2 datepicker22"  
+                                            id="summarydate" style="width:160px !important;background:transparent;color:#fff"  placeholder="Ex: yyyy-mm-dd" autocomplete="off"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button type="button" 
+                                            class="btn btn-danger btn-md run  btn-block" 
+                                            >Search</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>     
+                            </div>
+                        </div>
+
+                     <div class="report-dashboard">
+                        <div class="row dash-theme-dark top-bar">
+                            <div class="col-lg-4">
+                                <span class="align-middle">Store Discrepency Executive Summary</span>
+                            </div>
+                            
+                            <div class="clearfix"></div>
+                        </div>
+                        <form id='CountDynamic'>
+                            <div class="row dash-theme-dark">
+                                <div class="col-lg-1 side-banner">
+                                </div>
+                                <div class="col-lg-11">
+                                    <div class="col-lg-11 p-0">
+                                        <canvas id="canvas"></canvas>
+                                    </div>
+                                </div>          
+                            </div> 
+                        </from>    
+                    </div>
+
+                    <!-- card-body -->    
+                </div>
+
+               <!-- card -->     
+            </div>
+
+            <!-- col -->
+        </div>
+        <!-- row -->
+    </div>
+</div>

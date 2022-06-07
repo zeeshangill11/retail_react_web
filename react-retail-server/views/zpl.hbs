@@ -1,0 +1,135 @@
+ <style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}        
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    /*.mm_usersSubmenudropdown{display: block;}*/
+    .nav-second-level.collapse.admin{display: block;}
+    .main_home,.main_count,.main_supplychain,.main_zplprinter{
+        display: none;
+    }
+	
+    #dataTable td{
+        padding: 10px  0px !important;
+    }
+
+    .modal-content{
+        color:#000;
+    } 		
+</style>
+<div class="content-wrapper pb-4">
+
+    <div class="header-sec" style="margin-left: -15px;">
+        <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="taggingdashboard">
+                        <img src="/assets/images/dashboard-icon.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active2" href="zpl">
+                        <img src="/assets/images/count/Icon ionic-ios-flower.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">ZPL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="printer">
+                        <img src="/assets/images/count/Icon ionic-ios-flower.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Printer</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+         
+    </div>
+    
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> ZPL</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                      <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+                       <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    
+                    </div>
+                </div>
+                <div class="card-body">
+		
+	  <div class="container">
+                        <div class="row custom-filter">
+                            <div class="col-md-12">
+                                <a class="btn btn-danger BtnAdd mb-3 float-right" href='{{sitelink}}/addzpl'>Add zpl</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable" style="width: 100%;">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>ZPL</th>
+                                    <th>Store Name</th>
+                                    <th>Status</th>
+                                    <th>Remarks</th>
+                                    <th>Action</th>                                          
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ZPL Stores</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form  id="FORM">
+                <style type="text/css" media="screen">
+                    .modal-body .load{
+                        text-align: center;
+                    }
+                </style>
+                <div class="edit-manage"></div>
+                <div class="modal-body" style="max-height: 560px">
+                    <div class="load">
+                        <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>   
+                    </div>
+                     
+                   <div id="store_list">
+                   
+                   </div>                         
+                </div>
+            </form>
+        </div>
+    </div>
+</div>               

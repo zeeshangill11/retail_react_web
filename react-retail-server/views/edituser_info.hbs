@@ -1,0 +1,168 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}    
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .error{color: red}
+    label#password-field-error{
+            display: block;
+            position: absolute;
+            top: 100%;
+        }
+    label#Role-error {
+        position: absolute;
+        top: 100%;
+    }
+    label#StoreID-error {
+        position: absolute;
+        top: 100%;
+    }    
+</style>
+<style>
+    #frmCheckPassword {
+        border-top: #F0F0F0 2px solid;
+        background: #808080;
+        padding: 10px;
+    }
+
+    .demoInputBox {
+        padding: 7px;
+        border: #F0F0F0 1px solid;
+        border-radius: 4px;
+    }
+
+    #password-strength-status {
+        padding: 5px 10px;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    .medium-password {
+        background-color: #b7d60a;
+        border: #BBB418 1px solid;
+    }
+
+    .weak-password {
+        background-color: #ce1d14;
+        border: #AA4502 1px solid;
+    }
+
+    .strong-password {
+        background-color: #12CC1A;
+        border: #0FA015 1px solid;
+    }
+</style>
+<div class="content-wrapper pb-4">
+
+    <div class="header-sec" style="margin-left: -15px;">
+        <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active2" href="usersinfo">
+                        <img src="/assets/images/count/Icon awesome-building.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Users List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="UserRoles">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">User Roles</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Edit UserInfo</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form autocomplete="off" id="SubmitEditRecord" name='registration'>
+                        <span class="error_msg"></span>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Name *</label>
+                                    <input type="text" name="name" class="form-control" id="Name">
+                                    <span class="error error_name"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password">Password (If you can't change the password your password remain same.)</label>
+                                     <div class="input-group mb-3">
+                                      <input id="password-field" type="password" class="form-control" name="password" >
+                                      <div class="input-group-append">
+                                        <span toggle="#password-field" class="input-group-text fa fa-eye field-icon toggle-password" id="basic-addon2"></span>
+                                      </div>
+
+                                    </div>
+                                    <div id="password-strength-status" class="error"></div>
+                                </div>
+                                <input type="hidden" name="hidden_password" id="hidden_password">
+                            </div>  
+                            <div class="col-md-6">
+                                
+                                <div class="form-group">
+                                    <label for="username">Username *</label>
+                                    <input type="text" name="username" class="form-control" id="UserName">
+                                    <span class="error error_username"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                   <label for="status">Status *</label>
+                                    <select class="form-control selectpicker" name="status" id="Status" data-live-search="true"  name="status">
+                                        <option value="1">Active</option>
+                                        <option value="0">Disable</option>
+                                    </select>
+                                    <span class="error error_status"></span>
+                                </div>
+                            </div>
+                    
+                          
+                            <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label for="status">Roles *</label>
+                                   <select class="selectpicker form-control" id="Role" data-live-search="true"  name="roles">
+                                        <option value=""></option>
+                                    </select>
+                                    <span class="error error_roles"></span>
+                                </div>
+
+                                 <button type="submit" id="submit" name="submit" 
+                                    class="btn btn-default btn-block mt-5">
+                                    User Update
+                                </button> 
+
+                            </div>
+                             <div class="col-md-6 mt-1">
+                                <div class="form-group">
+                                    <label for="status">Store *</label>
+                                   <select name="StoreID" class="form-control selectpicker" 
+                                    id="StoreID" data-live-search="true" multiple>
+                                        <option value="0">Select Store</option>
+                                    </select>
+                                    <span class="error error_store"></span>
+                                </div> 
+                            </div>
+                               
+                        </div>
+                        <input type="hidden" name="id" id="id">
+                     </form>       
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

@@ -1,0 +1,133 @@
+ <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .error{
+            color:red;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    </style>
+<div class="content-wrapper pb-4">
+
+   
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> 
+                            <i class="ti-stats-up" style="color:#000"></i> 
+                            Add HandHeld Device
+                        </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                       
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form autocomplete="off" id="AddDeviceForm" name="registration">
+                       <span class="error_msg"></span>
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+                                <label for="Name">Username *</label>
+                                <input type="text" class="form-control" name="UserName" id="UserName" placeholder="Username">
+                                <span class="error UserName_error"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="Name">Password *</label>
+                                <input type="password" class="form-control" name="Password" id="Password" placeholder="Password">
+                                <span class="error Password_error"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="Name">Device ID *</label>
+                                <input type="text" class="form-control" name="DeviceID" id="DeviceID" placeholder="Device ID">
+                                <span class="error DeviceID_error"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label for="status">Status *</label>
+                              <select class="form-control selectpicker" name="status" id="Status"data-live-search="true"  name="roles">
+                                    <option value="1">Active</option>
+                                    <option value="0">Disable</option>
+                                </select>
+                                 <span class="error error_status"></span>
+                            </div> 
+
+                            <div class="form-group col-md-6">
+                                <label for="DeveiceIP">3rd party IP *</label>
+                                <input type="text" name="DeveiceIP" id="DeveiceIP" class="form-control" placeholder="3rd party IP">
+                                <span class="error error_DeveiceIP"></span>
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <label for="NonSecureIP">3rd Party IP Server Protocol</label>
+                                <select class="form-control selectpicker" name="NonSecureIP" 
+                                id="NonSecureIP" data-live-search="true">
+                                    <option value="HTTP">HTTP</option>
+                                    <option value="HTTPS">HTTPS</option>
+                                </select>
+
+                                
+                                <span class="error error_NonSecureIP"></span>
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <label for="ServerIP">Server IP *</label>
+                                <input type="text" name="ServerIP" id="ServerIP" class="form-control" placeholder="ServerIP">
+                                <span class="error error_ServerIP"></span>
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <label for="SecureIP">Inovent IP Protocol *</label>
+                                <select class="form-control selectpicker" 
+                                name="SecureIP" 
+                                id="SecureIP" data-live-search="true">
+                                    <option value="HTTP">HTTP</option>
+                                    <option value="HTTPS">HTTPS</option>
+                                </select>
+
+                                <span class="error error_SecureIP"></span>
+                            </div> 
+
+                             <div class="form-group col-md-6">
+                                <label for="Description">Description *</label>
+                                <textarea type="text" class="form-control" name="Description" id="Description" placeholder="Description" rows="7" cols="50"></textarea>
+                                <span class="error error_Description"></span>  
+                            </div>
+                             <div class="form-group col-md-6">
+                                <label for="storename">Storename *</label>
+                                <select class="selectpicker form-control" data-live-search="true" 
+                                name="StoreID" id="StoreID" required="">
+                                {{!-- multiple --}}
+                                    <option value="">Store ID</option>
+                                </select>
+                                <span class="error error_StoreID"></span>
+                            </div> 
+
+
+                            <div class="form-group  col-md-12" style="text-align:center;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="but mt-5">
+                                            <button type="submit" id="submit" class="btn btn-default btn-block">   
+                                             Add Device
+                                            </button>
+                                        </div>   
+                                    </div>
+                                </div>  
+                                  
+                            </div>
+                               
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

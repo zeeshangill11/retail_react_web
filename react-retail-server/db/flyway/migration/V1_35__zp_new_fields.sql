@@ -1,0 +1,1 @@
+ALTER TABLE `zpl_printer` ADD `date_time` DATE NULL DEFAULT NULL AFTER `load_id`, ADD `user_id` VARCHAR(11) NULL DEFAULT NULL AFTER `date_time`;

@@ -1,0 +1,2 @@
+ALTER TABLE `zpl_printer`  ADD `PO_NO` VARCHAR(256) NOT NULL  AFTER `qty`,  ADD `Supplier_ID` VARCHAR(256) NOT NULL  AFTER `PO_NO`,  ADD `Shipment_no` VARCHAR(256) NOT NULL  AFTER `Supplier_ID`,  ADD `Comments` VARCHAR(256) NOT NULL  AFTER `Shipment_no`,  ADD `sku` VARCHAR(256) NOT NULL  AFTER `Comments`;
+ALTER TABLE `zpl_printer` ADD `Product_Name` VARCHAR(256) NOT NULL AFTER `sku`;

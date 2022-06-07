@@ -1,0 +1,536 @@
+<script>
+
+    $(document).ready(function (){
+      $('.hasSubItems').click(function(){   
+      $('.admin_collapse').toggleClass("shows");
+    });
+
+      full_url = (window.location.href)
+      temp = full_url.split('/');
+      pagename =temp[3]
+      if(typeof pagename !== "undefined"){
+       if(pagename=="dashboard_home")
+       { 
+          $(".nav-second-level.collapse.home .nav-item").addClass("active");
+          $(".nav-second-level.collapse.home").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="dashboard")
+       { 
+          
+        $(".nav-second-level.collapse.admin .nav-item.mm_admin").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="usersinfo")
+       { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_usersinfo").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+         if(pagename=="handheldDevices")
+       {      
+          $(".nav-second-level.collapse.admin .nav-item.mm_handheldDevices").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="new_asndata")
+       { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_new_asndata").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+         if(pagename=="storeinfo")
+       { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_storeinfo").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+         if(pagename=="printer")
+       { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_printer").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="zpl")
+       { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_zpl").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="AuditInfo")
+       { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_AuditInfo").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="ibt_difference")
+        { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_ibt_difference").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="admin_menu")
+        { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_admin_menu").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="UserRoles")
+        { 
+          $(".nav-second-level.collapse.admin .nav-item.mm_UserRoles").addClass("active");
+          $(".nav-second-level.collapse.admin").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="executiveSummary")
+       { 
+          $(".nav-second-level.collapse.count .nav-item.mm_executiveSummary").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="stockSummary")
+       { 
+          $(".nav-second-level.collapse.count .nav-item.mm_stockSummary").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="stockSummary_initial")
+        { 
+          $(".nav-second-level.collapse.count .nav-item.mm_stockSummary_initial").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="storeSku")
+       { 
+          $(".nav-second-level.collapse.count .nav-item.mm_storeSku").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="inventorybyitem")
+        { 
+          $(".nav-second-level.collapse.count .nav-item.mm_inventorybyitem").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="enterpriseReportDateWise")
+        { 
+          $(".nav-second-level.collapse.count .nav-item.mm_inventorybyitem").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="all_under_over")
+        { 
+          $(".nav-second-level.collapse.count .nav-item.mm_inventorybyitem").addClass("active");
+          $(".nav-second-level.collapse.count").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="supplychaindashboard")
+        { 
+         $(".nav-second-level.collapse.supplychain .nav-item.mm_supplychaindashboard2").addClass("active");
+          
+          $(".nav-second-level.collapse.supplychain").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="GoodsSummary")
+        { 
+         $(".nav-second-level.collapse.supplychain .nav-item.mm_GoodsSummary").addClass("active");
+          
+          $(".nav-second-level.collapse.supplychain").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="asndata")
+        { 
+         $(".nav-second-level.collapse.supplychain .nav-item.mm_asndata").addClass("active");
+          
+          $(".nav-second-level.collapse.supplychain").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="GoodsStockStore")
+        { 
+          $(".nav-second-level.collapse.supplychain .nav-item.mm_GoodsStockStore").addClass("active");
+          
+          $(".nav-second-level.collapse.supplychain").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="GoodsStockWareHouse")
+        { 
+          $(".nav-second-level.collapse.supplychain .nav-item.mm_GoodsStockWareHouse").addClass("active");
+          
+          $(".nav-second-level.collapse.supplychain").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="zplprinter_new")
+        { 
+          $(".nav-second-level.collapse.zplprinter .nav-item.mm_zplprinter").addClass("active");
+          
+          $(".nav-second-level.collapse.zplprinter").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+        if(pagename=="zplReport") 
+        { 
+          $(".nav-second-level.collapse.zplreport .nav-item.mm_zplprinter").addClass("active");
+          
+          $(".nav-second-level.collapse.zplreport").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+
+         if(pagename=="zplReport_sku") 
+        { 
+          $("li.nav-item.mm_zplReport_sku.zplReport_sku").addClass("active");
+          
+          $(".nav-second-level.collapse.zplReport_sku").addClass("show");
+          //$(".mm_usersSubmenu").addClass("subMenuActive");    
+        }
+
+      }
+
+  });
+
+</script>
+
+<aside class="main-sidebar">
+  <div class="p-3 pt-2">
+    <a href="" class="pb-0">
+      <img src="/assets/images/innovent-logo.png" alt="Logo" class="logo">
+    </a>
+    <p class="text-right mb-0">Retail</p>
+  </div>
+  <div class="pl-3">
+    <a href="">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+
+  <ul class="navbar-nav mr-auto sidenav">
+      
+      <li class="nav-item active main_home">
+        <a
+          class="nav-link nav-link-collapse"
+          href="{{sitelink}}/dashboard_home2"
+          id="hasSubItems"
+        ><img src="/assets/images/Icon feather-home.png" alt=""> Home</a>
+        <ul class="nav-second-level collapse home" id="collapseSubItems2" data-parent="#navAccordion">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard_home2" data-pjax='main-content' >
+        <img src="/assets/images/icon-dashboard.png">
+        <span class="ml-2">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item active main_admin">
+        <a
+          class="nav-link nav-link-collapse admin_menu"
+          href="dashboard" data-pjax='main-content'
+          >
+        <img src="/assets/images/icons/icon-admin.png" alt=""> Admin</a>
+        <ul class="nav-second-level collapse admin" id="collapseSubItems2" data-parent="#navAccordion">
+          
+          <li class="nav-item mm_admin dashboard_menu">
+            <a href="dashboard" data-pjax='main-content' class="nav-link" >
+              <img src="/assets/images/icons/icon-dashboard.png">
+              <span class="ml-2">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item mm_usersinfo userinfo_menu">
+            <a href="usersinfo" data-pjax='main-content' class="nav-link" >
+              <img src="/assets/images/icons/icon-users.png">
+              <span class="ml-2">Users</span>
+            </a>
+          </li>
+          <li class="nav-item mm_handheldDevices device_menu">
+            <a href="handheldDevices" data-pjax='main-content' class="nav-link" >
+              <img src="/assets/images/icons/icon-devices.png">
+              <span class="ml-2">Devices</span>
+            </a>
+          </li>
+          <li class="nav-item mm_new_asndata new_asndata_menu">
+            <a class="nav-link" href="new_asndata" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-transfers.png">
+              <span class="ml-2">Transfer Cancelation</span>
+            </a>
+          </li>
+           <li class="nav-item mm_manual_receiving_asn manual_receiving_asn_menu">
+            <a class="nav-link" href="manual_receiving_asn" data-pjax='main-content'>
+              <img src="/assets/images/icons/role.png" alt=""> 
+              <span class="ml-2">Manual Receiving IBT</span>
+            </a>
+          </li>
+
+          <li class="nav-item mm_storeinfo storeinfo_menu">
+            <a class="nav-link" href="storeinfo" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-stores.png">
+              <span class="ml-2">Stores</span>
+            </a>
+          </li>
+          <li class="nav-item mm_printer printer_menu">
+            <a class="nav-link" href="printer" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-printers.png" >
+              <span class="ml-2">Printers</span>
+            </a>
+          </li>
+          <li class="nav-item mm_zpl zpl_menu">
+            <a class="nav-link" href="zpl" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-zpl.png" >
+              <span class="ml-2">Zpl</span>
+            </a>
+          </li>
+          <li class="nav-item mm_AuditInfo auditinfo_menu">
+            <a class="nav-link" href="AuditInfo" data-pjax='main-content'>
+              <img src="/assets/images/icons/audit.png">
+              <span class="ml-2">Audit</span>
+            </a>
+          </li>
+          <li class="nav-item mm_ibt_difference auditinfo_menu">
+            <a class="nav-link" href="ibt_difference" data-pjax='main-content'>
+              <img src="/assets/images/icons/audit.png">
+              <span class="ml-2">IBT Difference</span>
+            </a>
+          </li>  
+          <li class="nav-item mm_admin_menu auditinfo_menu">
+            <a class="nav-link" href="admin_menu" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-transfers.png">
+              <span class="ml-2">Admin Menu</span>
+            </a>
+          </li> 
+          <li class="nav-item mm_UserRoles userroles_menu">
+            <a class="nav-link" href="UserRoles" data-pjax='main-content'>
+              <img src="/assets/images/icons/role.png">
+              <span class="ml-2">Roles</span>
+            </a>
+          </li>
+          
+
+        </ul>
+      </li>
+
+    <li class="nav-item main_count">
+        <a
+          class="nav-link nav-link-collapse count_menu"
+          href="executiveSummary" data-pjax='main-content'
+          
+        ><img src="/assets/images/icon-count.png" alt=""> Count</a>
+        <ul class="nav-second-level collapse count" id="collapseSubItems5" data-parent="#navAccordion">
+          <li class="nav-item mm_executiveSummary executiveSummary_menu">
+            <a class="nav-link" href="executiveSummary" data-pjax='main-content'>
+          <img src="/assets/images/icon-dashboard.png">
+                 <span class="ml-2">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item mm_stockSummary operations_menu">
+            <a class="nav-link"  href="stockSummary" data-pjax='main-content'>
+        <img src="/assets/images/count/Icon ionic-ios-flower.png">
+                 <span class="ml-2">Operation</span>
+            </a>
+          </li>
+          <li class="nav-item mm_stockSummary_initial operations0_menu">
+            <a class="nav-link"  href="stockSummary_initial" data-pjax='main-content'>
+                <img src="/assets/images/count/Icon ionic-ios-flower.png">
+                 <span class="ml-2">Operation 0</span>
+            </a>
+          </li>
+         {{!--  <li class="nav-item mm_storeSku">
+            <a class="nav-link"  href="storeSku" data-pjax='main-content'>
+        <img src="/assets/images/count/Icon ionic-md-analytics.png">
+                 <span class="ml-2">Analytics</span>
+            </a>
+          </li> --}}
+      
+      <li class="nav-item mm_inventorybyitem inventroy_menu">
+            <a class="nav-link"  href="inventorybyitem" data-pjax='main-content'>
+                <img src="/assets/images/icon-inventory.png">
+                <span class="ml-2">Inventory (EPC)</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+    <li class="nav-item main_supplychain">
+        <a
+          class="nav-link nav-link-collapse supplychain_menu"
+          href="supplychaindashboard" data-pjax='main-content'
+          
+        ><img src="/assets/images/Group 21.png" alt=""> Supply Chain</a>
+        <ul class="nav-second-level collapse supplychain" 
+        id="collapseSubItems6" data-parent="#navAccordion">
+          {{!-- <li class="nav-item mm_supplychaindashboard2">
+            <a class="nav-link" href="supplychaindashboard" data-pjax='main-content'>
+            <img src="/assets/images/icon-dashboard.png">
+                 <span class="ml-2">Dashboard</span>
+            </a>
+          </li> --}}
+          <li class="nav-item mm_asndata asndata_menu">
+            <a class="nav-link" href="asndata" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-transfers.png">
+              <span class="ml-2">Transfers</span>
+            </a>
+          </li>
+          <li class="nav-item mm_GoodsStockStore GoodsSummary_menu">
+            <a class="nav-link" href="GoodsSummary" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-stores.png">
+              <span class="ml-2"> GI Summary</span>
+            </a>
+          </li>
+          <li class="nav-item mm_GoodsStockStore GoodsStockStore_menu">
+            <a class="nav-link" href="GoodsStockStore" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-stores.png">
+              <span class="ml-2">IN-Store GI</span>
+            </a>
+          </li>
+          <li class="nav-item mm_GoodsStockWareHouse GoodsStockWareHouse_menu">
+            <a class="nav-link" href="GoodsStockWareHouse" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-enterprise.png">
+              <span class="ml-2">WareHouse GI</span>
+            </a>
+          </li>
+         
+        </ul>
+      </li>
+
+      <li class="nav-item active main_zplprinter">
+        <a
+          class="nav-link nav-link-collapse tagit_menu"
+          id="hasSubItems"
+          href="zplprinter" data-pjax='main-content'
+        ><img src="/assets/images/icons/icon-tags.png" alt=""> TagIt</a>
+        <ul class="nav-second-level collapse zplprinter" 
+        id="collapseSubItems2" data-parent="#navAccordion">
+        
+          <li class="nav-item mm_zplprinter zplprinter_menu">
+            <a class="nav-link" href="zplprinter_new" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-zpl.png">
+              <span class="ml-2">Zpl Printer</span>
+            </a>
+          </li>
+          <li class="nav-item mm_zplreport zplreport_menu">
+            <a class="nav-link" href="zplReport" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-zpl.png">
+              <span class="ml-2">Zpl Report</span>
+            </a>
+          </li>
+
+          <li class="nav-item mm_zplReport_sku zplReport_sku">
+            <a class="nav-link" href="zplReport_sku" data-pjax='main-content'>
+              <img src="/assets/images/icons/icon-zpl.png">
+              <span class="ml-2">Zpl Report (Sku)</span>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+
+
+
+    </ul>
+</aside>
+
+<script>
+  
+  $(document).ready(function (e) {
+    var scriptNameUpdate = '';
+    
+
+    
+
+
+      $(window).on("load",function() {
+
+        var my_this='';
+        $(".nav-second-level .nav-item").each(function (index,val){
+          my_this = $(this);
+
+          if(my_this.find("a").attr('href')==pagename)
+          {
+            my_this.addClass("active");
+          }
+
+        });
+
+        var my_this2='';
+        $(".CustomsubMenu a").each(function (index,val){
+          my_this2 = $(this);
+         
+          if(my_this2.attr('href')==pagename)
+          {
+            my_this2.addClass("active");
+            my_this2.addClass("subMenuActive");
+
+            
+          }
+
+        });
+
+
+      });
+
+     $(document).on("click",".CustomsubMenu a",function() {
+     
+      var my_url = $(this).attr('href');
+      
+
+      $(".nav-second-level .nav-item").removeClass("active");
+      var my_this='';
+      $(".nav-second-level .nav-item").each(function (index,val){
+          my_this = $(this);
+
+          if(my_this.find("a").attr('href')==my_url)
+          {
+            my_this.addClass("active");
+          }
+
+      });
+
+
+      
+
+     
+
+     });
+
+
+     $(document).on("click",".nav-second-level .nav-item",function() {
+     
+      $(".nav-second-level .nav-item").removeClass("active");
+      $(this).addClass("active");
+
+     });
+
+
+    $(document).on("click",".main-header .nav-link",function() {
+        scriptNameUpdate = $(this).attr('href');
+        $(".dropdown-item").removeClass("subMenuActive");
+        $(this).parent().find('.CustomsubMenu a:eq(0)').addClass("subMenuActive");
+    });
+
+
+    $(document).on("click",".main-header .dropdown .nav-link",function() {
+
+        $('.nav-item .dropdown-menu').hide()
+        $($(this).next()).show();
+
+        $('.dropdown .nav-link').removeClass('active');
+        $(this).addClass('active');
+    });
+
+
+    $(document).on("click",".main-header .dropdown-item",function() {
+
+        scriptNameUpdate = $(this).attr('href');
+        $(".dropdown-item").removeClass("subMenuActive");
+        $(this).addClass("subMenuActive");
+    });
+
+    $(document).pjax('a[data-pjax]', '#main-content')
+    $(document).on('pjax:success', function(res) {
+      console.log(res);
+      
+     
+      var temp    =   window.location.href;
+      var temp2   =   temp.split("/");
+      var js_file =   temp2[(temp2.length-1)];
+      $('.my_script').html('<script src="\/innoventRetailScript\/'+ js_file +'.js"><\/script>');
+      return false;
+    })
+  });
+</script>

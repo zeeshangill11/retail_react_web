@@ -1,0 +1,109 @@
+<script>
+$(document).ready(function() {
+	full_url =  (window.location.href);
+    temp     =  full_url.split('?permission=');
+    permission = temp[1];
+
+    //alert(permission);
+    if(permission !== '' && 
+    	permission !== null &&  permission!== undefined && permission !== 'undefined'){
+    	$(".msg").html('<div class="alert alert-danger background-danger" style="border-radius: 26px;"><i class="fa fa-exclamation-circle"></i>&nbsp;'+permission+'</div>');
+		
+    }
+});
+</script>
+<style>
+	.welcome {
+	    color: #fff;
+	    text-align: center;
+	    width: 100%;
+	    margin-top: 2%;
+	}
+	.mm_dashboardSubmenudropdown{
+		display: block;
+	}
+	.nav-second-level.collapse.home{display: block;}
+	button.btn.dropdown-toggle.bs-placeholder.btn-light{
+		width: 50%;
+		background-color: #000;
+	}
+	.main_admin,.main_count,.main_supplychain,.main_zplprinter{
+		display: none;
+	}
+	
+	.mainheading{
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	.cardBodyData{
+		font-size: 13px;
+	}
+	.crdheader{
+		background-color: #D3D8DB;
+	    border: none !important;
+
+	}
+
+	.dash_board{
+		border: 1px solid lightgrey;
+	}
+
+	.cad .card-header .right.float-right img {
+    height: 20px;
+    padding-right: 3px;
+    padding-left: 3px;
+	}
+
+	.mainCard{
+		background-color: #2E2D2D;
+		border-radius: 10px;
+	}
+	.crdBody{
+		text-align: center;
+		padding: 2px;
+	}
+
+	.crdBody p{
+		font-size: 12px;
+		color: yellow;
+	}
+
+	.crdBody h4{
+		color: white;
+		margin-top: -12px;
+	}
+	.itemHeading{
+		font-weight: bold;
+		font-size: 12px;
+	}
+
+</style>
+	<div class="content-wrapper pb-4 " id="dashboard">
+	 	<div class="col-12 mt-1">
+            <div class="cad dash_board">
+				
+				<div class="card-header crdheader">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Dashboard</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                       
+                       
+                    </div>
+                </div>
+
+				<div class="row ml-2 mr-2">
+					<div class="welcome">
+						<div class="msg">
+							
+						</div>
+						<h1>Welcome To Innovent</h1>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+	

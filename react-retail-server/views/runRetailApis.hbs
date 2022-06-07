@@ -1,0 +1,91 @@
+<style style="text/css">
+   .content-wrapper{ padding-left: 15px; padding-right:15px;}    
+   .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+   /*.mm_usersSubmenudropdown{display: block;}*/
+   .nav-second-level.collapse.admin{display: block;}
+   .main_home,.main_count,.main_supplychain,.main_zplprinter{
+   display: none;
+   }
+   .inner_payload{
+   text-align: center;
+   }
+   h3{
+   color:#fff;
+   text-align: center;
+   }
+   h6{
+   color: #fff;
+   }
+</style>
+<div class="content-wrapper pb-4">
+   <div class="row">
+      <!-- data table start -->
+      <div class="col-12 mt-1">
+         <div class="card">
+            <div class="card-header">
+               <div class="left d-inline-block">
+                  <h4 class="mb-0"> <i class="fa fa-user" class="simpleIcon" style="color:#000;"></i> Retail Apis</h4>
+                  <p class="mb-0 dateTime"></p>
+               </div>
+               <div class="right d-inline-block float-right mt-2">
+                  <img src="/assets/images/count/Group 9.png" height="30px">
+                  <span style="cursor:pointer" class="button_print">
+                  <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                  </span>
+                  <span style="cursor:pointer" class="buttons_excel2">
+                  <img src="/assets/images/count/Group 10.png" height="30px">
+                  </span>
+               </div>
+            </div>
+            <div class="card-body">
+               <div class="containe">
+                  <form id="SendRetailRequest">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <h6 id="request_name"></h6>
+                        </div>
+                     </div>
+                     <div class="row custom-filter">
+                        <div class="col-md-8">
+                           <div class="input-group mb-3">
+                              <div class="input-group-append">
+                                 <span  class="input-group-text" id="envoirment">
+
+                                 </span>
+                              </div>
+                              <input id="endpoint" type="text" class="form-control" 
+                                 name="endpoint" placeholder="Enter Request Url"> 
+                                 <input type="hidden" name="envoirment22" id="envoirment22"> 
+                           </div>
+                           <input type="hidden" name="server_protocol" id='server_protocol'>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group">          
+                              <button type="submit" 
+                                 class="btn btn-primary btn-md run btn-block" 
+                                 >Send</button>
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                           <div class="inner_payload">
+                              <h3>Payload</h3>
+                              <textarea id="payload" name="payload" rows="4" cols="150">
+                                    
+                              </textarea>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+               <div id="jsoneditor">
+                  <h3>Result</h3>
+                  <textarea id="ResultApi" name="ResultApi" rows="4" cols="150">
+                       
+                    </textarea>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Dark table end -->
+   </div>
+</div>

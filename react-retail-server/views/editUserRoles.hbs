@@ -1,0 +1,606 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+    .error{color: red;}    
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    /*.addonField22 {display: none;}*/
+</style>
+<div class="content-wrapper pb-4">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> User Roles</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                    </div>
+                </div> 
+                <div class="card-body">
+                    <form autocomplete="off" id="UserGroupsForm">
+                       
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="GroupName">Rolename *</label>
+                                <input type="text" class="form-control" name="RoleName" id="RoleName" placeholder="Role Name">
+                                 <span class="error RoleName_error"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                {{!-- <label for="storename">Store Name</label>
+                                <select class="selectpicker form-control" data-live-search="true"  name="SoteID" id="StoreID" multiple>
+                                    <option value="">Store ID</option>
+                                </select>
+                                 <span class="error SoteID_error"></span> --}}
+                                <input type="hidden" name="id" id="Id">
+                                 
+                            </div>   
+                           
+                            <div class="form-group col-md-6">
+                                <label for="UserPermission">User Permission *</label>
+                                <div class="error user_permission_error"></div>
+                                <div id="Home_all">
+                                  <input type="checkbox" id="Home" name="user_permission" 
+                                  value="Home">
+                                  <label for="Home">Home</label>
+                                 {{!--  <input type="checkbox" 
+                                            name="user_permission" 
+                                            id="hidden_home" class="hidden_home hidden" 
+                                            style="position: absolute;z-index:-90" value="Home"> --}}
+                                    <ul class="inner_pages">
+                                        <li>
+                                            
+                                           <input type="checkbox" id="DashBoard" 
+                                           class="home_inner" 
+                                           name="user_permission" value="dashboard_home">
+                                            <label for="DashBoard">DashBoard</label> 
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                                <div class="admin_premissions">
+                                <input type="checkbox" id="Users" name="user_permission"
+                                  value="Admin">
+                                    <label for="Users">Admin</label>
+                                            {{!--  <input type="checkbox" 
+                                            name="user_permission" 
+                                            id="hidden_home" class="hidden_users hidden" 
+                                            style="position: absolute;z-index:-90" value="dashboard"> --}}
+                                      <ul class="inner_pages">
+                                         <li>
+                                            <input type="checkbox" id="dashboard" 
+                                            class="inner_users" 
+                                            name="user_permission" value="dashboard">
+                                            <label for="dashboard">Dashboard</label>
+                                          </li> 
+                                          <li>
+                                            <input type="checkbox" id="usersinfo" 
+                                            class="inner_users" 
+                                            name="user_permission" value="usersinfo">
+                                              <label for="usersinfo">Users</label>
+                                            <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="adduserHidden" 
+                                            class="inner_users addonField" 
+                                            name="user_permission" value="addUser">
+
+                                            <input type="checkbox" id="adduserHidden" 
+                                            class="inner_users addonField inner_userEdit" 
+                                            name="user_permission" value="edituser_info">
+                                            </span>
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="handheldDevices" class="inner_users" 
+                                            name="user_permission" value="handheldDevices">
+                                              <label for="handheldDevices">Devices</label> 
+                                            <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="adddeviceHidden" 
+                                            class="inner_users addonField" 
+                                            name="user_permission" value="addhandheldDevice">
+
+                                            <input type="checkbox" id="adddeviceHidden" 
+                                            class="inner_users addonField inner_deviceEdit" 
+                                            name="user_permission" value="edithandhelddevice"> 
+                                            </span>
+
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="new_asndata" class="inner_users" 
+                                            name="user_permission" value="new_asndata">
+                                              <label for="new_asndata">Transfer Cancelation</label>
+                                            <span class="extra_checkboxes" style="display:none;">
+                                              <input type="checkbox" 
+                                                class="inner_users" 
+                                                name="user_permission" 
+                                                value="view_asndetails">
+                                            </span>
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="gi_cancellation" class="inner_users" 
+                                            name="user_permission" value="gi_cancellation">
+                                              <label for="gi_cancellation">GI Cancelation</label>  
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="storeinfo" class="inner_users" 
+                                            name="user_permission" value="storeinfo">
+                                              <label for="storeinfo">Stores</label>  
+                                            <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="addStoreHidden" 
+                                            class="inner_users addonField" 
+                                            name="user_permission" value="addstore">
+
+                                            <input type="checkbox" id="addStoreHidden" 
+                                            class="inner_users addonField editStoreHidden" 
+                                            name="user_permission" value="editstore">
+                                            </span>
+
+                                          </li>
+                                          
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="printer" class="inner_users" 
+                                            name="user_permission" value="printer">
+                                              <label for="printer">Printer</label>
+                                            <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="addPrinterHidden" 
+                                            class="inner_users addonField" 
+                                            name="user_permission" value="addprinter">
+
+                                            <input type="checkbox" id="addPrinterHidden" 
+                                            class="inner_users addonField editPrinterHidden" 
+                                            name="user_permission" value="editprinter">
+                                            </span>
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="zpl" class="inner_users" 
+                                            name="user_permission" value="zpl">
+                                              <label for="zpl">Zpl</label> 
+                                            <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="addzplHidden" 
+                                            class="inner_users addonField" 
+                                            name="user_permission" value="addzpl">   
+                                            
+                                            <input type="checkbox" id="addzplHidden" 
+                                            class="inner_users addonField editZplHidden" 
+                                            name="user_permission" value="editzpl">
+                                            </span>
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="AuditInfo" class="inner_users" 
+                                            name="user_permission" value="AuditInfo">
+                                              <label for="AuditInfo">Audit</label>  
+                                          </li>
+                                          <li>
+                                            <input type="checkbox" 
+                                            id="AuditInfo" class="inner_users" 
+                                            name="user_permission" value="ibt_difference">
+                                            <input type="checkbox" 
+                                            id="AuditInfo" class="inner_users" 
+                                            name="user_permission" value="missing_ibt_list">
+
+                                              <label for="AuditInfo">IBT Differences</label>  
+                                          </li>       
+                                          <li>
+                                             <input type="checkbox" id="UserRoles" 
+                                             class="inner_users" 
+                                             name="user_permission" value="UserRoles">
+                                              <label for="UserRoles">Roles</label> 
+                                            <span class="extra_checkboxes" style="display:none;">
+                                              <input type="checkbox" id="addRolesHidden" 
+                                                class="inner_users addonField" 
+                                                name="user_permission" value="addUserRoles">
+
+                                              <input type="checkbox" id="addRolesHidden" 
+                                                class="inner_users addonField editRoleHidden" 
+                                                name="user_permission" value="editUserRoles"> 
+                                            </span>
+                                          </li>  
+                                      </ul>
+                                </div>
+                                
+                                <div>
+                                  <input type="checkbox" id="Count" 
+                                  name="user_permission"
+                                  value="Count">
+                                  <label for="Count">Count</label>
+                                  {{!--  <input type="checkbox" 
+                                            name="user_permission" 
+                                            id="hidden_home" class="hidden_count hidden" 
+                                            style="position: absolute;z-index:-90" value="executiveSummary"> --}}
+                                    <ul class="inner_pages">
+                                        <li>
+                                          <input type="checkbox" id="Dashboard" class="count_inner" 
+                                          name="user_permission" value="executiveSummary">
+                                            <label for="executiveSummary">Dashboard</label>  
+                                          <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="executiveSummaryOnHandSimple">
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="executiveSummaryCount"> 
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="executiveSummaryFront">
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="executiveSummaryBack"> 
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="CriticalOutOfStock"> 
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="AllOvers"> 
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="underOvers"> 
+
+                                            <input type="checkbox"  
+                                              class="inner_users addonField " 
+                                              name="user_permission" value="executiveSummaryOnHand"> 
+                                          </span>
+                                        </li>
+                                          <ul>
+                                            <li>
+                                              <input type="checkbox" id="show_over_check" class="inner_users addonField" name="user_permission" value="show_over_check">  
+                                              <label for="show_over_check">Show overs Checkbox</label>  
+                                            </li>
+                                          </ul> 
+                                        <li>
+                                           <input type="checkbox" id="all_under_over" 
+                                           class="count_inner" name="user_permission" value="all_under_over">
+                                            <label for="all_under_over">All Under Overs </label> 
+                                        </li>
+                                         <li>
+                                           <input type="checkbox" id="stockSummary" 
+                                           class="count_inner" name="user_permission" value="stockSummary">
+                                            <label for="stockSummary">Operations</label> 
+                                        </li>
+                                        <li>
+                                           <input type="checkbox" id="stockSummary" 
+                                           class="count_inner" name="user_permission" 
+                                           value="stockSummary_initial">
+                                            <label for="stockSummary">Operation 0</label> 
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="storeSku" class="count_inner" 
+                                            name="user_permission" value="storeSku">
+                                            <label for="storeSku">Analytics</label> 
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" class="count_inner" 
+                                            name="user_permission" value="inventorybyitem">
+                                            <span class="extra_checkboxes" style="display:none;">
+                                              <input type="checkbox" class="count_inner" 
+                                              name="user_permission" value="epc_details">
+                                            </span>
+                                            <label for="inventorybyitem">Inventory(EPC)</label> 
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="epc_report" class="count_inner" 
+                                            name="user_permission" value="epc_report">
+                                            <label for="epc_report">Epc Report</label> 
+                                        </li> 
+
+                                        <li>
+                                          <input type="checkbox" id="enterpriseReportDateWise" 
+                                          class="inner_zplprinter" name="user_permission" 
+                                          value="enterpriseReportDateWise">
+                                          <label for="enterpriseReportDateWise"> Daily StockCount Report </label> 
+                                        </li>    
+                                    </ul>  
+                                </div>
+
+                                <div>
+                                  <input type="checkbox" id="SupplyChain" name="user_permission"
+                                  value="SupplyChain">
+                                  <label for="SupplyChain">Supply Chain</label>
+                                   {{!--  <input type="checkbox" 
+                                            name="user_permission" 
+                                            id="hidden_home" class="hidden_supplychain hidden" 
+                                            style="position: absolute;z-index:-90" 
+                                            value="SupplyChain"> --}}
+                                    <ul class="inner_pages">
+                                        <li>
+                                          <input type="checkbox" id="supplychaindashboard" 
+                                          name="user_permission" class="inner_supplychain" 
+                                          value="supplychaindashboard">
+                                            <label for="supplychaindashboard">Dashboard</label>  
+                                        </li>    
+                                        <li>
+                                           <input type="checkbox" id="asndata" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" value="asndata">
+                                           <span class="extra_checkboxes" style="display:none;">
+                                             <input type="checkbox" 
+                                             class="inner_supplychain" 
+                                             name="user_permission" value="view_asndetails">
+                                           </span>
+                                           
+                                            <label for="asndata">ASN</label> 
+                                        </li>
+                                        <li>
+                                           <input type="checkbox" id="GoodsStockWareHouse" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" 
+                                           value="GoodsSummary">
+                                            <label for="GoodsStockWareHouse">GI Summary</label>
+                                          <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="GoodsStockWareHouse" 
+                                              class="inner_supplychain" 
+                                              name="user_permission" 
+                                              value="GoodsDetail">
+                                          </span>
+
+                                        </li> 
+                                        <li>
+                                           <input type="checkbox" id="GoodsStockStore" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" 
+                                           value="GoodsStockStore">
+                                            <label for="GoodsStockStore">IN-Store GI</label> 
+                                        </li> 
+                                        <li>
+                                           <input type="checkbox" id="GoodsStockWareHouse" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" 
+                                           value="GoodsStockWareHouse">
+                                            <label for="GoodsStockWareHouse">Warehoue GI</label> 
+                                        </li> 
+
+                                        <li>
+                                           <input type="checkbox" id="short_asndetails" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" 
+                                           value="short_asndetails">
+                                            <label for="short_asndetails">
+                                            Short IBT Details</label> 
+                                        </li> 
+
+                                        <li>
+                                           <input type="checkbox" id="access_asndetails" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" 
+                                           value="access_asndetails">
+                                            <label for="access_asndetails">
+                                            Access IBT Details</label> 
+                                        </li>   
+                                    </ul>
+                                </div>
+                                <div class="tagit">
+                                    
+                                   <input type="checkbox" id="Tagit" 
+                                   name="user_permission"
+                                  value="Tagit">
+                                  <label for="Tagit">Tagit</label>
+                                   {{!--  <input type="checkbox" 
+                                            name="user_permission" 
+                                            id="hidden_home" class="hidden_zplprinter hidden" 
+                                            style="position: absolute;z-index:-90" value="Tagit"> --}}
+                                    <ul class="inner_pages">
+                                        <li>
+                                         <input type="checkbox" id="Tagit" 
+                                         class="inner_zplprinter" name="user_permission" 
+                                         value="zplprinter_new">
+                                          <label for="zplprinter">ZPL Printer</label> 
+                                        </li> 
+
+                                        <li>
+                                          
+                                          <input type="checkbox" id="Tagit" 
+                                          class="inner_zplprinter" name="user_permission" 
+                                          value="zplReportSkuDetails">
+                                          <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="Tagit" 
+                                            class="inner_zplprinter" name="user_permission" 
+                                            value="zplReport_sku">
+                                          </span>
+                                          <label for="zplprinter">ZPL Printer (Sku)</label> 
+                                        </li> 
+                                       
+
+                                      <li>
+
+                                         <input type="checkbox" 
+                                           class="inner_supplychain" 
+                                           name="user_permission" value="zplReportDetails">
+                                          <span class="extra_checkboxes" style="display:none;">
+                                            <input type="checkbox" id="Tagit" 
+                                              class="inner_zplprinter" name="user_permission" 
+                                              value="zplReport">
+                                          </span> 
+                                          <label for="zplprinter">Zpl Report</label> 
+                                        </li>
+                                    </ul>
+
+
+                                </div>
+
+                                <div class="extra">
+                                     <label for="Tagit">Extra</label>
+                                  
+                                    <ul class="inner_pages">
+                                      <li>
+                                       <input type="checkbox" id="handle_cronjobs" 
+                                       class="inner_zplprinter" name="user_permission" 
+                                       value="manual_receiving_asn">
+                                        <label for="handle_cronjobs">Manual Receiving Asn</label> 
+                                      </li>
+                                      <li>
+                                       <input type="checkbox" id="handle_cronjobs" 
+                                       class="inner_zplprinter" name="user_permission" 
+                                       value="handle_cronjobs">
+                                        <label for="handle_cronjobs">handle_cronjobs</label> 
+                                      </li>
+                                       <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                         class="inner_zplprinter" name="user_permission" 
+                                         value="logs">
+                                          <label for="handle_cronjobs">logs</label> 
+                                      </li>
+
+                                       <li>
+                                       <input type="checkbox" id="handle_cronjobs" 
+                                       class="inner_zplprinter" name="user_permission" 
+                                       value="RetailApis">
+                                        <span class="extra_checkboxes" style="display:none;">
+                                          <input type="checkbox" class="count_inner" 
+                                            name="user_permission" value="addretailapi">
+                                            
+                                          <input type="checkbox" class="count_inner" 
+                                            name="user_permission" value="addretailapi">
+                                            
+                                            <input type="checkbox" class="count_inner" 
+                                            name="user_permission" value="runRetailApis">  
+
+                                            <input type="checkbox" class="count_inner" 
+                                            name="user_permission" value="editretailapi">
+                                        </span>
+                                        <label for="handle_cronjobs">Retail Api's</label> 
+                                      </li>
+                                      
+                                       <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                         class="inner_zplprinter" name="user_permission" 
+                                         value="soh_details">
+                                          <label for="handle_cronjobs">Soh Details</label> 
+                                        </li>
+                                        
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                           class="inner_zplprinter" name="user_permission" 
+                                           value="product_item_master">
+                                            <span class="extra_checkboxes" style="display:none;">
+                                              <input type="checkbox" class="count_inner" 
+                                              name="user_permission" value="add_product_item_master">
+                                            </span>
+                                          <label for="handle_cronjobs">Product item master</label> 
+                                        </li>
+
+
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                            class="inner_zplprinter" name="user_permission" 
+                                            value="stock_summary_detail">
+                                          <label for="handle_cronjobs">Stock Summary Detail</label> 
+                                        </li>
+
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                            class="inner_zplprinter" name="user_permission" 
+                                            value="admin_menu">
+                                          <label for="handle_cronjobs">Admin menu</label> 
+                                        </li>
+
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                            class="inner_zplprinter" name="user_permission" 
+                                            value="admin_error_log">
+                                          <label for="handle_cronjobs">Admin Error Log</label>
+                                        </li>
+
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                            class="inner_zplprinter" name="user_permission" 
+                                            value="problem_asn">
+                                          <label for="handle_cronjobs">Problem Asn</label>
+                                        </li>
+
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                            class="inner_zplprinter" name="user_permission" 
+                                            value="stocksummaryExtras">
+                                          <label for="handle_cronjobs">Stocksummary Extras</label>
+                                        </li>
+                                        <li>
+                                         <input type="checkbox" id="handle_cronjobs" 
+                                         class="inner_zplprinter" name="user_permission" 
+                                         value="enterpriseReportOld">
+                                          <label for="handle_cronjobs">Enterprise Report Old</label> 
+                                        </li>
+                                        <li>
+                                         <input type="checkbox" id="store_payload" 
+                                         class="inner_zplprinter" name="user_permission" 
+                                         value="store_payload">
+                                          <label for="store_payload">Store Payload</label> 
+                                          <span class="extra_checkboxes" style="display:none;">
+                                              <input type="checkbox" id="store_payload_single" 
+                                              class="inner_zplprinter addonField" 
+                                              name="user_permission" value="store_payload_single">
+                                          </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="UserPermission">Mobile Permission</label>
+                                    <div>
+                                     <ul class="inner_pages">
+                                        <li>
+                                          <input type="checkbox" id="ManageTags" 
+                                          class="manage_tag" 
+                                          name="user_permission" value="ManageTags">
+                                            <label for="usersinfo">Manage Tags</label>  
+                                        </li>     
+                                        <li>
+                                           <input type="checkbox" id="cycle_count" 
+                                           class="cycle_count" 
+                                           name="user_permission" value="CycleCount">
+                                            <label for="UserRoles">Cycle Count</label> 
+                                        </li>
+                                        <li>
+                                          <input type="checkbox" id="usersinfo" 
+                                          class="Locate_item" 
+                                          name="user_permission" value="LocateItem">
+                                            <label for="usersinfo">Locate Item</label>  
+                                        </li>    
+                                        <li>
+                                           <input type="checkbox" id="UserRoles" class="Receieving_item" name="user_permission" value="ReceievingItem">
+                                            <label for="UserRoles">Receieving Item</label> 
+                                        </li>
+                                        <li>
+                                          <input type="checkbox" id="usersinfo" 
+                                          class="Packing_items" name="user_permission" 
+                                          value="PackingItems">
+                                            <label for="usersinfo">Packing Items</label>  
+                                        </li>    
+                                        <li>
+                                           <input type="checkbox" id="" 
+                                           class="inner_users3" name="user_permission" 
+                                           value="TranseferOut">
+                                            <label for="UserRoles">TranseferOut</label> 
+                                        </li>  
+                                    </ul>
+                                      <div class="but mt-5" style="text-align:right;">
+                                    <button type="submit" id="submit" class="btn btn-default btn-block">Update Role</button>
+                                </div> 
+                                </div>
+                            </div>
+                              
+                        </div>
+                    </form>
+
+                   
+
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        
