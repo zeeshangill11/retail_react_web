@@ -3,6 +3,8 @@ var router = express.Router();
 const fs = require('fs');
 var response = {};
 
+
+
 fs.readdirSync(__dirname).forEach(file => {
     if(file != "api_router.js"){
         var apiFolder = require("./" + file + "/index.js");

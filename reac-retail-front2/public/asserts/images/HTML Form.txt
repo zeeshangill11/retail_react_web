@@ -1,0 +1,99 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<div class="form-style-8">
+  <form action="https://sandytalkies.com/wp-admin/admin-post.php?action=todoposter_post_action" method="POST" class="form-style-8">
+    <input type="hidden" name="action" value="todoposter_post_action">
+	<input type="text" name="courseurl" placeholder="Submit URL Here..">
+    <input type="submit" value="Submit">
+</form>
+ <div class="alerttodo">
+  <strong>Success!</strong><span>, Sent:  </span><a href="#" target="_blank" id="todocourselink" rel="noopener">view it from here</a>
+</div> 
+</div>
+<style>
+.alerttodo {
+  display:none;
+  padding: 20px;
+  background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+  background-color:#34CACA;
+  color: white;
+  margin-bottom: 15px;
+}
+.alerttodo a{color:#fff;}
+.form-style-8 input
+{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+	margin-bottom: 10px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 45px;
+}
+.form-style-8 input[type="button"], 
+.form-style-8 input[type="submit"]{
+	-moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+	box-shadow: inset 0px 1px 0px 0px #45D6D6;
+	background-color: #2CBBBB;
+	border: 1px solid #27A0A0;
+	display: inline-block;
+	cursor: pointer;
+	color: #FFFFFF;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 14px;
+	padding: 8px 18px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+.form-style-8 input[type="button"]:hover, 
+.form-style-8 input[type="submit"]:hover {
+	background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+	background-color:#34CACA;
+}
+.successtodo{
+background:#2FB886;
+}
+.errortodo,.freeerrortodo,.priceerrortodo{
+background:#F56358;
+}
+.pendingtodo{
+background:#FFA92B;
+}
+</style>
+<script>
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+if(getParameterByName('msg')=="success" && getParameterByName('courseid')!=null){
+document.querySelector('.alerttodo').style="display:block";
+document.querySelector('#todocourselink').href="/"+getParameterByName('courseid');
+}else if(getParameterByName('msg')=="pending"){
+document.querySelector('.alerttodo').style="display:block";
+document.querySelector('.alerttodo').innerHTML="Your submission was successfully sent, and it will be reviewed by the admin.";
+}else if(getParameterByName('msg')=="error"){
+document.querySelector('.alerttodo').style="display:block";
+document.querySelector('.alerttodo').innerHTML="Invalid Course url, please enter a valid one.";
+}else if(getParameterByName('msg')=="priceerror"){
+document.querySelector('.alerttodo').style="display:block";
+document.querySelector('.alerttodo').innerHTML="Error Type 1";
+}
+else if(getParameterByName('msg')=="freeerror"){
+document.querySelector('.alerttodo').style="display:block";
+document.querySelector('.alerttodo').innerHTML="Error Type 2";
+}
+document.querySelector('.alerttodo').classList.add(getParameterByName('msg')+'todo');
+</script>
+
