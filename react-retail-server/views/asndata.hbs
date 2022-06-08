@@ -1,0 +1,166 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+    /*.supplychaindashboardSubmenudropdown{display: block;}*/
+    .nav-second-level.collapse.supplychain{display: block;}
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .main_home,.main_admin,.main_count,.main_zplprinter{
+        display: none;
+    }
+    .error{color:red;}  
+</style>
+
+
+<div class="content-wrapper pb-4">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <img src="/assets/images/icons/icon-transfers.png" alt=""> 
+                        IBT Data</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+
+                        <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="containe">
+                        <form id="AsnForm">
+                            
+                            <div class="row custom-filter">
+                                <h4 class="light d-inline-block mr-4 mb-0">Filters</h4> 
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-control datepicker22" 
+                                        style="color: #fff !important;width:160px !important;background:transparent;" 
+                                        id="FromDate" 
+                                        placeholder="From: yyyy-mm-dd" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-control datepicker22" 
+                                        style="color: #fff !important;width:160px !important;background:transparent;" 
+                                        id="ToDate" 
+                                        placeholder="To: yyyy-mm-dd" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="error Source_error" style="display:   inline-block;position: absolute;left: 75px;top: 128px;">
+                                                
+                                    </div> 
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select name="source" 
+                                        class="form-control selectpicker" 
+                                        id="source" data-live-search="true">
+                                           
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select name="Destination" 
+                                        class="form-control selectpicker" 
+                                        id="Destination" data-live-search="true">
+                                           
+                                        </select>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-2">
+                                    <div class="form-group">
+                                        <select name="Status" 
+                                        class="form-control selectpicker" 
+                                        id="Status" data-live-search="true">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+
+                                     <div class="error Date_error" style="display: inline-block;position: absolute;left: 75px;top: 128px;">
+                                                
+                                    </div> 
+
+                                 <div class="col-md-2" style="margin-left: 90px;margin-top:20px">
+                                    <div class="form-group" >
+                                         <input type="text" class="form-control" 
+                                            id="Remarks" style="color: #000 !important;" 
+                                            placeholder="Remarks">
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                                <div class="col-md-2" style="margin-top:20px">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" 
+                                                id="Asn" style="color: #000 !important;" 
+                                                placeholder="IBT" autocomplete="off">
+
+                                                
+                                    </div>
+
+                                </div>
+                                
+                                <div class="col-md-2" style="margin-top:20px">
+                                    <div class="form-group">
+                                        <button type="button" 
+                                        class="btn btn-danger btn-md run  btn-block" 
+                                        >Search</button>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </form>    
+                    </div>
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>IBT</th>
+                                    <th>Source</th>
+                                    <th>Destination</th>
+                                    <th>Packed Items</th>
+                                    <th>Transfer Items</th>
+                                    <th>Received Items</th>
+                                    <th>Status</th> 
+                                    <th>Packing Date</th> 
+                                    <th>Packing Remarks</th>
+                                    <th>Shipping Date</th> 
+                                    <th>Shipping Remarks</th>
+                                    <th>Receiving Date</th> 
+                                    <th>Receiving Remarks</th>                                          
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Dark table end -->
+    </div>
+</div>    

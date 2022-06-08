@@ -1,0 +1,139 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}    
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+</style>
+<div class="content-wrapper pb-4">
+
+   <div class="header-sec">
+                <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+                  <ul class="navbar-nav mr-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active2" href="executiveSummary">
+                            <img src="/assets/images/dashboard-icon.png" height="20px">
+                            <span class="ml-2 nav-text text-uppercase">Dashboard</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active" href="stockSummary">
+                            <img src="/assets/images/count/Icon ionic-ios-flower.png" height="20px">
+                            <span class="ml-2 nav-text text-uppercase">Operations</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                          <!--storeSku--->
+                        <a class="nav-link" href="storeSku">
+                            <img src="/assets/images/count/Icon ionic-md-analytics.png" height="20px">
+                            <span class="ml-2 nav-text text-uppercase">Analytics</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                          <!--storeSku--->
+                        <a class="nav-link" href="accuracytrend">
+                            <img src="/assets/images/count/Icon ionic-md-analytics.png" height="20px">
+                            <span class="ml-2 nav-text text-uppercase">Accuracy</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)">
+                            <img src="/assets/images/count/Icon awesome-building.png" height="20px">
+                            <span class="ml-2 nav-text text-uppercase">Enterprise</span>
+                        </a>
+                      </li>
+                    </ul>
+                </nav>
+            </div>
+       
+    
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> 
+                            ExecutiveSummary Report
+                        </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        {{!--  <span style="cursor:pointer" onclick="window.location.href='{{sitelink}}/addhandheldDevice'">
+                            <img src="/assets/images/count/plus-icon.png" height="30px">
+                        </span>    --}}
+                        <img src="/assets/images/count/Group 9.png" height="25px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="25px" class="ml-1 mr-1">
+                            {{!-- <span style="cursor:pointer" onclick="window.location.href='{{sitelink}}/api/1.0.0/stockCountRecords/gethandhelddevice_ex/'"> --}}
+                            <img src="/assets/images/count/Group 10.png" height="25px">
+                        {{!-- </span> --}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Initial</th>
+                                    <th>Counted</th>
+                                    <th>Unexpected</th>
+                                    <th>Missing</th>
+                                    <th>Expected</th>
+                                    {{!-- <th>Action</th>   --}}                                         
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
+</div>
+<br>
+<footer class="main-footer">
+        <div class="row ml-0 mr-0">
+            <div class="col-sm-6">
+                    <p class="mb-0 pt-1 light">INNOVENT IOT Platform | Release v3.2.417</p>
+                    <p class="mb-0 pt-1 light">Time Zone</p>
+            </div>
+            <div class="col-sm-6">
+                <p class="mb-0 pt-2 light text-right">Page Load: 0.35s</p>
+            </div>
+        </div>
+    </footer>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Store Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form  id="UserRoles">
+                <style type="text/css" media="screen">
+                    .modal-body .load{
+                        text-align: center;
+                    }
+                </style>
+                <div class="edit-manage"></div>
+                <div class="modal-body" style="max-height: 560px">
+                    <div class="load">
+                        <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>   
+                    </div>
+                     
+                   <div id="store_list">
+                   
+                   </div>                         
+                </div>
+            </form>
+        </div>
+    </div>
+</div>        

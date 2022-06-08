@@ -1,0 +1,145 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}    
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    /*.mm_usersSubmenudropdown{display: block;}*/
+    .nav-second-level.collapse.admin{display: block;}
+    .main_home,.main_count,.main_supplychain,.main_zplprinter{
+        display: none;
+    }
+
+
+
+</style>
+<div class="content-wrapper pb-4">
+    
+        <div class="BtnAddList">
+            <a href="{{sitelink}}/addretailapi" class="btn btn-danger BtnAdd">Add Retail</a>
+        </div>
+   
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="fa fa-user" class="simpleIcon" style="color:#000;"></i> Retail Apis</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                       <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+                        
+                         <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="containe">
+                        <div class="row custom-filter">
+                            <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+                            
+                            <div class="col-md-2">
+                                <form action="" autocomplete="off"> 
+                                    <div class="form-group">
+                                        {{!-- <label for="name">Name</label> --}}
+                                        <input 
+                                        placeholder="request_name"
+                                        name="request_name" class="form-control" 
+                                        id="request_name" data-live-search="true"
+                                          
+                                        />
+                                    </div> 
+
+                                </form> 
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <form autocomplete="off">
+                                     <div class="form-group">
+                                        {{!-- <label for="UserName">User Name</label> --}}
+                                        <input 
+                                        placeholder="envoirment"
+                                        name="envoirment" class="form-control" 
+                                        id="envoirment" data-live-search="true"
+                                            
+                                        />
+                                    </div>
+
+                                   
+                                    
+                                </form>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">          
+                                    <button type="button" 
+                                    class="btn btn-primary btn-md run btn-block" 
+                                    >Search</button>
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                    
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Request Name</th>
+                                    <th>Envoirment</th>
+                                    <th>End Point</th>
+                                    <th>Server Protocol</th>
+                                    <th>Pay Load</th>
+                                    <th>Action</th>                                                               
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div> 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Stores</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form  id="UserInfo">
+                <style type="text/css" media="screen">
+                    .modal-body .load{
+                        text-align: center;
+                    }
+                </style>
+                <div class="edit-manage"></div>
+                <div class="modal-body" style="max-height: 560px">
+                    <div class="load">
+                        <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>   
+                    </div>
+                     
+                   <div id="store_list">
+                   
+                   </div>                         
+                </div>
+            </form>
+        </div>
+    </div>
+</div>       

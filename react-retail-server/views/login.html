@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="./style.css">
+      <title>Login</title>
+      <style>
+      .loader,
+      .loader:after {
+        border-radius: 50%;
+        width: 10em;
+        height: 10em;
+      }
+      .loader {
+        margin: 60px auto;
+        font-size: 10px;
+        position: relative;
+        text-indent: -9999em;
+        border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+        border-left: 1.1em solid #ffffff;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-animation: load8 1.1s infinite linear;
+        animation: load8 1.1s infinite linear;
+      }
+      @-webkit-keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes load8 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+</style>
+   </head>
+   
+   <body>
+      
+      <style>
+         html{
+         height: 100%;
+         margin: 0;
+         }
+         body{
+            background-image: url('assets/images/login-background.webp');
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-color: rgba(0,0,0, 0.3);
+            background-size: cover;
+            }
+         .white{
+            color: #ddd;
+         }
+         .form-check-label{
+            color: #ddd;
+         }
+         ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ddd !important;
+            opacity: 1; /* Firefox */
+         }
+         .error{
+            color:#D3D3D3;
+         }
+         .form-control.pb-4.pl-0.error_border{
+            border-color: red !important;
+         }
+         .main .logo{
+            width: 50%;
+         }
+         .box{
+            background-color: rgba(0,0,0, 0.4); 
+            margin-top: -76px;
+            padding: 15% 20%;
+         }
+         .box h1{
+            margin-top: 15%;
+         }
+         /*.box .form-group:focus{
+         background-color: transparent;
+         }*/
+         .box input, .box input:focus{
+            background-color: transparent;
+            border-radius: 0px;
+            border: none;
+            border-bottom: 1px solid #fff !important;
+            box-shadow: none;
+            color: #fff;
+         }
+         .box input::placeholder{
+          color: #fff;
+         }
+         .box button, .box button:focus{
+            background-color: transparent;
+            border-radius: 6px;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 10px;
+            outline: none;
+         }
+         @media only screen and (max-width: 767px){
+         .box{
+            margin-top: 15px;
+            padding: 10%;
+         }  
+         .box h1{
+            margin-top: 0px;
+            }
+         }
+      </style>
+      
+      <div class="main h-100" >
+         <nav class="navbar navbar-expand-lg navbar-light" >
+            <a class="navbar-brand" href="#">
+            <img src="/assets/images/logo.png" alt="Logo" class="logo">
+            </a>
+         </nav>
+         <div class="loader" style="display: none;"></div>
+         <div class="container" id="login_form_main">
+            <div class="row">
+               <div class="col-lg-8 offset-lg-2 col-md-6 offset-md-3">
+                  <form onsubmit="return false;" id="login_form" class="box" autocomplete="off">
+                     <h1 class="text-center white mb-4 font-weight-bold">Welcome Back</h1>
+                     <div class="field" >
+                        <div class="msg"></div>
+                     </div>
+                     <div class="form-group mb-2">
+                        <input type="text" id="username" name="username" placeholder="Username" class="form-control pb-4 pl-0">
+                     </div>
+                     <div class='error error_username'>
+                     </div>
+                     <div class="form-group">
+                        <input type="password" id="password" name="password" placeholder="Password" class="form-control pb-4 pl-0">
+                     </div>
+                     <div class="error error_password">
+                     </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" 
+                           name='Rememberme'  
+                           id="Rememberme">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Remember me
+                        </label>
+                     </div>
+                     <input type="hidden"  id='token' name="token" value="123456">
+                     <button type="submit" id="submit" type="submit" class="mt-4 w-100">Login</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- START FOOTER DARK-->
+      <footer class="footer white m-3">
+         <span class='small'>INNOVENT IOT Platform | Release v3.2.147</span>
+      </footer>
+      <!-- START FOOTER DARK-->
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="assets/js/jquery-3.2.1.slim.min.js" ></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src="assets/js/jquery-2.2.4.min.js" ></script>
+
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script> -->
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
+
+      <script>
+         $(document).ready(function(){
+               
+         
+                  var remember = Cookies.get('Rememberme');
+                  var username = Cookies.get('username');
+                  var password = Cookies.get('password');
+                   
+                   if(remember !== null && remember !== undefined 
+                     && remember !== "null" 
+                     && username !== null && username !== undefined 
+                     && username !== "null" && 
+                     password !== null && password !== undefined 
+                     && password !== "null"){
+                     
+                    var username = Cookies.get('username');
+                    var password = Cookies.get('password');
+                    
+                    //console.log(password);
+                    // $('#username').val(username);
+                    // $('#password').val(password);
+                    // $('#Rememberme').prop("checked",true);
+                    var token = $('#token').val();
+                    
+         
+                   $(".loader").css('display','block');
+                   $('body').css('background-image','none');
+                   $('#login_form_main').css('display','none');
+                   
+                  $.ajax({
+                     type:'POST',
+                     url:'api/1.0.0/login/web_login2',
+                     data:{
+                        username:username,
+                        password:password,
+                        token:token,
+                     },
+                     success: function(data)
+                     {  
+         
+                        var responseData = data;
+                        
+                        setTimeout(function(){ window.location.href = 'executiveSummary'; }, 1000);
+                     }
+                     ,error: function(e) {
+         
+                     
+                        $("#submit").html('LOGIN');
+                        $("#submit").removeAttr('disabled');
+
+                        $(".loader").css('display','none');
+                        $('body').css('background-image','');
+                        $('#login_form_main').css('display','block');
+                        
+                        var responseToManyRequest = e.responseText;
+
+                        
+                        if(responseToManyRequest !== '' ){
+         
+                           $(".msg").html('<div class="alert alert-danger background-danger" style="border-radius: 26px;"><i class="fa fa-exclamation-circle"></i>&nbsp;'+responseToManyRequest+'</div>');
+                           setTimeout(function(){ $(".msg").html(''); }, 4000);
+         
+                        }
+                     }
+
+
+
+                  });
+         
+                }
+                    
+         
+         
+            $(document).on('submit','form#login_form', function(){
+               
+               error = 0;
+               $("#submit").html('<i class="fa fa-spin fa-spinner"></i>&nbsp;Please Wait...');
+               // $("#submit").attr('disabled','disabled');
+         
+               if($('[name="username"]').val()==""){
+                  error = 1;
+                  $('[name="username"]').addClass('error_border');
+                  $('.error_username').html('<span>Please Enter Username !</span>');
+                  $("#submit").html('Login');
+               }else{
+                  $('.error_username').html('');
+                  $('[name="username"]').removeClass('error_border');
+               }
+         
+               if($('[name="password"]').val()==""){
+                  error = 1;
+                  $('[name="password"]').addClass('error_border');
+                  $('.error_password').html('<span>Please Enter Password !</span>');
+                  $("#submit").html('Login');
+               }else{
+                  $('.error_password').html('');
+                  $('[name="password"]').removeClass('error_border');
+               }  
+               if(error == 0 ){
+                  
+                  var formData = new FormData(this);
+               
+                  $.ajax({
+                     type:'POST',
+                     url:'api/1.0.0/login/web_login2?v='+(Math.random()*10000000000000),
+                     data:$("#login_form").serialize(),
+                     success: function(data)
+                     {
+                        //console.log(data);
+                        $("#submit").html('LOGIN');
+                        $("#submit").removeAttr('disabled'); 
+                           
+                        
+         
+                        var responseData = data;
+                        
+                        
+                        if ($('#Rememberme').is(':checked')) {
+                                
+                                var username = $('#username').val();
+                                var password = $('#password').val();
+                                // set cookies to expire in 14 days
+                               
+                                Cookies.set('username', username, { expires: 14 });
+                                Cookies.set('password', password, { expires: 14 });
+                                Cookies.set('Rememberme', true, { expires: 14 });                
+                            }else
+                            {
+                                 // reset cookies
+                                 Cookies.set('username', null);
+                                 Cookies.set('password', null);
+                                 Cookies.set('Rememberme', null);
+                            }
+         
+         
+                        //console.log(responseData);
+         
+                        if(responseData.error=="0")
+                        {
+                           $(".msg").html('<div class="alert alert-success alert-padding" style="border-radius: 26px;"><i class="fa fa-thumbs-up"></i>&nbsp;Login Successfully!</div>');
+         
+                           
+         
+         
+                           setTimeout(function(){ window.location.href = 'executiveSummary'; }, 1000);
+                        }
+                        
+                     },error: function(e) {
+         
+                     
+                        $("#submit").html('LOGIN');
+                        $("#submit").removeAttr('disabled');
+                        var responseToManyRequest = e.responseText;
+                        var response = JSON.parse(responseToManyRequest);
+                        var messge = response.message;
+                        //console.log(response.message)
+                       // responseToManyRequest = responseToManyRequest.split('pre').join('span');
+                        if(messge !== '' ){
+                        
+                        setTimeout(function(){
+                           $(".msg").html('<div class="alert alert-danger background-danger" style="border-radius: 26px;"><i class="fa fa-exclamation-circle"></i>&nbsp;'+messge+'</div>');
+
+                        },200);
+                           
+                           setTimeout(function(){ $(".msg").html(''); }, 4000);
+         
+                        }
+                     }
+                  });
+               }
+            });
+         });
+      </script>
+   </body>
+</html>

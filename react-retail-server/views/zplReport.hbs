@@ -1,0 +1,199 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+   /*.mm_tagitSubmenudropdown{display: block;} */   
+   .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+   .main_home,.main_admin,.main_count,.main_supplychain{
+   display: none;
+   }
+   .filter-option-inner-inner{
+ 
+   }
+   .form-control{
+ 
+   }
+   .error{
+   color:red;
+   }
+   .nav-second-level.collapse.zplprinter{display: block;}
+
+   .mm_tagitSubmenudropdown{ display: block }
+    table#dataTable {
+        width: 100% !important;
+    }
+   
+</style>
+<div class="content-wrapper pb-4">
+
+    <div class="row"> 
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <img src="/assets/images/icons/icon-transfers.png" alt=""> 
+                        Zpl Report</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+
+                        <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container2" >
+                        <div class="row custom-filter" id="ZPLreportFilters">
+                            <h4 class="light d-inline-block mr-4 mb-0">Filters</h4> 
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="Storeid" 
+                                    class="form-control selectpicker" 
+                                    id="Storeid" data-live-search="true">
+                                        <option value="0">Store</option>
+                                    </select>
+                                    <div class="error Store_error"> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    
+                                    <input class="form-control" 
+                                    style="color: #fff !important;width:160px !important;background:transparent;" 
+                                    id="Epc" 
+                                    placeholder="Epc">
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" 
+                                            id="uid" style="color: #000 !important;" 
+                                            placeholder="uid">
+                                </div>
+                            </div>
+
+                             <div class="col-md-2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control datepicker22" 
+                                            id="date" style="color: #000 !important;" 
+                                            placeholder="Date" autocomplete="off">
+                                </div>
+                            </div>
+
+                             <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="user_id" 
+                                    class="form-control selectpicker" 
+                                    id="user_id" data-live-search="true">
+                                        <option value="0">User ID</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button type="button" 
+                                    class="btn btn-danger btn-md run  btn-block" 
+                                    >Search</button>
+                                </div>
+                            </div>
+
+
+
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="" style="width:100%; overflow:hidden" >
+                        <div class="data-tables">
+                            <table id="dataTable" class="text-center mm-datatable">
+                                <thead class="bg-light text-capitalize">
+                                    <tr>
+                                        <th>uid</th>
+                                        <th>EPC</th>
+                                        <th>SKU</th>
+                                        <th>Product Name</th>
+                                        <th>PO#</th>
+                                        <th>Supplier ID</th>
+                                        <th>Shipment No</th>
+                                        <th>Comment</th>
+                                       {{!--  <th>qty</th> --}}
+                                        <th>storeid</th>
+                                    {{!--     <th>printerid</th> --}}
+                                   {{!--      <th>zplid</th> --}}
+                                        <th>Status</th> 
+                                      {{!--   <th>Retail_Product_Price</th> --}}
+                         {{!--                <th>Retail_Product_VAT</th> --}}
+                                      {{!--   <th>Retail_Product_SP_VAT_EN</th> --}} 
+                                                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Dark table end -->
+    </div>
+</div>    
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:145%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Permissions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form  id="UserRoles">
+                <style type="text/css" media="screen">
+                    .modal-body .load{
+                        text-align: center;
+                    }
+                </style>
+                <div class="edit-manage"></div>
+                <div class="modal-body" style="max-height: 560px;overflow-y: scroll;">
+                    <div class="load">
+                        <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>   
+                    </div>
+                     
+                   <div id="asn_info_model_packed">
+                    <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>
+                   </div> 
+                   <div id="asn_info_model_transfer">
+                    <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>
+                   </div>
+                   <div id="asn_info_model_receive">
+                    <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>
+                   
+                   </div>                         
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

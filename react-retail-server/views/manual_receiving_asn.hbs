@@ -1,0 +1,96 @@
+<style style="text/css">
+   .main_admin .nav-second-level.collapse.admin{display: block;}
+   .main_home,.main_count,.main_supplychain,.main_zplprinter{
+   display: none;
+   }
+   /*.addonField22 {display: none;}*/
+</style>
+<div class="content-wrapper pb-4">
+   <div class="row">
+      <!-- data table start -->
+      <div class="col-12 mt-1">
+         <div class="card">
+            <div class="card-header">
+               <div class="left d-inline-block">
+                  <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Receive IBT</h4>
+                  <p class="mb-0 dateTime"></p>
+               </div>
+               <div class="right d-inline-block float-right mt-2">
+                  <img src="/assets/images/count/Group 9.png" height="30px">
+                  <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+               </div>
+            </div>
+            <div class="card-body">
+               <form autocomplete="off" id="DetailsEpcForm22">
+                  <div class="row">
+                     <div class="col-md-8">
+                        <span class="error error_msg"></span>
+                        <span class="error error_msg22"></span>
+                        <div class="form-row">
+                           <div class="form-group col-md-6">
+                              <label for="Name">IBT *</label>
+                               <input type="text" class="form-control" name="asn" id="asn" placeholder="IBT">
+                              <span class="error ASN_error"></span>
+                           </div>
+                           <div class="form-group col-md-6">
+                              <label for="storename">Retail Bizlocation Original *</label>
+                              <select class="selectpicker form-control" data-live-search="true"  
+                              name="storename" id="storename">
+                                
+                              </select>
+                              <span class="error storename_error22"></span>
+                           </div>
+                           <div class="form-group col-md-12">
+                              <label for="retail_bizlocation">Retail Bizlocation *</label>
+                              <select class="selectpicker form-control" data-live-search="true"  
+                              name="retail_bizlocation" id="retail_bizlocation">
+                                
+                              </select>
+                              <span class="error error_retail_bizlocation"></span>
+                           </div>
+                           <div class="form-group col-md-6">
+                           </div>
+                           <div class="form-group col-md-12">
+                              <label for="status">Remarks *</label>
+                              <textarea type="text" class="form-control" name="remarks" id="remarks" placeholder="Remarks" rows="7" cols="50"></textarea>
+                              <span class="error error_remarks"></span>
+                              
+                           </div>
+                           <div class="form-group  col-md-12" style="text-align:center;">
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <div class="but mt-5">
+                                       <button type="button" id="ReceivedASN" class="btn btn-default btn-block">Receive </button>
+
+                                      
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <button type="button" id="GetDetails"  class="btn btn-default btn-md mt-4" >   
+                           Get Details
+                        </button>
+                        
+                        <br><br>
+                        <label for="UserPermission">IBT Details *</label>
+                        <div class="error asn_asdetails_error"></div>
+                        <div id="Home_all">
+                           <div id="ECPLIST">
+                              <span class="waiting" style="display: none;">
+                              <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                              </span>
+                              
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <!-- Dark table end -->
+   </div>
+</div>

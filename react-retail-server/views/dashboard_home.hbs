@@ -1,0 +1,273 @@
+<style>
+	.mm_dashboardSubmenudropdown{
+		display: block;
+	}
+	.nav-second-level.collapse.home{display: block;}
+	button.btn.dropdown-toggle.bs-placeholder.btn-light{
+		width: 50%;
+		background-color: #000;
+	}
+	.main_admin,.main_count,.main_supplychain,.main_zplprinter{
+		display: none;
+	}
+	
+	.mainheading{
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	.cardBodyData{
+		font-size: 13px;
+	}
+	.crdheader{
+		background-color: #D3D8DB;
+	    border: none !important;
+
+	}
+
+	.dash_board{
+		border: 1px solid lightgrey;
+	}
+
+	.cad .card-header .right.float-right img {
+    height: 20px;
+    padding-right: 3px;
+    padding-left: 3px;
+	}
+
+	.mainCard{
+		background-color: #2E2D2D;
+		border-radius: 10px;
+	}
+	.crdBody{
+		text-align: center;
+		padding: 2px;
+	}
+
+	.crdBody p{
+		font-size: 12px;
+		color: yellow;
+	}
+
+	.crdBody h4{
+		color: white;
+		margin-top: -12px;
+	}
+	.itemHeading{
+		font-weight: bold;
+		font-size: 12px;
+	}
+
+</style>
+	<div class="content-wrapper pb-4 " id="dashboard">
+	 	<div class="col-12 mt-1">
+            <div class="cad dash_board">
+				
+				<div class="card-header crdheader">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Dashboard</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                       
+                       
+                    </div>
+                </div>
+
+				<div class="row ml-2 mr-2">
+					<div class="col-md-4 pl-2 pr-2">
+						<div class="card full" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<span class="itemHeading">Items Expected Today</span>
+									<h2 class="text-left mb-0 mt-2" id="expectedw">
+										<span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    </span>
+									</h2 ><br>
+								<div class="row" id="waitnibt">	
+									<div class="col-md-7">
+										<h6>IBT No.</h6>
+										<div id="IBT">
+											<span class="waiting" style="display: none;">
+	                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</div>
+										
+									</div>
+									<div class="col-md-5">
+										<h6>Source</h6>
+										<div id="Source">
+										<span class="waiting" style="display: none;">
+                                        	<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{!-- <div class="col-md-4 pl-2 pr-2">
+						<div class="card">
+							<div class="card-body p-3">
+								<span>Total Handhelds</span>
+								<img src="/assets/images/icon-open-list.png" class="float-right" height="15px"></i>
+								<h2 class="text-center mb-0 mt-2">65</h2>
+							</div>
+						</div>
+					</div> --}}
+						<div class="col-md-4 pl-2 pr-2">
+						<div class="card full" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<span class="itemHeading">Items Shipped This Week</span>
+									<h2 class="text-center mb-0 mt-2" id="shippedWait">
+										<span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    </span>
+
+									</h2><br>
+								<div class="row" id="weekwaiting">	
+									<div class="col-md-7">
+										<h6>IBT No.</h6>
+										<div id="shippedweek">
+											<span class="waiting" style="display: none;">
+                                        		<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    		</span>
+										</div>	
+									</div>
+									<div class="col-md-5">
+										<h6>Destination</h6>
+										<div id="shippeddestination">
+												<span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    </span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 pl-2 pr-2">
+						<div class="card second black-card" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<span>Last Scan</span>
+								<span class="float-right" id="DateDisplay">
+									<span class="waiting" style="display: none;">
+										<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+									</span>
+								</span>
+								{{!-- <p class="mt-3 ml-2">
+									
+								</p> --}}
+								<style>
+									button.btn.dropdown-toggle.bs-placeholder.btn-light{
+										color:#000;
+									}
+								</style>
+								<div class="form-group mt-3">
+									<select name="StoreID" class="selectpicker form-control" 
+									id="StoreID" data-live-search="true">
+										<option value="">Store ID</option>
+									</select>
+								</div>
+								<div class="matchingg progress-sec">
+									<p class="mb-0 d-inline-block left">Matching</p>
+									<p class="mb-0 d-inline-block right matching_text">0%</p>
+									<div class="center mr-1 matching">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<div class="progress" style="height: 4px;">
+											<div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="overs progress-sec">
+									<p class="mb-0 d-inline-block left">Overs</p> 
+									<p class="mb-0 d-inline-block right over_text">0%</p>
+									<div class="center overs mr-1">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<div class="progress" style="height: 4px;">
+											<div class="progress-bar bg-info" role="progressbar" 
+												>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								<div class="unders progress-sec">
+									<p class="mb-0 d-inline-block left">Unders</p> 
+									<p class="mb-0 d-inline-block right under_text">0%</p>
+									<div class="center unders mr-1">
+										<span class="waiting" style="display: none;">
+											<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+										</span>
+										<div class="progress" style="height: 4px;">
+											<div class="progress-bar bg-danger" role="progressbar" 
+											style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+											></div>
+										</div>
+									</div>
+								</div>
+								<div class="row row-eq-height last-scan-row">
+									<div class="col-md-6">
+										<div class="crd mainCard">
+											<div class="card-body crdBody">
+												<p>Stock On Hand</p>
+												<h4 id="Onhand">0</h4>
+												<p>Count</p>
+												<h4 id="Count">0</h4>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="crd mainCard">
+											<div class="card-body crdBody">
+												<p>Back Store</p>
+												<h4 id="back"><span class="ftbk-vl">0</span></h4>
+												<p>Sales Floor</p>
+												<h4 id="front"><span class="ftbk-vl">0</span></h4>
+											</div>
+										</div>
+									</div>
+							</div>
+						</div>
+					</div>
+					<div class="">
+						<div class="card" style="min-height: 100px;">
+							<div class="card-body p-3">
+								<span>Critical Out Of Stock</span>
+								<a style="cursor:pointer" class="CriticalOutOfStock" target="_blank">
+									<img src="/assets/images/icon-open-list.png" class="float-right" height="15px">
+								</a>
+								
+								<h2 class="text-center mb-0 mt-1" id="CriticalStock">
+									<span class="waiting" style="display: none;">
+                                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    </span>
+                                    0
+								</h2>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				</div>
+			</div>
+		</div>	
+	</div>
+	<footer class="main-footer">
+		<div class="row ml-0 mr-0">
+			<div class="col-sm-6">
+					<p class="mb-0 pt-1 light">INNOVENT IOT Platform | Release v3.2.417</p>
+					<p class="mb-0 pt-1 light">Time Zone</p>
+			</div>
+			<div class="col-sm-6">
+				<p class="mb-0 pt-2 light text-right">Page Load: 0.35s</p>
+			</div>
+		</div>
+	</footer>

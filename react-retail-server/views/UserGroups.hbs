@@ -1,0 +1,173 @@
+<aside class="main-sidebar">
+    <div class="p-3 pt-2">
+        <a href="dashboard" class="pb-0">
+            <img src="/assets/images/innovent-logo.png" alt="Logo" class="logo">
+        </a>
+        <p class="text-right mb-0">Retail</p>
+    </div>
+    <div class="pl-3">
+        <a href="">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .card-body{background-color: #000;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important; background-color: #fff;}
+        .ti-stats-up{ color: #fff}
+
+        .header-title{color:#fff;}
+        .form-group label{color:#fff}
+        .form-control{ background-color: transparent; color: #fff;}
+        #dataTable_wrapper label{ color:#fff} 
+        .chartjs-size-monitor * { color: #fff !important;}
+        table.dataTable tbody tr{ background-color: transparent !important; color:#fff}
+        table.dataTable tbody td{border:1px solid #fff;}
+        
+        #dataTable_info{color:#fff}
+        .dataTables_filter label{ color:#fff;}
+        .dataTables_length label{ color:#fff;}
+
+
+        .bg-light *{background-color:#373E43; color:#fff;}
+        .bg-light th{ border:1px solid #fff !important; font-size: 13px;;}
+        #dataTable td{ font-size: 12px;}
+        .filter{ background-color: #000;}
+        .filter label{ margin-left: 10px; margin-right: 10px;}
+        .filter input, .filter select, .filter label { border-color:#4C9FE1 !important; color: #4C9FE1 !important}
+
+
+        table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before
+        { display: none !important; }
+        table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after
+        {display: none !important;}
+
+    
+        .pagination a{ background-color: #000 !important;}
+       
+        .dataTables_length{ display: none;}
+        #StoreID{ width: 150px; height: 35px; }
+        #summarydate{width: 150px; height: 35px;}
+
+    </style>
+
+    <ul class="navbar-nav mt-2">
+        <li class="nav-item">
+            <a href="dashboard" class="nav-link active p-2 pl-3">
+                <i class="fa fa-caret-down"></i>
+                <img src="/assets/images/Icon feather-home.png" height="15px" class="ml-2">
+                <span class="ml-2">Home</span>
+            </a>
+            <ul class="navbar-nav sub-nav">
+                <li class="nav-item">
+                    <a href="usersinfo" class="nav-link p-2 pl-5">
+                        <img src="/assets/images/count/Icon awesome-building.png" height="13px" class="ml-2">
+                        <span class="ml-2">Users List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="UserGroups" class="nav-link active p-2 pl-5">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="13px" class="ml-2">
+                        <span class="ml-2">Groups</span>
+                    </a>
+                </li>
+                
+                
+            </ul>
+        </li>
+        
+    </ul>
+</aside>
+ <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    </style>
+<div class="content-wrapper pb-4 dashboard-change">
+
+    <div class="header-sec" style="margin-left: -15px;">
+        <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="usersinfo">
+                        <img src="/assets/images/count/Icon awesome-building.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Users List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active2" href="UserGroups">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Groups</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Groups</h4>
+                        <p class="mb-0">Last Update: 11/26/2020 11:04:18</p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        
+                        {{!--  <span style="cursor:pointer" onclick="window.location.href='{{sitelink}}/api/1.0.0/stockCountRecords/getusersinfo_exe/'">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span> --}}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form autocomplete="off" id="UserGroupsForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="GroupName">Group Name</label>
+                                <input type="text" class="form-control" name="GroupName" id="GroupName" placeholder="Group Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="CreatedDate">Created Date</label>
+                              <input type="date" class="form-control" name="CreatedDate" id="CreatedDate" placeholder="Created Date">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="UserPermission">User Permission</label>
+                                <input type="text" class="form-control" name="UserPermission" id="UserPermission" placeholder="User Permission">
+                            </div>
+
+                      </div>
+                        <div class="but" style="text-align:center;">
+                            <button type="submit" id="submit" class="btn btn-default btn-lg">Add Group</button>
+                        </div> 
+                    </form>
+
+                    <div class="data-tables mt-5">
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Group Name</th>
+                                    <th>Created Date</th>
+                                    <th>User Permission</th>
+                                    <th>Action</th>                                                               
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

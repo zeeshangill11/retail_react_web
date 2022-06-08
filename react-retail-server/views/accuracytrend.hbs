@@ -1,0 +1,398 @@
+{{!-- <aside class="main-sidebar">
+    <div class="p-3 pt-2">
+        <a href="" class="pb-0">
+            <img src="/assets/images/innovent-logo.png" alt="Logo" class="logo">
+        </a>
+        <p class="text-right mb-0">Retail</p>
+    </div>
+    <div class="pl-3">
+        <a href="">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <ul class="navbar-nav mt-2">
+        <li class="nav-item">
+            <a href="executiveSummary" class="nav-link active p-2 pl-3">
+                <i class="fa fa-caret-down"></i>
+                <img src="/assets/images/count/Group 6.png" height="15px" class="ml-2">
+                <span class="ml-2">Count</span>
+            </a>
+            <ul class="navbar-nav sub-nav">
+                <li class="nav-item">
+                    <a href="executiveSummary" class="nav-link p-2 pl-5">
+                        <img src="/assets/images/count/dashboard-icon.png" height="13px" class="ml-2">
+                        <span class="ml-2">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="stockSummary" class="nav-link p-2 pl-5">
+                        <img src="/assets/images/count/Icon ionic-ios-flower.png" height="15px" class="ml-2">
+                        <span class="ml-2">Operations</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!--storeSku-->
+                    <a href="storeSku" class="nav-link p-2 pl-5">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="15px" class="ml-2">
+                        <span class="ml-2">Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!--storeSku-->
+                    <a href="accuracytrend" class="nav-link active  p-2 pl-5">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="15px" class="ml-2">
+                        <span class="ml-2">Accuracy</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link p-2 pl-5">
+                        <img src="/assets/images/count/Icon awesome-building.png" height="15px" class="ml-2">
+                        <span class="ml-2">Enterprise</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</aside> --}}
+<script >
+    $(document).ready(function (){
+       setInterval(function(){
+        
+        $("tbody tr td").attr("colspan","1");
+       },500); 
+    });
+    </script>
+
+    <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+        
+    </style>
+<div class="content-wrapper pb-4">
+
+        <div class="header-sec" style="margin-left: -15px;">
+            <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                    <a class="nav-link" href="executiveSummary">
+                        <img src="/assets/images/dashboard-icon.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Dashboard</span>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="stockSummary">
+                        <img src="/assets/images/count/Icon ionic-ios-flower.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Operations</span>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="storeSku">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Analytics</span>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active2" href="accuracytrend">
+                        <img src="/assets/images/count/Icon ionic-md-analytics.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Accuracy</span>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)">
+                        <img src="/assets/images/count/Icon awesome-building.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Enterprise</span>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+          <style>
+                        .report-dashboard{
+                            margin-top:20px;
+                        }
+                        .dash-theme-dark{
+                            background-color:#14181b;
+                            color:white;
+                            padding:0px !important;
+                        }
+                        .dash-theme-dark select, .dash-theme-dark input{
+                            width:100%;
+                            background-color:#14181b;
+                            color:#3a66a0;
+                            padding:5px;
+                            border:1px solid #3a66a0;
+                            border-radius:3px;
+                        }
+                        .top-bar{
+                            padding:10px 0px !important;
+                        }
+                        .side-banner{
+                            background-image:url('/assets/images/side-banner.png');
+                            background-repeat:no-repeat;
+                            background-position:center;
+                            background-size:cover;
+                        }
+                        .accuracy-tab{
+                            width:100%;
+                            border:2px solid #23282b;
+                            padding:5px;
+                        }
+                        .accu-cont{
+                            padding:0px 15px !important;
+                        }
+                        .count-accu{
+                            padding:70px 0px;border-right:2px solid #23282b;border-left:2px solid #23282b;
+                        }
+                        .operat-accu{
+                            padding:70px 0px;border-right:2px solid #23282b;
+                        }
+                        .count-accu span{
+                            color:#3285cf;font-size:42px;font-weight:bold;
+                        }
+                        .operat-accu span{
+                            color:#5fdc64;font-size:42px;font-weight:bold;
+                        }
+                        .accu-partial{
+                            padding:40px 0px;border:2px solid #23282b;
+                        }
+                        .accu-onhand-lb{
+                            color:#848484;
+                        }
+                        .accu-onhand-vl{
+                            color:#848484;
+                            font-size:30px;;
+                        }
+                        .accu-count-lb{
+                            color:#ccc;
+                        }
+                        .accu-count-vl{
+                            font-size:30px;
+                        }
+                        .ftbk-box{
+                            padding:10px 0px;border:2px solid #23282b;
+                        }
+                        .ftbk-lb{
+                            color:#ccc
+                        }
+                        .ftbk-vl{
+                            font-size:22px;
+                        }
+                        .count-rec{
+                            padding:15px 10px;border-bottom:1px solid #23282b
+                        }
+                        .count-rec p{
+                            font-size:17px;
+                            color:inherit
+                        }
+                        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+                        .card-body{background-color: #000;}
+                        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important; background-color: #fff;}
+                        .ti-stats-up{ color: #fff}
+
+                        .header-title{color:#fff;}
+                        .form-group label{color:#fff}
+                        .form-control{ background-color: transparent; color: #fff;}
+                        #dataTable_wrapper label{ color:#fff} 
+                        .chartjs-size-monitor * { color: #fff !important;}
+                        table.dataTable tbody tr{ background-color: transparent !important; color:#fff}
+                        table.dataTable tbody td{border:1px solid #fff;}
+                        
+                        #dataTable_info{color:#fff}
+                        .dataTables_filter label{ color:#fff;}
+                        .dataTables_length label{ color:#fff;}
+
+
+                        .bg-light *{background-color:#373E43; color:#fff;}
+                        .bg-light th{ border:1px solid #fff !important; font-size: 13px;;}
+                        #dataTable td{ font-size: 12px;}
+                        .filter{ background-color: #000;}
+                        .filter label{ margin-left: 10px; margin-right: 10px;}
+                        .filter input, .filter select, .filter label { border-color:#4C9FE1 !important; color: #4C9FE1 !important}
+
+
+                        table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before
+                        { display: none !important; }
+                        table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after
+                        {display: none !important;}
+
+
+                        .pagination a{ background-color: #000 !important;}
+                        
+                        .dataTables_length{ display: none;}
+                        #StoreID{ width: 150px; height: 35px; }
+                        #summarydate{width: 150px; height: 35px;}
+                        #dataTable2_info{color: #fff;}
+
+                    </style>
+
+     <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+                 <div class="card-header">
+                         <h4 class="header-title" style="color: #212529;">
+                            Accuracy Trend    
+                        </h4>
+                        <small>Last updated 07/20/2020 10:44:48 Am</small>   
+                    </div>
+                <div class="card-body">
+                   
+                    
+                  
+                    <div>
+                        {{!-- <ul class="action-list">
+                            <li class="action-item"><a href="#" class="action-link"></a></li>
+                            <li class="action-item"><a href="#" class="action-link"></a></li>
+                            <li class="action-item"><a href="#" class="action-link"></a></li>
+                        </ul> --}}
+                    </div>
+                    <div class="report-dashboard">
+                        <div class="row dash-theme-dark top-bar">
+                            <div class="col-lg-4">
+                                <span class="align-middle">Accuracy Trend</span>
+                            </div>
+                            <div class="col-lg-2">
+                                <select name="SoteID" id="StoreID">
+                                    
+                                </select>
+                            </div>
+                            <div class="input-group  col-lg-2">
+                                <input type="date" class="form-control" style="padding:3px;" id="summarydate" onchange="handler(event);"/>
+                                <div class="input-group-append close" style="margin-left: 5px;margin-top: 8px;font-size: 12px;z-index:900">
+                                    <span><i class="ti-close"></i></span> 
+                                </div>   
+                            </div>
+                            <div class="col-lg-2">
+                                <select name="DepartmentID" id="DepartmentID">
+                                    <option value="0">All Department</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <select id="BrandID">
+                                    <option value="0">Select Brand</option>
+                                    <option value="123">123</option>
+                                    
+                                </select>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <style type="text/css" media="screen">
+                            #CountDynamic .heading{
+                                text-align:  center;
+                                color: #fff;
+                            }
+                            #overview th,tr{
+                                text-align: center;
+                            }
+                            #overview td{
+                                color:#fff;
+                            }
+                        </style>
+                        <form id='CountDynamic'>
+                            <div class="heading">
+                                <h5>Operational Accuray % From Augest 11,2020</h5>
+                            </div>
+                            <br>
+                            <table class="table" id="overview">
+                                <thead>
+                                    <th scope="col">Store</th>
+                                    <th scope="col">Expected</th>
+                                    <th scope="col">Counted</th>
+                                    <th scope="col">Match</th>
+                                    <th scope="col">Overs</th>
+                                    <th scope="col">Unders</th>
+                                    <th scope="col">Operational Accuracy</th>
+                                    <th scope="col">Overs %</th>
+                                    <th scope="col">Unders %</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>12</td> 
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table> 
+                            <div class="row dash-theme-dark">
+
+                                <div class="col-lg-6">
+                                    <canvas id="canvas">
+                                        
+                                    </canvas>
+                                </div>
+                            
+                                <div class="col-lg-6">
+                                    <canvas id="canvas2">
+                                        
+                                    </canvas>
+                                </div>
+                            
+                            </div>
+                        </from>
+                            <br>
+
+                            <form id='CountDynamic'>
+                            <div class="heading">
+                                <h5>Operational Accuray % From Augest 11,2020</h5>
+                            </div>
+                            <br>
+                            <table class="table" id="overview">
+                                <thead>
+                                    <th scope="col">Store</th>
+                                    <th scope="col">Expected</th>
+                                    <th scope="col">Counted</th>
+                                    <th scope="col">Match</th>
+                                    <th scope="col">Overs</th>
+                                    <th scope="col">Unders</th>
+                                    <th scope="col">Operational Accuracy</th>
+                                    <th scope="col">Overs %</th>
+                                    <th scope="col">Unders %</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>12</td> 
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+                                        <td>12</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table> 
+                            <div class="row dash-theme-dark">
+
+                                <div class="col-lg-6">
+                                    <canvas id="canvas3">
+                                        
+                                    </canvas>
+                                </div>
+                            
+                                <div class="col-lg-6">
+                                    <canvas id="canvas4">
+                                        
+                                    </canvas>
+                                </div>
+                            
+                            </div>
+                        </from>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
+</div>

@@ -1,0 +1,96 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}    
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .dateTime span{font-size: 14px;}
+    .main_admin .nav-second-level.collapse.admin{display: block;}
+    .main_home,.main_count,.main_supplychain,.main_zplprinter{
+        display: none;
+    }
+</style>
+<div class="content-wrapper pb-4">
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> 
+                            Admin menu
+                        </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="25px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+                        
+                         <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{{sitelink}}/handle_cronjobs" target="_blank" class="btn btn-primary btn-block">
+                                Handle Cronjob
+                            </a>    
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{sitelink}}/soh_details" target="_blank" class="btn btn-secondary btn-block">
+                                Soh Handle
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{sitelink}}/ibt_difference" target="_blank" class="btn btn-info btn-block">
+                                Notification
+                            </a>    
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <a href="{{sitelink}}/admin_error_log" target="_blank" class="btn btn-warning btn-block">
+                                Error Log
+                            </a>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <a href="{{sitelink}}/problem_asn" target="_blank" class="btn btn-danger btn-block">
+                                Problem Asn
+                            </a>
+                        </div>
+
+                        <div class="col-md-4 mt-2">
+                            <a href="{{sitelink}}/stockSummaryExtras" target="_blank" class="btn btn-success btn-block">
+                                Stock Summary Extra
+                            </a>
+                        </div>
+
+                        <div class="col-md-4 mt-2">
+                            <a href="{{sitelink}}/enterpriseReportOld" target="_blank" class="btn btn-success btn-block">
+                                Enterprise Report Old
+                            </a>
+                        </div>
+
+                        <div class="col-md-4 mt-2">
+                             <button type="button" 
+                            class="btn btn-secondary btn-md run_cron_job btn-block" 
+                            >Run Cron Job </button>
+                        </div>
+
+                        <div class="col-md-4 mt-2">
+                            <a href="{{sitelink}}/enterpriseReportDateWise" target="_blank" class="btn btn-success btn-block">
+                                Enterprise Report
+                            </a>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <a href="{{sitelink}}/store_payload" target="_blank" class="btn btn-success btn-block">
+                                Store Payload
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
+</div>

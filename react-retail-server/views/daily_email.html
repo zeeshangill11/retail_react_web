@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+<div>
+   <div dir="ltr">
+      <div dir="ltr" class="gmail_attr" style="text-align:center"><b><font size="6" color="#ff9900">RFID System Today's Outlook</font></b><br></div>
+      <div dir="ltr">
+         <div><br></div>
+         <div style="text-align:center"><font size="4" color="#6aa84f"><b><u>Total Printed Tags:&nbsp;</u></b></font><font size="4" color="#ff00ff"><b>{total_printed_tags}&nbsp;</b></font></div>
+         <div style="text-align:center"><font size="4"><b><font color="#6aa84f" style="text-decoration-line:underline"><br></font></b></font></div>
+         <div style="text-align:center"><font size="4"><b><font color="#6aa84f" style="text-decoration-line:underline">GI Done:&nbsp;</font><font color="#ff00ff">{t_gis_done}&nbsp;</font></b></font></div>
+         <div style="text-align:center"><br></div>
+         <div style="text-align:center"><font size="4" color="#6aa84f"><b><u>Transferred:&nbsp;</u></b></font><font color="#ff00ff" size="4"><b>{t_transfers_done}&nbsp;</b></font></div>
+         <div style="text-align:center"><br></div>
+         <div style="text-align:center"><font size="4"><b><u><font color="#6aa84f">Received:&nbsp;</font><font color="#ff00ff">{t_receiving_done}</font></u></b></font></div>
+         <div style="text-align:center"><font color="#ff00ff" size="4"><b><br></b></font></div>
+         <div style="text-align:center"><font size="4"><font color="#6aa84f" style="font-weight:bold;text-decoration-line:underline">Cycle count Done:&nbsp;</font><font color="#ff00ff"><b>{t_cycle_count}</b></font></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center">
+            <table style="border:medium solid rgb(100,149,237);border-collapse:collapse;width:100%">
+               <tbody>
+                  <tr>
+                     <th colspan="2" style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)"><span style="font-size:xx-large">Total Printed Tags:&nbsp;</span><font color="#6aa84f" style="font-size:xx-large">{total_printed_tags}</font><br></th>
+                  </tr>
+                  <tr>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">storeid</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">PrintedTags</th>
+                  </tr>
+                  {printed_tags}
+               </tbody>
+            </table>
+         </div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center">
+            <table style="border:medium solid rgb(100,149,237);border-collapse:collapse;width:100%">
+               <tbody>
+                  <tr>
+                     <th colspan="4" style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)"><span style="font-size:xx-large">Total GI's Done:&nbsp;</span><span style="font-size:xx-large"><font color="#6aa84f">{t_gis_done}</font></span><br></th>
+                  </tr>
+                  <tr>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">store</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">retail_item_batch_id</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">Items_Count</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">date</th>
+                  </tr>
+                  {gis_done}
+               </tbody>
+            </table>
+         </div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center">
+            <table style="border:medium solid rgb(100,149,237);border-collapse:collapse;width:100%">
+               <tbody>
+                  <tr>
+                     <th colspan="6" style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)"><span style="font-size:xx-large">Total Transfers Done: </span><span style="font-size:xx-large"><font color="#6aa84f">{t_transfers_done}</font></span><br></th>
+                  </tr>
+                  <tr>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">asn</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">source</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">destination</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">packed_item</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">transferred_item</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">Status</th>
+                  </tr>
+                  {transfers_done}
+               </tbody>
+            </table>
+         </div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center">
+            <table style="border:medium solid rgb(100,149,237);border-collapse:collapse;width:100%">
+               <tbody>
+                  <tr>
+                     <th colspan="7" style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)"><span style="font-size:xx-large">Total Received:&nbsp;</span><span style="font-size:xx-large"><font color="#6aa84f">{t_receiving_done}</font></span><br></th>
+                  </tr>
+                  <tr>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">asn</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">source</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">destination</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">packed_item</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">transferred_item</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">received_item</th>
+                     <th style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)">Status</th>
+                  </tr>
+                  {receiving_done}
+               </tbody>
+            </table>
+         </div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center">
+            <table style="border:medium solid rgb(100,149,237);border-collapse:collapse;width:100%">
+               <tbody>
+                  <tr>
+                     <th colspan="1" style="font-family:monospace;border:thin solid rgb(100,149,237);padding:5px;background-color:rgb(208,227,250)"><span style="font-size:xx-large">Cycle Count Done for stores Today:&nbsp;</span><span style="font-size:xx-large"><font color="#6aa84f">{t_cycle_count}</font></span><br></th>
+                  </tr>
+                  {cycle_count}
+               </tbody>
+            </table>
+         </div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:left"><font size="4"><b>Best regards,</b></font></div>
+         <div style="text-align:left"><font size="4"><b><br></b></font></div>
+         <div style="text-align:left"><font size="4"><b>Saqib</b></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+         <div style="text-align:center"><font size="4"><font color="#ff00ff"><b><br></b></font></font></div>
+      </div>
+   </div>
+   <div class="yj6qo"></div>
+   <div class="adL"></div>
+</div>
+</body>
+</html>

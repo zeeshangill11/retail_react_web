@@ -1,0 +1,483 @@
+<style style="text/css">
+   .content-wrapper{ padding-left: 15px; padding-right:15px;}
+   /*.mm_tagitSubmenudropdown{display: block;} */   
+   .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+   .main_home,.main_admin,.main_count,.main_supplychain{
+   display: none;
+   }
+   .filter-option-inner-inner{
+   color:#000;
+   }
+   .form-control{
+   color:#000;
+   }
+   .error{
+   color:red;
+   }
+   .nav-second-level.collapse.zplprinter{display: block;}
+
+    .mm_tagitSubmenudropdown{ display: block }
+    
+
+
+
+</style>
+{{!-- <div class="content-wrapper pb-4">
+   <div class="row">
+      <!-- data table start -->
+      <div class="col-12 mt-1">
+         <div class="card">
+            <div class="card-header">
+               <div class="left d-inline-block">
+                  <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> 
+                  ZPL Printer</h4>
+                  <p class="mb-0 dateTime"></p>
+               </div>
+               <div class="right d-inline-block float-right mt-2">
+                  <img src="/assets/images/count/plus-icon.png" height="30px">
+                  <img src="/assets/images/count/Group 9.png" height="30px">
+               </div>
+            </div>  
+            <style>
+               .card{
+               background: #EFEFEF;
+               }
+               .btn-primary{
+               background:#EFEFEF;
+               color:#000;
+               border-radius: 10px;
+               }
+               .card-body{ 
+               color: #fff
+               }
+               .inner_form {
+               background: #fff;
+               padding: 20px;
+               color: #000;
+               border-radius: 10px;
+               /* min-width: 330px; */
+               min-height: 200px;
+               font-weight: bold;
+              /* text-align: center;*/
+               }
+               .inner_form1{
+               min-height: 450px;
+               /*text-align:center;*/
+               }
+               .width{
+               text-align: center;
+               width: 100%;
+               }
+               .icon{
+               font-size: 20px;
+               }
+            </style>
+           
+
+
+
+
+
+
+
+            <div class="card-body">
+               <form class="" id="PrinterForm">
+                  <div class="container">
+                     <div class="row">
+                       
+                        <div class="col-md-5">
+                          
+                           <div class="inner_form inner_form1">
+
+                               <form autocomplete="off">
+
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                       
+
+
+                                        <div class="row">
+
+                                            <div class="col">
+                                                <label for="PO_NO" class="form-label">PO#</label>
+                                                <input type="text" id="PO_NO" name="PO_NO" 
+                                                class="form-control" 
+                                                placeholder="PO#" aria-label="PO_NO" value="">
+                                                <div class="error error_PO_NO"></div>
+                                            </div>
+                                            <div class="col">
+                                                <label for="Supplier_ID" class="form-label">Supplier_ID</label>
+                                                <input type="text" id="Supplier_ID" name="Supplier_ID" 
+                                                class="form-control" 
+                                                placeholder="Supplier_ID" aria-label="Supplier_ID" value="">
+                                                <div class="error error_Supplier_ID"></div>
+                                            </div>
+                                           
+
+                                        </div> 
+                                        <div class="row">
+
+                                            <div class="col">
+                                                <label for="Shipment_no" class="form-label">Shipment#</label>
+                                                <input type="text" id="Shipment_no" name="Shipment_no" 
+                                                class="form-control" 
+                                                placeholder="Shipment#" aria-label="Shipment_no" value="">
+                                                <div class="error error_Shipment_no"></div>
+                                            </div>
+                                            <div class="col">
+                                                <label for="Comments" class="form-label">Comments</label>
+                                                <input type="text" id="Comments" name="Comments" 
+                                                class="form-control" 
+                                                placeholder="Comments" aria-label="Comments" value="">
+                                                <div class="error error_Supplier_ID"></div>
+                                            </div>
+                                           
+
+                                        </div> 
+ 
+
+                                      </div>
+                                      <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-secondary reset_popop" data-dismiss="modal">Reset</button>
+ 
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="auto_print" class="form-label">Auto Print</label>
+                                        <input type="checkbox" name="auto_print" id="auto_print" >
+                                    </div>
+                                    <div class="col">
+                                      
+
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="float:right">
+                                            Details
+                                        </button>
+                                    </div>  
+                                </div>
+                                  
+                                 <div class="row"> 
+                                   
+                                   <div class="col">
+                                     <label for="UUID" class="form-label">UUID</label>
+                                     <input type="text" id="UID" name="UID" 
+                                     class="form-control" 
+                                     placeholder="UUID" aria-label="UUID" value="" >
+                                     <div class="error error_UID"></div>
+                                   </div>
+
+                                   <div class="col">
+                                    <label for="QTY" class="form-label">QTY</label>
+                                     <input type="text" id="qty" name="qty" class="form-control" value="1">
+                                    <div class="error error_qty"></div>
+                                   </div>
+                                  
+                                  
+                                 </div> 
+
+                                 <br>
+
+                                 <div class="row">
+                                   <div class="col">
+                                     <label for="Product Name" 
+                                     class="form-label">Product Name</label>
+                                     <input type="text" id="ProductName" 
+                                             name="ProductName" 
+                                             class="form-control" value="" readonly="readonly">
+                                          <div class="error error_ProductName"></div>
+
+                                     <input type="hidden" id="ProductName_ar" 
+                                             name="ProductName_ar" 
+                                             >
+
+
+                                   </div>
+                                    <div class="col">
+                                     <label for="SKU" class="form-label">SKU</label>
+                                     <input type="text" id="SKU" name="SKU" 
+                                     class="form-control" 
+                                     placeholder="SKU" aria-label="SKU" value="" readonly="readonly">
+
+                                     <input type="hidden" id="SKU_without_zero" name="SKU_without_zero"  value="" readonly="readonly">
+
+
+                                     <div class="error error_SKU"></div>
+                                   </div>
+                                  
+
+                                 
+                                   
+                                 </div> 
+                                 <br>
+                                  <div class="row">
+
+                                   <div class="col">
+                                     <label for="Retail_Product_Price" 
+                                     class="form-label">Retail_Product_Color</label>
+                                     <input type="text" 
+                                             id="Retail_Product_Color" 
+                                             name="Retail_Product_Color" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_Color" ></div>
+                                   </div>
+                                  
+                                   <div class="col">
+                                     <label for="Retail_Product_Price" 
+                                     class="form-label">Retail_Product_Price</label>
+                                     <input type="text" 
+                                             id="Retail_Product_Price" 
+                                             name="Retail_Product_Price" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_Price" ></div>
+                                   </div>
+                                   
+                                 </div> 
+                                
+                                 <div class="row" style="display:none">
+                                  <div class="col">
+                                    <label for="Retail_Product_VAT" 
+                                    class="form-label">
+                                    Retail_Product_VAT</label>
+                                      <input type="text" 
+                                             id="Retail_Product_VAT" 
+                                             name="Retail_Product_VAT" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_VAT" ></div>
+                                   </div>
+
+                                    <div class="col">
+                                    <label for="Supplier" class="form-label">Supplier Name</label>
+                                     <input type="text" id="SupplierName" 
+                                             name="SupplierName" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_SupplierName"></div>
+                                   </div>
+                                  
+                                  
+                                  
+                                 </div> 
+                                
+                                 <div class="row" style="display:none">
+                                   <div class="col">
+                                    <label for="Retail_Product_Size" 
+                                    class="form-label">
+                                    Retail_Product_Size</label>
+                                      <input type="text" 
+                                             id="Retail_Product_Size" 
+                                             name="Retail_Product_Size" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_Size" ></div>
+                                   </div>
+                                   <div class="col">
+                                     <label for="Retail_Product_Season" 
+                                     class="form-label">Retail_Product_Season</label>
+                                     <input type="text" 
+                                             id="Retail_Product_Season" 
+                                             name="Retail_Product_Season" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_Season"></div>
+                                   </div>
+                                  
+                                 </div> 
+                                
+                                  <div class="row" style="display:none">
+
+                                   <div class="col">
+                                    <label for="Retail_Product_Gender" 
+                                    class="form-label">
+                                    Retail_Product_Gender</label>
+                                      <input type="text" 
+                                             id="Retail_Product_Gender" 
+                                             name="Retail_Product_Gender" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_Gender"></div>
+                                   </div>
+                                   <div class="col">
+                                    <label for="Retail_Product_SP_VAT_EN" 
+                                    class="form-label">
+                                    Retail_Product_SP_VAT_EN</label>
+                                    <input type="text" 
+                                             id="Retail_Product_SP_VAT_EN" 
+                                             name="Retail_Product_SP_VAT_EN" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_SP_VAT_EN"></div>
+                                   
+                                   </div>
+                                  
+
+
+                                 </div> 
+                                 <!----ean_no--->
+                                 <div class="row" style="display:none">
+
+                                    <div class="col">
+                                    <label for="Retail_Product_SupplierItemNum" 
+                                    class="form-label">
+                                    Retail_Product_SupplierItemNum</label>
+                                      <input type="text" 
+                                             id="Retail_Product_SupplierItemNum" 
+                                             name="Retail_Product_SupplierItemNum" 
+                                             class="form-control" value="" readonly="readonly">
+                                       <div class="error error_Retail_Product_SupplierItemNum"></div>
+                                    </div>
+                                    <div class="col">
+                                        <label for="department" 
+                                        class="form-label">
+                                        Department</label>
+                                          <input type="text" 
+                                                 id="department" 
+                                                 name="department" 
+                                                 class="form-control" value="" readonly="readonly">
+                                           <div class="error error_department"></div>
+                                    </div>
+                                 </div>
+                                  <div class="row" style="display:none">
+                                    <div class="col">
+                                        <label for="brand" 
+                                        class="form-label">
+                                        Brand</label>
+                                          <input type="text" 
+                                                 id="brand" 
+                                                 name="brand" 
+                                                 class="form-control" value="" readonly="readonly">
+                                           <div class="error error_brand"></div>
+                                    </div>
+                                    <div class="col">
+                                        <label for="sytle" 
+                                        class="form-label">
+                                        Style</label>
+                                          <input type="text" 
+                                                 id="style" 
+                                                 name="style" 
+                                                 class="form-control" value="" readonly="readonly">
+                                           <div class="error error_style"></div>
+                                    </div>
+                                  </div>
+                                 
+                                  <div class="d-grid gap-2 col-6 mx-auto  mt-5">
+                                    <button class="btn btn-primary btn-block" id="printButton" type="button">Print</button> 
+                                 </div>
+                                 <!--- id="stop_printing" onclick="stop_printing()" type="button"--->
+                                
+                                 <div id="epc_list" style="  width:100%;margin-top:7%">
+                                 </div>
+
+                              </form>
+
+                            
+                           </div>
+                           <!---Col-md-5-->  
+                        </div>
+                        <div class="col-md-4">
+                           <div class="inner_form">
+                              <div class="heading">
+                                 <h6>Image Preview Not Available</h6>
+                              </div>
+                              <div class="image mt-5" style="text-align:center">
+                                 <img src="https://i.postimg.cc/TYC09mDX/sss-Capture.png">                                               
+                              </div>
+
+
+                                <div class="row" >
+
+                                    <div class="col" style="text-align:center">
+                                             <div class="status_message" style="width:100%; margin-top:15px;"></div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row" styel="margin-top:15px;" >
+
+                                    
+                                    <div class="col">
+                                        <label for="current_epc" 
+                                        class="form-label">
+                                        EPC</label>
+                                          <input type="text" 
+                                                 id="current_epc" 
+                                                 name="current_epc" 
+                                                 class="form-control" value="" readonly="readonly">
+                                           <div class="error current_epc"></div>
+                                    </div>
+                                 </div>
+                           </div>
+                        </div>
+                        <div class="col-md-3">
+                           <div class="inner_form">
+                              <div class="row">
+                                 <div class="col-md-8">
+                                    <select class="form-control " 
+                                       data-live-search="true" id="StoreID" name="StoreID">
+                                    </select>
+                                    <div class="error error_StoreID"></div>
+                                    <select class="form-control  mt-1" 
+                                       data-live-search="true" id="ZPL" name="ZPL">
+                                    </select>
+                                    <div class="error error_ZPL"></div>
+                                    <select class="form-control  mt-1" 
+                                       data-live-search="true" id="Printer" name="Printer">
+                                    </select> 
+                                    <div class="error error_Printer"></div>
+                                    <select id="selected_device" onchange=onDeviceSelected(this);></select> 
+                                 </div>
+                                 <div class="col-md-2">
+                                    <span class="icon"><i class="fa fa-file-pdf-o"></i></span>
+                                 </div>
+                                 <div class="col-md-2">
+                                    <span class="icon"><i class="fa fa-exclamation-circle"></i></span>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div> 
+                  </div>
+            </div>
+         </div>
+         </form>
+      </div>
+      <!-- Dark table end -->
+   </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+   aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">ZPL Stores</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <form  id="FORM">
+            <style type="text/css" media="screen">
+               .modal-body .load{
+               text-align: center;
+               }
+            </style>
+            <div class="edit-manage"></div>
+            <div class="modal-body" style="max-height: 560px">
+               <div class="load">
+                  <span class="waiting" style="display: none;">
+                  <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                  </span>   
+               </div>
+               <div id="store_list">
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div> --}}

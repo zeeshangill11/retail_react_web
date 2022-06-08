@@ -1,0 +1,129 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}    
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .dateTime span{font-size: 14px;}
+</style>
+<div class="content-wrapper pb-4">
+
+    <div class="BtnAddLis">
+        <a href="{{sitelink}}/executiveSummary" class="btn btn-danger BtnAdd"> Back </a>
+    </div>  
+    
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> 
+                            One Hand
+                        </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                       
+                        <img src="/assets/images/count/Group 9.png" height="25px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+                        
+                         <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>Sku Code</th>
+                                    <th>Department</th>
+                                    <th>Brand</th>
+                                    <th>Color </th>
+                                    <th>Size </th>       
+                                    <th>Initial</th>
+                                    <th>Counted</th>
+                                    <th>Unexpected</th>
+                                                                         
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
+</div>
+<br>
+<footer class="main-footer">
+        <div class="row ml-0 mr-0">
+            <div class="col-sm-6">
+                    <p class="mb-0 pt-1 light">INNOVENT IOT Platform | Release v3.2.417</p>
+                    <p class="mb-0 pt-1 light">Time Zone</p>
+            </div>
+            <div class="col-sm-6">
+                <p class="mb-0 pt-2 light text-right">Page Load: 0.35s</p>
+            </div>
+        </div>
+    </footer>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" 
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Store Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form  id="UserRoles">
+                <style type="text/css" media="screen">
+                    .modal-body .load{
+                        text-align: center;
+                    }
+                </style>
+                <div class="edit-manage"></div>
+                <div class="modal-body" style="max-height: 560px">
+                    <div class="load">
+                        <span class="waiting" style="display: none;">
+                        <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                    </span>   
+                    </div>
+                     
+                   <div id="store_list">
+                   
+                   </div>                         
+                </div>
+            </form>
+        </div>
+    </div>
+</div>        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

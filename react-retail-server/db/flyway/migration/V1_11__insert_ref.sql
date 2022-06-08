@@ -1,0 +1,1 @@
+INSERT INTO `reference_table` (`id`, `reference_value`) VALUES ('1111', '100')

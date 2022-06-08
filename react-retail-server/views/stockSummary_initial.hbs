@@ -1,0 +1,243 @@
+<style>
+   .nav-second-level.collapse.count{display: block;}
+   .main_home,.main_admin,.main_supplychain,.main_zplprinter{
+   display: none;
+   }
+   .cardd2{visibility: hidden;} 
+</style>
+<div class="wrapper">
+   <div class="content-wrapper pb-4">
+      <div class="row">
+         <div class="col-12 mt-1">
+            <div class="card">
+               <div class="card-header">
+                  <div class="left d-inline-block">
+                     <h4 class="mb-0"> <img src="/assets/images/count/Icon ionic-ios-flower.png" alt="">
+                        STOCK SUMMARY 0
+                     </h4>
+                     <p class="mb-0 dateTime"></p>
+                  </div>
+                  <div class="right d-inline-block float-right mt-2">
+                     <img src="/assets/images/count/Group 9.png" height="30px">
+                     <span style="cursor:pointer" class="button_print_count">
+                     <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                     </span>
+                     <span style="cursor:pointer" class="buttons_excel_count">
+                     <img src="/assets/images/count/Group 10.png" height="30px">
+                     </span>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <div class="containerr">
+                     <form id="stockSummaryFilter" class="custom-filter ">
+                        <div class="row">
+                           <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+                           <div class="col-md-2">
+                              <div class="form-group">
+                                 <select 
+                                    name="StoreID" class="form-control selectpicker" 
+                                    id="StoreID" data-live-search="true">
+                                    <option value="0">All Name</option>
+                                 </select>
+                                 <span class="error StoreID_error"></span>
+                              </div>
+                           </div>
+                           <div class="col-md-2">
+                              <div class="form-group">
+                                 <input class="form-control datepicker33" style="width:122% !important;background:transparent;color:#fff" id="summarydate" name="Date"
+                                    placeholder="Ex: yyyy-mm-dd" autocomplete="off">
+                                 <span class="error Date_error"></span>
+                              </div>
+                           </div>
+                           <div class="col-md-2">
+                              <div class="form-group">          
+                                 <button type="button" 
+                                    class="btn btn-primary btn-md run ml-4" 
+                                    id="run_stock">Search</button>
+                              </div>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <form action="">
+                     <style>
+                        .custom{
+                        position: relative;
+                        display: inline-block;
+                        width: 81%;
+                        margin-bottom: 20px;
+                        }
+                        .custom .form-group.col-3.mr-auto{
+                        position: absolute;
+                        }
+                        .hide{
+                        display: none;
+                        }
+                     </style>
+                  </form>
+                  <br>
+                  <div class="before_load_table" style="display:none">
+                     <img src="/assets/images/waiting_before_table_load.gif">
+                  </div>
+                  <div class="visibile cardd2">
+                     <div class="data-tables stocksummeryy visibile cardd2">
+                        <table id="dataTable_zero" class="text-center mm-datatable_zero">
+                           <thead class="bg-light text-capitalize">
+                              <tr>
+                                 <th>Date</th>
+                                 {{!-- 
+                                 <th>SKU</th>
+                                 --}}
+                                 <th>Store</th>
+                                 <th>Department</th>
+                                 <th>Accuracy</th>
+                                 <th>UIA</th>
+                                 <th>Expected</th>
+                                 <th>Counted</th>
+                                 <th>Overs</th>
+                                 <th>Unders</th>
+                                 <th>Expected SF</th>
+                                 <th>Expected SR</th>
+                                 <th>Counted SF</th>
+                                 <th>Counted SR</th>
+                                 <th>Scanned</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <span class="waiting" style="display: none;">
+                              <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>>
+                              </span>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-12 mt-5">
+            <div class="card hide">
+               <div class="card-body">
+                  <h4 class="header-title">Count Progress</h4>
+                  <div>
+                     <canvas id="barChart_zero"></canvas>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row stockSummaryTable visibile cardd2" style="margin: 0px; width:100%; ">
+            <!-- data table start -->
+            <div class="col-6 mt-5">
+               <div class="card">
+                  <div class="card-header">
+                     <h4 class="left d-inline-block">Top 20 Under</h4>
+                     <div class="right d-inline-block float-right mt-2">
+                        <span style="cursor:pointer" class="buttons_excel_count">
+                        <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>    
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                     </div>
+                     <div class="data-tables stocksummery">
+                        <table id="dataTableTwoo_zero" class="text-center mm-dataTableTwoo_zero">
+                           <thead class="bg-light text-capitalize">
+                              <tr>
+                                 <th>Department</th>
+                                 <th>Brand</th>
+                                 <th>SKU</th>
+                                 <th>Expected</th>
+                                 <th>Diff</th>
+                                 <th>Diff&nbsp;%</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-6 mt-5">
+               <div class="card">
+                  <div class="card-header">
+                     <h4 class="left d-inline-block">Top 20 Over</h4>
+                     <div class="right d-inline-block float-right mt-2">
+                        <span style="cursor:pointer" class="buttons_excel_count">
+                        <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>    
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                     </div>
+                     <div class="data-tables datatable-primary stocksummery">
+                        <table id="dataTableThree_zero" class="text-center mm-datatable3_zero">
+                           <thead class="bg-light text-capitalize" style="color: #000;">
+                              <tr>
+                                 <th>Department</th>
+                                 <th>Brand</th>
+                                 <th>SKU</th>
+                                 <th>Expected</th>
+                                 <th>Diff</th>
+                                 <th>Diff&nbsp;%</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Dark table end -->
+         </div>
+         <div class="col-12 mt-5 visibile cardd2">
+            <div class="card">
+               <div class="card-header">
+                  <div class="left d-inline-block">
+                     <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> 
+                        Realtime Discrepancy
+                     </h4>
+                     <p class="mb-0 dateTime"></p>
+                  </div>
+                  <div class="right d-inline-block float-right mt-2">
+                     <img src="/assets/images/count/Group 9.png" height="30px">
+                     <span style="cursor:pointer" class="button_print_count">
+                     <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                     </span>
+                     <span style="cursor:pointer" class="buttons_excel_count">
+                     <img src="/assets/images/count/Group 10.png" height="30px">
+                     </span>    
+                  </div>
+               </div>
+               <div class="card-body">
+                  <h4 class="header-title"></h4>
+                  <div class="data-tables">
+                     <table id="dataTableFour_zero" class="text-center mm-dataTableFour_zero">
+                        <thead class="bg-light text-capitalize">
+                           <tr>
+                              <th>SKU</th>
+                              <th>Dept. Name</th>
+                              <th>Brand</th>
+                              <th>Size</th>
+                              <th>Color</th>
+                              <th>Delta</th>
+                              <th>Expected</th>
+                              <th>Counted</th>
+                              <th>Counted SF</th>
+                              <th>Counted SR</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

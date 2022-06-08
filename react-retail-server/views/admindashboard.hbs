@@ -1,0 +1,216 @@
+
+<aside class="main-sidebar">
+	<div class="p-3 pt-2">
+		<a href="supplychaindashboard" class="pb-0">
+			<img src="/assets/images/innovent-logo.png" alt="Logo" class="logo">
+		</a>
+		<p class="text-right mb-0">Retail</p>
+	</div>
+	<div class="pl-3">
+		<a href="">
+			<i class="fa fa-bars"></i>
+		</a>
+	</div>
+	<ul class="navbar-nav mt-2">
+		<li class="nav-item">
+			<a href="dashboard" class="nav-link active p-2 pl-3">
+				<i class="fa fa-caret-down"></i>
+				<img src="/assets/images/Icon feather-home.png" height="15px" class="ml-2">
+				<span class="ml-2">Home</span>
+			</a>
+			<ul class="navbar-nav sub-nav">
+				<li class="nav-item">
+					<a href="usersinfo" class="nav-link active p-2 pl-5">
+						<img src="/assets/images/icon-user.png" height="13px" class="ml-2">
+						<span class="ml-2">Users</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="HandheldDevices" class="nav-link p-2 pl-5">
+						<img src="/assets/images/icon-device.png" height="13px" class="ml-2">
+						<span class="ml-2">Devices</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="storeinfo" class="nav-link p-2 pl-5">
+						<img src="/assets/images/icon-store.png" height="13px" class="ml-2">
+						<span class="ml-2">Stores</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="printer" class="nav-link p-2 pl-5">
+						<img src="/assets/images/icon-printer.png" height="13px" class="ml-2">
+						<span class="ml-2">Printers</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="zpl" class="nav-link p-2 pl-5">
+						<img src="/assets/images/icon-zpl.png" height="13px" class="ml-2">
+						<span class="ml-2">ZPL</span>
+					</a>
+				</li>
+				
+				
+			</ul>
+		</li>
+		
+	</ul>
+</aside>
+<div class="content-wrapper pb-4" id="dashboard">
+	<div class="header-sec">
+        <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+					<a class="nav-link" href="usersinfo">
+						<img src="/assets/images/icon-user.png" height="20px">
+						<span class="ml-2 nav-text text-uppercase">Users</span>
+					</a>
+                </li>
+				<li class="nav-item">
+					<a class="nav-link" href="HandheldDevices">
+						<img src="/assets/images/icon-device.png" height="20px">
+						<span class="ml-2 nav-text text-uppercase">Devices</span>
+					</a>
+                </li>
+				<li class="nav-item">
+					<a class="nav-link" href="storeinfo">
+						<img src="/assets/images/icon-store.png" height="20px">
+						<span class="ml-2 nav-text text-uppercase">Stores</span>
+					</a>
+                </li>
+				<li class="nav-item">
+					<a class="nav-link" href="printer">
+						<img src="/assets/images/icon-printer.png" height="20px">
+						<span class="ml-2 nav-text text-uppercase">Printers</span>
+					</a>
+                </li>
+				<li class="nav-item">
+					<a class="nav-link" href="zpl">
+						<img src="/assets/images/icon-zpl.png" height="20px">
+						<span class="ml-2 nav-text text-uppercase">ZPL</span>
+					</a>
+                </li>		
+
+
+            </ul>
+        </nav>
+    </div>	
+		
+		<div class="row ml-2 mr-2">
+			<div class="col-md-4 pl-2 pr-2">
+				<div class="card" style="min-height: 90px;">
+					<div class="card-body p-3">
+						<span  style="color: #212529;text-decoration:none">
+							<span>Total Operations</span>
+							<img src="/assets/images/plus-icon.png" class="float-right" height="20px">
+							<h2 class="text-center mb-0 mt-2" id="CountDnamic">
+								<span class="waiting" style="display: none;">
+									<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+								</span>
+								<p style="margin-bottom: 0" id="totastore">74</p>
+							</h2>	
+						</span>
+					</div>
+				</div>
+			</div>
+			{{!-- <div class="col-md-4 pl-2 pr-2">
+				<div class="card">
+					<div class="card-body p-3">
+						<span>Total Handhelds</span>
+						<img src="/assets/images/icon-open-list.png" class="float-right" height="15px"></i>
+						<h2 class="text-center mb-0 mt-2">65</h2>
+					</div>
+				</div>
+			</div> --}}
+				<div class="col-md-4 pl-2 pr-2">
+				<div class="card" style="min-height: 90px;">
+					<div class="card-body p-3">
+						<span   style="color: #212529;text-decoration:none">
+							<span>Total Delivered</span>
+							<img src="/assets/images/icon-open-list.png" class="float-right" height="15px">
+							<h2 class="text-center mb-0 mt-2" id="ToaUsers">
+								<span class="waiting" style="display: none;">
+									<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+								</span>
+								<p style="margin-bottom: 0" id="toal_user">102</p>
+
+							</h2>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-4 pl-2 pr-2">
+				<div class="card">
+					<div class="card-body p-3">
+						<span>Packed</span>
+						<img src="/assets/images/icon-open-list.png" class="float-right" height="15px">
+						<h2 class="text-center mb-0 mt-1">105</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-3 ml-2 mr-2">
+			<div class="col-md-8 pl-2 pr-2">
+				<div class="card activities">
+					<div class="card-body p-3">
+						<span>Activities</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 pl-2 pr-2">
+				<div class="card">
+					<div class="card-body p-3">
+						<span>In Transit</span>
+						<img src="/assets/images/icon-open-list.png" class="float-right" height="15px">
+						<h2 class="text-center mb-0 mt-1">5</h2>
+					</div>
+				</div>
+				<div class="card mt-3">
+					<div class="card-body p-3">
+						<span>Last Scan</span>
+						<span class="float-right">11/26/2020 11:04:18</span>
+						<p class="mt-3 ml-2">Store: LORO Piana</p>
+						<div class="progress-sec">
+							<p class="mb-0 d-inline-block left">Matching</p>
+							<div class="center mr-1">
+								<div class="progress" style="height: 4px;">
+									<div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<p class="mb-0 d-inline-block right">96.2%</p>
+						</div>
+						<div class="progress-sec">
+							<p class="mb-0 d-inline-block left">Overs</p> 
+							<div class="center overs mr-1">
+								<div class="progress" style="height: 4px;">
+									<div class="progress-bar bg-info" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<p class="mb-0 d-inline-block right">12.3%</p>
+						</div>
+						<div class="progress-sec">
+							<p class="mb-0 d-inline-block left">Unders</p> 
+							<div class="center unders mr-1">
+								<div class="progress" style="height: 4px;">
+									<div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+							</div>
+							<p class="mb-0 d-inline-block right">14.1%</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="main-footer">
+		<div class="row ml-0 mr-0">
+			<div class="col-sm-6">
+					<p class="mb-0 pt-1 light">INNOVENT IOT Platform | Release v3.2.417</p>
+					<p class="mb-0 pt-1 light">Time Zone</p>
+			</div>
+			<div class="col-sm-6">
+				<p class="mb-0 pt-2 light text-right">Page Load: 0.35s</p>
+			</div>
+		</div>
+	</footer>

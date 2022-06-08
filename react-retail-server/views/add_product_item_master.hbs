@@ -1,0 +1,284 @@
+ <style style="text/css">
+        .content-wrapper{ padding-left: 15px; padding-right:15px;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+        .error{
+            color:red;
+        }
+    </style>
+<div class="content-wrapper pb-4">
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> 
+                            <i class="ti-stats-up" style="color:#000"></i> 
+                            Add Product item master
+                        </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        
+                       
+                    </div>
+                </div>
+              
+                <div class="card-body">
+                    <form autocomplete="off" id="AddProductForm" name="registration">
+                       <span class="error_msg"></span>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Name">skucode *</label>
+                                <input type="text" class="form-control" name="skucode" 
+                                id="skucode" placeholder="skucode">
+                                <span class="error skucode_error"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label for="status">product_des *</label>
+                                <input type="text" class="form-control" name="product_des" 
+                                id="product_des" placeholder="product_des">
+                                <span class="error product_des_error"></span>
+                            </div> 
+
+                            <div class="form-group col-md-6">
+                                <label for="storename">item_code *</label>
+                                <input type="text" name="item_code" 
+                                id="item_code" 
+                                class="form-control" placeholder="item_code">
+                                <span class="error error_item_code"></span>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="storename">user *</label>
+                                <input type="text" name="user" id="user" class="form-control" placeholder="user">
+                                <span class="error error_user"></span>
+                            </div> 
+                           
+                             <div class="form-group col-md-6">
+                                <label for="storename">departmentid *</label>
+                                <input type="text" name="departmentid" id="departmentid" class="form-control" placeholder="departmentid">
+                                <span class="error error_departmentid"></span>  
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="storename">brand *</label>
+                                <input type="text" name="brand" id="brand" class="form-control" placeholder="brand">
+                                <span class="error error_brand"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">color *</label>
+                                <input type="text" name="color" id="color" class="form-control" placeholder="color">
+                                <span class="error error_color"></span>  
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="color">size *</label>
+                                <input type="text" name="size" id="size" class="form-control" placeholder="size">
+                                <span class="error error_size"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="group_name">group_name *</label>
+                                <input type="text" name="group_name" id="group_name" class="form-control" placeholder="group_name">
+                                <span class="error error_group_name"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="group_description">group_description *</label>
+                                <input type="text" name="group_description" id="group_description" class="form-control" placeholder="group_description">
+                                <span class="error error_group_description"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="departmentname">departmentname *</label>
+                                <input type="text" name="departmentname" id="departmentname" class="form-control" placeholder="departmentname">
+                                <span class="error error_departmentname"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">ean_no *</label>
+                                <input type="text" name="ean_no" id="ean_no" class="form-control" placeholder="ean_no">
+                                <span class="error error_ean_no"></span>  
+                            </div>
+
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">sp_net *</label>
+                                <input type="text" name="sp_net" id="sp_net" class="form-control" placeholder="sp_net">
+                                <span class="error error_sp_net"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">season *</label>
+                                <input type="text" name="season" id="season" class="form-control" placeholder="season">
+                                <span class="error error_season"></span>  
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="color">vat *</label>
+                                <input type="text" name="vat" id="vat" class="form-control" placeholder="vat">
+                                <span class="error error_vat"></span>  
+                            </div>
+
+
+
+                             <div class="form-group col-md-6">
+                                <label for="color">sales_area *</label>
+                                <input type="text" name="sales_area" id="sales_area" class="form-control" placeholder="sales_area">
+                                <span class="error error_sales_area"></span>  
+                            </div>
+
+
+                             <div class="form-group col-md-6">
+                                <label for="color">sp_gross_eng *</label>
+                                <input type="text" name="sp_gross_eng" id="sp_gross_eng" class="form-control" placeholder="sp_gross_eng">
+                                <span class="error error_sp_gross_eng"></span>  
+                            </div>
+
+
+
+                             <div class="form-group col-md-6">
+                                <label for="color">sp_gross_arb *</label>
+                                <input type="text" name="sp_gross_arb" id="sp_gross_arb" class="form-control" placeholder="sp_gross_arb">
+                                <span class="error error_sp_gross_arb"></span>  
+                            </div>
+
+
+                             <div class="form-group col-md-6">
+                                <label for="color">supplier_item_no *</label>
+                                <input type="text" name="supplier_item_no" id="supplier_item_no" class="form-control" placeholder="supplier_item_no">
+                                <span class="error error_supplier_item_no"></span>  
+                            </div>
+
+
+                             <div class="form-group col-md-6">
+                                <label for="color">supplier_name *</label>
+                                <input type="text" name="supplier_name" id="supplier_name" class="form-control" placeholder="supplier_name">
+                                <span class="error error_supplier_name"></span>  
+                            </div>
+
+
+                             <div class="form-group col-md-6">
+                                <label for="color">type_no *</label>
+                                <input type="text" name="type_no" id="type_no" class="form-control" placeholder="type_no">
+                                <span class="error error_type_no"></span>  
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="color">arabic_desc *</label>
+                                <input type="text" name="arabic_desc" id="arabic_desc" class="form-control" placeholder="arabic_desc">
+                                <span class="error error_arabic_desc"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">origin *</label>
+                                <input type="text" name="origin" id="origin" class="form-control" placeholder="origin">
+                                <span class="error error_origin"></span>  
+                            </div>
+
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">english_desc *</label>
+                                <input type="text" name="english_desc" id="english_desc" class="form-control" placeholder="english_desc">
+                                <span class="error error_english_desc"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">company *</label>
+                                <input type="text" name="company" id="company" class="form-control" placeholder="company">
+                                <span class="error error_company"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">currency *</label>
+                                <input type="text" name="currency" id="currency" class="form-control" placeholder="currency">
+                                <span class="error error_currency"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">cost *</label>
+                                <input type="text" name="cost" id="cost" class="form-control" placeholder="cost">
+                                <span class="error error_cost"></span>  
+                            </div>
+
+                           
+
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">image_url *</label>
+                                <input type="text" name="image_url" id="image_url" class="form-control" placeholder="image_url">
+                                <span class="error error_image_url"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">style *</label>
+                                <input type="text" name="style" id="style" class="form-control" placeholder="style">
+                                <span class="error error_style"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">country *</label>
+                                <input type="text" name="country" id="country" class="form-control" placeholder="country">
+                                <span class="error error_country"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">supplier_no *</label>
+                                <input type="text" name="supplier_no" id="supplier_no" class="form-control" placeholder="supplier_no">
+                                <span class="error error_supplier_no"></span>  
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="color">po_supplier_no *</label>
+                                <input type="text" name="po_supplier_no" id="po_supplier_no" class="form-control" placeholder="po_supplier_no">
+                                <span class="error error_po_supplier_no"></span>  
+                            </div>
+
+
+                           
+                            <div class="form-group  col-md-12" style="text-align:center;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="but mt-5">
+                                            <button type="submit" id="submit" class="btn btn-default btn-block">   
+                                             Add procduct
+                                            </button>
+                                        </div>   
+                                    </div>
+                                </div>  
+                                  
+                            </div>
+                               
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

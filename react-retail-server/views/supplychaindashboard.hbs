@@ -1,0 +1,367 @@
+<style>
+	.supplychaindashboardSubmenudropdown{display: block;}
+	.supplychaincardbody{background: #373E43}
+	.supplychaincard{text-align: center;}
+	.nav-second-level.collapse.supplychain{display: block;}
+	.main_home,.main_admin,.main_count,.main_zplprinter{
+    	display: none;
+	}
+	.supplychaincard h4{
+		font-size: 14px;
+		font-weight: normal;
+	}
+	.supplychaincard p{
+		font-size: 30px;
+	}
+
+	.class_supply h6{
+		font-weight: bold;
+	}
+
+	.class_supply_week{text-align: center;}
+
+	.class_supply_week p{
+		font-size: 14px;
+		font-weight: normal;
+	}
+
+	.class_supply_week h4{
+		font-size: 30px;
+	}
+
+	.class_supply_month{text-align: center;}
+
+	.class_supply_month p{
+		font-size: 14px;
+		font-weight: normal;
+	}
+
+	.class_supply_month h4{
+		font-size: 30px;
+	}
+
+	.supplymain_heading1 h6{
+		font-weight: bold;
+		color: red;
+	}
+
+	.supplymain_heading2 h6{
+		font-weight: bold;
+		color: green;
+	}
+
+	.supply_asn h4{
+		text-align: center;
+		font-size: 34px;
+		font-weight: bold;
+	}
+
+	.cardsupply_asn{
+		background: darkgrey;
+	}
+	#dashboard button.btn.dropdown-toggle.bs-placeholder.btn-light
+	{
+		width:100%;
+	}
+	.color_white_fix{ color:#fff !important;}
+	
+</style>
+<style>
+	.welcome {
+	    color: #fff;
+	    text-align: center;
+	    width: 100%;
+	    margin-top: 2%;
+	}
+	.mm_dashboardSubmenudropdown{
+		display: block;
+	}
+	.nav-second-level.collapse.home{display: block;}
+	button.btn.dropdown-toggle.bs-placeholder.btn-light{
+		width: 50%;
+		background-color: #000;
+	}
+	.main_admin,.main_count,.main_supplychain,.main_zplprinter{
+		display: none;
+	}
+	
+	.mainheading{
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	.cardBodyData{
+		font-size: 13px;
+	}
+	.crdheader{
+		background-color: #D3D8DB;
+	    border: none !important;
+
+	}
+
+	.dash_board{
+		border: 1px solid lightgrey;
+	}
+
+	.cad .card-header .right.float-right img {
+    height: 20px;
+    padding-right: 3px;
+    padding-left: 3px;
+	}
+
+	.mainCard{
+		background-color: #2E2D2D;
+		border-radius: 10px;
+	}
+	.crdBody{
+		text-align: center;
+		padding: 2px;
+	}
+
+	.crdBody p{
+		font-size: 12px;
+		color: yellow;
+	}
+
+	.crdBody h4{
+		color: white;
+		margin-top: -12px;
+	}
+	.itemHeading{
+		font-weight: bold;
+		font-size: 12px;
+	}
+
+</style>
+<div class="content-wrapper pb-4 " id="dashboard">
+	 	<div class="col-12 mt-1">
+            <div class="cad dash_board">
+				
+				<div class="card-header crdheader">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="ti-stats-up" style="color:#000"></i> Dashboard</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                       
+                       
+                    </div>
+                </div>
+
+				<div class="row ml-2 mr-2">
+					<div class="welcome">
+						<div class="msg">
+							<div class="alert alert-danger background-danger" style="border-radius: 26px;"><i class="fa fa-exclamation-circle"></i>&nbsp;Comming Soon</div>
+						</div>
+						<h1>Welcome To Innovent</h1>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+
+{{!-- <div class="content-wrapper pb-4" id="dashboard"> --}}
+	{{!-- <div class="card mainsupplychaincard">	
+		<div class="card-header">
+		    <div class="left d-inline-block">
+		        <h4 class="mb-0"> <img src="/assets/images/icon-dashboard.png" alt=""> 
+		        Dashboard</h4>
+		        <p class="mb-0 dateTime"></p>
+		    </div>
+		    <div class="right d-inline-block float-right mt-2">
+		        <img src="/assets/images/count/Group 9.png" height="30px">
+		      
+		    </div>
+		</div>
+
+		<div class="card-body supplychaincardbody" id ="supply_chain_dashboard">
+
+
+
+			<div class="filters pl-1 pt-3 pb-3 pr-3" id="supplychainFitler" style="display:none">
+                <h4 class="light d-inline-block mr-4 mb-0 color_white_fix">Filters</h4>
+                <div class="form-group d-inline-block mb-0">
+                    <select class="sw150 d-inline-block mr-2 selectpicker"   data-live-search="true"  name="SoteID" id="StoreID">
+                        <option value="">Store ID</option>
+                    </select>
+                          
+                   
+             
+                </div>
+                <button type="button" id="supplychainbtn" class="btn btn-primary btn-md run ml-2">Search</button>
+            </div> --}}
+
+
+            
+			{{!-- <div class="row">
+				<div class="col-md-3">
+					<div class="row">
+					 	<div class="col-md-12">
+					 		<div class="card supplychaincard bold" id="today_status">
+								<div class="card-body p-3">
+									<h4>Received Today</h4>
+									<p id="Received_Today">
+										<span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+									</p> <br>
+
+									<h4>Expected Today</h4>
+									<p id="Expected_Today">
+										<span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+									</p> <br>
+
+									<h4>Shipped Today</h4>
+									<p id="Shipped_Today">
+										<span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+									</p>		
+								</div><br><br><br><br>
+							</div>
+					 	</div>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="class_supply">
+						<div class="card">
+
+
+
+							<div class="card-body">
+								<div class="row" id="week_status">
+									<div class="col-md-12">
+										<h6>This Week</h6>
+									</div>
+									<div class="col-md-4 class_supply_week">
+										<p>Shipped And in Transit</p>
+										<h4 id="Last_Week_Shipped">
+											<span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+
+										</h4>
+									</div>
+									<div class="col-md-4 class_supply_week">
+										<p>Expected and in Transit</p>
+										<h4 id="Last_Week_Expected">
+											<span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+
+										</h4>
+									</div>
+									<div class="col-md-4 class_supply_week">
+										<p>Received</p>
+										<h4 id="Last_Week_Received">
+											<span class="waiting" style="display: none;">
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        </span>
+										</h4>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</div>
+						
+					<div class="class_supply">
+						<div class="card">
+							<div class="card-body">
+								<div class="row" id="month_status">		
+									<div class="col-md-12">
+										<h6>This Month</h6>
+									</div>
+									<div class="col-md-4 class_supply_month">
+										<p>Shipped And in Transit</p>
+										<h4 id="Shipped_Last_Month">
+											<span class="waiting" style="display: none;">
+                                            	<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        	</span>
+
+										</h4>
+									</div>
+									<div class="col-md-4 class_supply_month">
+										<p>Sent and in Transit</p>
+										<h4 id="Expected_Last_Month">
+											<span class="waiting" style="display: none;">
+	                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+	                                        </span>
+
+										</h4>
+									</div>
+									<div class="col-md-4 class_supply_month">
+										<p>Received</p>
+										<h4 id="Receive_Last_Month">
+											<span class="waiting" style="display: none;">
+                                            	<img src="https://i.postimg.cc/3xVJyMYr/	Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        	</span>
+
+										</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card cardsupply_asn">
+								<div class="card-body">
+									<div class="row">		
+										<div class="col-md-12 supplymain_heading1">
+											<h6 class="float-left">Shortage in IBT</h6>
+											<a style="cursor:pointer" class="shortage" target="_blank">
+                                            	<img src="/assets/images/count/icon-open-list-white.png"
+                                            	class="float-right mt-2" height="15px"></i>
+											</a>
+										</div>
+										<div class="col-md-12 supply_asn">
+											<h4 id="ShortageinASN">
+												<span class="waiting" style="display: none;">
+                                            		<img src="https://i.postimg.cc/3xVJyMYr/	Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                        		</span>
+                                        	</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="card cardsupply_asn">
+								<div class="card-body">
+									<div class="row">		
+										<div class="col-md-12 supplymain_heading2">
+											<h6 class="float-left">Excess in IBT</h6>
+
+											<a style="cursor:pointer" class="asscess" target="_blank">
+	                                            <img src="/assets/images/count/icon-open-list-white.png"
+	                                            class="float-right mt-2" height="15px"></i>
+                                        	</a>
+										
+										</div>
+										<div class="col-md-12 supply_asn">
+											<h4 id="ExcessInAsn">
+												
+												<span class="waiting" style="display: none;">
+                                        			<img src="https://i.postimg.cc/3xVJyMYr/	Eclipse-1s-200px.gif" alt="" width='32px' height='32px'>
+                                    			</span>
+												
+											</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>	
+			</div> --}}	
+		{{!-- </div>
+	</div>	
+
+
+	</div> --}}

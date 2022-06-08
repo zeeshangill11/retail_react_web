@@ -1,0 +1,150 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    /*.mm_countSubmenudropdown{display: block;}*/
+    .nav-second-level.collapse.count{display: block;}
+    .main_home,.main_admin,.main_supplychain,.main_zplprinter{
+    display: none;
+}  
+.error{
+    color:red;
+}
+
+@media screen and (min-width:768px) {
+    .container {
+        max-width: 100%;
+    }
+    .custom-filter-fix h4{ padding-left:35px;}
+    .date_fix{ margin-left:10px;}
+}
+</style>
+
+<div class="content-wrapper pb-4">
+
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <img src="/assets/images/icon-inventory.png" alt="">Inventory</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+
+                        <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span>
+                    </div>
+                </div>
+
+        <div class="container">
+            <div class="row mt-4 custom-filter custom-filter-fix" id="InventroyDataForm">
+                <h4 class="light d-inline-block  mb-0">Filters</h4>
+                    
+                    
+                    <div class="col-md-2">
+                        <select class="sw150 d-inline-block mr-2 selectpicker"   data-live-search="true"  name="StoreID" id="StoreID">
+                            <option value="">Store ID</option>
+                        </select>
+                        <div class="error error_StoreID">
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" name="EPC" id="EPC" class="form-control" placeholder="EPC">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" name="SKU" id="SKU" class="form-control" placeholder="SKU">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                         <input type="text" name="DepartmentID" id="DepartmentID" 
+                        class="form-control" placeholder="Department Name">
+                         {{!-- <select class="sw150 
+                         d-inline-block mr-2 selectpicker" 
+                         data-live-search="true" name="DepartmentID" id="DepartmentID">
+                            <option value="">Department</option>
+                        </select> --}}
+                    </div>
+                    <div class="col-md-2">
+                       {{!--  <input type="text" name="BrandID" id="BrandID" 
+                        class="form-control" placeholder="Brand Name"> --}}
+                         <select class="sw150 
+                         d-inline-block mr-2 selectpicker" 
+                         data-live-search="true" name="BrandID" id="BrandID">
+                            <option value="">BrandID</option>
+                        </select>
+                    </div>
+
+                     <div class="col-md-2" style="margin-left:100px">
+                         <select class="sw150 
+                         d-inline-block mr-2 selectpicker" 
+                         data-live-search="true" name="Color" id="Color">
+                            <option value="">Color</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                         <select class="sw150 
+                         d-inline-block mr-2 selectpicker" 
+                         data-live-search="true" name="Size" id="Size">
+                            <option value="">Size</option>
+                        </select>
+                    </div>
+
+                     <div>
+                        <button type="button" id="executiveSummary" 
+                        class="btn btn-primary btn-md run  mt-2 sw150">Search</button>    
+                    </div>
+
+                                         
+
+                 <div class="col-md-12">
+                    <div class="card-body">
+                         <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable_inventory" class="text-center mm-datatable_inventory">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>EPC</th>    
+                                    <th>SKU</th>
+                                    <th>Store</th>
+                                    <th>Brand Name</th>
+                              
+                                    <th>Color</th>
+                                    <th>Size</th>
+                                   {{!--  <th>Zone</th>
+                                    
+                                    <th>Store ID</th> --}}
+                                   <th>Item Dispostion</th>
+                                   <th>Action</th>
+                                                                           
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>  
+                       </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>
+<script>
+    //$('select').select2({ });
+</script>        

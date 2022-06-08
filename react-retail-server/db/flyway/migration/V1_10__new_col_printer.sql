@@ -1,0 +1,1 @@
+ALTER TABLE `zpl_printer`  ADD `suppliername` VARCHAR(128) NULL DEFAULT NULL  AFTER `epc`;

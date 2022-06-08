@@ -1,0 +1,113 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+     .nav-second-level.collapse.admin{display: block;}   
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    /*.mm_usersSubmenudropdown{display: block;}*/
+    .main_home,.main_count,.main_supplychain,.main_zplprinter{
+        display: none;
+    }
+</style>
+<div class="content-wrapper pb-4"> 
+
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                        <h4 class="mb-0"> <i class="fa fa-home" style="color:#000"></i> Store Info</h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                       
+                        <img src="/assets/images/count/Group 9.png" height="25px">
+                       <span style="cursor:pointer" class="button_print">
+                            <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        </span>
+                        <span style="cursor:pointer" class="buttons_excel2">
+                            <img src="/assets/images/count/Group 10.png" height="25px">
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="containe">
+                        <div class="row custom-filter">
+                            <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+                            <div class="col-md-2">
+                                <div class="form-group">   
+                                    <select name="SoteID" class="form-control selectpicker" 
+                                    id="StoreID" data-live-search="true">
+                                        <option value="0">All Store</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                          {{!--   <div class="col-md-2">
+                                <div class="form-group">    
+                                    <select name="StoreCode" class="form-control selectpicker" 
+                                    id="StoreCode" data-live-search="true">
+                                        <option value="0">Store Code</option>
+                                    </select>
+                                </div>
+                            </div> --}}
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="Company" 
+                                    class="form-control selectpicker" 
+                                    id="Company" data-live-search="true">
+                                        <option value="0">Company</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+
+                                <div class="form-group">
+                                    <select name="Country" class="form-control selectpicker" 
+                                        id="Country" data-live-search="true">
+                                        <option value="0">Country</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-danger btn-md run btn-block d-inline-block w-25">Run</button>
+                                <a class="btn btn-danger BtnAdd  d-inline-block" href='{{sitelink}}/addstore'>Add Store</a>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable" style="width: 100%;">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>Store ID</th>
+                                    <th>Store Name</th>
+                                    <th>Store Location</th>
+                                    <th>Lat Long</th>
+                                    <th>Country Name</th>
+                                    <th>Company</th>
+                                    <th>Store Type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>                                                
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div>        

@@ -1,0 +1,154 @@
+<style style="text/css">
+    .content-wrapper{ padding-left: 15px; padding-right:15px;}
+    .mm_usersSubmenudropdown{display: block;} 
+    .dataTables_wrapper .dataTables_paginate .paginate_button{ padding:0px !important;}
+    .nav-second-level.collapse.admin{display: block;}
+    .main_home,.main_count,.main_supplychain,.main_zplprinter{
+        display: none;
+    }
+</style>
+<div class="content-wrapper pb-4 dashboard-change"> 
+
+    <div class="header-sec" style="margin-left: -15px;">
+        <nav class="navbar navbar-expand-lg navbar-light p-0 d-inline-block">
+             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="usersinfo">
+                        <img src="/assets/images/icon-user.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">Users List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active2" href="UserRoles">
+                        <img src="/assets/images/icon-user.png" height="20px">
+                        <span class="ml-2 nav-text text-uppercase">User Roles</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+ 
+    <div class="row">
+        <!-- data table start -->
+        <div class="col-12 mt-1">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="left d-inline-block">
+                    <h4 class="mb-0"> <i class="fa fa-user" style="color:#000"></i> 
+                        Cron Jobs
+                    </h4>
+                        <p class="mb-0 dateTime"></p>
+                    </div>
+                    <div class="right d-inline-block float-right mt-2">
+                       
+                        <img src="/assets/images/count/Group 9.png" height="30px">
+                        <img src="/assets/images/count/Icon feather-printer.png" height="30px" class="ml-1 mr-1">
+                        
+                        <span style="cursor:pointer" class="buttons_excel2"> 
+                            <img src="/assets/images/count/Group 10.png" height="30px">
+                        </span> 
+                    
+                    </div>
+                </div>
+                <div class="card-body">
+                     <div class="container filter_container">
+                        <div class="row">
+                            <h4 class="light d-inline-block mr-4 mb-0">Filters</h4>
+                             
+
+                               
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" 
+                                        style="color: #4C9FE1 !important;" 
+                                        id="Retail_CycleCountID" placeholder="Retail_CycleCountID" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-control datepicker22" 
+                                        style="color: #4C9FE1 !important;" 
+                                        id="Date" 
+                                        placeholder="Ex: yyyy-mm-dd" autocomplete="off">
+                                    </div>
+                                </div>
+
+                           
+
+                                <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <select class="sw150 d-inline-block mr-2 selectpicker"   data-live-search="true"  name="status" 
+                                            id="status">
+                                            <option value="">Select Status</option>
+                                            <option value="0">Runing</option>
+                                            <option value="1">Done</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                 <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <select class="sw150 d-inline-block mr-2 selectpicker"   data-live-search="true"  name="process_type" 
+                                            id="process_type">
+                                            
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                 <div class="col-md-2">
+
+                                    <div class="form-group">
+                                        <select class="sw150 d-inline-block mr-2 selectpicker"   data-live-search="true"  name="store_id" 
+                                            id="store_id">
+                                            
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-1" >
+
+                                    <button type="button" 
+                                    class="btn btn-danger 
+                                    btn-md run btn-block" style="width:60px;">Search</button>
+
+                                </div>
+                            
+                        </div>
+                    </div>
+                      <div class="before_load_table">
+                        <img src="/assets/images/waiting_before_table_load.gif">
+                    </div>
+                    <div class="data-tables">
+                        <table id="dataTable" class="text-center mm-datatable">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Retail_CycleCountID</th>
+                                    <th>DateTIme</th>
+                                    <th>Source</th>
+                                    <th>Destination</th>
+                                    <th>Status</th>
+                                    <th>Process</th>
+                                    <th>Action</th>                                                               
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dark table end -->
+    </div>
+</div> 
+
