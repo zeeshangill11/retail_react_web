@@ -1,0 +1,71 @@
+ html{
+ height: 100%;
+ margin: 0;
+ }
+ body{
+    background-image: url('../asserts/images/login-background.webp');
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-color: rgba(0,0,0, 0.3);
+    background-size: cover;
+    }
+ .white{
+    color: #ddd;
+ }
+ .form-check-label{
+    color: #ddd;
+ }
+ ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #ddd !important;
+    opacity: 1; /* Firefox */
+ }
+ .error{
+    color:#D3D3D3;
+ }
+ .form-control.pb-4.pl-0.error_border{
+    border-color: red !important;
+ }
+ .main .logo{
+    width: 50%;
+ }
+ .box{
+    background-color: rgba(0,0,0, 0.4); 
+    margin-top: -76px;
+    padding: 15% 20%;
+ }
+ .box h1{
+    margin-top: 15%;
+ }
+ /*.box .form-group:focus{
+ background-color: transparent;
+ }*/
+ .box input, .box input:focus{
+    background-color: transparent;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid #fff !important;
+    box-shadow: none;
+    color: #fff;
+ }
+ .box input::placeholder{
+  color: #fff;
+ }
+ .box button, .box button:focus{
+    background-color: transparent;
+    border-radius: 6px;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px;
+    outline: none;
+ }
+ @media only screen and (max-width: 767px){
+ .box{
+    margin-top: 15px;
+    padding: 10%;
+ }  
+ .box h1{
+    margin-top: 0px;
+    }
+ }
