@@ -12,6 +12,9 @@ import executiveSummaryOnHandSimple from "./components/executiveSummary/executiv
 import underOvers from "./components/executiveSummary/underOvers";
 import AllOvers from "./components/executiveSummary/AllOvers";
 import CriticalOutOfStock from "./components/executiveSummary/CriticalOutOfStock";
+import handheldDevices from "./components/handheldDevices/handheldDevices";
+import edithandhelddevice from "./components/handheldDevices/edithandhelddevice";
+import addhandheldDevice from "./components/handheldDevices/addhandheldDevice";
 
 
 
@@ -33,12 +36,15 @@ class App extends Component {
             <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
             <Route exact path="/add" component={AddTutorial} />
             <Route path="/tutorials/:id" component={Tutorial} />
-            <Route  path="/login" component={Login} />
-            <Route  path="/executiveSummary" component={executiveSummary} />
-            <Route  path="/executiveSummaryOnHandSimple" component={executiveSummaryOnHandSimple} />
-            <Route  path="/underOvers" component={underOvers} />
-            <Route  path="/AllOvers" component={AllOvers} />
-            <Route  path="/CriticalOutOfStock" component={CriticalOutOfStock} />
+            <Route path="/login" component={Login} />
+            <Route path="/executiveSummary" component={executiveSummary} />
+            <Route path="/executiveSummaryOnHandSimple" component={executiveSummaryOnHandSimple} />
+            <Route path="/underOvers" component={underOvers} />
+            <Route path="/AllOvers" component={AllOvers} />
+            <Route path="/CriticalOutOfStock" component={CriticalOutOfStock} />
+            <Route path="/handheldDevices" component={handheldDevices} />
+            <Route path="/edithandhelddevice/:id" component={edithandhelddevice} />
+            <Route path="/addhandheldDevice" component={addhandheldDevice} />
             
           </Switch>
           </>
