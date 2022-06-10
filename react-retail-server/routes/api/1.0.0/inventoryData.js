@@ -1561,7 +1561,7 @@ router.post('/executiveSummaryDateWise', authenticationMidleware(), (req, res, n
 router.post('/CriticalOutOfStocksummary', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('CriticalOutOfStocksummary');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var stock_count_tb = '';
         var data_filter = req.body.storeid;
@@ -1591,7 +1591,7 @@ router.post('/CriticalOutOfStocksummary', authenticationMidleware(), (req, res, 
 
 
 
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
 
             var new_query = "SELECT SUM(initial) as CriticalStock FROM `" + stock_count_tb + "` SC " +
                 "  where  1 and counted = 0 " + cond
@@ -1612,7 +1612,7 @@ router.post('/CriticalOutOfStocksummary', authenticationMidleware(), (req, res, 
                     res.end(JSON.stringify(error));
                     //res.end(error);
                 });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '207-CriticalOutOfStocksummary  inventoryData');
         if (e instanceof TypeError) {
@@ -2078,7 +2078,7 @@ router.post('/epcReportFilter', authenticationMidleware(), (req, res, next) => {
 router.post('/CriticalOutOfStocksummarypercentage', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('CriticalOutOfStocksummarypercentage');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var stock_count_tb = '';
         var data_filter = req.body.storeid;
@@ -2107,7 +2107,7 @@ router.post('/CriticalOutOfStocksummarypercentage', authenticationMidleware(), (
         }
 
 
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
 
             var new_query = "SELECT " +
                 "ABS(ROUND((('" + req.body.criticalper + "' / '" + req.body.onehand + "')*100 ),2)) AS criticalperentage " +
@@ -2131,7 +2131,7 @@ router.post('/CriticalOutOfStocksummarypercentage', authenticationMidleware(), (
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '557-CriticalOutOfStocksummarypercentage  inventoryData');
         if (e instanceof TypeError) {
@@ -2735,7 +2735,7 @@ router.post('/BackStoreData', authenticationMidleware(), (req, res, next) => {
 router.post('/CriticalOutOfStock', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('CriticalOutOfStock');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2817,11 +2817,8 @@ router.post('/CriticalOutOfStock', authenticationMidleware(), (req, res, next) =
             " (SELECT * FROM `" + stock_count_tb + "` where 1  and  counted = 0 and initial<>0 " + cond + search_cond + ") sq ";
 
         }
-        // console.log('sssssssssssssssssssssssss');
-        // console.log(new_query)
-
-        //abdulrehmanijaz
-        if (mysql.check_permission('executiveSummary', session.user_permission) || mysql.check_permission('dashboard_home', session.user_permission)) {
+        
+        //if (mysql.check_permission('executiveSummary', session.user_permission) || mysql.check_permission('dashboard_home', session.user_permission)) {
 
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
@@ -2869,7 +2866,7 @@ router.post('/CriticalOutOfStock', authenticationMidleware(), (req, res, next) =
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1222-CriticalOutOfStock  inventoryData');
         if (e instanceof TypeError) {
