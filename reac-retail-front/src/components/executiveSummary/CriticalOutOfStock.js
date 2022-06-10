@@ -7,10 +7,100 @@ import Header from  '../header/header';
 import TopBar from  '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
  
+//jQuery libraries
+import 'jquery/dist/jquery.min.js';
+
+//Datatable Modules
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+import $ from 'jquery';
+
 export default class executiveSummaryOnHandSimple extends Component {
 	constructor(props) {
 		super(props);
 	}
+    async componentDidMount() {
+        var server_ip = await new_config.get_server_ip();
+        const params = new URLSearchParams(window.location.search)
+
+        var date = this.props.location.state.date;
+        var store_id = this.props.location.state.store_id;
+
+        var show_over = this.props.location.state.show_over;
+        
+        var brand = this.props.location.state.brand_id;
+        var department = this.props.location.state.department_id;
+
+        
+        var main_table = [];
+        $(document).ready(function () {
+        
+        main_table = $('#dataTable').DataTable( {
+         dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    title: 'ExecutiveSummaryOnHand'
+                },{
+                    extend: 'print',
+                    title: 'ExecutiveSummaryOnHand'      
+                },
+            ],
+            "pageLength": 25,
+            'processing': true,
+            "initComplete": function( settings, json ) {
+              $(".data-tables").css('visibility','visible');
+              $(".before_load_table").hide();
+            },
+            'language': {
+              'loadingRecords': '&nbsp;',
+              'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
+            },  
+            'serverSide': true,
+            'serverMethod': 'post',
+            'ajax': {
+              'url':server_ip+'inventoryData/CriticalOutOfStock',
+              "data": 
+              function ( d ) {
+                return $.extend( {}, d, {
+                  "date": date,
+                  "storeid": store_id,
+                  "bid": brand,
+                  "dptid":department,
+                  "show_over":show_over  
+                });
+              },
+            },
+            "responsive": true,
+            "columns": [
+                { "data": "code" },
+                { "data": "departmentid" },
+                { "data": "brand_name" },
+                { "data": "color" },
+                { "data": "size" },
+                { "data": "initial" },
+                { "data": "counted" },
+                { "data": "unexpected" },
+                { "data": "missing" },
+                { "data": "season" },
+                { "data": "suppliername" },
+                { "data": "price" },
+                { "data": "totalprice" },
+            ],
+            'columnDefs': [ {
+                'targets': [6,7], /* column index */
+                'orderable': false, /* true or false */
+             }],
+            "searching": false,
+        })
+        });
+
+
+        $('.run').click(function () {
+            alert('aa');
+            main_table.ajax.reload();
+        });
+    }
 	render() {
 		return(
          	<>
@@ -51,7 +141,6 @@ export default class executiveSummaryOnHandSimple extends Component {
                                         <div className="before_load_table" style={{display:"none"}}>
                                             <img src="/asserts/images/waiting_before_table_load.gif" />
                                         </div>
-                                        Coming Soon
                                         <div className="data-tables">
                                             <table id="dataTable" className="text-center mm-datatable">
                                                 <thead className="bg-light text-capitalize">
@@ -59,12 +148,16 @@ export default class executiveSummaryOnHandSimple extends Component {
                                                         <th>Sku Code</th>
                                                         <th>Department</th>
                                                         <th>Brand</th>
-                                                        <th>Color </th>
-                                                        <th>Size </th>       
+                                                        <th>Color</th>
+                                                        <th>Size</th>
                                                         <th>Initial</th>
                                                         <th>Counted</th>
                                                         <th>Unexpected</th>
-                                                                                             
+                                                        <th>Missing</th>
+                                                        <th>Season</th>
+                                                        <th>Supplier Name</th>
+                                                        <th>Price</th>
+                                                        <th>Total Price</th>                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
