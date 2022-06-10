@@ -633,7 +633,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getunderall');
     try {
 
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -693,7 +693,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
             show_over="yes";
         }
 
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             var new_query = '';
             var query_count = ''; 
             if(show_over == "yes"){
@@ -806,7 +806,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 res.end(error);
                 //res.end(error);
             });
-        }
+        //}
 
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '740-getunderall');

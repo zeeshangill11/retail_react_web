@@ -2421,7 +2421,7 @@ router.post('/OnHandMatchingDetails', authenticationMidleware(), (req, res, next
 router.post('/OneHandSimple', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('OneHandSimple');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2538,7 +2538,7 @@ router.post('/OneHandSimple', authenticationMidleware(), (req, res, next) => {
 
 
         //abdulrehmanijaz
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        // if (mysql.check_permission('executiveSummary', session.user_permission)) {
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
@@ -2579,7 +2579,7 @@ router.post('/OneHandSimple', authenticationMidleware(), (req, res, next) => {
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        // }
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '961-OneHandSimple  inventoryData');
         if (e instanceof TypeError) {
