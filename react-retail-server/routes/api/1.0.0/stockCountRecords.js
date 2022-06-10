@@ -6693,7 +6693,7 @@ router.post('/gethandhelddevice', authenticationMidleware(), (req, res, next) =>
                     for (var i = 0; i < getstoreinf.length; i++) {
                         //  if(getstoreinf[i].login_flag == 0){
                         qr_code_button = '<button type="button" device_id=' + getstoreinf[i].id + ' class="btn handhelddevices btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">QrCode</button>';
-                        edit_button_dev = '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn HandheldEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>&nbsp;';
+                        edit_button_dev = '<a type="button" href="/edithandhelddevice/'+getstoreinf[i].id +'"><button type="button" edit_id=' + getstoreinf[i].id + ' class="btn HandheldEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a>&nbsp;';
                         // }else{
                         //   qr_code_button = '';
                         //   edit_button_dev= '';  
@@ -6706,7 +6706,7 @@ router.post('/gethandhelddevice', authenticationMidleware(), (req, res, next) =>
                             "storeid": getstoreinf[i].storename,
                             "uuid": getstoreinf[i].uuid,
                             "qr_code": qr_code_button,
-                            'action': edit_button_dev + '<button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                            'action': edit_button_dev + '<button type="button" onclick="aaaaaaaaa()" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
 
                         };
 
@@ -11740,11 +11740,11 @@ router.post('/AddHandHeldDevice', authenticationMidleware(), (req, res, next) =>
     console2.execution_info('AddHandHeldDevice');
     try {
         var data = req.body;
-        var session = req.session;
+        //var session = req.session;
 
         //console.log("i am enter in AddHandHeldDevice");
-        if (mysql.check_permission('handheldDevices', session.user_permission)) {
-            console.log("permission condition true");
+        //if (mysql.check_permission('handheldDevices', session.user_permission)) {
+            //console.log("permission condition true");
 
             function HandheldDevices() {
                 
@@ -11767,7 +11767,7 @@ router.post('/AddHandHeldDevice', authenticationMidleware(), (req, res, next) =>
                             }));
                         } else {
 
-                            var user_id = session.passport.user;
+                            //var user_id = session.passport.user;
                             var entryData = [];
                             var password = '';
 
@@ -11814,9 +11814,9 @@ router.post('/AddHandHeldDevice', authenticationMidleware(), (req, res, next) =>
                     console2.log('Error', JSON.stringify(error), '5924-AddHandHeldDevice');
                     throw new Error(error);
                 })
-        } else {
+        /*} else {
             res.end("No Permission");
-        }
+        }*/
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '7850-AddHandHeldDevice');
         if (e instanceof TypeError) {
@@ -11903,7 +11903,7 @@ router.post('/EditHandHeldDevice', authenticationMidleware(), (req, res, next) =
         var session = req.session;
         function HandheldDevice() {
             return new Promise((resolve) => {
-                var user_id = session.passport.user;
+                //var user_id = session.passport.user;
                 var entryData = [];
 
                 var password = '';
