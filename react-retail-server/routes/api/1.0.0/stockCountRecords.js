@@ -6706,7 +6706,7 @@ router.post('/gethandhelddevice', authenticationMidleware(), (req, res, next) =>
                             "storeid": getstoreinf[i].storename,
                             "uuid": getstoreinf[i].uuid,
                             "qr_code": qr_code_button,
-                            'action': edit_button_dev + '<button type="button" onclick="aaaaaaaaa()" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                            'action': edit_button_dev + '<button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
 
                         };
 
@@ -11791,8 +11791,8 @@ router.post('/AddHandHeldDevice', authenticationMidleware(), (req, res, next) =>
 
                           
                             mysql.queryInsert("handheld_devices", entryData).then(function(result) {
-                                
-                                res.end(JSON.stringify(result.results));
+                                //res.end(JSON.stringify(result.results));
+                                res.end(JSON.stringify({status: "1",title: "Success",icon: "success",text: "Device Added Successfully"}));
                             }).catch(function(error) {
                                 console2.log('Error', JSON.stringify(error.error), '5907-AddHandHeldDevice');
                                 res.end(error.error);
@@ -11939,7 +11939,8 @@ router.post('/EditHandHeldDevice', authenticationMidleware(), (req, res, next) =
                 }
                 mysql.queryUpdate("handheld_devices", entryData, whereQuery)
                     .then(function(result) {
-                        res.end(JSON.stringify(result.results));
+                        res.end(JSON.stringify({status: "1",title: "Success",icon: "success",text: "Device Updated Successfully"}));
+                        //res.end(JSON.stringify(result.results));
                     })
                     .catch(function(error) {
                         console2.log('Error', JSON.stringify(error), '6024-EditHandHeldDevice');
@@ -12568,7 +12569,7 @@ router.post('/DeleteDeviceHandheld', authenticationMidleware(), (req, res, next)
                         status: "1",
                         title: "Success",
                         icon: "success",
-                        text: "Stock Count Deleted Successfully"
+                        text: "Device Deleted Successfully"
                     });
                     res.end(Message);
                 } else {
