@@ -280,7 +280,7 @@ export default class executiveSummary extends Component {
 		this.setState({ show_html: true })
 	}
 	
-  	handleInputChange22 = date => {
+  	handleDateChange = date => {
 	    this.setState({summarydate: date})
   	}
 
@@ -384,7 +384,7 @@ export default class executiveSummary extends Component {
 													<option value="">All Sizes</option>
 													{this.state.size_list.map((x, y) => <option value={x.size}>{x.size}</option>)}
 												</select>
-												<DatePicker onChange={this.handleInputChange22} selected={this.state.summarydate} className="form-control d-inline-block mr-2 date_picker_22" 
+												<DatePicker onChange={this.handleDateChange} selected={this.state.summarydate} className="form-control d-inline-block mr-2 date_picker_22" 
 												id="summarydate"  includeDates={this.state.date_state} name="date" placeholderText="Ex: yyyy-mm-dd" 
 												dateFormat="yyyy-MM-dd"/>
 												<span id="show_over_checkbox" >Show overs
