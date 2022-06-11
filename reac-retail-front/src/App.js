@@ -15,6 +15,8 @@ import CriticalOutOfStock from "./components/executiveSummary/CriticalOutOfStock
 import handheldDevices from "./components/handheldDevices/handheldDevices";
 import edithandhelddevice from "./components/handheldDevices/edithandhelddevice";
 import addhandheldDevice from "./components/handheldDevices/addhandheldDevice";
+import inventoryByItems from "./components/inventory/inventoryByItems";
+import dailyStockCountReport from "./components/DailyStockCount/dailyStockCountReport";
 
 
 
@@ -45,6 +47,8 @@ class App extends Component {
             <Route path="/handheldDevices" component={handheldDevices} />
             <Route path="/edithandhelddevice/:id" component={edithandhelddevice} />
             <Route path="/addhandheldDevice" component={addhandheldDevice} />
+            <Route path="/inventoryByItems" component={inventoryByItems} />
+            <Route path="/dailyStockCountReport" component={dailyStockCountReport} />
             
           </Switch>
           </>

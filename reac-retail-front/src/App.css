@@ -640,7 +640,13 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
   width: 150px;
   height: 35px;
 }
-
+.filter-size select, input{
+  width: 150px;
+  height: 35px;
+}
+.filter-size input::placeholder {
+  color: #000;
+}
 #summarydate {
   width: 235px !important;
   height: 35px;
