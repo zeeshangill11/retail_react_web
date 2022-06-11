@@ -12,6 +12,9 @@ import executiveSummaryOnHandSimple from "./components/executiveSummary/executiv
 import underOvers from "./components/executiveSummary/underOvers";
 import AllOvers from "./components/executiveSummary/AllOvers";
 import CriticalOutOfStock from "./components/executiveSummary/CriticalOutOfStock";
+import executiveSummaryCount from "./components/executiveSummary/executiveSummaryCount";
+import executiveSummaryFront from "./components/executiveSummary/executiveSummaryFront";
+import executiveSummaryBack from "./components/executiveSummary/executiveSummaryBack";
 import handheldDevices from "./components/handheldDevices/handheldDevices";
 import edithandhelddevice from "./components/handheldDevices/edithandhelddevice";
 import addhandheldDevice from "./components/handheldDevices/addhandheldDevice";
@@ -41,6 +44,9 @@ class App extends Component {
             <Route path="/executiveSummaryOnHandSimple" component={executiveSummaryOnHandSimple} />
             <Route path="/underOvers" component={underOvers} />
             <Route path="/AllOvers" component={AllOvers} />
+            <Route path="/executiveSummaryCount" component={executiveSummaryCount} />
+            <Route path="/executiveSummaryFront" component={executiveSummaryFront} />
+            <Route path="/executiveSummaryBack" component={executiveSummaryBack} />
             <Route path="/CriticalOutOfStock" component={CriticalOutOfStock} />
             <Route path="/handheldDevices" component={handheldDevices} />
             <Route path="/edithandhelddevice/:id" component={edithandhelddevice} />

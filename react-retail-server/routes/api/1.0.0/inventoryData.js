@@ -32,7 +32,7 @@ let transport = nodemailer.createTransport({
 router.post('/CriticalOutOfStocksummary_DetailsReport', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('CriticalOutOfStocksummary_DetailsReport');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var stock_count_tb = '';
         var data_filter = req.body.storeid;
@@ -155,7 +155,7 @@ router.post('/CriticalOutOfStocksummary_DetailsReport', authenticationMidleware(
 router.post('/getStockSummaryDetails_Report', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getStockSummaryDetails_Report');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -376,7 +376,7 @@ router.post('/getStockSummaryDetails_Report', authenticationMidleware(), (req, r
 router.post('/getStockCountOldDataReprt', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getStockCountOldDataReprt');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -543,7 +543,7 @@ router.post('/getSOHSummary_yesterday', authenticationMidleware(), (req, res, ne
         var yesterday_Date = (new Date(Date.now() - 1 * 86400000 - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0]);
         //console.log(yesterday_Date);
         //var now = new Date();
-        var session = req.session;
+        //var session = req.session;
         var getstoreinf = '';
         var new_query_stock_store = '';
         var cond = '';
@@ -642,7 +642,7 @@ router.post('/getSOHSummary', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getSOHSummary');
     try {
         var now = new Date();
-        var session = req.session;
+        //var session = req.session;
         var getstoreinf = '';
         var new_query_stock_store = '';
         var cond = '';
@@ -741,7 +741,7 @@ router.post('/getSOHSummary', authenticationMidleware(), (req, res, next) => {
 router.post('/soh_detailsController', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('soh_detailsController');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -864,7 +864,7 @@ router.post('/admin_error_logReport', authenticationMidleware(), (req, res, next
     console2.execution_info('admin_error_logReport');
        
     try {
-        var session = req.session;
+        //var session = req.session;
       
         var fs        = require('fs');
         var path = require("path");
@@ -912,7 +912,7 @@ router.post('/admin_error_logReport', authenticationMidleware(), (req, res, next
 router.post('/clear_fileReport', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('clear_fileReport');
     try {
-        var session = req.session;
+        //var session = req.session;
         var now       = new Date();
         var dateTime  = dateFormat(now, "yyyy-mm-dd");
       
@@ -962,7 +962,7 @@ router.post('/clear_fileReport', authenticationMidleware(), (req, res, next) => 
 router.post('/GetASNDetailsReceiveingAPI', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetASNDetailsReceiveingAPI');
     try {
-        var session = req.session;
+        //var session = req.session;
         var data = req.body;
         //console.log(data);
         // res.end('ok');
@@ -1028,7 +1028,7 @@ router.post('/GetASNDetailsReceiveingAPI', authenticationMidleware(), (req, res,
 router.post('/ConfirmASNDetailsReceiveingAPI', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('ConfirmASNDetailsReceiveingAPI');
     try {
-        var session = req.session;
+        //var session = req.session;
         var data = req.body;
         var storeID = data.storename;
         var username = storeID.split('000');
@@ -1151,8 +1151,8 @@ router.post('/ConfirmASNDetailsReceiveingAPI', authenticationMidleware(), (req, 
 router.post('/Activities', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('Activities');
     try {
-        var session = req.session;
-        if (mysql.check_permission('dashboard', session.user_permission)) {
+        //var session = req.session;
+        //if (mysql.check_permission('dashboard', session.user_permission)) {
 
             var new_query = "SELECT * FROM tb_audit ORDER BY auditid DESC LIMIT 0,10"
             mysql.queryCustom(new_query)
@@ -1170,7 +1170,7 @@ router.post('/Activities', authenticationMidleware(), (req, res, next) => {
                     console2.log('Error', JSON.stringify(error), '34-Activities Show In Dashboard');
                     res.end(error);
                 });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '41-Activities  inventoryData');
         if (e instanceof TypeError) {
@@ -1191,7 +1191,7 @@ router.post('/Activities', authenticationMidleware(), (req, res, next) => {
 router.post('/executiveSummaryController', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('executiveSummaryController');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var stock_count_tb = '';
         var data_filter = req.body.storeid;
@@ -1315,13 +1315,12 @@ router.post('/executiveSummaryController', authenticationMidleware(), (req, res,
 router.post('/executiveSummaryDateWise', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('executiveSummaryDateWise');
     try {
-        var session = req.session;
+        //var session = req.session;
         var stock_count_tb = '';
         var date = '';
         var export_excel = req.body.export_excel;
 
-        if (mysql.check_permission('executiveSummary', session.user_permission)) 
-        {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             var store_query =  "SELECT `storename` FROM `tb_store` ";
             var new_query   =  '';
             mysql.queryCustom(store_query).then(function(result) {
@@ -1540,7 +1539,7 @@ router.post('/executiveSummaryDateWise', authenticationMidleware(), (req, res, n
                 //res.end(error);
             });
            
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '136-summary  inventoryData');
         if (e instanceof TypeError) {
@@ -1634,7 +1633,7 @@ router.post('/CriticalOutOfStocksummary', authenticationMidleware(), (req, res, 
 router.post('/product_item_master_controller', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('product_item_master_controller');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -1799,7 +1798,7 @@ router.post('/product_item_master_controller', authenticationMidleware(), (req, 
 router.post('/epc_report', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('epc_report');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -1921,7 +1920,7 @@ router.post('/epc_report', authenticationMidleware(), (req, res, next) => {
 router.post('/epc_report_details', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('epc_report_details');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2041,7 +2040,7 @@ router.post('/epc_report_details', authenticationMidleware(), (req, res, next) =
 router.post('/epcReportFilter', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('epcReportFilter');
     try {
-        var session = req.session;
+        //var session = req.session;
         var new_query = "SELECT store_id FROM epc_detail " +
             "WHERE store_id<>'undefined' " +
             " GROUP BY store_id order by id DESC";
@@ -2154,7 +2153,7 @@ router.post('/CriticalOutOfStocksummarypercentage', authenticationMidleware(), (
 router.post('/CriticalOutOfStockDashobard', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('CriticalOutOfStockDashobard');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var stock_count_tb = '';
         var data_filter = req.body.storeid;
@@ -2177,7 +2176,7 @@ router.post('/CriticalOutOfStockDashobard', authenticationMidleware(), (req, res
 
         // console.log(req.body);
 
-        if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
+        //if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
 
             var new_query = "SELECT count(*) AS CriticalStock FROM `" + stock_count_tb + "` SC " +
                 " where 1 and counted = 0 " + cond;
@@ -2203,7 +2202,7 @@ router.post('/CriticalOutOfStockDashobard', authenticationMidleware(), (req, res
                     res.end(JSON.stringify(error));
                     //res.end(error);
                 });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '628-CriticalOutOfStockDashobard  inventoryData');
         if (e instanceof TypeError) {
@@ -2223,11 +2222,11 @@ router.post('/CriticalOutOfStockDashobard', authenticationMidleware(), (req, res
 router.post('/TotalDevicesHandheldDevices', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('TotalDevicesHandheldDevices');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         // console.log(req.body);
 
-        if (mysql.check_permission('dashboard', session.user_permission)) {
+        //if (mysql.check_permission('dashboard', session.user_permission)) {
 
             if (req.body.storeid != "" && req.body.storeid != 0 && req.body.storeid != "0" && req.body.storeid != undefined) {
                 cond += ' AND HD.storeid="' + req.body.storeid + '" '
@@ -2253,7 +2252,7 @@ router.post('/TotalDevicesHandheldDevices', authenticationMidleware(), (req, res
                     res.end(JSON.stringify(error));
                     //res.end(error);
                 });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '677-TotalDevicesHandheldDevices  inventoryData');
         if (e instanceof TypeError) {
@@ -2274,7 +2273,7 @@ router.post('/TotalDevicesHandheldDevices', authenticationMidleware(), (req, res
 router.post('/OnHandMatchingDetails', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('OnHandMatchingDetails');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2353,7 +2352,7 @@ router.post('/OnHandMatchingDetails', authenticationMidleware(), (req, res, next
         //console.log("sdddddddddd"+query_count);
 
         //abdulrehmanijaz
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
@@ -2395,7 +2394,7 @@ router.post('/OnHandMatchingDetails', authenticationMidleware(), (req, res, next
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '818-OnHandMatchingDetails  inventoryData');
         if (e instanceof TypeError) {
@@ -2538,7 +2537,7 @@ router.post('/OneHandSimple', authenticationMidleware(), (req, res, next) => {
 
 
         //abdulrehmanijaz
-        // if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
@@ -2603,7 +2602,7 @@ router.post('/OneHandSimple', authenticationMidleware(), (req, res, next) => {
 router.post('/BackStoreData', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('BackStoreData');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2674,7 +2673,7 @@ router.post('/BackStoreData', authenticationMidleware(), (req, res, next) => {
 
 
 
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
@@ -2711,7 +2710,7 @@ router.post('/BackStoreData', authenticationMidleware(), (req, res, next) => {
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1092-BackStoreData  inventoryData');
         if (e instanceof TypeError) {
@@ -2889,7 +2888,7 @@ router.post('/CriticalOutOfStock', authenticationMidleware(), (req, res, next) =
 router.post('/FrontStoreData', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('FrontStoreData');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2959,7 +2958,7 @@ router.post('/FrontStoreData', authenticationMidleware(), (req, res, next) => {
 
         //console.log(query_count);
 
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
@@ -2996,7 +2995,7 @@ router.post('/FrontStoreData', authenticationMidleware(), (req, res, next) => {
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1346-FrontStoreData  inventoryData');
         if (e instanceof TypeError) {
@@ -3019,7 +3018,7 @@ router.post('/FrontStoreData', authenticationMidleware(), (req, res, next) => {
 router.post('/CountExecutiveSummary', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('CountExecutiveSummary');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -3095,8 +3094,7 @@ router.post('/CountExecutiveSummary', authenticationMidleware(), (req, res, next
             " GROUP by epc ) sq ";
         // res.end(new_query);
 
-        //abdulrehmanijaz
-        if (mysql.check_permission('executiveSummary', session.user_permission)) {
+        //if (mysql.check_permission('executiveSummary', session.user_permission)) {
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
@@ -3138,7 +3136,7 @@ router.post('/CountExecutiveSummary', authenticationMidleware(), (req, res, next
                 res.end(JSON.stringify(error));
                 // res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1482-CountExecutiveSummary  inventoryData');
         if (e instanceof TypeError) {
@@ -3162,7 +3160,7 @@ router.post('/CountExecutiveSummary', authenticationMidleware(), (req, res, next
 router.get('/logout', (req, res, next) => {
     console2.execution_info('logout');
     try {
-        var session = req.session;
+        //var session = req.session;
         res.clearCookie("username");
         res.clearCookie("password");
         res.clearCookie("Rememberme");
@@ -3192,7 +3190,7 @@ router.get('/logout', (req, res, next) => {
 //Realtime Discrepancy
 router.post('/RealtimeDiscrepancy12', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('RealtimeDiscrepancy12');
-    var session = req.session;
+    //var session = req.session;
     try {
         var cond = '';
         var order_by_cond = '';
@@ -3238,7 +3236,7 @@ router.post('/RealtimeDiscrepancy12', authenticationMidleware(), (req, res, next
         }
 
         //console.log(req.body.search['value'])
-        if (mysql.check_permission('stockSummary', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary', session.user_permission)) {
 
             var RealtimeDiscrepancySum = '';
 
@@ -3361,7 +3359,7 @@ router.post('/RealtimeDiscrepancy12', authenticationMidleware(), (req, res, next
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1701-RealtimeDiscrepancy  inventoryData');
         if (e instanceof TypeError) {
@@ -3383,9 +3381,9 @@ router.post('/RealtimeDiscrepancy12', authenticationMidleware(), (req, res, next
 router.post('/RealtimeDiscrepancySum', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('RealtimeDiscrepancySum');
     try {
-        var session = req.session;
+        //var session = req.session;
 
-        if (mysql.check_permission('stockSummary', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary', session.user_permission)) {
             var new_query = "SELECT ABS(SUM(SC.missing)) AS remaining," +
                 " SUM(SC.expected) AS expected," +
                 " SUM(SC.counted) AS counted,SUM(SC.counted_sf) AS countedsf," +
@@ -3411,7 +3409,7 @@ router.post('/RealtimeDiscrepancySum', authenticationMidleware(), (req, res, nex
                     //res.end(error);
                 });
 
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1751-RealtimeDiscrepancySum  inventoryData');
         if (e instanceof TypeError) {
@@ -3434,7 +3432,7 @@ router.post('/RealtimeDiscrepancySum', authenticationMidleware(), (req, res, nex
 router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetInventoryByItem');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -3482,7 +3480,7 @@ router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) =
             cond += ' AND PC.size="' + req.body.Size + '" '
         }
 
-        if (mysql.check_permission('inventorybyitem', session.user_permission)) {
+        //if (mysql.check_permission('inventorybyitem', session.user_permission)) {
 
 
             var new_query = " SELECT " +
@@ -3555,7 +3553,7 @@ router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) =
                 res.end(JSON.stringify(error));
 
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Exception'+e, '1890-GetInventoryByItem  inventoryData');
         if (e instanceof TypeError) {
@@ -3577,7 +3575,7 @@ router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) =
 router.post('/GetEditRetailApi', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetEditRetailApi');
     try {
-        var session = req.session;
+        //var session = req.session;
         var query_new = "SELECT *  FROM retailapis" +
             " WHERE id= '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
@@ -3616,7 +3614,7 @@ router.post('/GetApiRetails', authenticationMidleware(), (req, res, next) => {
 
     console2.execution_info('GetApiRetails');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -3732,7 +3730,7 @@ router.post('/GetApiRetails', authenticationMidleware(), (req, res, next) => {
 router.post('/stockSummaryReport_zero', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('stockSummaryReport_zero');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -3775,7 +3773,7 @@ router.post('/stockSummaryReport_zero', authenticationMidleware(), (req, res, ne
         }
 
 
-        if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
 
             var totalrecord = '';
 
@@ -3919,7 +3917,7 @@ router.post('/stockSummaryReport_zero', authenticationMidleware(), (req, res, ne
                 //console.log(totalrecord);
 
             })
-        }
+        //}
 
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2245-stockSummaryReport_zero');
@@ -3945,7 +3943,7 @@ router.post('/stockSummaryReport_zero', authenticationMidleware(), (req, res, ne
 router.post('/getStockCountData_zero', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getStockCountData_zero');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var stock_count_tb = '';
         var data_filter = req.body.store_id;
@@ -3968,7 +3966,7 @@ router.post('/getStockCountData_zero', authenticationMidleware(), (req, res, nex
             cond += ' AND SC.storeid="000"'
         }
 
-        if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
 
             var new_query = " SELECT SC.departmentid AS department," +
                 " SUM(SC.initial) AS expected, " +
@@ -3996,7 +3994,7 @@ router.post('/getStockCountData_zero', authenticationMidleware(), (req, res, nex
                     console2.log('Error', JSON.stringify(error), '6835-getStockCountData_zero');
                     res.end(error);
                 });
-        }
+        //}
 
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2022-getStockCountData_zero');
@@ -4020,7 +4018,7 @@ router.post('/getStockCountData_zero', authenticationMidleware(), (req, res, nex
 router.post('/gettop20under_zero', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('gettop20under_zero');
     try {
-        var session = req.session;
+        //var session = req.session;
         var limit_cond = ' limit 0,25 ';
         var total_rec = '0';
         var search_cond = '';
@@ -4066,7 +4064,7 @@ router.post('/gettop20under_zero', authenticationMidleware(), (req, res, next) =
         }
 
 
-        if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
 
 
             var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
@@ -4143,7 +4141,7 @@ router.post('/gettop20under_zero', authenticationMidleware(), (req, res, next) =
                         //res.end(error);
                     });
             })
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2022-gettop20under_zero');
         if (e instanceof TypeError) {
@@ -4165,7 +4163,7 @@ router.post('/gettop20under_zero', authenticationMidleware(), (req, res, next) =
 router.post('/gettop20over_zero', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('gettop20over_zero');
     try {
-        var session = req.session;
+        //var session = req.session;
         var limit_cond = ' limit 0,25 ';
         var total_rec = '0';
         var search_cond = '';
@@ -4209,8 +4207,7 @@ router.post('/gettop20over_zero', authenticationMidleware(), (req, res, next) =>
             cond += ' AND SC.storeid="000"'
         }
 
-        //sssssssssssss
-        if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
 
             var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
                 "sum(unexpected) AS sum_diff " +
@@ -4285,9 +4282,9 @@ router.post('/gettop20over_zero', authenticationMidleware(), (req, res, next) =>
                     });
             })
 
-        } else {
+        /*} else {
             res.end("Not allowed");
-        }
+        }*/
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2022-gettop20over_zero');
         if (e instanceof TypeError) {
@@ -4309,7 +4306,7 @@ router.post('/gettop20over_zero', authenticationMidleware(), (req, res, next) =>
 router.post('/RealtimeDiscrepancy12_zero', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('RealtimeDiscrepancy12_zero');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -4353,7 +4350,7 @@ router.post('/RealtimeDiscrepancy12_zero', authenticationMidleware(), (req, res,
         }
 
         //console.log(req.body.search['value'])
-        if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
+        //if (mysql.check_permission('stockSummary_initial', session.user_permission)) {
 
             var RealtimeDiscrepancySum = '';
 
@@ -4475,7 +4472,7 @@ router.post('/RealtimeDiscrepancy12_zero', authenticationMidleware(), (req, res,
                 res.end(JSON.stringify(error));
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2022-RealtimeDiscrepancy12_zero');
         if (e instanceof TypeError) {

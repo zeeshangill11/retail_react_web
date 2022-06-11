@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Header from  '../header/header';
 import TopBar from  '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
- 
+
 //jQuery libraries
 import 'jquery/dist/jquery.min.js';
 
@@ -14,11 +14,11 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
-
-export default class executiveSummaryOnHandSimple extends Component {
-	constructor(props) {
-		super(props);
-	}
+ 
+export default class executiveSummaryCount extends Component {
+    constructor(props) {
+      super(props);
+    }
     async componentDidMount() {
         var server_ip = await new_config.get_server_ip();
         const params = new URLSearchParams(window.location.search)
@@ -59,7 +59,7 @@ export default class executiveSummaryOnHandSimple extends Component {
             'serverSide': true,
             'serverMethod': 'post',
             'ajax': {
-              'url':server_ip+'inventoryData/CriticalOutOfStock',
+              'url':server_ip+'inventoryData/CountExecutiveSummary',
               "data": 
               function ( d ) {
                 return $.extend( {}, d, {
@@ -73,19 +73,16 @@ export default class executiveSummaryOnHandSimple extends Component {
             },
             "responsive": true,
             "columns": [
-                { "data": "code" },
-                { "data": "departmentid" },
-                { "data": "brand_name" },
-                { "data": "color" },
-                { "data": "size" },
-                { "data": "initial" },
-                { "data": "counted" },
-                { "data": "unexpected" },
-                { "data": "missing" },
-                { "data": "season" },
-                { "data": "suppliername" },
-                { "data": "price" },
-                { "data": "totalprice" },
+				{ "data": "epc" },
+				{ "data": "item_code" },
+				{ "data": "user" },
+				{ "data": "zone" },
+				{ "data": "brand" },
+				{ "data": "color" },
+				{ "data": "season" },
+				{ "data": "supplier_name" },
+				{ "data": "price" },
+				{ "data": "total_price" },
             ],
             'columnDefs': [ {
                 'targets': [6,7], /* column index */
@@ -101,28 +98,28 @@ export default class executiveSummaryOnHandSimple extends Component {
             main_table.ajax.reload();
         });
     }
-	render() {
-		return(
-         	<>
-      		<Header />
-			<TopBar />
-			<div className="page-container">
-				<LeftBar />
-				<div className="main-content">
-					<div className="content-wrapper pb-4">
+    render() {
+        return(
+            <>
+            <Header />
+            <TopBar />
+            <div className="page-container">
+                <LeftBar />
+                <div className="main-content">
+                    <div className="content-wrapper pb-4">
 
-		                <div className="BtnAddLis">
-		                    <Link to="/executiveSummary" className="btn btn-danger BtnAdd"> Back </Link>
-		                </div>
-		                <div className="row">
+                        <div className="BtnAddLis">
+                            <Link to="/executiveSummary" className="btn btn-danger BtnAdd"> Back </Link>
+                        </div>
+                        <div className="row">
                             <div className="col-12 mt-1">
                                 <div className="card">
 
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{color:"#000"}}></i> 
-                                                Critical Out Of Stock
-                                            </h4>
+					                            Count 
+					                        </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
                                         <div className="right d-inline-block float-right mt-2">
@@ -145,19 +142,16 @@ export default class executiveSummaryOnHandSimple extends Component {
                                             <table id="dataTable" className="text-center mm-datatable">
                                                 <thead className="bg-light text-capitalize">
                                                     <tr>
-                                                        <th>Sku Code</th>
-                                                        <th>Department</th>
-                                                        <th>Brand</th>
-                                                        <th>Color</th>
-                                                        <th>Size</th>
-                                                        <th>Initial</th>
-                                                        <th>Counted</th>
-                                                        <th>Unexpected</th>
-                                                        <th>Missing</th>
-                                                        <th>Season</th>
-                                                        <th>Supplier Name</th>
-                                                        <th>Price</th>
-                                                        <th>Total Price</th>                        
+                                                      	<th>Epc</th>
+					                                    <th>Item Code</th>
+					                                    <th>User</th>
+					                                    <th>Zone</th>
+					                                    <th>Brand</th>
+					                                    <th>Color</th>
+					                                    <th>Season</th>
+					                                    <th>Supplier Name</th>
+					                                    <th>Price</th>
+					                                    <th>Total Price</th>                                   
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -169,11 +163,11 @@ export default class executiveSummaryOnHandSimple extends Component {
                                 </div>
                             </div>
                         </div>
-		            </div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 
-          	</>
-		)
-	}
+            </>
+        )
+    }
 }
