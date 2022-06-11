@@ -1475,3 +1475,15 @@ table.dataTable tbody td{
 #undernum p, #underper p, #expectednum p, #expectedper p, #item_accuracy2 p {
     color: #fff !important;
 }
+
+.date_picker_22{ display: inline; }
+.react-datepicker-wrapper {
+  display: inline-table !important;
+  padding: 0 !important;
+  border: 0 !important;
+  width: 100px !important;
+}
+
+.select_css{
+  height: 35px !important;
+}

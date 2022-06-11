@@ -15,7 +15,7 @@ import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
  
-export default class executiveSummaryOnHandSimple extends Component {
+export default class executiveSummaryFront extends Component {
     constructor(props) {
       super(props);
     }
@@ -40,10 +40,10 @@ export default class executiveSummaryOnHandSimple extends Component {
             buttons: [
                 {
                     extend: 'excel',
-                    title: 'ExecutiveSummaryOnHand'
+                    title: 'ExecutiveSummaryFront'
                 },{
                     extend: 'print',
-                    title: 'ExecutiveSummaryOnHand'      
+                    title: 'ExecutiveSummaryFront'      
                 },
             ],
             "pageLength": 25,
@@ -59,7 +59,7 @@ export default class executiveSummaryOnHandSimple extends Component {
             'serverSide': true,
             'serverMethod': 'post',
             'ajax': {
-              'url':server_ip+'stockCountRecords/getallover',
+              'url':server_ip+'inventoryData/CountExecutiveSummary',
               "data": 
               function ( d ) {
                 return $.extend( {}, d, {
@@ -73,24 +73,13 @@ export default class executiveSummaryOnHandSimple extends Component {
             },
             "responsive": true,
             "columns": [
-              { "data": "skucode" },
-              { "data": "departmentid" },
-              { "data": "brandname" },
-              { "data": "color" },
-              { "data": "size" },
-              { "data": "expected" },
-              { "data": "counted" },
-              { "data": "diff" },
-              { "data": "season" },
-              { "data": "suppliername" },
-              { "data": "price" },
-              { "data": "totalprice" },
-              { "data": "supplier_item_no" },
+				{ "data": "epc" },
+                { "data": "item_code" },
+                { "data": "user" },
+                { "data": "zone" },
+                { "data": "brand" },
+                { "data": "color" },
             ],
-            'columnDefs': [ {
-                'targets': [6,7], /* column index */
-                'orderable': false, /* true or false */
-             }],
             "searching": false,
         })
         });
@@ -121,8 +110,8 @@ export default class executiveSummaryOnHandSimple extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{color:"#000"}}></i> 
-                                                All Overs
-                                            </h4>
+					                            Front Store
+					                        </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
                                         <div className="right d-inline-block float-right mt-2">
@@ -138,26 +127,19 @@ export default class executiveSummaryOnHandSimple extends Component {
                                         </div>
                                     </div>
                                     <div className="card-body">
-                                        <div className="before_load_table" style={{display:"none"}}>
+                                        <div className="before_load_table">
                                             <img src="/asserts/images/waiting_before_table_load.gif" />
                                         </div>
                                         <div className="data-tables">
                                             <table id="dataTable" className="text-center mm-datatable">
                                                 <thead className="bg-light text-capitalize">
                                                     <tr>
-                                                      <th>Sku Code</th>
-                                                      <th>Department</th>
-                                                      <th>Brand</th>
-                                                      <th>Color</th>
-                                                      <th>Size</th>
-                                                      <th>Initial</th>
-                                                      <th>Counted</th>
-                                                      <th>diff</th>
-                                                      <th>Season</th>
-                                                      <th>Supplier Name</th>
-                                                      <th>Price</th>
-                                                      <th>Total Price</th>
-                                                      <th>Supplier Item No.</th>                                   
+                                                      	<th>Epc</th>
+					                                    <th>Item Code</th>
+					                                    <th>User</th>
+					                                    <th>Zone</th>
+					                                    <th>Brand</th>
+					                                    <th>Color</th>                                   
                                                     </tr>
                                                 </thead>
                                                 <tbody>
