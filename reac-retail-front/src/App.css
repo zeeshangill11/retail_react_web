@@ -1470,6 +1470,23 @@ table.dataTable tbody td{
     color: #fff !important;
 }
 
+.custom{
+  position: relative;
+  display: inline-block;
+  width: 81%;
+  margin-bottom: 20px;
+}
+.custom .form-group.col-3.mr-auto{
+  position: absolute;
+}
+.hide{
+  display: none;
+}
+
+.dataTables_wrapper .dataTables_info{
+  color: white !important;
+}
+
 .date_picker_22{ display: inline; }
 .react-datepicker-wrapper {
   display: inline-table !important;
