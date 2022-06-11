@@ -1320,7 +1320,9 @@ router.post('/executiveSummaryDateWise', authenticationMidleware(), (req, res, n
         var date = '';
         var export_excel = req.body.export_excel;
 
+
         //if (mysql.check_permission('executiveSummary', session.user_permission)) {
+
             var store_query =  "SELECT `storename` FROM `tb_store` ";
             var new_query   =  '';
             mysql.queryCustom(store_query).then(function(result) {
@@ -1478,7 +1480,7 @@ router.post('/executiveSummaryDateWise', authenticationMidleware(), (req, res, n
                         //break;
                     }
 
-                    console.log(new_query);
+                    //console.log(new_query);
                    // res.end(new_query);
                     mysql.queryCustom(new_query).then(function(results) {
                         console.log(results.results);
@@ -3441,6 +3443,7 @@ router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) =
 
         var order_col = req.body.order[0].column;
         var order_by = req.body.order[0].dir;
+        console.log(req.body)
 
         if (order_col == 0 || order_col == 1 || order_col == 2 || order_col == 4 || order_col == 5 || order_col == 6 || order_col == 8) {
             order_by_cond = " ORDER BY " + req.body.columns[order_col]['data'] + " " + order_by;
@@ -3511,7 +3514,7 @@ router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) =
             mysql.queryCustom(query_count).then(function(result) {
                 total_rec = result.results[0].my_count;
 
-                //console.log(total_rec);
+                //console.log(new_query);
                 mysql.queryCustom(new_query + limit_cond).then(function(result2) {
 
                     //console.log(result2);
@@ -3540,6 +3543,7 @@ router.post('/GetInventoryByItem', authenticationMidleware(), (req, res, next) =
 
                         table_data.push(row_data);
                     }
+                    //console.log(table_data);
                     res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
 
 
