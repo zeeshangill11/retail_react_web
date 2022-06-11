@@ -50,7 +50,7 @@ function ExecutiveSummaryFront(){
             'serverSide': true,
             'serverMethod': 'post',
             'ajax': {
-                'url':'/api/1.0.0/inventoryData/FrontStoreData',
+                'url':'/api/1.0.0/inventoryData/CountExecutiveSummary',
                 "data": 
                 function ( d ) {
                     return $.extend( {}, d, {

@@ -88,4 +88,28 @@ const get_sizes = async (store_id) =>  {
   }).catch((error) => console.error(error)).finally();
 }
 
-export default {get_stores,get_departments,get_brands,get_colors,get_sizes}
+const get_dates = async (store_id) =>  {
+  let server_ip = await new_config.get_server_ip();
+  var datesArray = [];
+    return fetch( server_ip+'stockCountRecords/getStockCountDate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Connection': 'keep-alive',
+        },
+        body: JSON.stringify({
+          store_id:store_id
+        })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {   
+      var response_data = (responseJson);
+      for(var i  = 0; i < (response_data.length); i++){
+            datesArray.push(new Date(response_data[i].stockcountdate));
+        }
+      return datesArray;
+      //this.setState({date_state: datesArray});
+    }).catch((error) => console.error(error)).finally();
+}
+
+export default {get_stores,get_departments,get_brands,get_colors,get_sizes,get_dates}

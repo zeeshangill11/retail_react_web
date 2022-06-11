@@ -153,10 +153,9 @@ export default class executiveSummaryOnHandSimple extends Component {
                                         </div>
                                     </div>
                                     <div className="card-body">
-                                        <div className="before_load_table" style={{display:"none"}}>
+                                        <div className="before_load_table">
                                             <img src="/asserts/images/waiting_before_table_load.gif" />
                                         </div>
-                                        Coming Soon
                                         <div className="data-tables">
                                             <table id="dataTable" className="text-center mm-datatable">
                                                 <thead className="bg-light text-capitalize">
