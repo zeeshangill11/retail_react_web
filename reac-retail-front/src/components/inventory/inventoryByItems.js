@@ -25,23 +25,7 @@ export default class inventoryByItems extends Component {
             brand_list: [],
             color_list: [],
             size_list: [],
-            respone1: [],
-            onhandtotal: 0,
-            inventroycount: 0,
-            counted_sf: 0,
-            counted_sr: 0,
-            missingtotal: 0,
-            missingpercentage: 0,
-            overtotal: 0,
-            onhandmatching: 0,
-            overpercentage: 0,
-            item_accuracy: 0,
-            operational_accuracy: 0,
-            CriticalStock: 0,
-            criticalperentage: 0,
             store_id: 0,
-            summarydate: '',
-            show_over: 'no',
             error_msg: "",
             bnd: " ",
             dept: " ",
@@ -108,7 +92,7 @@ export default class inventoryByItems extends Component {
 
         $(document).ready(function () {
 
-
+            $(".data-tables").css('visibility', 'hidden');
             main_table = $('#dataTable_inventory').DataTable({
                 dom: 'Bfrtip',
 
@@ -125,7 +109,7 @@ export default class inventoryByItems extends Component {
                 'processing': true,
 
                 "initComplete": function (settings, json) {
-                    $(".data-tables").css('visibility', 'visible');
+                    //$(".data-tables").css('visibility', 'visible');
                     //$(".before_load_table").hide();
                 },
                 'language': {
@@ -153,31 +137,25 @@ export default class inventoryByItems extends Component {
 
                 "responsive": true,
                 "columns": [
-                    //{ "data": "departmentname" },
                     { "data": "epc" },
-
                     { "data": "item_code" },
                     { "data": "store_id" },
                     { "data": "brand_name" },
                     { "data": "color" },
                     { "data": "size" },
-                    // { "data": "zone" },
                     { "data": "ItemDispostion" },
                     { "data": "action" },
-
-
                 ],
                 'columnDefs': [{
                     'targets': [3, 4, 5, 6, 7], /* column index */
                     'orderable': false, /* true or false */
                 }],
                 "searching": false,
-
             })
         });
         $('.run').click(function () {
-            
             main_table.ajax.reload();
+            $(".data-tables").css('visibility', 'visible');
         });
     }
 
