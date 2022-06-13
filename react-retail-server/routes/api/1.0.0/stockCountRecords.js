@@ -1215,7 +1215,7 @@ router.post('/gettop20under_all', authenticationMidleware(), (req, res, next) =>
 
     console2.execution_info('gettop20under_all');
     try {
-        var session = req.session;
+        //var session = req.session;
 
         var limit_cond = ' limit 0,25 ';
         var total_rec = '0';
@@ -1264,7 +1264,7 @@ router.post('/gettop20under_all', authenticationMidleware(), (req, res, next) =>
         }
 
 
-        if (mysql.check_permission('all_under_over', session.user_permission)) {
+        //if (mysql.check_permission('all_under_over', session.user_permission)) {
 
 
             var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
@@ -1365,7 +1365,7 @@ router.post('/gettop20under_all', authenticationMidleware(), (req, res, next) =>
                     //res.end(error);
                 });
             })
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '1049-gettop20under');
         if (e instanceof TypeError) {
@@ -7142,7 +7142,7 @@ router.post('/gettop20over_all', authenticationMidleware(), (req, res, next) => 
     
     console2.execution_info('gettop20over_all');    
     try {
-        var session = req.session;
+        //var session = req.session;
         var limit_cond = ' limit 0,25 ';
         var total_rec = '0';
         var search_cond = '';
@@ -7193,8 +7193,7 @@ router.post('/gettop20over_all', authenticationMidleware(), (req, res, next) => 
             cond += ' AND SC.storeid="000"'
         }
 
-        //sssssssssssss
-        if (mysql.check_permission('all_under_over', session.user_permission)) {
+        //if (mysql.check_permission('all_under_over', session.user_permission)) {
 
             var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
                 "sum(unexpected) AS sum_diff " +
@@ -7325,9 +7324,9 @@ router.post('/gettop20over_all', authenticationMidleware(), (req, res, next) => 
                 });
             })
 
-        } else {
+        /*} else {
             res.end("Not allowed");
-        }
+        }*/
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '4452-gettop20over');
         if (e instanceof TypeError) {

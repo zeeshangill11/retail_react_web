@@ -24,6 +24,7 @@ import inventoryByItems from "./components/inventory/inventoryByItems";
 import dailyStockCountReport from "./components/DailyStockCount/dailyStockCountReport";
 
 import stockSummary from "./components/stockSummary/stockSummary";
+import all_under_over from "./components/allUnderOver/all_under_over";
 
 class App extends Component {
 
@@ -57,10 +58,14 @@ class App extends Component {
             <Route path="/handheldDevices" component={handheldDevices} />
             <Route path="/edithandhelddevice/:id" component={edithandhelddevice} />
             <Route path="/addhandheldDevice" component={addhandheldDevice} />
-            <Route path="/inventoryByItems" component={inventoryByItems} />
+
+            <Route path="/inventorybyitem" component={inventoryByItems} />
+            
             <Route path="/dailyStockCountReport" component={dailyStockCountReport} />
             
             <Route path="/stockSummary" component={stockSummary} />
+
+            <Route path="/all_under_over" component={all_under_over} />
             
           </Switch>
           </>
