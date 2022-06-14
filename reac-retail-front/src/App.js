@@ -25,6 +25,7 @@ import dailyStockCountReport from "./components/DailyStockCount/dailyStockCountR
 
 import stockSummary from "./components/stockSummary/stockSummary";
 import all_under_over from "./components/allUnderOver/all_under_over";
+import asnData from "./components/supplyChain/asnData";
 
 class App extends Component {
 
@@ -66,6 +67,7 @@ class App extends Component {
             <Route path="/stockSummary" component={stockSummary} />
 
             <Route path="/all_under_over" component={all_under_over} />
+            <Route path="/asndata" component={asnData} />
             
           </Switch>
           </>
