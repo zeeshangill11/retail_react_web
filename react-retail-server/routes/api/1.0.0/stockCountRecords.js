@@ -3554,7 +3554,7 @@ router.post('/GetUserRoles', authenticationMidleware(), (req, res, next) => {
 router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getasndata');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -3568,10 +3568,10 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
         var query_select = '';
         var query_count_per = '';
 
-        var storeid = session.storeid;
+        // var storeid = session.storeid;
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         //console.log(order_col);
 
@@ -3693,9 +3693,9 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
 
         //console.log(req.body.show_details);
 
-        if (mysql.check_permission('asndata', session.user_permission)) {
+        //if (mysql.check_permission('asndata', session.user_permission)) {
 
-            if (session.user_id == 1) {
+           // if (session.user_id == 1) {
 
               
 
@@ -3723,38 +3723,38 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
               
                  
 
-            } else {
+            // } else {
 
                
                 
 
 
-                    query_select =  `SELECT a.*,
-                    IF(transferred_item  IS NULL,"-",transferred_item) AS transferred_item_new,
-                    IF(packed_item  IS NULL,"-",packed_item) AS packed_item_new,
-                    IF(received_item  IS NULL,"-",received_item) AS received_item_new,
+            //         query_select =  `SELECT a.*,
+            //         IF(transferred_item  IS NULL,"-",transferred_item) AS transferred_item_new,
+            //         IF(packed_item  IS NULL,"-",packed_item) AS packed_item_new,
+            //         IF(received_item  IS NULL,"-",received_item) AS received_item_new,
 
-                    IF(packing_date  IS NULL,"-",packing_date) AS packing_date_new,
-                    IF(shipping_date  IS NULL,"-",shipping_date) AS shipping_date_new,
-                    IF(receiving_date  IS NULL,"-",receiving_date) AS receiving_date_new
+            //         IF(packing_date  IS NULL,"-",packing_date) AS packing_date_new,
+            //         IF(shipping_date  IS NULL,"-",shipping_date) AS shipping_date_new,
+            //         IF(receiving_date  IS NULL,"-",receiving_date) AS receiving_date_new
 
 
 
-                    FROM asn_master a  where (source in (` + storeid + `)  or destination in (`+ storeid + `))`+ search_cond +" "+cond+` 
-                    GROUP BY asn,status`+ order_by_cond;
+            //         FROM asn_master a  where (source in (` + storeid + `)  or destination in (`+ storeid + `))`+ search_cond +" "+cond+` 
+            //         GROUP BY asn,status`+ order_by_cond;
 
-                    // console.log(query_select)
+            //         // console.log(query_select)
                 
 
-                    query_count_per = " select count(*) as `my_count` " +
-                        "from (SELECT count(*) as total_item, a.* " +
-                        "FROM `asn_master` a where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
-                        "GROUP BY asn,status) sq ";
+            //         query_count_per = " select count(*) as `my_count` " +
+            //             "from (SELECT count(*) as total_item, a.* " +
+            //             "FROM `asn_master` a where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
+            //             "GROUP BY asn,status) sq ";
 
 
 
                
-            }
+            // }
 
             //console.log(query_select);
             mysql.queryCustom(query_count_per).then(function(result) {
@@ -3852,7 +3852,7 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '2181-getasndata');
                 res.end(error);
             });
-        }
+       // }
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2740-getasndata');
         if (e instanceof TypeError) {
