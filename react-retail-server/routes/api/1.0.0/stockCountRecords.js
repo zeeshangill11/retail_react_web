@@ -5342,7 +5342,7 @@ console2.execution_info('CancelGI');
 router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getgoodsstore');
     try {
-        var session = req.session;
+        //var session = req.session;
 
 
         var cond = '';
@@ -5356,10 +5356,10 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
         var order_by = req.body.order[0].dir;
 
 
-        var storeid = session.storeid;
+        // var storeid = session.storeid;
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         var query_select = '';
         var query_count_per = '';
@@ -5484,10 +5484,10 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
 
 
 
-        if (mysql.check_permission('GoodsStockStore', session.user_permission)) {
+        //if (mysql.check_permission('GoodsStockStore', session.user_permission)) {
 
 
-            if (session.user_id == 1) {
+            //if (session.user_id == 1) {
 
                 query_select = "SELECT * FROM `goods_item_store` " +
                     " where is_deleted='0' " + cond + " " + search_cond + "  " + order_by_cond;
@@ -5495,17 +5495,17 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
                 query_count_per = " select count(*) as `my_count` from " +
                     " (SELECT * FROM `goods_item_store`  where is_deleted='0' " + cond + " " + search_cond + ") sq ";
 
-            } else {
+            // } else {
 
 
-                query_select = "SELECT * FROM `goods_item_store` " +
-                    " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
+            //     query_select = "SELECT * FROM `goods_item_store` " +
+            //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
 
 
-                query_count_per = " select count(*) as `my_count` from " +
-                    " (SELECT * FROM `goods_item_store`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
+            //     query_count_per = " select count(*) as `my_count` from " +
+            //         " (SELECT * FROM `goods_item_store`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
 
-            }
+            // }
 
             //console.log(query_select);
             mysql.queryCustom(query_count_per).then(function(result) {
@@ -5564,7 +5564,7 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '2827-getgoodsstore');
                 res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '3532-getgoodsstore');
         if (e instanceof TypeError) {
@@ -5826,7 +5826,7 @@ router.post('/getgoodsstoreDetails', authenticationMidleware(), (req, res, next)
 router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getgoodssummary');
     try {
-        var session = req.session;
+        //var session = req.session;
 
 
         var cond = '';
@@ -5840,10 +5840,10 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
         var order_by = req.body.order[0].dir;
 
 
-        var storeid = session.storeid;
+        // var storeid = session.storeid;
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         var query_select = '';
         var query_count_per = '';
@@ -5950,10 +5950,10 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
 
 
 
-        if (mysql.check_permission('GoodsSummary', session.user_permission)) {
+        //if (mysql.check_permission('GoodsSummary', session.user_permission)) {
 
 
-            if (session.user_id == 1) {
+            //if (session.user_id == 1) {
                 query_select = `SELECT store, retail_item_batch_id,
                  COUNT(retail_item_batch_id) as Items_Count, 
                  date FROM goods_item_store 
@@ -5970,23 +5970,23 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
                 
                //console.log(query_select)
 
-            } else {
+            // } else {
 
 
-                query_select = `SELECT store, retail_item_batch_id,
-                     COUNT(retail_item_batch_id) as Items_Count, 
-                     date FROM goods_item_store 
-                      WHERE 1 and   is_deleted  = '0' and store in (` + storeid + `)  `+cond+`  
-                      GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc`
+            //     query_select = `SELECT store, retail_item_batch_id,
+            //          COUNT(retail_item_batch_id) as Items_Count, 
+            //          date FROM goods_item_store 
+            //           WHERE 1 and   is_deleted  = '0' and store in (` + storeid + `)  `+cond+`  
+            //           GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc`
 
 
-               query_count_per = ` select count(*) as my_count from 
-                  (SELECT store, retail_item_batch_id, COUNT(retail_item_batch_id) as Items_Count, 
-                 date FROM goods_item_store 
-                  WHERE 1 and   is_deleted  = '0' and  store in (` + storeid + `)  `+cond+`  
-                  GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc) sq`
+            //    query_count_per = ` select count(*) as my_count from 
+            //       (SELECT store, retail_item_batch_id, COUNT(retail_item_batch_id) as Items_Count, 
+            //      date FROM goods_item_store 
+            //       WHERE 1 and   is_deleted  = '0' and  store in (` + storeid + `)  `+cond+`  
+            //       GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc) sq`
     
-            }
+            // }
 
             //console.log(query_select);
             mysql.queryCustom(query_count_per).then(function(result) {
@@ -6035,7 +6035,7 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '2827-getgoodssummary');
                 res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection', '3532-getgoodssummary');
         if (e instanceof TypeError) {
@@ -6057,7 +6057,7 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
 router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getgoodswarehouse');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -6071,10 +6071,10 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
         var query_select = '';
         var query_count_per = '';
 
-        var storeid = session.storeid;
+        // var storeid = session.storeid;
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         if (order_col == 0 || order_col == 1 || order_col == 2 || order_col == 3 || order_col == 4 || order_col == 5 || order_col == 6 || order_col == 7) {
             order_by_cond = " ORDER BY " + req.body.columns[order_col]['data'] + " " + order_by;
@@ -6189,10 +6189,10 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
             cond += ' AND retail_item_batch_id="' + req.body.Retail_Item_Batch_Id + '" '
         }
 
-        if (mysql.check_permission('GoodsStockWareHouse', session.user_permission)) {
+        //if (mysql.check_permission('GoodsStockWareHouse', session.user_permission)) {
 
             //console.log(session.user_id);
-            if (session.user_id == 1) {
+            //if (session.user_id == 1) {
 
                 query_select = "SELECT * FROM `goods_item_warehouse` " +
                     " where 1 " + cond + " " + search_cond + "  " + order_by_cond;
@@ -6200,17 +6200,17 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
                 query_count_per = " select count(*) as `my_count` from " +
                     " (SELECT * FROM `goods_item_warehouse`  where 1 " + cond + " " + search_cond + ") sq ";
 
-            } else {
+            // } else {
 
 
-                query_select = "SELECT * FROM `goods_item_warehouse` " +
-                    " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
+            //     query_select = "SELECT * FROM `goods_item_warehouse` " +
+            //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
 
 
-                query_count_per = " select count(*) as `my_count` from " +
-                    " (SELECT * FROM `goods_item_warehouse`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
+            //     query_count_per = " select count(*) as `my_count` from " +
+            //         " (SELECT * FROM `goods_item_warehouse`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
 
-            }
+            // }
 
             //console.log(query_select);
 
@@ -6268,7 +6268,7 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
                 console2.log('Error', JSON.stringify(error), '3004-getgoodswarehouse');
                 res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '3727-getgoodswarehouse');
         if (e instanceof TypeError) {
