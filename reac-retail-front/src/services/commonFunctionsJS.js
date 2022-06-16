@@ -148,4 +148,21 @@ const get_allStatus = async () =>  {
   }).catch((error) => console.error(error)).finally();
 }
 
-export default {get_stores,get_departments,get_brands,get_colors,get_sizes,get_dates, get_asnDestination,get_allStatus}
+const get_user_datail = async () =>  {
+	let server_ip = await new_config.get_server_ip();
+	return fetch( server_ip+'stockCountRecords/getUsers', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+    },
+	})
+  .then((response) => response.json())
+  .then((responseJson) => {
+		var temp = responseJson; 
+		return temp;
+
+  }).catch((error) => console.error(error)).finally();
+}
+
+export default {get_stores,get_departments,get_brands,get_colors,get_sizes,get_dates, get_asnDestination,get_allStatus, get_user_datail}

@@ -2706,7 +2706,7 @@ router.post('/StorePayload', authenticationMidleware(), (req, res, next) => {
 router.post('/GetZPLReportData', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetZPLReportData');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2764,7 +2764,7 @@ router.post('/GetZPLReportData', authenticationMidleware(), (req, res, next) => 
 
 
 
-        if (mysql.check_permission('zplReport', session.user_permission)) {
+        //if (mysql.check_permission('zplReport', session.user_permission)) {
 
             var new_query = "SELECT  " +
                 " *  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
@@ -2830,7 +2830,7 @@ router.post('/GetZPLReportData', authenticationMidleware(), (req, res, next) => 
                 res.end(error);
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2102-GetZPLReportData');
         if (e instanceof TypeError) {
@@ -2852,7 +2852,7 @@ router.post('/GetZPLReportData', authenticationMidleware(), (req, res, next) => 
 router.post('/GetZPLReportData_sku', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetZPLReportData_sku');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2910,7 +2910,7 @@ router.post('/GetZPLReportData_sku', authenticationMidleware(), (req, res, next)
 
 
 
-        if (mysql.check_permission('zplReport_sku', session.user_permission)) {
+       // if (mysql.check_permission('zplReport_sku', session.user_permission)) {
 
            var new_query = "SELECT count(*) as total_skus,  " +
                 " a.*  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
@@ -2969,7 +2969,7 @@ router.post('/GetZPLReportData_sku', authenticationMidleware(), (req, res, next)
                 res.end(error);
                 //res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection'+e, '2102-GetZPLReportData_sku');
         if (e instanceof TypeError) {
@@ -8993,19 +8993,19 @@ router.post('/getUserData', authenticationMidleware(), (req, res, next) => {
 router.post('/getUsers', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getUsers');
     try {
-        var session = req.session;
-        var storeid = session.storeid;
+        //var session = req.session;
+        // var storeid = session.storeid;
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         var query = '';
 
-        if (session.user_id == 1) {
+        //if (session.user_id == 1) {
             query = "SELECT * FROM `users`  ORDER BY id DESC"
-        } else {
-            query = "SELECT * FROM `users` storeid IN (" + storeid + ") ORDER BY id DESC"
-        }
+        // } else {
+        //     query = "SELECT * FROM `users` storeid IN (" + storeid + ") ORDER BY id DESC"
+        // }
         //console.log(query);
 
         mysql.queryCustom(query).then(function(result) {
