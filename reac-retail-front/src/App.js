@@ -29,6 +29,8 @@ import asnData from "./components/supplyChain/asnData";
 import GoodsSummary from "./components/supplyChain/GoodsSummary";
 import GoodsStockStore from "./components/supplyChain/GoodsStockStore";
 import GoodsStockWareHouse from "./components/supplyChain/GoodsStockWareHouse";
+import zplReport from "./components/TagIT/zplReport";
+import zplReport_sku from "./components/TagIT/zplReport_sku";
 
 class App extends Component {
 
@@ -74,7 +76,8 @@ class App extends Component {
             <Route path="/GoodsSummary" component={GoodsSummary} />
             <Route path="/GoodsStockStore" component={GoodsStockStore} />
             <Route path="/GoodsStockWareHouse" component={GoodsStockWareHouse} />
-            
+            <Route path="/zplReport" component={zplReport} />
+            <Route path="/zplReport_sku" component={zplReport_sku} />
           </Switch>
           </>
      
