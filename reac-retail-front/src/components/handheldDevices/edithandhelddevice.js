@@ -7,7 +7,10 @@ import swal from 'sweetalert';
 import Header from  '../header/header';
 import TopBar from  '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
- 
+import Cookies from 'universal-cookie';
+
+var cookies = new Cookies();
+var myToken = cookies.get('myToken');
 class edithandhelddevice extends Component {
   constructor(props) {
     super(props);
@@ -84,6 +87,7 @@ class edithandhelddevice extends Component {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Connection': 'keep-alive',
+        'auth-token': myToken
       },
       body: "edit_id="+this.state.id,
     })

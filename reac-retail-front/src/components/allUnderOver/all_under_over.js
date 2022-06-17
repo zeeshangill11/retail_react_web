@@ -17,6 +17,7 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
 
 export default class inventoryByItems extends Component {
   constructor(props) {
@@ -73,7 +74,8 @@ export default class inventoryByItems extends Component {
     var main_table='';
     var main_table2='';
     var main_table3='';
-
+    var cookies = new Cookies();
+    var myToken = cookies.get('myToken');
     $(document).ready(function () {
 
       $(".data-tables").css('visibility', 'hidden');
@@ -93,6 +95,9 @@ export default class inventoryByItems extends Component {
         "paging": true,
         'ajax': {
           'url': server_ip+'stockCountRecords/gettop20under_all/',
+          'beforeSend': function (request) {
+            request.setRequestHeader("auth-token", myToken);
+        },
           "data": function(d) {
             var yes_no = 'no';
             if ($('#show_over').prop('checked')) {

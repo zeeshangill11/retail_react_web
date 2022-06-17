@@ -18,6 +18,9 @@ import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
 
+
+import Cookies from 'universal-cookie';
+
 export default class zplReport extends Component {
     constructor(props) {
 
@@ -49,6 +52,11 @@ export default class zplReport extends Component {
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
+        var cookies = new Cookies();
+
+        var myToken = cookies.get('myToken');
+        console.log(myToken)
+
 
         $(document).ready(function () {
 
@@ -76,9 +84,13 @@ export default class zplReport extends Component {
                     'loadingRecords': '&nbsp;',
                     'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
                 },
+               
                 'serverMethod': 'post',
                 'ajax': {
                     'url': server_ip + 'stockCountRecords/GetZPLReportData/',
+                    'beforeSend': function (request) {
+                        request.setRequestHeader("auth-token", myToken);
+                    },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
@@ -89,6 +101,7 @@ export default class zplReport extends Component {
                                 "user_id": $('#user_id').val(),
                             });
                         },
+                    
                 },
                 "order": [[1, 'desc']],
                 "responsive": true,
