@@ -12,6 +12,10 @@ var dateFormat = require("dateformat");
 var now = new Date();
 var Cookies = require("js-cookie");
 var datetime = dateFormat(now, "yyyy-mm-dd HH:MM:ss");
+const jwt = require('jsonwebtoken');
+
+
+const JWT_SECRET = 'HelloWorld';
 
 const LimitingMiddleware = require("../../../controllers/login_Limit.js");
 //const LimitingMiddleware = require('limiting-middleware');
@@ -79,7 +83,14 @@ router.post('/web_login2',limiter, (req, res, next) => {
                                                 req.session.username = result22.results[0].username;
                                                 req.session.role_id = result22.results[0].role_id;
                                                 req.session.storeid = result22.results[0].storeid;
-
+                                                const data = {
+                                                    user: {
+                                                        id: user_id
+                                                    }
+                                                }
+                                                const authToken = jwt.sign(data, JWT_SECRET);
+                                                console.log(authToken)
+                                                // res.json({ authToken })
                                                 aduit_Add.send(''+req.session.username+' -- Login successfully', 'audit_json','login', '', '', req.session.username,'');
 
                                                 req.login(user_id, function(err) {
@@ -97,10 +108,11 @@ router.post('/web_login2',limiter, (req, res, next) => {
 
                                                         mysql.queryCustom(update_login_time).then(function(result) {
                                                             if (result.status == "1") {
-
+                                                                //res.json({authToken})
                                                                 res.status(200).send({
                                                                     error:"0",
-                                                                    message:"Logged in Successfully"
+                                                                    message:"Logged in Successfully",
+                                                                    token: authToken
                                                                 });
                                                             } else {
                                                                 console2.log('Error',JSON.stringify(error),'91-login Uknown Error Logging In 2');

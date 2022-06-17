@@ -15,6 +15,7 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
 
 export default class dailyStockCountReport extends Component {
     constructor(props) {
@@ -31,7 +32,8 @@ export default class dailyStockCountReport extends Component {
         const server_ip = await new_config.get_server_ip();
 
         var main_table = ' ';
-
+        var cookies = new Cookies();
+        var myToken = cookies.get('myToken');
         $(document).ready(function() {
             main_table = $('#dataTable').DataTable( {
                 //dom: 'Bfrtip',
@@ -67,6 +69,9 @@ export default class dailyStockCountReport extends Component {
                 'serverMethod': 'post',
                 'ajax': {
                     'url':server_ip+'inventoryData/executiveSummaryDateWise/',
+                    'beforeSend': function (request) {
+                        request.setRequestHeader("auth-token", myToken);
+                    },
                     "data": 
                     function ( d ) {
                         return $.extend( {}, d, {

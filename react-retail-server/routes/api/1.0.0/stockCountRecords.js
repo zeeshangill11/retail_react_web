@@ -12,6 +12,11 @@ const request = require('request');
 const console2 = require("../../../controllers/customconsole.js");
 const epc_parse = require("../../../controllers/epc-parser-fixed.js");
 
+
+
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'HelloWorld';
+
 const fs = require('fs');
 
 var access_token = mysql.globals.access_token;
@@ -8903,21 +8908,22 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
 
 
 router.post('/getStoreName', authenticationMidleware(), (req, res, next) => {
-    console2.execution_info('getStoreName');
+    //var userId = req.user.id;
+    //console2.execution_info(userId);
     try {
-        var session = req.session;
-        var storeid = session.storeid='0000405';
+        // var session = req.session;
+        // var storeid = session.storeid='0000405';
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         var query = '';
 
-        if (session.user_id == 1) {
+        //if (session.user_id == 1) {
             query = "SELECT * FROM tb_store WHERE 1 and storename<>'null' GROUP BY storename ORDER BY storeid DESC"
-        } else {
-            query = "SELECT * FROM tb_store WHERE storename<>'null' and storename IN (" + storeid + ") GROUP BY storename ORDER BY storeid DESC"
-        }
+        // } else {
+        //     query = "SELECT * FROM tb_store WHERE storename<>'null' and storename IN (" + storeid + ") GROUP BY storename ORDER BY storeid DESC"
+        // }
         //console.log(query);
 
         mysql.queryCustom(query).then(function(result) {
@@ -13677,9 +13683,20 @@ function onAuthorizeFail(data, message, error, accept) {
 function authenticationMidleware() {
    
     return (req, res, next) => {
+        //  const token = req.header('auth-token');
+        //   console.log(token);
+    // if (!token) {
+    //     res.status(401).send({ error: '5', message:"Authenticate using a valid token" });
+    // }
+    //      const data = jwt.verify(token, JWT_SECRET);
+    //      req.user = data.user;
+    //      console.log(req.user)
         return next();
         //if (req.isAuthenticated()) res.redirect('/login');
     }
     //return true;
 }
+
+
+
 module.exports = router;

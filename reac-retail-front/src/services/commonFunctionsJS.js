@@ -1,4 +1,8 @@
 import new_config from './config';
+
+import Cookies from 'universal-cookie';
+var cookies = new Cookies();
+var myToken = cookies.get('myToken');
 const get_stores = async () =>  {
 	let server_ip = await new_config.get_server_ip();
 	return fetch( server_ip+'stockCountRecords/getStoreName', {
@@ -6,6 +10,7 @@ const get_stores = async () =>  {
     headers: {
       'Content-Type': 'application/json',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
 	})
   .then((response) => response.json())
@@ -23,6 +28,7 @@ const get_departments = async (store_id) =>  {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
     body: "store_id="+store_id,
 	})
@@ -41,6 +47,7 @@ const get_brands = async (store_id) =>  {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
     body: "store_id="+store_id,
 	})
@@ -59,6 +66,7 @@ const get_colors = async (store_id) =>  {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
     body: "store_id="+store_id,
 	})
@@ -77,6 +85,7 @@ const get_sizes = async (store_id) =>  {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
     body: "store_id="+store_id,
 	})
@@ -96,6 +105,7 @@ const get_dates = async (store_id) =>  {
         headers: {
           'Content-Type': 'application/json',
           'Connection': 'keep-alive',
+          'auth-token': myToken
         },
         body: JSON.stringify({
           store_id:store_id
@@ -120,6 +130,7 @@ const get_asnDestination = async () =>  {
     headers: {
       'Content-Type': 'application/json',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
 	})
   .then((response) => response.json())
@@ -138,6 +149,7 @@ const get_allStatus = async () =>  {
     headers: {
       'Content-Type': 'application/json',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
 	})
   .then((response) => response.json())
@@ -155,6 +167,7 @@ const get_user_datail = async () =>  {
     headers: {
       'Content-Type': 'application/json',
       'Connection': 'keep-alive',
+      'auth-token': myToken
     },
 	})
   .then((response) => response.json())

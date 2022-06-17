@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import new_config from '../../services/config';
 import { Route, Redirect } from 'react-router';
 import executiveSummary from '../executiveSummary/executiveSummary';
+import Cookies from 'universal-cookie';
 
 
 
@@ -38,7 +39,8 @@ export default class Login extends Component {
 
 
   validate_and_send = async () => {
-  
+    var cookies = new Cookies();
+   
     var username    = this.state.username;
     var password    = this.state.password;
 
@@ -65,14 +67,14 @@ export default class Login extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
       
-
+console.log(responseJson.token)
       if(responseJson.error=="0")
       {
         this.setState({
           msg:responseJson.message,
           messageStatus:'1'
         });
-       
+        cookies.set('myToken', responseJson.token, { path: '/' });
         setTimeout(() => {
            this.props.history.push('/executiveSummary');
         }, 2000);

@@ -15,6 +15,7 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
  
 export default class executiveSummaryOnHandSimple extends Component {
 	constructor(props) {
@@ -34,7 +35,8 @@ export default class executiveSummaryOnHandSimple extends Component {
         console.log(this.props.location.state.department_id? this.props.location.state.department_id: ' ' );
 
 		
-
+        var cookies = new Cookies();
+        var myToken = cookies.get('myToken');
 		var server_ip = await new_config.get_server_ip();
         const params = new URLSearchParams(window.location.search)
 
@@ -77,6 +79,9 @@ export default class executiveSummaryOnHandSimple extends Component {
             'serverMethod': 'post',
             'ajax': {
                 'url':server_ip+'inventoryData/OneHandSimple',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("auth-token", myToken);
+                },
                 "data": 
                 function ( d ) {
                     return $.extend( {}, d, {

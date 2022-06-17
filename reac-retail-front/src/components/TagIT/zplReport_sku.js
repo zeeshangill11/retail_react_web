@@ -17,6 +17,7 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
 
 export default class zplReport extends Component {
     constructor(props) {
@@ -45,13 +46,15 @@ export default class zplReport extends Component {
         this.setState(user_list => ({
             user_list: user
         }));
+        
         console.log(this.state.user_list)
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
+        var cookies = new Cookies();
+var myToken = cookies.get('myToken');
 
         $(document).ready(function () {
-
             main_table = $('#dataTable').DataTable({
                 dom: 'Bfrtip',
 
@@ -79,10 +82,13 @@ export default class zplReport extends Component {
                 'serverMethod': 'post',
                 'ajax': {
                     'url': server_ip + 'stockCountRecords/GetZPLReportData_sku/',
+                    'beforeSend': function (request) {
+                        request.setRequestHeader("auth-token", myToken);
+                    },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
-                                "Storeid": $('#Storeid').val(),
+                                "Storeid": $('#StoreID').val(),
                                 "Epc": $('#Epc').val(),
                                 "uid": $('#uid').val(),
                                 "date22": $('#date').val(),

@@ -8,6 +8,7 @@ import Tutorial from "./components/tutorial.component";
 import TutorialsList from "./components/tutorials-list.component";
 import Login from "./components/Login/Login";
 
+
 import executiveSummary from "./components/executiveSummary/executiveSummary";
 import executiveSummaryOnHandSimple from "./components/executiveSummary/executiveSummaryOnHandSimple";
 import underOvers from "./components/executiveSummary/underOvers";
@@ -45,8 +46,7 @@ class App extends Component {
     
     return (
           <>
-         
-          <Switch>
+         <Switch>
             <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
             <Route exact path="/add" component={AddTutorial} />
             <Route path="/tutorials/:id" component={Tutorial} />
@@ -79,6 +79,7 @@ class App extends Component {
             <Route path="/zplReport" component={zplReport} />
             <Route path="/zplReport_sku" component={zplReport_sku} />
           </Switch>
+          
           </>
      
     );

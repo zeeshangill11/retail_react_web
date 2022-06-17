@@ -9,6 +9,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import Header from  '../header/header';
 import TopBar from  '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
+import Cookies from 'universal-cookie';
+var cookies = new Cookies();
+var myToken = cookies.get('myToken');
 
 export default class executiveSummary extends Component {
 	constructor(props) {
@@ -142,6 +145,7 @@ export default class executiveSummary extends Component {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Connection': 'keep-alive',
+				'auth-token': myToken
 			},
 			body: "dptid=" + dptid + "&bid=" + bid + "&date=" + date + "&storeid=" + storeid + "&size=" + size + "&color=" + color + "&show_over=" + show_over,
 		})
@@ -167,6 +171,7 @@ export default class executiveSummary extends Component {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Connection': 'keep-alive',
+				'auth-token': myToken
 			},
 			body: "dptid="+dptid+"&bid="+bid +"&date="+date+"&storeid=" + storeid,
 		})
@@ -194,6 +199,7 @@ export default class executiveSummary extends Component {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Connection': 'keep-alive',
+				'auth-token': myToken
 			},
 			body: "dptid=" + dptid + "&bid=" + bid + "&date=" + date + "&storeid=" + storeid + "&criticalper=" + this.state.CriticalStock + "&onehand=" + this.state.onhandtotal,
 		})
@@ -292,6 +298,7 @@ export default class executiveSummary extends Component {
 		}));
 
 		let all_data = await provider.get_report();
+		
 
 		/*
 		fetch( server_ip+'login/web_login2', {

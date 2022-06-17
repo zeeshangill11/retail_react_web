@@ -16,6 +16,7 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
  
 export default class stockSummary extends Component {
   constructor(props) {
@@ -54,6 +55,8 @@ export default class stockSummary extends Component {
     var main_table2='';
     var main_table3='';
     var main_table4='';
+    var cookies = new Cookies();
+var myToken = cookies.get('myToken');
     $(document).ready(function() {
       $(".before_load_table").hide();
       $(".visibile").hide();
@@ -80,6 +83,9 @@ export default class stockSummary extends Component {
         "paging": false,
         'ajax': {
           'url':server_ip+'stockCountRecords/stockSummaryReport/',
+          'beforeSend': function (request) {
+            request.setRequestHeader("auth-token", myToken);
+        },
           "data": 
           function ( d ) {
             return $.extend( {}, d, {

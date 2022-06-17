@@ -17,7 +17,7 @@ import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery'; 
  
- 
+import Cookies from 'universal-cookie';
 
 
 
@@ -46,6 +46,9 @@ export default class handheldDevices extends Component {
 		if(storeid !==''){
 			var store_name = storeid;
 		}
+		
+var cookies = new Cookies();
+var myToken = cookies.get('myToken');
 
 		var main_table = [];
 		$(document).ready(function() {
@@ -74,6 +77,9 @@ export default class handheldDevices extends Component {
 				'serverMethod': 'post',
 				'ajax': {
 					'url':server_ip+'stockCountRecords/gethandhelddevice',
+					'beforeSend': function (request) {
+                        request.setRequestHeader("auth-token", myToken);
+                    },
 					"data": 
 					function ( d ) {
 						return $.extend( {}, d, {
