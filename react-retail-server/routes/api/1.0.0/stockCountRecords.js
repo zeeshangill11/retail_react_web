@@ -39,8 +39,8 @@ let transport = nodemailer.createTransport({
     host: 'mail.innodaba.com',
     port: 587,
     auth: {
-       user: 'saqib@innodaba.com',
-       pass: 'pJqX^++j;c@u'
+        user: 'saqib@innodaba.com',
+        pass: 'pJqX^++j;c@u'
     },
     tls: {
         rejectUnauthorized: false
@@ -58,7 +58,7 @@ router.post('/New_CancelRequestAsn', (req, res, next) => {
         var process_type = req.body.process_type
         var asn_id = req.body.asn_id;
         var storeid = '';
-        var asn='';
+        var asn = '';
         //console.log(">>>>>>>>>>>>>"+asn_id);
 
         var update_query = '';
@@ -67,101 +67,101 @@ router.post('/New_CancelRequestAsn', (req, res, next) => {
 
         //console.log("<><><><><><>"+new_query);
 
-        mysql.queryCustom(new_query).then(function(result) {
+        mysql.queryCustom(new_query).then(function (result) {
 
 
-                if (result.status == "1") {
+            if (result.status == "1") {
 
-                    var total_results = result.results;
+                var total_results = result.results;
 
-                    var item_for_cancel='';
+                var item_for_cancel = '';
 
-                    for (var i = 0; i < total_results.length; i++) {
+                for (var i = 0; i < total_results.length; i++) {
 
-                        storeid = total_results[i].store_id;
-                        storeid = storeid.split('000').join('');
-                        asn     = total_results[i].asn;
-
-
-
-                        item_for_cancel = item_for_cancel+'{"group":">RUBAIYATDEV","thingTypeCode":"ITEM",' +
-                            '"serialNumber":"' + total_results[i].tag_id + '",' +
-                            '"udfs":{"Retail_BizTransactionId":{"value":"'+asn+'"},' +
-                            '"Retail_BizTransactionProcessStatus":{"value":"cancelled"},' +
-                            '"remarks":{"value":"Reason for cancellation"},' +
-
-                            '"user":{"value":"store'+storeid+'"}}},';
+                    storeid = total_results[i].store_id;
+                    storeid = storeid.split('000').join('');
+                    asn = total_results[i].asn;
 
 
 
-                        
+                    item_for_cancel = item_for_cancel + '{"group":">RUBAIYATDEV","thingTypeCode":"ITEM",' +
+                        '"serialNumber":"' + total_results[i].tag_id + '",' +
+                        '"udfs":{"Retail_BizTransactionId":{"value":"' + asn + '"},' +
+                        '"Retail_BizTransactionProcessStatus":{"value":"cancelled"},' +
+                        '"remarks":{"value":"Reason for cancellation"},' +
 
-                        update_query += "UPDATE asn_master SET status= 'cancelled' WHERE asn='" + total_results[i].asn + "';"
-                        update_query += "UPDATE asn_items SET process_status= 'cancelled' WHERE asn='" + total_results[i].asn + "';"
+                        '"user":{"value":"store' + storeid + '"}}},';
 
-                        //console.log(update_query);
 
-                        
-                    }
 
-                    mysql.queryCustom(update_query).then(function(result) {
-                        if (result.status == "1") {
-                            // res.end(JSON.stringify(result.results));
-                        } else {
 
-                            console2.log('Error', JSON.stringify(result.error), '217-New_CancelRequestAsn');
-                            // res.end(error);
-                            //res.end(result.error);
-                        }
-                    }).catch(function(error) {
 
-                        console2.log('Error', JSON.stringify(error), '223-New_CancelRequestAsn');
-                        // res.end(error);
-                        // res.end(error);
-                    });
+                    update_query += "UPDATE asn_master SET status= 'cancelled' WHERE asn='" + total_results[i].asn + "';"
+                    update_query += "UPDATE asn_items SET process_status= 'cancelled' WHERE asn='" + total_results[i].asn + "';"
 
-                    //res.end('555555555');
-                    item_for_cancel = item_for_cancel.slice(',', -1);
-                    const options = {
-                        url: 'http://'+process.env.IOT_PLATFORM_IP+'/innovent/SUPPLYCHAIN',
-                        method: 'PATCH',
-                        headers: {
-                            'content-type': 'application/json',
-                            'apikey': process.env.IOT_API_KEY,
-                        },
-                        body: '['+item_for_cancel+']'
-                    };
-                    //console.log(options);
+                    //console.log(update_query);
 
-                    request(options, function(err, res, body) {
-                        let wjson = body;
 
-                    });
-                    //res.end('a');
-                    //console.log(result);
-                   res.end(JSON.stringify(result.results));
-                } else {
-
-                    console2.log('Error', JSON.stringify(error), '233-New_CancelRequestAsn');
-                    res.end(error);
-                    //res.end(result.error);
                 }
-            })
-            .catch(function(error) {
+
+                mysql.queryCustom(update_query).then(function (result) {
+                    if (result.status == "1") {
+                        // res.end(JSON.stringify(result.results));
+                    } else {
+
+                        console2.log('Error', JSON.stringify(result.error), '217-New_CancelRequestAsn');
+                        // res.end(error);
+                        //res.end(result.error);
+                    }
+                }).catch(function (error) {
+
+                    console2.log('Error', JSON.stringify(error), '223-New_CancelRequestAsn');
+                    // res.end(error);
+                    // res.end(error);
+                });
+
+                //res.end('555555555');
+                item_for_cancel = item_for_cancel.slice(',', -1);
+                const options = {
+                    url: 'http://' + process.env.IOT_PLATFORM_IP + '/innovent/SUPPLYCHAIN',
+                    method: 'PATCH',
+                    headers: {
+                        'content-type': 'application/json',
+                        'apikey': process.env.IOT_API_KEY,
+                    },
+                    body: '[' + item_for_cancel + ']'
+                };
+                //console.log(options);
+
+                request(options, function (err, res, body) {
+                    let wjson = body;
+
+                });
+                //res.end('a');
+                //console.log(result);
+                res.end(JSON.stringify(result.results));
+            } else {
+
+                console2.log('Error', JSON.stringify(error), '233-New_CancelRequestAsn');
+                res.end(error);
+                //res.end(result.error);
+            }
+        })
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '239-New_CancelRequestAsn');
                 res.end(error);
                 //res.end(error);
             });
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '268-New_CancelRequestAsn');
+        console2.log('Error', 'Catch Expection' + e, '268-New_CancelRequestAsn');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '275-New_CancelRequestAsn');
+            console2.log('Error', 'Catch Expection' + e, '275-New_CancelRequestAsn');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -182,7 +182,7 @@ router.post('/check_permission_request', authenticationMidleware(), (req, res, n
             "WHERE US.id = '" + session.user_id + "'";
 
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -192,7 +192,7 @@ router.post('/check_permission_request', authenticationMidleware(), (req, res, n
                     //res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '268-check_permission_request');
                 res.end(error);
@@ -200,14 +200,14 @@ router.post('/check_permission_request', authenticationMidleware(), (req, res, n
             });
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '315-check_permission_request');
+        console2.log('Error', 'Catch Expection' + e, '315-check_permission_request');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '322-check_permission_request');
+            console2.log('Error', 'Catch Expection' + e, '322-check_permission_request');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -226,12 +226,12 @@ router.post('/get_iot_notification_date', authenticationMidleware(), (req, res, 
     try {
         var session = req.session;
 
-        var new_query = "SELECT status FROM iot_notification WHERE storename = '"+req.body.store_id+"' and "+ 
-        " iot_date = '"+req.body.iot_date+"' ";
+        var new_query = "SELECT status FROM iot_notification WHERE storename = '" + req.body.store_id + "' and " +
+            " iot_date = '" + req.body.iot_date + "' ";
 
         //console.log(new_query)
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -241,7 +241,7 @@ router.post('/get_iot_notification_date', authenticationMidleware(), (req, res, 
                     //res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '268-get_iot_notification_date');
                 res.end(error);
@@ -249,14 +249,14 @@ router.post('/get_iot_notification_date', authenticationMidleware(), (req, res, 
             });
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '315-get_iot_notification_date');
+        console2.log('Error', 'Catch Expection' + e, '315-get_iot_notification_date');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '322-get_iot_notification_date');
+            console2.log('Error', 'Catch Expection' + e, '322-get_iot_notification_date');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -331,7 +331,7 @@ router.post('/CycleCountDetail', (req, res, next) => {
                         " GROUP BY SC.departmentid "
 
                     //res.end("++++++++++++++"+new_query);
-                    mysql.queryCustom(new_query).then(function(result) {
+                    mysql.queryCustom(new_query).then(function (result) {
                         if (result.status == "1") {
                             res.end(JSON.stringify({
                                 data: result.results
@@ -342,7 +342,7 @@ router.post('/CycleCountDetail', (req, res, next) => {
                             res.end(result.error);
                             //res.end(result.error);
                         }
-                    }).catch(function(error) {
+                    }).catch(function (error) {
 
                         console2.log('Error', JSON.stringify(error), '336-CycleCountDetail');
                         res.end(error);
@@ -364,14 +364,14 @@ router.post('/CycleCountDetail', (req, res, next) => {
 
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '429-CycleCountDetail');
+        console2.log('Error', 'Catch Expection' + e, '429-CycleCountDetail');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '436-CycleCountDetail');
+            console2.log('Error', 'Catch Expection' + e, '436-CycleCountDetail');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -384,8 +384,8 @@ router.post('/CycleCountDetail', (req, res, next) => {
 
 router.post('/itemViewProductItem', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('itemViewProductItem');
-    
-    try{
+
+    try {
 
         var session = req.session;
         var cond = '';
@@ -396,7 +396,7 @@ router.post('/itemViewProductItem', authenticationMidleware(), (req, res, next) 
         var total_rec = '0';
         var order_col = req.body.order[0].column;
         var order_by = req.body.order[0].dir;
-      
+
 
         if (order_col == 0 || order_col == 1 || order_col == 2 || order_col == 3 || order_col == 4 || order_col == 5 || order_col == 6 || order_col == 7 || order_col == 8 || order_col == 9) {
 
@@ -408,80 +408,80 @@ router.post('/itemViewProductItem', authenticationMidleware(), (req, res, next) 
             limit_cond = ' limit  ' + req.body.start + " , " + req.body.length;
         }
 
-        if (req.body.skucode != "" && req.body.skucode != 0 && req.body.skucode != "0"  && req.body.skucode != undefined) {
+        if (req.body.skucode != "" && req.body.skucode != 0 && req.body.skucode != "0" && req.body.skucode != undefined) {
             cond += ' AND skucode="' + req.body.skucode + '" '
         }
 
         if (req.body.departmentid != "" && req.body.departmentid != 0 && req.body.departmentid != "0" && req.body.departmentid != undefined) {
-            
+
             cond += ' AND departmentid like "%' + req.body.departmentid + '%"'
         }
 
 
-    var new_query = "SELECT  " +
-    " *  FROM `product_item_master` a   where 1 " + search_cond + " " + cond +
-    " " + order_by_cond;
-   
+        var new_query = "SELECT  " +
+            " *  FROM `product_item_master` a   where 1 " + search_cond + " " + cond +
+            " " + order_by_cond;
 
-     var query_count = " select `my_count` " +
-     "from (SELECT count(*) as my_count  " +
-     "FROM `product_item_master`  a where 1 " + search_cond + " " + cond +
-     ") sq";
 
-    mysql.queryCustom(query_count).then(function(result) {
-        total_rec = result.results[0].my_count;
-       
+        var query_count = " select `my_count` " +
+            "from (SELECT count(*) as my_count  " +
+            "FROM `product_item_master`  a where 1 " + search_cond + " " + cond +
+            ") sq";
 
-    mysql.queryCustom(new_query+limit_cond).then(function(result) {
-        getstoreinf = result.results;
-        var table_data = [];
-        permission = '';
-        for (var i = 0; i < getstoreinf.length; i++) {
-            var row_data = {
-                "skucode": getstoreinf[i].skucode,
-                "departmentid": getstoreinf[i].departmentid,
-                "ean_no": getstoreinf[i].ean_no,
-                "arabic_desc": getstoreinf[i].arabic_desc,
-                "english_desc": getstoreinf[i].english_desc,
-            };
-    
-            table_data.push(row_data);
-          
-        }
-        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
-           
-        
-    }).catch(function(error) {
+        mysql.queryCustom(query_count).then(function (result) {
+            total_rec = result.results[0].my_count;
 
-        console.log('Error',JSON.stringify(error),'518-itemViewProductItem');
-        res.end(error);
-      
-      });
-    })
-    .catch(function(error) {
 
-        console.log('Error',JSON.stringify(error),'525-itemViewProductItem');
-        res.end(error);
-      
-      });
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
+                getstoreinf = result.results;
+                var table_data = [];
+                permission = '';
+                for (var i = 0; i < getstoreinf.length; i++) {
+                    var row_data = {
+                        "skucode": getstoreinf[i].skucode,
+                        "departmentid": getstoreinf[i].departmentid,
+                        "ean_no": getstoreinf[i].ean_no,
+                        "arabic_desc": getstoreinf[i].arabic_desc,
+                        "english_desc": getstoreinf[i].english_desc,
+                    };
+
+                    table_data.push(row_data);
+
+                }
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            }).catch(function (error) {
+
+                console.log('Error', JSON.stringify(error), '518-itemViewProductItem');
+                res.end(error);
+
+            });
+        })
+            .catch(function (error) {
+
+                console.log('Error', JSON.stringify(error), '525-itemViewProductItem');
+                res.end(error);
+
+            });
 
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '532-itemViewProductItem');
+        console2.log('Error', 'Catch Expection' + e, '532-itemViewProductItem');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '539-itemViewProductItem');
+            console2.log('Error', 'Catch Expection' + e, '539-itemViewProductItem');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         }
     }
-    
+
 });
 
 router.post('/getStoresDetailsDashboard', authenticationMidleware(), (req, res, next) => {
@@ -492,7 +492,7 @@ router.post('/getStoresDetailsDashboard', authenticationMidleware(), (req, res, 
         if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
             var new_query = "select stockcountdate AS date from tb_store where storename = '" + req.body.store_id + "'"
             //console.log(">>>>>>"+new_query);    
-            mysql.queryCustom(new_query).then(function(result) {
+            mysql.queryCustom(new_query).then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -501,7 +501,7 @@ router.post('/getStoresDetailsDashboard', authenticationMidleware(), (req, res, 
                     res.end(result.error);
                     //res.end(result.error);
                 }
-            }).catch(function(error) {
+            }).catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '374-getStoresDetailsDashboard');
                 res.end(error);
@@ -510,14 +510,14 @@ router.post('/getStoresDetailsDashboard', authenticationMidleware(), (req, res, 
         }
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '475-getStoresDetailsDashboard');
+        console2.log('Error', 'Catch Expection' + e, '475-getStoresDetailsDashboard');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '482-getStoresDetailsDashboard');
+            console2.log('Error', 'Catch Expection' + e, '482-getStoresDetailsDashboard');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -535,7 +535,7 @@ router.post('/getStores', authenticationMidleware(), (req, res, next) => {
         var session = req.session;
         //console.log(session.storeid);
         mysql.querySelect("tb_store", " order by storeid desc", "*")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -545,21 +545,21 @@ router.post('/getStores', authenticationMidleware(), (req, res, next) => {
                     //res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '398-getStores');
                 res.end(error);
                 //res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '517-getStores');
+        console2.log('Error', 'Catch Expection' + e, '517-getStores');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '524-getStores');
+            console2.log('Error', 'Catch Expection' + e, '524-getStores');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -575,13 +575,13 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
 
     try {
         var session = req.session;
-        var cond    = '';
+        var cond = '';
         var storeid = '';
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
             cond += ' AND SC.storeid="' + req.body.store_id + '" ';
 
-            storeid = req.body.store_id ;
+            storeid = req.body.store_id;
         }
         if (req.body.date != "" && req.body.date != 0 && req.body.date != "0") {
             cond += ' AND SC.stockcountdate="' + req.body.date + '" '
@@ -595,11 +595,11 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
                 " SUM(SC.initial) AS onhandtotal," +
                 " SUM((SC.counted)) AS inventroycount,SUM(SC.counted_sf) AS front," +
                 " SUM(SC.counted_sr) AS back  " +
-                " FROM stock_count_"+storeid+" SC" +
+                " FROM stock_count_" + storeid + " SC" +
                 "  WHERE 1 " + cond
 
 
-            mysql.queryCustom(new_query).then(function(result) {
+            mysql.queryCustom(new_query).then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -608,7 +608,7 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
                     res.end(result.error);
                     //res.end(result.error);  
                 }
-            }).catch(function(error) {
+            }).catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '441-getStoresPercentage');
                 res.end(error);
@@ -617,14 +617,14 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
         }
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '579-getStoresPercentage');
+        console2.log('Error', 'Catch Expection' + e, '579-getStoresPercentage');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '586-getStoresPercentage');
+            console2.log('Error', 'Catch Expection' + e, '586-getStoresPercentage');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -692,18 +692,17 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
         }
 
 
-        var show_over="no";
-        if (req.body.show_over =='yes' )
-        {
-            show_over="yes";
+        var show_over = "no";
+        if (req.body.show_over == 'yes') {
+            show_over = "yes";
         }
 
         //if (mysql.check_permission('executiveSummary', session.user_permission)) {
-            var new_query = '';
-            var query_count = ''; 
-            if(show_over == "yes"){
+        var new_query = '';
+        var query_count = '';
+        if (show_over == "yes") {
 
-                new_query = "SELECT" +
+            new_query = "SELECT" +
                 " SC.code as code, " +
                 " SC.departmentid as departmentid,SC.suppliername as suppliername,SC.totalprice as totalprice, " +
                 " SC.brand_name AS brandname, " +
@@ -711,7 +710,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 " SC.color as color,SC.size as size," +
                 " (SC.initial) AS expected," +
                 " (SC.counted) AS counted," +
-                " SC.price as price , SC.season as season ,"+
+                " SC.price as price , SC.season as season ," +
                 " SC.code as skucode , " +
                 " (missing) as diff , " +
                 " round(ABS(((missing)/(initial))*100),2) as diffper " +
@@ -720,7 +719,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 " where  missing<>0 " + cond + search_cond + " " +
                 "  order by diff desc " + order_by_cond;
 
-          
+
 
             query_count = " select count(*) as `my_count` from ( SELECT SC.id FROM " +
                 " " + stock_count_tb + " SC " +
@@ -729,10 +728,10 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 ") sq ";
 
 
-            }else{
+        } else {
 
 
-                new_query = "SELECT" +
+            new_query = "SELECT" +
                 " SC.code as code, " +
                 " SC.departmentid as departmentid, " +
                 " SC.brand_name AS brandname, " +
@@ -740,7 +739,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 " SC.color as color,SC.size as size,SC.suppliername as suppliername,SC.totalprice as totalprice," +
                 " (SC.initial) AS expected," +
                 " (SC.counted) AS counted," +
-                " SC.price as price , SC.season as season ,"+
+                " SC.price as price , SC.season as season ," +
                 " SC.code as skucode , " +
                 " (missing) as diff , " +
                 " round(ABS(((missing)/(initial))*100),2) as diffper " +
@@ -749,7 +748,7 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 " where  missing<>0 and initial<>0 " + cond + search_cond + " " +
                 "  order by diff desc " + order_by_cond;
 
-           
+
 
             query_count = " select count(*) as `my_count` from ( SELECT SC.id FROM " +
                 " " + stock_count_tb + " SC " +
@@ -758,70 +757,70 @@ router.post('/getunderall', authenticationMidleware(), (req, res, next) => {
                 ") sq ";
 
 
-            }
-
-           
-            //console.log("++++++++++++++>+"+new_query);
-
-            mysql.queryCustom(query_count).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                //console.log("=hhhh===>"+new_query)
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
-
-                        gettopall = result.results;
-                        //console.log(gettop20)
-                        var table_data = [];
-                        for (var i = 0; i < gettopall.length; i++) {
+        }
 
 
-                            var row_data = {
-                                "skucode": gettopall[i].skucode,
-                                "departmentid": gettopall[i].departmentid,
-                                "brandname": unescape(gettopall[i].brandname),
-                                "color": unescape(gettopall[i].color),
-                                "size": gettopall[i].size,
-                                "expected": gettopall[i].expected,
-                                "counted": gettopall[i].counted,
-                                "diff": Math.abs(gettopall[i].diff),
-                                "season": gettopall[i].season,
-                                "suppliername": unescape(gettopall[i].suppliername),
-                                "price": gettopall[i].price,
-                                "totalprice": gettopall[i].totalprice,
-                                "supplier_item_no": gettopall[i].supplier_item_no,
-                            };
+        //console.log("++++++++++++++>+"+new_query);
+
+        mysql.queryCustom(query_count).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            //console.log("=hhhh===>"+new_query)
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
+
+                gettopall = result.results;
+                //console.log(gettop20)
+                var table_data = [];
+                for (var i = 0; i < gettopall.length; i++) {
 
 
-                            table_data.push(row_data);
-                        }
+                    var row_data = {
+                        "skucode": gettopall[i].skucode,
+                        "departmentid": gettopall[i].departmentid,
+                        "brandname": unescape(gettopall[i].brandname),
+                        "color": unescape(gettopall[i].color),
+                        "size": gettopall[i].size,
+                        "expected": gettopall[i].expected,
+                        "counted": gettopall[i].counted,
+                        "diff": Math.abs(gettopall[i].diff),
+                        "season": gettopall[i].season,
+                        "suppliername": unescape(gettopall[i].suppliername),
+                        "price": gettopall[i].price,
+                        "totalprice": gettopall[i].totalprice,
+                        "supplier_item_no": gettopall[i].supplier_item_no,
+                    };
 
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    table_data.push(row_data);
+                }
 
-                    })
-                    .catch(function(error) {
 
-                        console2.log('Error', JSON.stringify(error), '566-getunderall');
-                        res.end(error);
-                        //res.end(error);
-                    });
-            }).catch(function(error) {
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
 
-                console2.log('Error', JSON.stringify(error), '572-getunderall');
-                res.end(error);
-                //res.end(error);
-            });
+            })
+                .catch(function (error) {
+
+                    console2.log('Error', JSON.stringify(error), '566-getunderall');
+                    res.end(error);
+                    //res.end(error);
+                });
+        }).catch(function (error) {
+
+            console2.log('Error', JSON.stringify(error), '572-getunderall');
+            res.end(error);
+            //res.end(error);
+        });
         //}
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '740-getunderall');
+        console2.log('Error', 'Catch Expection' + e, '740-getunderall');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '747-getunderall');
+            console2.log('Error', 'Catch Expection' + e, '747-getunderall');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -843,18 +842,18 @@ router.post('/updateCronJobtable', authenticationMidleware(), (req, res, next) =
 
         var new_query = "UPDATE cronjob_taks SET status = '0' WHERE id='" + req.body.cronjob_id + "'";
 
-        mysql.queryCustom(new_query).then(function(result) {
-                if (result.status == "1") {
-                    res.end(JSON.stringify(result.results));
-                } else {
+        mysql.queryCustom(new_query).then(function (result) {
+            if (result.status == "1") {
+                res.end(JSON.stringify(result.results));
+            } else {
 
-                    console2.log('Error', JSON.stringify(result.error), '594-updateCronJobtable');
-                    res.end(error);
-                    //res.end(result.error);
-                }
+                console2.log('Error', JSON.stringify(result.error), '594-updateCronJobtable');
+                res.end(error);
+                //res.end(result.error);
+            }
 
-            })
-            .catch(function(error) {
+        })
+            .catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '602-updateCronJobtable');
                 res.end(error);
@@ -864,14 +863,14 @@ router.post('/updateCronJobtable', authenticationMidleware(), (req, res, next) =
         //}  
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '789-updateCronJobtable');
+        console2.log('Error', 'Catch Expection' + e, '789-updateCronJobtable');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '796-updateCronJobtable');
+            console2.log('Error', 'Catch Expection' + e, '796-updateCronJobtable');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -889,18 +888,18 @@ router.post('/SelectFiltersCronjob', authenticationMidleware(), (req, res, next)
 
         var new_query = "SELECT process_type,store_id FROM `cronjob_taks` GROUP BY process_type ORDER BY id DESC";
 
-        mysql.queryCustom(new_query).then(function(result) {
-                if (result.status == "1") {
-                    res.end(JSON.stringify(result.results));
-                } else {
+        mysql.queryCustom(new_query).then(function (result) {
+            if (result.status == "1") {
+                res.end(JSON.stringify(result.results));
+            } else {
 
-                    console2.log('Error', JSON.stringify(result.error), '594-SelectFiltersCronjob');
-                    res.end(error);
-                    //res.end(result.error);
-                }
+                console2.log('Error', JSON.stringify(result.error), '594-SelectFiltersCronjob');
+                res.end(error);
+                //res.end(result.error);
+            }
 
-            })
-            .catch(function(error) {
+        })
+            .catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '602-SelectFiltersCronjob');
                 res.end(error);
@@ -910,14 +909,14 @@ router.post('/SelectFiltersCronjob', authenticationMidleware(), (req, res, next)
         //}  
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '789-SelectFiltersCronjob');
+        console2.log('Error', 'Catch Expection' + e, '789-SelectFiltersCronjob');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '796-SelectFiltersCronjob');
+            console2.log('Error', 'Catch Expection' + e, '796-SelectFiltersCronjob');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -987,43 +986,43 @@ router.post('/handlercronjobsApi', authenticationMidleware(), (req, res, next) =
 
         var query_count = "select count(*) as my_count from (select * from cronjob_taks where 1 " + cond + ") sq"
 
-        mysql.queryCustom(query_count).then(function(result) {
+        mysql.queryCustom(query_count).then(function (result) {
             total_rec = result.results[0].my_count;
 
-            mysql.queryCustom(new_query + limit_cond).then(function(result) {
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                    gettopall = result.results;
-                    //console.log(gettop20our)
-                    var table_data = [];
-                    for (var i = 0; i < gettopall.length; i++) {
+                gettopall = result.results;
+                //console.log(gettop20our)
+                var table_data = [];
+                for (var i = 0; i < gettopall.length; i++) {
 
-                        var row_data = {
+                    var row_data = {
 
-                            "id": gettopall[i].id,
-                            "Retail_CycleCountID": gettopall[i].Retail_CycleCountID,
-                            "DateTIme": gettopall[i].DateTIme,
-                            "store_id": gettopall[i].store_id,
-                            "destinationStore": gettopall[i].destinationStore,
-                            "status": gettopall[i].status,
-                            "process_type": gettopall[i].process_type,
-                            "action": '<button type="button" cronjob_id=' + gettopall[i].id + ' class="btn btn-default cronjob_run" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Run</button>'
-                        };
-
-
-                        table_data.push(row_data);
-                    }
-
-                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        "id": gettopall[i].id,
+                        "Retail_CycleCountID": gettopall[i].Retail_CycleCountID,
+                        "DateTIme": gettopall[i].DateTIme,
+                        "store_id": gettopall[i].store_id,
+                        "destinationStore": gettopall[i].destinationStore,
+                        "status": gettopall[i].status,
+                        "process_type": gettopall[i].process_type,
+                        "action": '<button type="button" cronjob_id=' + gettopall[i].id + ' class="btn btn-default cronjob_run" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Run</button>'
+                    };
 
 
-                })
-                .catch(function(error) {
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
 
                     console2.log('Error', JSON.stringify(error), '694-handlercronjobsApi');
                     res.end(error);
                     //res.end(error);
                 });
-        }).catch(function(error) {
+        }).catch(function (error) {
 
             console2.log('Error', JSON.stringify(error), '700-handlercronjobsApi');
             res.end(error);
@@ -1032,14 +1031,14 @@ router.post('/handlercronjobsApi', authenticationMidleware(), (req, res, next) =
 
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '905-handlercronjobsApi');
+        console2.log('Error', 'Catch Expection' + e, '905-handlercronjobsApi');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '912-handlercronjobsApi');
+            console2.log('Error', 'Catch Expection' + e, '912-handlercronjobsApi');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1081,7 +1080,7 @@ router.post('/gettop20under', authenticationMidleware(), (req, res, next) => {
             order_by_cond = " , " + req.body.columns[order_col]['data'] + " " + order_by;
         }
 
-       
+
 
         if (req.body.search['value'] != "") {
             search_cond = " and PM.brand like '%" + req.body.search['value'] + "%' ";
@@ -1093,7 +1092,7 @@ router.post('/gettop20under', authenticationMidleware(), (req, res, next) => {
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
             cond += ' AND SC.storeid="' + req.body.store_id + '" '
-        }else{
+        } else {
             cond += ' AND SC.storeid="000"'
         }
 
@@ -1101,112 +1100,112 @@ router.post('/gettop20under', authenticationMidleware(), (req, res, next) => {
         //if (mysql.check_permission('stockSummary', session.user_permission)) {
 
 
-            var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
-                "sum(missing) AS sum_diff " +
-                "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
+        var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
+            "sum(missing) AS sum_diff " +
+            "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
 
-            mysql.queryCustom(Sum_new_query).then(function(sumresult) {
+        mysql.queryCustom(Sum_new_query).then(function (sumresult) {
 
-                totalrecord = JSON.stringify(sumresult.results);
-                // console.log('totalrecordxx'+totalrecord);
+            totalrecord = JSON.stringify(sumresult.results);
+            // console.log('totalrecordxx'+totalrecord);
 
-                var  count_query = "SELECT" +
-                    " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
-                    " SC.code as skucode ," +
-                    " SC.supplier_item_no as supplier_item_no ," +
-                    " (SC.initial) AS expected," +
-                    " (missing) AS diff , " +
-                    " round(ABS(((missing)/ (initial))*100),2) as diffper " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " " +
-                    " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond ;
+            var count_query = "SELECT" +
+                " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
+                " SC.code as skucode ," +
+                " SC.supplier_item_no as supplier_item_no ," +
+                " (SC.initial) AS expected," +
+                " (missing) AS diff , " +
+                " round(ABS(((missing)/ (initial))*100),2) as diffper " +
+                " FROM " + stock_count_tb + " SC " +
+                " " +
+                " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " order by diff desc " + order_by_cond;
 
-                var new_query = "SELECT" +
-                    " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
-                    " SC.code as skucode ," +
-                    " SC.supplier_item_no as supplier_item_no ," +
-                    " (SC.initial) AS expected," +
-                    " (missing) AS diff , " +
-                    " round(ABS(((missing)/ (initial))*100),2) as diffper " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " " +
-                    " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond + limit_cond;
+            var new_query = "SELECT" +
+                " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
+                " SC.code as skucode ," +
+                " SC.supplier_item_no as supplier_item_no ," +
+                " (SC.initial) AS expected," +
+                " (missing) AS diff , " +
+                " round(ABS(((missing)/ (initial))*100),2) as diffper " +
+                " FROM " + stock_count_tb + " SC " +
+                " " +
+                " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " order by diff desc " + order_by_cond + limit_cond;
 
-                //console.log("gettop20under================"+new_query);
+            //console.log("gettop20under================"+new_query);
 
-                mysql.queryCustom(count_query).then(function(rzlt) {
-                    total_rec = rzlt.results.length;
-                    mysql.queryCustom(new_query).then(function(result) {
-                        gettop20 = result.results;
-                        //console.log(gettop20)
-                        var table_data = [];
-                        if (gettop20.length > 0) {
-                            for (var i = 0; i < gettop20.length; i++) {
-
-
-                                var row_data = {
-                                    "aatotalsum": totalrecord,
-                                    "departmentname": gettop20[i].departmentname,
-                                    "brandname": unescape(gettop20[i].brandname),
-
-                                    "diff": Math.abs(gettop20[i].diff),
-                                    "skucode": gettop20[i].skucode,
-                                    "expected22": gettop20[i].expected,
-                                    "diffper": gettop20[i].diffper,
-                                    "supplier_item_no": gettop20[i].supplier_item_no,
-                                };
+            mysql.queryCustom(count_query).then(function (rzlt) {
+                total_rec = rzlt.results.length;
+                mysql.queryCustom(new_query).then(function (result) {
+                    gettop20 = result.results;
+                    //console.log(gettop20)
+                    var table_data = [];
+                    if (gettop20.length > 0) {
+                        for (var i = 0; i < gettop20.length; i++) {
 
 
-                                table_data.push(row_data);
-                            }
-
-                        } else {
                             var row_data = {
                                 "aatotalsum": totalrecord,
-                                "departmentname": " ",
-                                "brandname": " ",
+                                "departmentname": gettop20[i].departmentname,
+                                "brandname": unescape(gettop20[i].brandname),
 
-                                "diff": " ",
-                                "skucode": " ",
-                                "expected22": " ",
-                                "diffper": "0",
-                                "supplier_item_no": " ",
+                                "diff": Math.abs(gettop20[i].diff),
+                                "skucode": gettop20[i].skucode,
+                                "expected22": gettop20[i].expected,
+                                "diffper": gettop20[i].diffper,
+                                "supplier_item_no": gettop20[i].supplier_item_no,
                             };
 
 
                             table_data.push(row_data);
                         }
 
+                    } else {
+                        var row_data = {
+                            "aatotalsum": totalrecord,
+                            "departmentname": " ",
+                            "brandname": " ",
 
-                        //res.end(JSON.stringify(result.results));
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                            "diff": " ",
+                            "skucode": " ",
+                            "expected22": " ",
+                            "diffper": "0",
+                            "supplier_item_no": " ",
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+
+                    //res.end(JSON.stringify(result.results));
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '799-gettop20under');
                         res.end(error);
                         //res.end(error);
                     });
-                })
-                .catch(function(error) {
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '799-gettop20under');
                     res.end(error);
                     //res.end(error);
                 });
-            })
+        })
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1049-gettop20under');
+        console2.log('Error', 'Catch Expection' + e, '1049-gettop20under');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1056-gettop20under');
+            console2.log('Error', 'Catch Expection' + e, '1056-gettop20under');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1252,7 +1251,7 @@ router.post('/gettop20under_all', authenticationMidleware(), (req, res, next) =>
         if (req.body.start != "" && req.body.length != "") {
             limit_cond = ' limit  ' + req.body.start + " , " + req.body.length;
         }
-       
+
 
         if (req.body.search['value'] != "") {
             search_cond = " and PM.brand like '%" + req.body.search['value'] + "%' ";
@@ -1264,7 +1263,7 @@ router.post('/gettop20under_all', authenticationMidleware(), (req, res, next) =>
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
             cond += ' AND SC.storeid="' + req.body.store_id + '" '
-        }else{
+        } else {
             cond += ' AND SC.storeid="000"'
         }
 
@@ -1272,114 +1271,114 @@ router.post('/gettop20under_all', authenticationMidleware(), (req, res, next) =>
         //if (mysql.check_permission('all_under_over', session.user_permission)) {
 
 
-            var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
-                "sum(missing) AS sum_diff " +
-                "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
+        var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
+            "sum(missing) AS sum_diff " +
+            "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
 
-            mysql.queryCustom(Sum_new_query).then(function(sumresult) {
+        mysql.queryCustom(Sum_new_query).then(function (sumresult) {
 
-                totalrecord = JSON.stringify(sumresult.results);
-                // console.log('totalrecordxx'+totalrecord);
+            totalrecord = JSON.stringify(sumresult.results);
+            // console.log('totalrecordxx'+totalrecord);
 
-                var  count_query = "SELECT" +
-                    " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
-                    " SC.code as skucode ," +
-                    " SC.supplier_item_no as supplier_item_no ," +
-                    " (SC.initial) AS expected," +
-                    " (missing) AS diff , " +
-                    " round(ABS(((missing)/ (initial))*100),2) as diffper, SC.suppliername " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " " +
-                    " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond ;
+            var count_query = "SELECT" +
+                " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
+                " SC.code as skucode ," +
+                " SC.supplier_item_no as supplier_item_no ," +
+                " (SC.initial) AS expected," +
+                " (missing) AS diff , " +
+                " round(ABS(((missing)/ (initial))*100),2) as diffper, SC.suppliername " +
+                " FROM " + stock_count_tb + " SC " +
+                " " +
+                " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " order by diff desc " + order_by_cond;
 
-                var new_query = "SELECT" +
-                    " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
-                    " SC.code as skucode ," +
-                    " SC.supplier_item_no as supplier_item_no ," +
-                    " (SC.initial) AS expected," +
-                    " (missing) AS diff , " +
-                    " round(ABS(((missing)/ (initial))*100),2) as diffper, SC.suppliername " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " " +
-                    " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond + limit_cond;
+            var new_query = "SELECT" +
+                " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
+                " SC.code as skucode ," +
+                " SC.supplier_item_no as supplier_item_no ," +
+                " (SC.initial) AS expected," +
+                " (missing) AS diff , " +
+                " round(ABS(((missing)/ (initial))*100),2) as diffper, SC.suppliername " +
+                " FROM " + stock_count_tb + " SC " +
+                " " +
+                " where missing <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " order by diff desc " + order_by_cond + limit_cond;
 
-                //console.log("gettop20under================"+new_query);
+            //console.log("gettop20under================"+new_query);
 
-                mysql.queryCustom(count_query).then(function(rzlt) {
-                    total_rec = rzlt.results.length;
-                    mysql.queryCustom(new_query).then(function(result) {
-                        gettop20 = result.results;
-                        //console.log(gettop20)
-                        var table_data = [];
-                        if (gettop20.length > 0) {
-                            for (var i = 0; i < gettop20.length; i++) {
-
-
-                                var row_data = {
-                                    "aatotalsum": totalrecord,
-                                    "departmentname": gettop20[i].departmentname,
-                                    "brandname": unescape(gettop20[i].brandname),
-
-                                    "diff": Math.abs(gettop20[i].diff),
-                                    "skucode": gettop20[i].skucode,
-                                    "expected22": gettop20[i].expected,
-                                    "diffper": gettop20[i].diffper,
-                                    "suppliername": unescape(gettop20[i].suppliername),
-                                    "supplier_item_no": gettop20[i].supplier_item_no,
-                                };
+            mysql.queryCustom(count_query).then(function (rzlt) {
+                total_rec = rzlt.results.length;
+                mysql.queryCustom(new_query).then(function (result) {
+                    gettop20 = result.results;
+                    //console.log(gettop20)
+                    var table_data = [];
+                    if (gettop20.length > 0) {
+                        for (var i = 0; i < gettop20.length; i++) {
 
 
-                                table_data.push(row_data);
-                            }
-
-                        } else {
                             var row_data = {
                                 "aatotalsum": totalrecord,
-                                "departmentname": " ",
-                                "brandname": " ",
+                                "departmentname": gettop20[i].departmentname,
+                                "brandname": unescape(gettop20[i].brandname),
 
-                                "diff": " ",
-                                "skucode": " ",
-                                "expected22": " ",
-                                "diffper": "0",
-                                "suppliername":"",
-                                "supplier_item_no":"",
+                                "diff": Math.abs(gettop20[i].diff),
+                                "skucode": gettop20[i].skucode,
+                                "expected22": gettop20[i].expected,
+                                "diffper": gettop20[i].diffper,
+                                "suppliername": unescape(gettop20[i].suppliername),
+                                "supplier_item_no": gettop20[i].supplier_item_no,
                             };
 
 
                             table_data.push(row_data);
-                        } 
+                        }
+
+                    } else {
+                        var row_data = {
+                            "aatotalsum": totalrecord,
+                            "departmentname": " ",
+                            "brandname": " ",
+
+                            "diff": " ",
+                            "skucode": " ",
+                            "expected22": " ",
+                            "diffper": "0",
+                            "suppliername": "",
+                            "supplier_item_no": "",
+                        };
 
 
-                        //res.end(JSON.stringify(result.results));
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        table_data.push(row_data);
+                    }
 
 
-                    })
-                    .catch(function(error) {
+                    //res.end(JSON.stringify(result.results));
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '799-gettop20under');
                         res.end(error);
                         //res.end(error);
                     });
-                })
-                .catch(function(error) {
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '799-gettop20under');
                     res.end(error);
                     //res.end(error);
                 });
-            })
+        })
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1049-gettop20under');
+        console2.log('Error', 'Catch Expection' + e, '1049-gettop20under');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1056-gettop20under');
+            console2.log('Error', 'Catch Expection' + e, '1056-gettop20under');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1395,7 +1394,7 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getallover');
     try {
 
-        
+
         //var session = req.session;
         var cond = '';
         var order_by_cond = '';
@@ -1449,20 +1448,19 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
             cond += ' AND SC.storeid="' + req.body.storeid + '" '
         }
         //  res.end(limit_cond);
-        var show_over="no";
-        if (req.body.show_over =='yes' )
-        {
-            show_over="yes";
+        var show_over = "no";
+        if (req.body.show_over == 'yes') {
+            show_over = "yes";
         }
 
         //if (mysql.check_permission('executiveSummary', session.user_permission)) {
 
-            var new_query = '';
-            var query_count  = '';
+        var new_query = '';
+        var query_count = '';
 
-            if(show_over=="yes"){
+        if (show_over == "yes") {
 
-                new_query = "SELECT" +
+            new_query = "SELECT" +
                 " SC.code as code, " +
                 " SC.supplier_item_no as supplier_item_no ," +
                 " SC.departmentid as departmentid,SC.suppliername as suppliername,SC.totalprice as totalprice, " +
@@ -1470,7 +1468,7 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
                 " SC.color as color,SC.size as size," +
                 " (SC.initial) AS expected," +
                 " (SC.counted) AS counted," +
-                " SC.price as price , SC.season as season ,"+
+                " SC.price as price , SC.season as season ," +
 
                 " SC.code as skucode , " +
                 " (unexpected) as diff , " +
@@ -1481,16 +1479,16 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
                 "  order by diff desc ";
 
 
-                query_count = " select count(*) as `my_count` from ( SELECT SC.id FROM " + stock_count_tb + " SC " +
+            query_count = " select count(*) as `my_count` from ( SELECT SC.id FROM " + stock_count_tb + " SC " +
                 " " +
                 " where unexpected<>0  " + cond + search_cond +
                 ") sq ";
 
 
-            }else{
+        } else {
 
 
-               new_query = "SELECT" +               
+            new_query = "SELECT" +
                 " SC.code as code, " +
                 " SC.supplier_item_no as supplier_item_no ," +
                 " SC.departmentid as departmentid, " +
@@ -1498,7 +1496,7 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
                 " SC.color as color,SC.size as size," +
                 " (SC.initial) AS expected," +
                 " (SC.counted) AS counted," +
-                " SC.price as price , SC.season as season,SC.suppliername as suppliername,SC.totalprice as totalprice,"+
+                " SC.price as price , SC.season as season,SC.suppliername as suppliername,SC.totalprice as totalprice," +
                 " SC.code as skucode , " +
                 " (unexpected) as diff , " +
                 " round(ABS(((unexpected)/(initial))*100),2) as diffper " +
@@ -1514,64 +1512,64 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
                 ") sq ";
 
 
-            }
+        }
 
 
-           
 
 
-            mysql.queryCustom(query_count).then(function(result) {
-                total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+        mysql.queryCustom(query_count).then(function (result) {
+            total_rec = result.results[0].my_count;
 
-                        gettopall = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
-                        for (var i = 0; i < gettopall.length; i++) {
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                            var row_data = {
-                                "skucode": gettopall[i].skucode,
-                                "departmentid": gettopall[i].departmentid,
-                                "brandname": unescape(gettopall[i].brandname),
-                                "color": unescape(gettopall[i].color),
-                                "size": gettopall[i].size,
-                                "expected": gettopall[i].expected,
-                                "counted": gettopall[i].counted,
-                                "diff": Math.abs(gettopall[i].diff),
-                                "season": gettopall[i].season,
-                                "suppliername": unescape(gettopall[i].suppliername),
-                                "price": gettopall[i].price,
-                                "totalprice": gettopall[i].totalprice,
-                                "supplier_item_no": gettopall[i].supplier_item_no,
-                            };
+                gettopall = result.results;
+                //console.log(gettop20our)
+                var table_data = [];
+                for (var i = 0; i < gettopall.length; i++) {
 
-                            table_data.push(row_data);
-                        }
+                    var row_data = {
+                        "skucode": gettopall[i].skucode,
+                        "departmentid": gettopall[i].departmentid,
+                        "brandname": unescape(gettopall[i].brandname),
+                        "color": unescape(gettopall[i].color),
+                        "size": gettopall[i].size,
+                        "expected": gettopall[i].expected,
+                        "counted": gettopall[i].counted,
+                        "diff": Math.abs(gettopall[i].diff),
+                        "season": gettopall[i].season,
+                        "suppliername": unescape(gettopall[i].suppliername),
+                        "price": gettopall[i].price,
+                        "totalprice": gettopall[i].totalprice,
+                        "supplier_item_no": gettopall[i].supplier_item_no,
+                    };
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    table_data.push(row_data);
+                }
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '926-getallover');
-                        res.end(error);
-                        //res.end( JSON.stringify(error));
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '931-getallover');
-                res.end(error);
-                //res.end(error);
-            });
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '926-getallover');
+                    res.end(error);
+                    //res.end( JSON.stringify(error));
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '931-getallover');
+            res.end(error);
+            //res.end(error);
+        });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1202-getallover');
+        console2.log('Error', 'Catch Expection' + e, '1202-getallover');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1209-getallover');
+            console2.log('Error', 'Catch Expection' + e, '1209-getallover');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1581,7 +1579,7 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
 });
 //totalstore
 router.post('/totalstore', authenticationMidleware(), (req, res, next) => {
-console2.execution_info('totalstore');
+    console2.execution_info('totalstore');
     try {
         var session = req.session;
         if (mysql.check_permission('dashboard', session.user_permission)) {
@@ -1602,7 +1600,7 @@ console2.execution_info('totalstore');
 
             mysql.queryCustom(query)
 
-                .then(function(result) {
+                .then(function (result) {
                     //console.log(result)
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
@@ -1612,7 +1610,7 @@ console2.execution_info('totalstore');
                         //res.end(result.error);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
 
                     console2.log('Error', JSON.stringify(error), '937-totalstore');
                     res.end(error);
@@ -1620,14 +1618,14 @@ console2.execution_info('totalstore');
                 });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1258-totalstore');
+        console2.log('Error', 'Catch Expection' + e, '1258-totalstore');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1265-totalstore');
+            console2.log('Error', 'Catch Expection' + e, '1265-totalstore');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1717,17 +1715,17 @@ router.post('/add_log', (req, res, next) => {
                     "('" + log_text + "','" + log_json + "','" + log_info + "'," +
                     "'" + log_date_time + "','" + device_id + "','" + store_id + "')";
                 //console.log("++++++++"+new_query);
-                mysql.queryCustom(new_query).then(function(result) {
-                        if (result.status == "1") {
-                            res.end(JSON.stringify(result.results));
-                        } else {
+                mysql.queryCustom(new_query).then(function (result) {
+                    if (result.status == "1") {
+                        res.end(JSON.stringify(result.results));
+                    } else {
 
-                            console2.log('Error', JSON.stringify(error), '1066-add_log');
-                            res.end(error);
-                            //res.end(result.error);
-                        }
-                    })
-                    .catch(function(error) {
+                        console2.log('Error', JSON.stringify(error), '1066-add_log');
+                        res.end(error);
+                        //res.end(result.error);
+                    }
+                })
+                    .catch(function (error) {
 
                         console2.log('Error', JSON.stringify(error), '1073-add_log');
                         res.end(error);
@@ -1743,14 +1741,14 @@ router.post('/add_log', (req, res, next) => {
             res.json(JSON.stringify(response));
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1381-add_log');
+        console2.log('Error', 'Catch Expection' + e, '1381-add_log');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1388-add_log');
+            console2.log('Error', 'Catch Expection' + e, '1388-add_log');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1769,8 +1767,8 @@ router.post('/totalusers', authenticationMidleware(), (req, res, next) => {
         //console.log("++++++"+session);
         if (mysql.check_permission('dashboard', session.user_permission)) {
             mysql.queryCustom("SELECT" +
-                    " COUNT(id) AS total_users FROM users WHERE 1")
-                .then(function(result) {
+                " COUNT(id) AS total_users FROM users WHERE 1")
+                .then(function (result) {
                     //console.log(result)
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
@@ -1780,21 +1778,21 @@ router.post('/totalusers', authenticationMidleware(), (req, res, next) => {
                         //res.end(result.error);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '1108-totalusers');
                     res.end(error);
                     //res.end(error);
                 });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1424-totalusers');
+        console2.log('Error', 'Catch Expection' + e, '1424-totalusers');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1431-totalusers');
+            console2.log('Error', 'Catch Expection' + e, '1431-totalusers');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1857,62 +1855,62 @@ router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
             var query_count = " select count(*) as `my_count` from (SELECT * FROM users US " +
                 " WHERE 1 " + cond + search_cond + ") sq ";
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
 
-                        getstoreinf = result.results;
+                    getstoreinf = result.results;
 
 
 
-                        var table_data = [];
+                    var table_data = [];
 
-                        var permission = ''
+                    var permission = ''
 
-                        for (var i = 0; i < getstoreinf.length; i++) {
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
-                            if (getstoreinf[i].id == 1) {
-                                permission = ''
-                            } else {
-                                permission = '<button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
-                            }
-
-                            var storeid = getstoreinf[i].storeid;
-
-                            // console.log("++++++++++++++++"+storeid);
-
-                            storeid = storeid.split('[').join('');
-                            storeid = storeid.split(']').join('');
-                            storeid = storeid.split('"').join('');
-
-
-                            var row_data = {
-                                "id": getstoreinf[i].id,
-                                "name": getstoreinf[i].name,
-                                "username": getstoreinf[i].username,
-                                "role_name": getstoreinf[i].role_name,
-                                "storeid": storeid,
-                                "status": getstoreinf[i].qstatus,
-                                "last_login": getstoreinf[i].last_login,
-                                'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn UserEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>' + permission
-                            };
-
-                            table_data.push(row_data);
+                        if (getstoreinf[i].id == 1) {
+                            permission = ''
+                        } else {
+                            permission = '<button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
                         }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        var storeid = getstoreinf[i].storeid;
 
-                    })
-                    .catch(function(error) {
+                        // console.log("++++++++++++++++"+storeid);
+
+                        storeid = storeid.split('[').join('');
+                        storeid = storeid.split(']').join('');
+                        storeid = storeid.split('"').join('');
+
+
+                        var row_data = {
+                            "id": getstoreinf[i].id,
+                            "name": getstoreinf[i].name,
+                            "username": getstoreinf[i].username,
+                            "role_name": getstoreinf[i].role_name,
+                            "storeid": storeid,
+                            "status": getstoreinf[i].qstatus,
+                            "last_login": getstoreinf[i].last_login,
+                            'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn UserEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>' + permission
+                        };
+
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                })
+                    .catch(function (error) {
 
                         console2.log('Error', JSON.stringify(error), '1219-getusersinfo');
                         res.end(error);
                         //res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '1225-getusersinfo');
                 res.end(error);
@@ -1920,14 +1918,14 @@ router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1558-getusersinfo');
+        console2.log('Error', 'Catch Expection' + e, '1558-getusersinfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1565-getusersinfo');
+            console2.log('Error', 'Catch Expection' + e, '1565-getusersinfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -1982,17 +1980,15 @@ router.post('/getauditinfo', authenticationMidleware(), (req, res, next) => {
             cond += ' AND DATE(date) = DATE("' + req.body.date + '")'
         }
 
-        var show_uae_time="false";
-        if (req.body.show_uae_time =='true' )
-        {
-            show_uae_time="yes";
+        var show_uae_time = "false";
+        if (req.body.show_uae_time == 'true') {
+            show_uae_time = "yes";
         }
 
 
-        var show_utc_time="false";
-        if (req.body.show_utc_time =='true' )
-        {
-            show_utc_time="yes";
+        var show_utc_time = "false";
+        if (req.body.show_utc_time == 'true') {
+            show_utc_time = "yes";
         }
 
         if (mysql.check_permission('AuditInfo', session.user_permission)) {
@@ -2005,91 +2001,91 @@ router.post('/getauditinfo', authenticationMidleware(), (req, res, next) => {
 
             var query_count = " select count(*) as `my_count` from (SELECT * FROM tb_audit US WHERE 1 " + cond + search_cond + ") sq ";
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
 
-                        getstoreinf = result.results;
+                    getstoreinf = result.results;
 
-                        //console.log(gettop20our)
-                        var table_data = [];
+                    //console.log(gettop20our)
+                    var table_data = [];
 
-                        var permission = ''
-                        var show_date = '';
-                        var localTime = '';
-                        var localOffset = '';
-                        var utc = '';
-                        var offset = '';
-                        var dubai = '';
-                        var nd = '';
-                        var time_show = '';
+                    var permission = ''
+                    var show_date = '';
+                    var localTime = '';
+                    var localOffset = '';
+                    var utc = '';
+                    var offset = '';
+                    var dubai = '';
+                    var nd = '';
+                    var time_show = '';
 
-                        for (var i = 0; i < getstoreinf.length; i++) {
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
-                            if(show_uae_time == "yes"){
-                               
-                                show_date= new Date(getstoreinf[i].date);
-                                localTime = show_date.getTime();
-                                localOffset = show_date.getTimezoneOffset() * 60000;
-                                utc = localTime + localOffset;
-                                offset = 4;  
-                                dubai = utc + (3600000*offset);
+                        if (show_uae_time == "yes") {
 
-                                time_show = dateFormat(dubai, "yyyy-mm-dd HH:MM:ss");
+                            show_date = new Date(getstoreinf[i].date);
+                            localTime = show_date.getTime();
+                            localOffset = show_date.getTimezoneOffset() * 60000;
+                            utc = localTime + localOffset;
+                            offset = 4;
+                            dubai = utc + (3600000 * offset);
 
-                               
-                            }else if(show_utc_time == 'yes'){
-                                
-                           
-                                utc = new Date(getstoreinf[i].date);
-                                time_show2 = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                time_show = dateFormat(time_show2, "yyyy-mm-dd HH:MM:ss");
-                                time_show = time_show.toString()
+                            time_show = dateFormat(dubai, "yyyy-mm-dd HH:MM:ss");
 
 
-                            }else{
-                               time_show = getstoreinf[i].date 
-                            }
+                        } else if (show_utc_time == 'yes') {
 
-                            var row_data = {
-                                "auditid": getstoreinf[i].auditid,
-                                "audit_text": getstoreinf[i].audit_text,
-                                "date": time_show,
-                                "log_type": getstoreinf[i].log_type,
-                                "storeid": getstoreinf[i].storeid,
-                                "Retail_CycleCountID": getstoreinf[i].Retail_CycleCountID,
-                                "audit_json": getstoreinf[i].audit_json,
-                                "deviceid": getstoreinf[i].deviceid,
-                            };
 
-                            table_data.push(row_data);
+                            utc = new Date(getstoreinf[i].date);
+                            time_show2 = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                            time_show = dateFormat(time_show2, "yyyy-mm-dd HH:MM:ss");
+                            time_show = time_show.toString()
+
+
+                        } else {
+                            time_show = getstoreinf[i].date
                         }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        var row_data = {
+                            "auditid": getstoreinf[i].auditid,
+                            "audit_text": getstoreinf[i].audit_text,
+                            "date": time_show,
+                            "log_type": getstoreinf[i].log_type,
+                            "storeid": getstoreinf[i].storeid,
+                            "Retail_CycleCountID": getstoreinf[i].Retail_CycleCountID,
+                            "audit_json": getstoreinf[i].audit_json,
+                            "deviceid": getstoreinf[i].deviceid,
+                        };
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '1312-getauditinfo');
                         res.end(error);
                         //res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '1317-getauditinfo');
                 res.end(error);
                 //res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1667-getauditinfo');
+        console2.log('Error', 'Catch Expection' + e, '1667-getauditinfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1674-getauditinfo');
+            console2.log('Error', 'Catch Expection' + e, '1674-getauditinfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2150,66 +2146,65 @@ router.post('/ibt_differenceReport', authenticationMidleware(), (req, res, next)
                 " * FROM notificaton_asn " +
                 " WHERE 1 " + cond + search_cond + " " + order_by_cond;
 
-            console.log("main query-"+new_query);
+            console.log("main query-" + new_query);
 
             var query_count = " select count(*) as `my_count` from (SELECT * FROM notificaton_asn  WHERE 1 " + cond + search_cond + ") sq ";
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
                 // console.log("after main query");
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
-                        console.log("after inner query");
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
+                    console.log("after inner query");
 
-                        getstoreinf = result.results;
+                    getstoreinf = result.results;
 
-                        //console.log(gettop20our)
-                        var table_data = [];
+                    //console.log(gettop20our)
+                    var table_data = [];
 
-                        var permission = ''
-                        console.log(getstoreinf);
-                        for (var i = 0; i < getstoreinf.length; i++) {
+                    var permission = ''
+                    console.log(getstoreinf);
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            var row_data = {
-                                "id": getstoreinf[i].id,
-                                "datetime": getstoreinf[i].datetime,
-                                "asn": getstoreinf[i].asn,
-                                "send_mail": getstoreinf[i].send_mail,
-                                "view_details":'<button type="button" asn_id='+getstoreinf[i].asn+' class="btn missing_ibt btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">View Details</button>'
-                                
-                              
-                            };
+                        var row_data = {
+                            "id": getstoreinf[i].id,
+                            "datetime": getstoreinf[i].datetime,
+                            "asn": getstoreinf[i].asn,
+                            "send_mail": getstoreinf[i].send_mail,
+                            "view_details": '<button type="button" asn_id=' + getstoreinf[i].asn + ' class="btn missing_ibt btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">View Details</button>'
 
-                            table_data.push(row_data);
-                        }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        };
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '1894-ibt_differenceReport');
                         res.end(error);
                         //res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '1899-ibt_differenceReport');
                 res.end(error);
                 //res.end(error);
             });
         }
-        else
-        {
+        else {
             res.end("permission not allowd");
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1905-ibt_differenceReport');
+        console2.log('Error', 'Catch Expection' + e, '1905-ibt_differenceReport');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1912-ibt_differenceReport');
+            console2.log('Error', 'Catch Expection' + e, '1912-ibt_differenceReport');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2218,36 +2213,35 @@ router.post('/ibt_differenceReport', authenticationMidleware(), (req, res, next)
     }
 });
 
-function getasnInfo(var_asn,var_process){
-  return new Promise((resolve, reject) => {
-    var asn     = var_asn;
-    var process_s = var_process;
-    console2.execution_info('getasnInfo');
-    var select_query = "select * from asn_items where asn='"+asn+"' and process = '"+process_s+"'  "    
-    //console.log(select_query)
-    mysql.queryCustom(select_query).then(function(result) {
-        var records = result.results;
-        
-        var my_ar = {};
-        var myObj = {};
+function getasnInfo(var_asn, var_process) {
+    return new Promise((resolve, reject) => {
+        var asn = var_asn;
+        var process_s = var_process;
+        console2.execution_info('getasnInfo');
+        var select_query = "select * from asn_items where asn='" + asn + "' and process = '" + process_s + "'  "
+        //console.log(select_query)
+        mysql.queryCustom(select_query).then(function (result) {
+            var records = result.results;
 
-        for(k=0; k<records.length; k++)
-        {
-            // console.log()
-            my_ar[records[k].tag_id]=records[k].tag_id;
-        }
+            var my_ar = {};
+            var myObj = {};
 
-        let sendparam = {
-            db_data:my_ar
-        }
+            for (k = 0; k < records.length; k++) {
+                // console.log()
+                my_ar[records[k].tag_id] = records[k].tag_id;
+            }
 
-        resolve(sendparam);
-    }).catch(err => {
-        console2.log('Error', err, '1832-getasnInfo API getasnInfo ');
+            let sendparam = {
+                db_data: my_ar
+            }
+
+            resolve(sendparam);
+        }).catch(err => {
+            console2.log('Error', err, '1832-getasnInfo API getasnInfo ');
+        });
+
+
     });
-
-
-  }); 
 }
 
 //missing_ibt_list 
@@ -2261,88 +2255,83 @@ router.post('/missing_ibt_listReport', authenticationMidleware(), (req, res, nex
 
             var asn_new = req.body.asn;
 
-        getasnInfo(asn_new,"shipping").then(function(returnData){
+            getasnInfo(asn_new, "shipping").then(function (returnData) {
 
-            
-            var shipping_item = returnData.db_data;
-            var rowdata = '';
 
-            getasnInfo(asn_new,"receiving").then(function(returnData){
+                var shipping_item = returnData.db_data;
+                var rowdata = '';
 
-                
-                var receiving_item = returnData.db_data;
-                
-                if(Object.keys(receiving_item).length>Object.keys(shipping_item).length)
-                {
-                    var table_data = [];
-                  
-                    for (var element in receiving_item) {
-                        if(receiving_item[element] in shipping_item)
-                        {
-                            rowdata={
-                                "rec_epc":receiving_item[element],
-                                "ship_epc":receiving_item[element]
-                            }  
+                getasnInfo(asn_new, "receiving").then(function (returnData) {
+
+
+                    var receiving_item = returnData.db_data;
+
+                    if (Object.keys(receiving_item).length > Object.keys(shipping_item).length) {
+                        var table_data = [];
+
+                        for (var element in receiving_item) {
+                            if (receiving_item[element] in shipping_item) {
+                                rowdata = {
+                                    "rec_epc": receiving_item[element],
+                                    "ship_epc": receiving_item[element]
+                                }
+                            }
+
+                            else {
+                                rowdata = {
+                                    "rec_epc": receiving_item[element],
+                                    "ship_epc": ''
+                                }
+                            }
+
+                            table_data.push(rowdata)
+
                         }
 
-                        else
-                        {
-                            rowdata={
-                                "rec_epc":receiving_item[element],
-                                "ship_epc":''
-                            }  
+
+                    } else {
+
+                        var table_data = [];
+
+                        for (var element in shipping_item) {
+                            if (shipping_item[element] in receiving_item) {
+                                rowdata = {
+                                    "rec_epc": shipping_item[element],
+                                    "ship_epc": shipping_item[element]
+                                }
+                            }
+
+                            else {
+                                rowdata = {
+                                    "rec_epc": '',
+                                    "ship_epc": shipping_item[element]
+                                }
+                            }
+
+                            table_data.push(rowdata)
+
                         }
-                         
-                        table_data.push(rowdata)
-                       
+                        //console.log(table_data);
+
                     }
-                    
-                    
-                }else{
+                    res.end('{"aaData":' + JSON.stringify(table_data) + '}');
 
-                    var table_data = [];
-                  
-                    for (var element in shipping_item) {
-                        if(shipping_item[element] in receiving_item)
-                        {
-                            rowdata={
-                                "rec_epc":shipping_item[element],
-                                "ship_epc":shipping_item[element]
-                            }  
-                        }
+                });
 
-                        else
-                        {
-                            rowdata={
-                                "rec_epc":'',
-                                "ship_epc":shipping_item[element]
-                            }  
-                        }
-                         
-                        table_data.push(rowdata)
-                       
-                    }
-                    //console.log(table_data);
-                    
-                }
-                res.end('{"aaData":'+JSON.stringify(table_data)+'}');
-                                    
             });
 
-        });
-                      
 
 
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1905-ibt_differenceReport');
+        console2.log('Error', 'Catch Expection' + e, '1905-ibt_differenceReport');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1912-ibt_differenceReport');
+            console2.log('Error', 'Catch Expection' + e, '1912-ibt_differenceReport');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2360,7 +2349,7 @@ router.post('/Viewpermission', authenticationMidleware(), (req, res, next) => {
             " WHERE role_id='" + req.body.role_id + "'";
 
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -2369,20 +2358,20 @@ router.post('/Viewpermission', authenticationMidleware(), (req, res, next) => {
                     //res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '1343-Viewpermission');
                 res.end(error);
                 //res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1708-Viewpermission');
+        console2.log('Error', 'Catch Expection' + e, '1708-Viewpermission');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1715-Viewpermission');
+            console2.log('Error', 'Catch Expection' + e, '1715-Viewpermission');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2402,71 +2391,71 @@ router.post('/ViewStores', authenticationMidleware(), (req, res, next) => {
             " WHERE role_id='" + req.body.role_id + "'";
 
 
-        mysql.queryCustom(new_query).then(function(result) {
-                if (result.status == "1") {
+        mysql.queryCustom(new_query).then(function (result) {
+            if (result.status == "1") {
 
 
-                    /*-----------------------------------------------------*/
-                    var storeid = result.results[0].storeid;
+                /*-----------------------------------------------------*/
+                var storeid = result.results[0].storeid;
 
-                    if (storeid !== '') {
+                if (storeid !== '') {
 
-                        storeid = storeid.split('[').join('');
-                        storeid = storeid.split(']').join('');
-                        //console.log("ddddd"+storeid);
+                    storeid = storeid.split('[').join('');
+                    storeid = storeid.split(']').join('');
+                    //console.log("ddddd"+storeid);
 
 
-                        var new_query = "SELECT storename FROM tb_store WHERE storeid IN (" + storeid + ")"
+                    var new_query = "SELECT storename FROM tb_store WHERE storeid IN (" + storeid + ")"
 
-                        //console.log("sssssssssss"+new_query);
-                        mysql.queryCustom(new_query).then(function(result) {
-                            if (result.status == "1") {
-                                //console.log("dsssss");
+                    //console.log("sssssssssss"+new_query);
+                    mysql.queryCustom(new_query).then(function (result) {
+                        if (result.status == "1") {
+                            //console.log("dsssss");
 
-                                res.end(JSON.stringify(result.results));
-                            } else {
+                            res.end(JSON.stringify(result.results));
+                        } else {
 
-                                console2.log('Error', JSON.stringify(result.error), '1383-ViewStores');
-                                res.end(error);
-                                //res.end(result.error);
-                            }
-                        }).catch(function(error) {
-
-                            console2.log('Error', JSON.stringify(error), '1389-ViewStores');
+                            console2.log('Error', JSON.stringify(result.error), '1383-ViewStores');
                             res.end(error);
-                            //res.end(error);
-                        });
+                            //res.end(result.error);
+                        }
+                    }).catch(function (error) {
 
+                        console2.log('Error', JSON.stringify(error), '1389-ViewStores');
+                        res.end(error);
+                        //res.end(error);
+                    });
 
-                    } else {
-
-
-                        res.end(JSON.stringify(result.results));
-                    }
-
-
-                    /*---------------------------------------------------*/
 
                 } else {
-                    console2.log('Error', JSON.stringify(result.error), '1405-ViewStores');
-                    res.end(result.error);
-                    //res.end(result.error);
+
+
+                    res.end(JSON.stringify(result.results));
                 }
-            })
-            .catch(function(error) {
+
+
+                /*---------------------------------------------------*/
+
+            } else {
+                console2.log('Error', JSON.stringify(result.error), '1405-ViewStores');
+                res.end(result.error);
+                //res.end(result.error);
+            }
+        })
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '1411-ViewStores');
                 res.end(error);
                 //res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1792-ViewStores');
+        console2.log('Error', 'Catch Expection' + e, '1792-ViewStores');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1799-ViewStores');
+            console2.log('Error', 'Catch Expection' + e, '1799-ViewStores');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2569,68 +2558,68 @@ router.post('/ViewAsnDetails', authenticationMidleware(), (req, res, next) => {
                 "from (SELECT * FROM `asn_items` " +
                 " WHERE 1 and is_deleted<>'1' " + cond + ") sq ";
 
-                //console.log(query_count);
+            //console.log(query_count);
 
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
-                        var button = '';
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-
-                            var row_data = {
-
-                                "date": getstoreinf[i].date,
-                                "asn": getstoreinf[i].asn,
-                                "tag_id": getstoreinf[i].tag_id,
-                                "sku": getstoreinf[i].sku,
-                                // "process": getstoreinf[i].process,
-                                "department": getstoreinf[i].department,
-                                "original_location": getstoreinf[i].original_location,
-                                "destination": getstoreinf[i].destination_location,
-                                // "style": getstoreinf[i].style,
-                                "process_status": getstoreinf[i].process_status,
-                                "brand": unescape(getstoreinf[i].brand),
-                                "shipment_number": unescape(getstoreinf[i].shipment_number),
+                    getstoreinf = result.results;
+                    //console.log(gettop20our)
+                    var table_data = [];
+                    var button = '';
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            };
+                        var row_data = {
+
+                            "date": getstoreinf[i].date,
+                            "asn": getstoreinf[i].asn,
+                            "tag_id": getstoreinf[i].tag_id,
+                            "sku": getstoreinf[i].sku,
+                            // "process": getstoreinf[i].process,
+                            "department": getstoreinf[i].department,
+                            "original_location": getstoreinf[i].original_location,
+                            "destination": getstoreinf[i].destination_location,
+                            // "style": getstoreinf[i].style,
+                            "process_status": getstoreinf[i].process_status,
+                            "brand": unescape(getstoreinf[i].brand),
+                            "shipment_number": unescape(getstoreinf[i].shipment_number),
 
 
-                            table_data.push(row_data);
-                        }
-
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
 
                         console2.log('Error', JSON.stringify(error), '1549-ViewAsnDetails');
                         res.end(error);
                         //res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '1554-ViewAsnDetails');
                 res.end(error);
                 //res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1952-ViewAsnDetails');
+        console2.log('Error', 'Catch Expection' + e, '1952-ViewAsnDetails');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1959-ViewAsnDetails');
+            console2.log('Error', 'Catch Expection' + e, '1959-ViewAsnDetails');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2656,7 +2645,7 @@ router.post('/StorePayload', authenticationMidleware(), (req, res, next) => {
         if (req.body.date != "" && req.body.date != 0 && req.body.date != "0") {
             var CheckDate = dateFormat(req.body.date, "yyyy-mm-dd");
             cond += ' AND `soh_date` = "' + CheckDate + '" '
-        }       
+        }
         var new_query = "SELECT * FROM `soh_report` " +
             " WHERE 1 " + cond;
 
@@ -2664,41 +2653,41 @@ router.post('/StorePayload', authenticationMidleware(), (req, res, next) => {
             "from (SELECT * FROM `soh_report` " +
             " WHERE 1 " + cond + ") sq ";
 
-        mysql.queryCustom(query_count).then(function(result) {
+        mysql.queryCustom(query_count).then(function (result) {
             total_rec = result.results[0].my_count;
 
-            mysql.queryCustom(new_query).then(function(result) {
-                    getstoreinf = result.results;
-                    var table_data = [];
-                    var button = '';
-                    for (var i = 0; i < getstoreinf.length; i++) {
-                        var row_data = {
-                            /*"date": getstoreinf[i].soh_date,
-                            "store_name": getstoreinf[i].store_name,
-                            "iot_total": getstoreinf[i].iot_total,*/
-                            "recent_payload": unescape(getstoreinf[i].recent_payload)
-                        };
-                        table_data.push(row_data);
-                    }
-                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
-                })
-                .catch(function(error) {
+            mysql.queryCustom(new_query).then(function (result) {
+                getstoreinf = result.results;
+                var table_data = [];
+                var button = '';
+                for (var i = 0; i < getstoreinf.length; i++) {
+                    var row_data = {
+                        /*"date": getstoreinf[i].soh_date,
+                        "store_name": getstoreinf[i].store_name,
+                        "iot_total": getstoreinf[i].iot_total,*/
+                        "recent_payload": unescape(getstoreinf[i].recent_payload)
+                    };
+                    table_data.push(row_data);
+                }
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '1549-StorePayload');
                     res.end(error);
                 });
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '1554-StorePayload');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '1952-StorePayload');
+        console2.log('Error', 'Catch Expection' + e, '1952-StorePayload');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '1959-StorePayload');
+            console2.log('Error', 'Catch Expection' + e, '1959-StorePayload');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2750,7 +2739,7 @@ router.post('/GetZPLReportData', authenticationMidleware(), (req, res, next) => 
         if (req.body.Storeid != "" && req.body.Storeid != 0 && req.body.Storeid != "0") {
             cond += ' AND   storeid="' + req.body.Storeid + '"';
         } else {
-           // cond += ' AND   storeid="0000000000"';
+            // cond += ' AND   storeid="0000000000"';
         }
 
         if (req.body.uid != "" && req.body.uid != 0 && req.body.uid != "0") {
@@ -2771,80 +2760,80 @@ router.post('/GetZPLReportData', authenticationMidleware(), (req, res, next) => 
 
         //if (mysql.check_permission('zplReport', session.user_permission)) {
 
-            var new_query = "SELECT  " +
-                " *  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
-                " " + order_by_cond;
+        var new_query = "SELECT  " +
+            " *  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
+            " " + order_by_cond;
 
-           // console.log(new_query);
+        // console.log(new_query);
 
-            var query_count = " select `my_count` " +
-                "from (SELECT count(*) as my_count  " +
-                "FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
-                ") sq ";
+        var query_count = " select `my_count` " +
+            "from (SELECT count(*) as my_count  " +
+            "FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
+            ") sq ";
 
-            //console.log(query_count);
-
-
-            mysql.queryCustom(query_count).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-                       
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
-                           
-                            var row_data = {
-                                "uid": getstoreinf[i].uid,
-                                "epc": getstoreinf[i].epc,
-                                "sku": getstoreinf[i].sku,
-
-                                "Product_Name": getstoreinf[i].Product_Name,
-                                "PO_NO": getstoreinf[i].PO_NO,
-                                "Supplier_ID": getstoreinf[i].Supplier_ID,
-                                "Shipment_no": getstoreinf[i].Shipment_no,
-                                "Comments": getstoreinf[i].Comments,
-
-                                // "qty": getstoreinf[i].qty,
-                                "storeid": getstoreinf[i].storeid,
-                                // "printerid":getstoreinf[i].printerid ,
-                                // "zplid": getstoreinf[i].zplid ,
-                                "status": getstoreinf[i].status,
-                                // "Retail_Product_Price": getstoreinf[i].Retail_Product_Price,
-                                // "Retail_Product_VAT": getstoreinf[i].Retail_Product_VAT,
-                                // "Retail_Product_SP_VAT_EN": getstoreinf[i].Retail_Product_SP_VAT_EN,
-
-                            };
+        //console.log(query_count);
 
 
-                            table_data.push(row_data);
-                        }
+        mysql.queryCustom(query_count).then(function (result) {
+            total_rec = result.results[0].my_count;
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
+
+                    var row_data = {
+                        "uid": getstoreinf[i].uid,
+                        "epc": getstoreinf[i].epc,
+                        "sku": getstoreinf[i].sku,
+
+                        "Product_Name": getstoreinf[i].Product_Name,
+                        "PO_NO": getstoreinf[i].PO_NO,
+                        "Supplier_ID": getstoreinf[i].Supplier_ID,
+                        "Shipment_no": getstoreinf[i].Shipment_no,
+                        "Comments": getstoreinf[i].Comments,
+
+                        // "qty": getstoreinf[i].qty,
+                        "storeid": getstoreinf[i].storeid,
+                        // "printerid":getstoreinf[i].printerid ,
+                        // "zplid": getstoreinf[i].zplid ,
+                        "status": getstoreinf[i].status,
+                        // "Retail_Product_Price": getstoreinf[i].Retail_Product_Price,
+                        // "Retail_Product_VAT": getstoreinf[i].Retail_Product_VAT,
+                        // "Retail_Product_SP_VAT_EN": getstoreinf[i].Retail_Product_SP_VAT_EN,
+
+                    };
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '1665-GetZPLReportData');
-                        res.end(error);
-                        //res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '1671-GetZPLReportData');
-                res.end(error);
-                //res.end(error);
-            });
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '1665-GetZPLReportData');
+                    res.end(error);
+                    //res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '1671-GetZPLReportData');
+            res.end(error);
+            //res.end(error);
+        });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2102-GetZPLReportData');
+        console2.log('Error', 'Catch Expection' + e, '2102-GetZPLReportData');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2109-GetZPLReportData');
+            console2.log('Error', 'Catch Expection' + e, '2109-GetZPLReportData');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -2915,75 +2904,75 @@ router.post('/GetZPLReportData_sku', authenticationMidleware(), (req, res, next)
 
 
 
-       // if (mysql.check_permission('zplReport_sku', session.user_permission)) {
+        // if (mysql.check_permission('zplReport_sku', session.user_permission)) {
 
-           var new_query = "SELECT count(*) as total_skus,  " +
-                " a.*  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
-                "  GROUP BY sku " + order_by_cond ;
+        var new_query = "SELECT count(*) as total_skus,  " +
+            " a.*  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
+            "  GROUP BY sku " + order_by_cond;
 
-            //console.log(new_query);
+        //console.log(new_query);
 
-            var query_count = " select count(*) as `my_count` " +
-                " from (SELECT count(*) as total_item ,a.* " +
-                " FROM `zpl_printer` a where 1 " + search_cond + " " + cond +" GROUP BY sku "+
-                ") sq ";
+        var query_count = " select count(*) as `my_count` " +
+            " from (SELECT count(*) as total_item ,a.* " +
+            " FROM `zpl_printer` a where 1 " + search_cond + " " + cond + " GROUP BY sku " +
+            ") sq ";
 
-           // console.log(query_count);
-
-
-            mysql.queryCustom(query_count).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-                       
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
-                           
-                            var row_data = {
-                                "uid": getstoreinf[i].uid,
-                                "epc": getstoreinf[i].epc,
-                                "sku":'<button type="button" zku_zpl=' + getstoreinf[i].sku+' store_id='+getstoreinf[i].storeid+' class="btn sku_zpl_btn btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;border-bottom: 1px solid blue;" >'+getstoreinf[i].sku+' ('+getstoreinf[i].total_skus+')'+'</button>' ,
-                                "Product_Name": getstoreinf[i].Product_Name,
-                                "PO_NO": getstoreinf[i].PO_NO,
-                                "Supplier_ID": getstoreinf[i].Supplier_ID,
-                                "Shipment_no": getstoreinf[i].Shipment_no,
-                                "Comments": getstoreinf[i].Comments,
-
-                                
-                                "storeid": getstoreinf[i].storeid,
-                               
-                                "status": getstoreinf[i].status,
-                            };
-
-                            table_data.push(row_data);
-                        }
-
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+        // console.log(query_count);
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '1665-GetZPLReportData');
-                        res.end(error);
-                        //res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', error, '1671-GetZPLReportData_sku');
-                res.end(error);
-                //res.end(error);
-            });
+        mysql.queryCustom(query_count).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
+
+                    var row_data = {
+                        "uid": getstoreinf[i].uid,
+                        "epc": getstoreinf[i].epc,
+                        "sku": '<button type="button" zku_zpl=' + getstoreinf[i].sku + ' store_id=' + getstoreinf[i].storeid + ' class="btn sku_zpl_btn btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;border-bottom: 1px solid blue;" >' + getstoreinf[i].sku + ' (' + getstoreinf[i].total_skus + ')' + '</button>',
+                        "Product_Name": getstoreinf[i].Product_Name,
+                        "PO_NO": getstoreinf[i].PO_NO,
+                        "Supplier_ID": getstoreinf[i].Supplier_ID,
+                        "Shipment_no": getstoreinf[i].Shipment_no,
+                        "Comments": getstoreinf[i].Comments,
+
+
+                        "storeid": getstoreinf[i].storeid,
+
+                        "status": getstoreinf[i].status,
+                    };
+
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '1665-GetZPLReportData');
+                    res.end(error);
+                    //res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', error, '1671-GetZPLReportData_sku');
+            res.end(error);
+            //res.end(error);
+        });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2102-GetZPLReportData_sku');
+        console2.log('Error', 'Catch Expection' + e, '2102-GetZPLReportData_sku');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2109-GetZPLReportData_sku');
+            console2.log('Error', 'Catch Expection' + e, '2109-GetZPLReportData_sku');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3025,7 +3014,7 @@ router.post('/GetZPLReportData_sku_detail', authenticationMidleware(), (req, res
 
 
 
-        if (req.body.Epc != "" && req.body.Epc != 0 && req.body.Epc != "0" && req.body.Epc!==undefined) {
+        if (req.body.Epc != "" && req.body.Epc != 0 && req.body.Epc != "0" && req.body.Epc !== undefined) {
 
             //console.log(chekc);
             cond += ' AND epc = "' + req.body.Epc + '" '
@@ -3034,9 +3023,9 @@ router.post('/GetZPLReportData_sku_detail', authenticationMidleware(), (req, res
 
         if (req.body.Storeid != "" && req.body.Storeid != 0 && req.body.Storeid != "0" && req.body.Storeid !== undefined) {
             cond += ' AND   storeid="' + req.body.Storeid + '"';
-        } 
+        }
 
-        if (req.body.uid != "" && req.body.uid != 0 && req.body.uid != "0" &&  req.body.uid !== undefined) {
+        if (req.body.uid != "" && req.body.uid != 0 && req.body.uid != "0" && req.body.uid !== undefined) {
 
             cond += ' AND uid="' + req.body.uid + '" '
         }
@@ -3052,7 +3041,7 @@ router.post('/GetZPLReportData_sku_detail', authenticationMidleware(), (req, res
 
         if (req.body.zku_zpl22 != "" && req.body.zku_zpl22 != 0 && req.body.zku_zpl22 != "0" && req.body.zku_zpl22 != undefined) {
 
-            cond += ' AND sku ="' + req.body.zku_zpl22  + '" '
+            cond += ' AND sku ="' + req.body.zku_zpl22 + '" '
         }
 
 
@@ -3061,71 +3050,71 @@ router.post('/GetZPLReportData_sku_detail', authenticationMidleware(), (req, res
 
             var new_query = "SELECT  " +
                 " *  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
-                "  " + order_by_cond ;
+                "  " + order_by_cond;
 
             //console.log(new_query);
 
             var query_count = " select count(*) as `my_count` " +
                 " from (SELECT *  " +
-                " FROM `zpl_printer` a where 1 " + search_cond + " " + cond +"  "+
+                " FROM `zpl_printer` a where 1 " + search_cond + " " + cond + "  " +
                 ") sq ";
 
-           // console.log(query_count);
+            // console.log(query_count);
 
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                       
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
-                           
-                            var row_data = {
+                    getstoreinf = result.results;
 
-                                "uid": getstoreinf[i].uid,
-                                "epc": getstoreinf[i].epc,
-                                "sku":getstoreinf[i].sku,
-                                "Product_Name": getstoreinf[i].Product_Name,
-                                "PO_NO": getstoreinf[i].PO_NO,
-                                "Supplier_ID": getstoreinf[i].Supplier_ID,
-                                "Shipment_no": getstoreinf[i].Shipment_no,
-                                "Comments": getstoreinf[i].Comments,
-                                "storeid": getstoreinf[i].storeid,
-                                "status": getstoreinf[i].status,
-                            
-                            };
+                    var table_data = [];
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
+                        var row_data = {
 
-                            table_data.push(row_data);
-                        }
+                            "uid": getstoreinf[i].uid,
+                            "epc": getstoreinf[i].epc,
+                            "sku": getstoreinf[i].sku,
+                            "Product_Name": getstoreinf[i].Product_Name,
+                            "PO_NO": getstoreinf[i].PO_NO,
+                            "Supplier_ID": getstoreinf[i].Supplier_ID,
+                            "Shipment_no": getstoreinf[i].Shipment_no,
+                            "Comments": getstoreinf[i].Comments,
+                            "storeid": getstoreinf[i].storeid,
+                            "status": getstoreinf[i].status,
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '1665-GetZPLReportData');
                         res.end(error);
                         //res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', error, '1671-GetZPLReportData_sku');
                 res.end(error);
                 //res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2102-GetZPLReportData_sku');
+        console2.log('Error', 'Catch Expection' + e, '2102-GetZPLReportData_sku');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2109-GetZPLReportData_sku');
+            console2.log('Error', 'Catch Expection' + e, '2109-GetZPLReportData_sku');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3199,62 +3188,62 @@ router.post('/GetZPLReportDataDeatails', authenticationMidleware(), (req, res, n
 
 
 
-        mysql.queryCustom(query_count).then(function(result) {
+        mysql.queryCustom(query_count).then(function (result) {
             total_rec = result.results[0].my_count;
 
-            mysql.queryCustom(new_query + limit_cond).then(function(result) {
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                    getstoreinf = result.results;
-                    //console.log(gettop20our)
-                    var table_data = [];
-                    for (var i = 0; i < getstoreinf.length; i++) {
+                getstoreinf = result.results;
+                //console.log(gettop20our)
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
 
-                        var row_data = {
-                            "uid": getstoreinf[i].uid,
-                            "epc": getstoreinf[i].epc,
-                            "suppliername": getstoreinf[i].suppliername,
-                            "qty": getstoreinf[i].qty,
-                            "storeid": getstoreinf[i].storeid,
-                            "printerid": getstoreinf[i].printerid,
-                            "zplid": getstoreinf[i].zplid,
-                            "status": getstoreinf[i].status,
-                            "Retail_Product_Price": getstoreinf[i].Retail_Product_Price,
-                            "Retail_Product_VAT": getstoreinf[i].Retail_Product_VAT,
-                            "Retail_Product_SP_VAT_EN": getstoreinf[i].Retail_Product_SP_VAT_EN,
+                    var row_data = {
+                        "uid": getstoreinf[i].uid,
+                        "epc": getstoreinf[i].epc,
+                        "suppliername": getstoreinf[i].suppliername,
+                        "qty": getstoreinf[i].qty,
+                        "storeid": getstoreinf[i].storeid,
+                        "printerid": getstoreinf[i].printerid,
+                        "zplid": getstoreinf[i].zplid,
+                        "status": getstoreinf[i].status,
+                        "Retail_Product_Price": getstoreinf[i].Retail_Product_Price,
+                        "Retail_Product_VAT": getstoreinf[i].Retail_Product_VAT,
+                        "Retail_Product_SP_VAT_EN": getstoreinf[i].Retail_Product_SP_VAT_EN,
 
-                            //"action": '<button type="button" uid=' + getstoreinf[i].uid + ' class="btn zpl_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">View</button> ',
-
-
-                        };
+                        //"action": '<button type="button" uid=' + getstoreinf[i].uid + ' class="btn zpl_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">View</button> ',
 
 
-                        table_data.push(row_data);
-                    }
-
-                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    };
 
 
-                })
-                .catch(function(error) {
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '1777-GetZPLReportDataDeatails');
                     res.end(error);
                     //res.end(error);
                 });
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '1782-GetZPLReportDataDeatails');
             res.end(error);
             //res.end(error);
         });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2230-GetZPLReportDataDeatails');
+        console2.log('Error', 'Catch Expection' + e, '2230-GetZPLReportDataDeatails');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2237-GetZPLReportDataDeatails');
+            console2.log('Error', 'Catch Expection' + e, '2237-GetZPLReportDataDeatails');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3276,7 +3265,7 @@ router.post('/Cancel_ViewAsnDetails', authenticationMidleware(), (req, res, next
             " WHERE 1 AND asn='" + req.body.asn_id + "' AND process= '" + req.body.process + "'";
         //console.log(new_query);
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -3286,21 +3275,21 @@ router.post('/Cancel_ViewAsnDetails', authenticationMidleware(), (req, res, next
                     //res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '1812-Cancel_ViewAsnDetails');
                 res.end(error);
                 //res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2276-Cancel_ViewAsnDetail');
+        console2.log('Error', 'Catch Expection' + e, '2276-Cancel_ViewAsnDetail');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2283-Cancel_ViewAsnDetail');
+            console2.log('Error', 'Catch Expection' + e, '2283-Cancel_ViewAsnDetail');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3319,7 +3308,7 @@ router.post('/GetMinMAx', authenticationMidleware(), (req, res, next) => {
         var session = req.session;
 
         var cond = '';
-        var storeid='';
+        var storeid = '';
 
         if (req.body.dptid != "" && req.body.dptid != "0" && req.body.dptid != 0) {
             cond += ' AND SC.departmentid="' + req.body.dptid + '" '
@@ -3333,17 +3322,17 @@ router.post('/GetMinMAx', authenticationMidleware(), (req, res, next) => {
         }
         if (req.body.storeid != "" && req.body.storeid != 0 && req.body.storeid != "0") {
             cond += ' AND SC.storeid="' + req.body.storeid + '" ';
-            storeid =  req.body.storeid;
+            storeid = req.body.storeid;
         }
 
 
         if (mysql.check_permission('storeSku', session.user_permission)) {
             var new_query = "SELECT MIN(missing) AS UNDER," +
-                "MAX(unexpected) AS oveer FROM stock_count_"+storeid+" SC " +
+                "MAX(unexpected) AS oveer FROM stock_count_" + storeid + " SC " +
                 "LEFT JOIN product_item_master PM ON SC.code = PM.skucode WHERE 1" + cond
 
             mysql.queryCustom(new_query)
-                .then(function(result) {
+                .then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
@@ -3352,21 +3341,21 @@ router.post('/GetMinMAx', authenticationMidleware(), (req, res, next) => {
                         //res.end(result.error);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '1852-GetMinMAx');
                     res.end(error);
                     //res.end(error);
                 });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2340-GetMinMAx');
+        console2.log('Error', 'Catch Expection' + e, '2340-GetMinMAx');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2347-GetMinMAx');
+            console2.log('Error', 'Catch Expection' + e, '2347-GetMinMAx');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3383,7 +3372,7 @@ router.post('/StoreDiscrepencyTwo', authenticationMidleware(), (req, res, next) 
         var max = req.body.max;
 
         var cond = '';
-        var storeid='';
+        var storeid = '';
 
         if (req.body.dptid != "" && req.body.dptid != "0" && req.body.dptid != 0) {
             cond += ' AND SC.departmentid="' + req.body.dptid + '" '
@@ -3397,7 +3386,7 @@ router.post('/StoreDiscrepencyTwo', authenticationMidleware(), (req, res, next) 
         }
         if (req.body.storeid != "" && req.body.storeid != 0 && req.body.storeid != "0") {
             cond += ' AND SC.storeid="' + req.body.storeid + '" ';
-            storeid = req.body.storeid ;
+            storeid = req.body.storeid;
         }
 
         var string = '';
@@ -3407,25 +3396,25 @@ router.post('/StoreDiscrepencyTwo', authenticationMidleware(), (req, res, next) 
             if (i > 0) {
                 query += "(" +
                     "SELECT COUNT(SC.unexpected) " +
-                    "FROM stock_count_"+storeid+" SC WHERE SC.missing = '" + i + "' " +
+                    "FROM stock_count_" + storeid + " SC WHERE SC.missing = '" + i + "' " +
                     ") AS oveer_" + i + ", "
             } else {
                 query += "(" +
                     "SELECT COUNT(SC.missing) " +
-                    "FROM stock_count_"+storeid+" SC WHERE SC.missing = '" + i + "' " +
+                    "FROM stock_count_" + storeid + " SC WHERE SC.missing = '" + i + "' " +
                     ") AS oveer_m" + Math.abs(i) + ", "
             }
         }
 
 
         query = query.substr(0, query.length - 2);
-        string = "SELECT " + query + " FROM stock_count_"+storeid+" SC " +
+        string = "SELECT " + query + " FROM stock_count_" + storeid + " SC " +
             " LEFT JOIN product_item_master PM ON SC.code = PM.skucode" +
             " LIMIT 0,1";
 
         // console.log(string);
         mysql.queryCustom(string)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -3434,20 +3423,20 @@ router.post('/StoreDiscrepencyTwo', authenticationMidleware(), (req, res, next) 
                     //res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '1922-StoreDiscrepencyTwo');
                 res.end(error);
                 //res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2419-StoreDiscrepencyTwo');
+        console2.log('Error', 'Catch Expection' + e, '2419-StoreDiscrepencyTwo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2426-StoreDiscrepencyTwo');
+            console2.log('Error', 'Catch Expection' + e, '2426-StoreDiscrepencyTwo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3498,55 +3487,55 @@ router.post('/GetUserRoles', authenticationMidleware(), (req, res, next) => {
 
 
         if (mysql.check_permission('UserRoles', session.user_permission)) {
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
+                    getstoreinf = result.results;
+                    //console.log(gettop20our)
+                    var table_data = [];
 
-                        for (var i = 0; i < getstoreinf.length; i++) {
-                            //getstoreinf[i].storename
+                    for (var i = 0; i < getstoreinf.length; i++) {
+                        //getstoreinf[i].storename
 
-                            var row_data = {
-                                "role_id": getstoreinf[i].role_id,
-                                "role_name": getstoreinf[i].role_name,
-                                "createddate": getstoreinf[i].createddate,
-                                "viewpermissions": '<button type="button" role_id=' + getstoreinf[i].role_id + ' class="btn permission btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
-                                'action': '<button type="button" edit_id=' + getstoreinf[i].role_id + ' class="btn RoleEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].role_id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
-                            };
+                        var row_data = {
+                            "role_id": getstoreinf[i].role_id,
+                            "role_name": getstoreinf[i].role_name,
+                            "createddate": getstoreinf[i].createddate,
+                            "viewpermissions": '<button type="button" role_id=' + getstoreinf[i].role_id + ' class="btn permission btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
+                            'action': '<button type="button" edit_id=' + getstoreinf[i].role_id + ' class="btn RoleEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].role_id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                        };
 
-                            table_data.push(row_data);
-                        }
+                        table_data.push(row_data);
+                    }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
 
 
-                    })
-                    .catch(function(error) {
+                })
+                    .catch(function (error) {
 
                         console2.log('Error', JSON.stringify(error), '1999-GetUserRoles');
                         res.end(error);
 
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
 
                 console2.log('Error', JSON.stringify(error), '2005-GetUserRoles');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2518-GetUserRoles');
+        console2.log('Error', 'Catch Expection' + e, '2518-GetUserRoles');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2525-GetUserRoles');
+            console2.log('Error', 'Catch Expection' + e, '2525-GetUserRoles');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3574,7 +3563,7 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
         var query_count_per = '';
 
         // var storeid = session.storeid;
-
+        var storeid = '';
         // storeid = storeid.split('[').join('');
         // storeid = storeid.split(']').join('');
 
@@ -3654,30 +3643,30 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
 
         if (req.body.source != "" && req.body.source != 0 && req.body.source != "0") {
 
-            if(req.body.source == 'all_source'){
+            if (req.body.source == 'all_source') {
                 cond += ' '
-            }else{
-               cond += ' AND source="' + req.body.source + '"' 
+            } else {
+                cond += ' AND source="' + req.body.source + '"'
             }
-            
-        }else{
 
-            cond += ' AND source="000"'
+        } else {
+
+            cond += ' AND source like "000%"'
         }
 
         if (req.body.Destination != "" && req.body.Destination != 0 && req.body.Destination != "0" &&
             req.body.Destination != undefined) {
-            if(req.body.Destination == 'all_destination'){
+            if (req.body.Destination == 'all_destination') {
                 cond += '';
-            }else{
+            } else {
                 cond += ' AND destination="' + req.body.Destination + '"'
             }
-            
-        }else{
-            cond += ' AND destination="000"';
+
+        } else {
+            cond += ' AND destination like "000%"';
         }
 
-        
+
 
         if (req.body.Status != "" && req.body.Status != 0 && req.body.Status != "0") {
             cond += ' AND status="' + req.body.Status + '"'
@@ -3694,17 +3683,17 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
             cond += ' AND asn="' + req.body.Asn + '" '
         }
 
-       
+
 
         //console.log(req.body.show_details);
 
         //if (mysql.check_permission('asndata', session.user_permission)) {
 
-           // if (session.user_id == 1) {
+        // if (session.user_id == 1) {
 
-              
 
-                    query_select = `SELECT t1.*,
+
+        query_select = `SELECT t1.*,
                     IF(transferred_item  IS NULL,"-",transferred_item) AS transferred_item_new,
                     IF(packed_item  IS NULL,"-",packed_item) AS packed_item_new,
                     IF(received_item  IS NULL,"-",received_item) AS received_item_new,
@@ -3714,159 +3703,155 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
                     IF(receiving_date  IS NULL,"-",receiving_date) AS receiving_date_new
                     
 
-                    FROM asn_master t1  where 1 `+ search_cond +" "+cond+` 
+                    FROM asn_master t1  where 1 `+ search_cond + " " + cond + ` 
                     GROUP BY asn,status`+ order_by_cond;
-                   
-
-                    
-                    query_count_per = " select count(*) as `my_count` " +
-                        "from (SELECT count(*) as total_item, a.* " +
-                        "FROM `asn_master` a where 1 " + search_cond + " " + cond +
-                        "GROUP BY asn,status) sq ";
-
-               
-              
-                 
-
-            // } else {
-
-               
-                
-
-
-            //         query_select =  `SELECT a.*,
-            //         IF(transferred_item  IS NULL,"-",transferred_item) AS transferred_item_new,
-            //         IF(packed_item  IS NULL,"-",packed_item) AS packed_item_new,
-            //         IF(received_item  IS NULL,"-",received_item) AS received_item_new,
-
-            //         IF(packing_date  IS NULL,"-",packing_date) AS packing_date_new,
-            //         IF(shipping_date  IS NULL,"-",shipping_date) AS shipping_date_new,
-            //         IF(receiving_date  IS NULL,"-",receiving_date) AS receiving_date_new
 
 
 
-            //         FROM asn_master a  where (source in (` + storeid + `)  or destination in (`+ storeid + `))`+ search_cond +" "+cond+` 
-            //         GROUP BY asn,status`+ order_by_cond;
-
-            //         // console.log(query_select)
-                
-
-            //         query_count_per = " select count(*) as `my_count` " +
-            //             "from (SELECT count(*) as total_item, a.* " +
-            //             "FROM `asn_master` a where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
-            //             "GROUP BY asn,status) sq ";
-
-
-
-               
-            // }
-
-            //console.log(query_select);
-            mysql.queryCustom(query_count_per).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
-
-                        var packing_date    = '';
-                        var shipping_date   = '';
-                        var receiving_date  = '';
-                        var utc             = '';
-                      
-                        
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-
-                            packing_date   = getstoreinf[i].packing_date_new;
-
-                            shipping_date  = getstoreinf[i].shipping_date_new;
-                            
-                            receiving_date = getstoreinf[i].receiving_date_new;
-                            
+        query_count_per = " select count(*) as `my_count` " +
+            "from (SELECT count(*) as total_item, a.* " +
+            "FROM `asn_master` a where 1 " + search_cond + " " + cond +
+            "GROUP BY asn,status) sq ";
 
 
 
 
-                            if(packing_date!="-")
-                            {
-                                utc = new Date(packing_date);
-                                packing_date = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                packing_date = dateFormat(packing_date, "yyyy-mm-dd HH:MM:ss");
-                                packing_date = packing_date.toString()
-                            }
 
-                            if(shipping_date!="-")
-                            {
-                                utc = new Date(shipping_date);
-                                shipping_date = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                shipping_date = dateFormat(shipping_date, "yyyy-mm-dd HH:MM:ss");
-
-                                shipping_date = shipping_date.toString()
+        // } else {
 
 
-                            }
-                            
-                            if(receiving_date!="-")
-                            {
-                                utc = new Date(receiving_date);
-                                receiving_date = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                receiving_date = dateFormat(receiving_date, "yyyy-mm-dd HH:MM:ss");
-                                receiving_date = receiving_date.toString()
-                            }
-                            
-                          
 
 
-                            // console.log(getstoreinf[i].packing_count)
-                            
-                            var row_data = {
-                                "asn": getstoreinf[i].asn,
-                                "source": getstoreinf[i].source,
-                                "destination": getstoreinf[i].destination,
-                                "packed_item_new": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="packing" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].packed_item_new+ '</button>',
-                                "transferred_item_new": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="shipping" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].transferred_item_new +  '</button>',
-                                "received_item_new": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="receiving" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].received_item_new + '</button>',
-                                "status": getstoreinf[i].status,
-                                "packing_date": packing_date,
-                                "packing_remarks": getstoreinf[i].packing_remarks,
-                                "shipping_date":shipping_date ,
-                                "shipping_remarks": getstoreinf[i].shipping_remarks,
-                                "receiving_date": receiving_date,
-                                "receiving_remarks": getstoreinf[i].receiving_remarks,
-                                //"action": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status=' + getstoreinf[i].status + ' class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">View</button> ',
 
-                            };
-                            
+        //         query_select =  `SELECT a.*,
+        //         IF(transferred_item  IS NULL,"-",transferred_item) AS transferred_item_new,
+        //         IF(packed_item  IS NULL,"-",packed_item) AS packed_item_new,
+        //         IF(received_item  IS NULL,"-",received_item) AS received_item_new,
+
+        //         IF(packing_date  IS NULL,"-",packing_date) AS packing_date_new,
+        //         IF(shipping_date  IS NULL,"-",shipping_date) AS shipping_date_new,
+        //         IF(receiving_date  IS NULL,"-",receiving_date) AS receiving_date_new
 
 
-                            table_data.push(row_data);
-                        }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+        //         FROM asn_master a  where (source in (` + storeid + `)  or destination in (`+ storeid + `))`+ search_cond +" "+cond+` 
+        //         GROUP BY asn,status`+ order_by_cond;
+
+        //         // console.log(query_select)
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '2177-getasndata');
-                        res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '2181-getasndata');
-                res.end(error);
-            });
-       // }
+        //         query_count_per = " select count(*) as `my_count` " +
+        //             "from (SELECT count(*) as total_item, a.* " +
+        //             "FROM `asn_master` a where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
+        //             "GROUP BY asn,status) sq ";
+
+
+
+
+        // }
+
+        console.log(query_select);
+        mysql.queryCustom(query_count_per).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            mysql.queryCustom(query_select + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+                //console.log(gettop20our)
+                var table_data = [];
+
+                var packing_date = '';
+                var shipping_date = '';
+                var receiving_date = '';
+                var utc = '';
+
+
+                for (var i = 0; i < getstoreinf.length; i++) {
+
+
+                    packing_date = getstoreinf[i].packing_date_new;
+
+                    shipping_date = getstoreinf[i].shipping_date_new;
+
+                    receiving_date = getstoreinf[i].receiving_date_new;
+
+
+
+
+
+                    if (packing_date != "-") {
+                        utc = new Date(packing_date);
+                        packing_date = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        packing_date = dateFormat(packing_date, "yyyy-mm-dd HH:MM:ss");
+                        packing_date = packing_date.toString()
+                    }
+
+                    if (shipping_date != "-") {
+                        utc = new Date(shipping_date);
+                        shipping_date = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        shipping_date = dateFormat(shipping_date, "yyyy-mm-dd HH:MM:ss");
+
+                        shipping_date = shipping_date.toString()
+
+
+                    }
+
+                    if (receiving_date != "-") {
+                        utc = new Date(receiving_date);
+                        receiving_date = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        receiving_date = dateFormat(receiving_date, "yyyy-mm-dd HH:MM:ss");
+                        receiving_date = receiving_date.toString()
+                    }
+
+
+
+
+                    // console.log(getstoreinf[i].packing_count)
+
+                    var row_data = {
+                        "asn": getstoreinf[i].asn,
+                        "source": getstoreinf[i].source,
+                        "destination": getstoreinf[i].destination,
+                        "packed_item_new": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="packing" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].packed_item_new + '</button>',
+                        "transferred_item_new": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="shipping" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].transferred_item_new + '</button>',
+                        "received_item_new": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="receiving" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].received_item_new + '</button>',
+                        "status": getstoreinf[i].status,
+                        "packing_date": packing_date,
+                        "packing_remarks": getstoreinf[i].packing_remarks,
+                        "shipping_date": shipping_date,
+                        "shipping_remarks": getstoreinf[i].shipping_remarks,
+                        "receiving_date": receiving_date,
+                        "receiving_remarks": getstoreinf[i].receiving_remarks,
+                        //"action": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status=' + getstoreinf[i].status + ' class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">View</button> ',
+
+                    };
+
+
+
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '2177-getasndata');
+                    res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '2181-getasndata');
+            res.end(error);
+        });
+        // }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2740-getasndata');
+        console2.log('Error', 'Catch Expection' + e, '2740-getasndata');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2747-getasndata');
+            console2.log('Error', 'Catch Expection' + e, '2747-getasndata');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -3874,20 +3859,20 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
         }
     }
 });
-function check_problem_asn(var_start_date){
+function check_problem_asn(var_start_date) {
     return new Promise((resolve, reject) => {
-       
+
         var date = var_start_date;
 
         var abody = {
             "Date":
             {
-                "relativeDate":"CUSTOM"
-               
-                
+                "relativeDate": "CUSTOM"
+
+
             }
         };
-        
+
         fetch('http://157.245.110.120/innovent/REFLISTRESULTSHISTORY', {
             method: 'post',
             body: JSON.stringify(abody),
@@ -3896,189 +3881,185 @@ function check_problem_asn(var_start_date){
                 'Content-Type': 'application/json'
             },
         })
-        .then(res => {
-            const contentType = res.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                throw new TypeError("Oops, we haven't got JSON!");
-            }
-            return res.json();
-        }).catch(function(error) {
-            if(error){
-                console2.log('Error', JSON.stringify(error), '3267-problem_Asn_function API ASN json validation');   
-            }
-            
-        })
-        .then((json) => {
-            var response = json;
-           // var response = json;
-            var ibt_name     = ''
-            var porcess_name = '';
-            var result_set   = ''; 
-            var matching_qty = '';
-            var matching_qty_add = '';
-            var api_date = '';
-            var my_arr = {};
+            .then(res => {
+                const contentType = res.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new TypeError("Oops, we haven't got JSON!");
+                }
+                return res.json();
+            }).catch(function (error) {
+                if (error) {
+                    console2.log('Error', JSON.stringify(error), '3267-problem_Asn_function API ASN json validation');
+                }
 
-            for(var i=0;i<response.length;i++){
+            })
+            .then((json) => {
+                var response = json;
+                // var response = json;
+                var ibt_name = ''
+                var porcess_name = '';
+                var result_set = '';
+                var matching_qty = '';
+                var matching_qty_add = '';
+                var api_date = '';
+                var my_arr = {};
 
-                ibt_name = response[i].ASN;
-                //console.log(ibt_name);
-                // if(ibt_name=="519344")
-                // {
+                for (var i = 0; i < response.length; i++) {
+
+                    ibt_name = response[i].ASN;
+                    //console.log(ibt_name);
+                    // if(ibt_name=="519344")
+                    // {
                     //console.log(ibt_name);
 
                     result_set = response[i].results;
-                  
-                    for(var j=0;j<result_set.length;j++){
+
+                    for (var j = 0; j < result_set.length; j++) {
 
                         porcess_name = result_set[j].Process;
                         //console.log(porcess_name)
                         matching_qty = result_set[j].matching;
-                        
-                        api_date     =  result_set[j].Date.value;
-                        
-                        var matching_qty_add = 0;
-                       
-                        for (var k=0;k<matching_qty.length;k++){
 
-                            matching_qty_add = matching_qty_add+parseInt(matching_qty[k].Qty);    
+                        api_date = result_set[j].Date.value;
+
+                        var matching_qty_add = 0;
+
+                        for (var k = 0; k < matching_qty.length; k++) {
+
+                            matching_qty_add = matching_qty_add + parseInt(matching_qty[k].Qty);
                         }
 
 
-                   
-                        
-                        if(ibt_name in my_arr)
-                        {
+
+
+                        if (ibt_name in my_arr) {
                             //console.log("test 444");
-                            if(my_arr[ibt_name].porcess_name=="shipping")
-                            {
-                                var obj={
-                                    porcess_name:porcess_name,
-                                    api_date:api_date,
-                                    matching_qty_add:matching_qty_add
-                                
+                            if (my_arr[ibt_name].porcess_name == "shipping") {
+                                var obj = {
+                                    porcess_name: porcess_name,
+                                    api_date: api_date,
+                                    matching_qty_add: matching_qty_add
+
                                 };
 
-                               my_arr[ibt_name]= obj;      
+                                my_arr[ibt_name] = obj;
                             }
                         }
-                        else
-                        {
+                        else {
                             //console.log('test 222')
-                            var obj={
-                                porcess_name:porcess_name,
-                                api_date:api_date,
-                                matching_qty_add:matching_qty_add
-                            
+                            var obj = {
+                                porcess_name: porcess_name,
+                                api_date: api_date,
+                                matching_qty_add: matching_qty_add
+
                             };
 
-                            my_arr[ibt_name]= obj;      
+                            my_arr[ibt_name] = obj;
                         }
                     }
                 }
-           
-            //}   
 
-            //console.log(my_arr);
-            resolve(my_arr);   
+                //}   
 
-        });
+                //console.log(my_arr);
+                resolve(my_arr);
+
+            });
     });
 }
 
 
 router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
-   
-
-   // try {
-        console2.execution_info('get_problem_asn');
-        var session = req.session;
-        var cond = '';
-        var order_by_cond = '';
-        var search_cond = '';
-        //console.log(req.body.order[0].dir);
-        var limit_cond = ' limit 0,25 ';
-        var total_rec = '0';
-
-        var order_col = req.body.order[0].column;
-        var order_by = req.body.order[0].dir;
-
-        var query_select = '';
-        var query_count_per = '';
-
-        var storeid = session.storeid;
-
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
-
-        //console.log(order_col);
-
-        if (order_col == 0 || order_col == 1 || order_col == 2 || order_col == 3 || order_col == 4 || order_col == 5 || order_col == 6 || order_col == 7 || order_col == 8 || order_col == 9) {
-
-            order_by_cond = " ORDER BY " + req.body.columns[order_col]['data'] + " " + order_by;
-        }
-
-        //allover the wor
-        if (req.body.start != "" && req.body.length != "") {
-            limit_cond = ' limit  ' + req.body.start + " , " + req.body.length;
-        }
-
-        if (req.body.search['value'] != "") {
-            search_cond = " and asn like '%" + req.body.search['value'] + "%' and status='shipping' ";
-        }
 
 
+    // try {
+    console2.execution_info('get_problem_asn');
+    var session = req.session;
+    var cond = '';
+    var order_by_cond = '';
+    var search_cond = '';
+    //console.log(req.body.order[0].dir);
+    var limit_cond = ' limit 0,25 ';
+    var total_rec = '0';
 
-        var fromdate = req.body.from_my_date;
-        
-        let date22 = new Date(fromdate);
+    var order_col = req.body.order[0].column;
+    var order_by = req.body.order[0].dir;
 
-       
-        let milisecond = date22.getTime();
-        let nanosecond = milisecond;
-        let refNum = milisecond;
-            
-        refNum='1625152953000';      
+    var query_select = '';
+    var query_count_per = '';
 
-        if (req.body.from_my_date != "" &&
-            req.body.from_my_date != 0 &&
-            req.body.from_my_date != "0") {
+    var storeid = session.storeid;
 
-            var from_my_date22 = req.body.from_my_date;
+    storeid = storeid.split('[').join('');
+    storeid = storeid.split(']').join('');
 
-            var from_date22 = dateFormat(from_my_date22, "yyyy-mm-dd");
+    //console.log(order_col);
 
-            cond += 'AND date  >= "' + from_date22 + '" and status="shipping"';
-           
-        }else{
-            cond += 'AND date  = "000-00-00"'
-        }
+    if (order_col == 0 || order_col == 1 || order_col == 2 || order_col == 3 || order_col == 4 || order_col == 5 || order_col == 6 || order_col == 7 || order_col == 8 || order_col == 9) {
 
+        order_by_cond = " ORDER BY " + req.body.columns[order_col]['data'] + " " + order_by;
+    }
 
-        if (req.body.Asn != "" &&
-            req.body.Asn != 0 &&
-            req.body.Asn != "0") {
+    //allover the wor
+    if (req.body.start != "" && req.body.length != "") {
+        limit_cond = ' limit  ' + req.body.start + " , " + req.body.length;
+    }
 
-            cond += ' AND asn  = "' + req.body.Asn + '"';
-        }
-
-
-        var show_details="false";
-        if (req.body.show_details =='true' )
-        {
-            show_details="yes";
-        }
+    if (req.body.search['value'] != "") {
+        search_cond = " and asn like '%" + req.body.search['value'] + "%' and status='shipping' ";
+    }
 
 
-        // console.log(show_details);
-      
-        //if (mysql.check_permission('asndata', session.user_permission)) {
 
-            if (session.user_id == 1) {
+    var fromdate = req.body.from_my_date;
 
-                if(show_details == "yes"){   
+    let date22 = new Date(fromdate);
 
-                  query_select =   `SELECT 
+
+    let milisecond = date22.getTime();
+    let nanosecond = milisecond;
+    let refNum = milisecond;
+
+    refNum = '1625152953000';
+
+    if (req.body.from_my_date != "" &&
+        req.body.from_my_date != 0 &&
+        req.body.from_my_date != "0") {
+
+        var from_my_date22 = req.body.from_my_date;
+
+        var from_date22 = dateFormat(from_my_date22, "yyyy-mm-dd");
+
+        cond += 'AND date  >= "' + from_date22 + '" and status="shipping"';
+
+    } else {
+        cond += 'AND date  = "000-00-00"'
+    }
+
+
+    if (req.body.Asn != "" &&
+        req.body.Asn != 0 &&
+        req.body.Asn != "0") {
+
+        cond += ' AND asn  = "' + req.body.Asn + '"';
+    }
+
+
+    var show_details = "false";
+    if (req.body.show_details == 'true') {
+        show_details = "yes";
+    }
+
+
+    // console.log(show_details);
+
+    //if (mysql.check_permission('asndata', session.user_permission)) {
+
+    if (session.user_id == 1) {
+
+        if (show_details == "yes") {
+
+            query_select = `SELECT 
                                     t1.asn,
                                     t1.packing_date,
                                         t1.shipping_date,
@@ -4100,9 +4081,9 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
                                     WHERE t2.asn = t1.asn AND process= 'receiving' and is_deleted = '0')  AS receiving_count
 
                                     
-                                    FROM asn_master AS t1 WHERE 1 `+cond; 
+                                    FROM asn_master AS t1 WHERE 1 `+ cond;
 
-                            query_count_per =  `select count(*) as my_count from ( SELECT 
+            query_count_per = `select count(*) as my_count from ( SELECT 
                                 t1.asn,
                                 t1.packing_date,
                                         t1.shipping_date,
@@ -4114,11 +4095,11 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
                                 t1.received_item,
                                 t1.status
                                
-                                FROM asn_master AS t1 WHERE 1  `+cond+` ) sq`
-                                          
-                    } else{
+                                FROM asn_master AS t1 WHERE 1  `+ cond + ` ) sq`
 
-                        query_select =   `SELECT 
+        } else {
+
+            query_select = `SELECT 
                                     t1.asn,
                                       t1.packing_date,
                                         t1.shipping_date,
@@ -4130,11 +4111,11 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
                                     t1.status as db_status
                                     
                                     
-                                    FROM asn_master AS t1 WHERE 1 `+cond;
+                                    FROM asn_master AS t1 WHERE 1 `+ cond;
 
-                        console.log(query_select);             
+            console.log(query_select);
 
-                        query_count_per =  `select count(*) as my_count from ( SELECT 
+            query_count_per = `select count(*) as my_count from ( SELECT 
                             t1.asn,
                               t1.packing_date,
                                 t1.shipping_date,
@@ -4146,218 +4127,216 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
                             t1.status
                                
                                
-                            FROM asn_master AS t1 WHERE 1  `+cond+` ) sq` 
+                            FROM asn_master AS t1 WHERE 1  `+ cond + ` ) sq`
 
 
-                    }               
-               
-                       
-            } 
-
-            //console.log(query_select);
-            
-
-                total_rec = 1000;
-
-                mysql.queryCustom(query_select +" limit 0,1000000").then(function(result) {
-
-                       var  getstoreinf = result.results;
-                      
-                        var table_data = [];
-                        var process_name='';
-                        var status=''; 
-
-                        // console.log(refNum)
-
-                        if(!isNaN(refNum)){
-                            check_problem_asn(refNum).then(function(returnData22){
-
-                                var vizix_status = '';
-
-                                var packing_count   = 0;
-                                var shipping_count  = 0;
-                                var receiving_count = 0;
-                               
-                                for (var i = 0; i < getstoreinf.length; i++) {
+        }
 
 
-                                    packing_date   = getstoreinf[i].packing_date_new;
+    }
 
-                                    var asn = getstoreinf[i].asn;
-                                    status='';
+    //console.log(query_select);
 
-                                    if(typeof(getstoreinf[i].packing_count) !== "undefined"){
-                                        packing_count = getstoreinf[i].packing_count
-                                    }
 
-                                    if(typeof(getstoreinf[i].shipping_count) !== "undefined"){
-                                        shipping_count = getstoreinf[i].shipping_count
-                                    }
+    total_rec = 1000;
 
-                                    if(typeof(getstoreinf[i].receiving_count) !== "undefined"){
-                                        receiving_count = getstoreinf[i].receiving_count
-                                    }
+    mysql.queryCustom(query_select + " limit 0,1000000").then(function (result) {
 
-                                    status = '';
-                                    if(asn in returnData22)
-                                    {
-                                        status = returnData22[asn].porcess_name;
+        var getstoreinf = result.results;
 
-                                     
-                                    }
-                                    console.log(status +"<=========>"+ getstoreinf[i].db_status)
-                                    if(status != getstoreinf[i].db_status){
-                                        var row_data = {
-                                            "asn": getstoreinf[i].asn,
-                                            "packing_date": getstoreinf[i].packing_date,
-                                            "shipping_date": getstoreinf[i].shipping_date,
-                                            "receiving_date": getstoreinf[i].receiving_date,
-                                            "packed_item": getstoreinf[i].packed_item + ' ('+packing_count+')' ,
-                                            "transferred_item": getstoreinf[i].transferred_item +' ('+shipping_count+')',
-                                            "received_item": getstoreinf[i].received_item + ' ('+receiving_count+')',
-                                            "db_status":getstoreinf[i].db_status ,
-                                            "status":status
-                                            
-                                        };
-                                        table_data.push(row_data);
+        var table_data = [];
+        var process_name = '';
+        var status = '';
 
-                                    }
+        // console.log(refNum)
 
-                                   
-                                    
-                                }
+        if (!isNaN(refNum)) {
+            check_problem_asn(refNum).then(function (returnData22) {
 
-                                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                var vizix_status = '';
 
-                            });
-                        }else{
+                var packing_count = 0;
+                var shipping_count = 0;
+                var receiving_count = 0;
 
-                            // for (var i = 0; i < getstoreinf.length; i++) {
+                for (var i = 0; i < getstoreinf.length; i++) {
 
-                            //         var row_data = {
-                            //             "asn": '',
-                            //             "packed_item": '' ,
-                            //             "transferred_item": '' ,
-                            //             "received_item": '' ,
-                            //             "db_status": '' ,
-                            //             "status":''
-                                       
-                            //         };
-                                   
-                                    
 
-                            //         table_data.push(row_data);
-                            //     }
+                    packing_date = getstoreinf[i].packing_date_new;
 
-                            res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    var asn = getstoreinf[i].asn;
+                    status = '';
 
-                        }
-                      
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '2177-get_problem_asn');
-                        res.end(error);
-                    });
-                
-        
+                    if (typeof (getstoreinf[i].packing_count) !== "undefined") {
+                        packing_count = getstoreinf[i].packing_count
+                    }
+
+                    if (typeof (getstoreinf[i].shipping_count) !== "undefined") {
+                        shipping_count = getstoreinf[i].shipping_count
+                    }
+
+                    if (typeof (getstoreinf[i].receiving_count) !== "undefined") {
+                        receiving_count = getstoreinf[i].receiving_count
+                    }
+
+                    status = '';
+                    if (asn in returnData22) {
+                        status = returnData22[asn].porcess_name;
+
+
+                    }
+                    console.log(status + "<=========>" + getstoreinf[i].db_status)
+                    if (status != getstoreinf[i].db_status) {
+                        var row_data = {
+                            "asn": getstoreinf[i].asn,
+                            "packing_date": getstoreinf[i].packing_date,
+                            "shipping_date": getstoreinf[i].shipping_date,
+                            "receiving_date": getstoreinf[i].receiving_date,
+                            "packed_item": getstoreinf[i].packed_item + ' (' + packing_count + ')',
+                            "transferred_item": getstoreinf[i].transferred_item + ' (' + shipping_count + ')',
+                            "received_item": getstoreinf[i].received_item + ' (' + receiving_count + ')',
+                            "db_status": getstoreinf[i].db_status,
+                            "status": status
+
+                        };
+                        table_data.push(row_data);
+
+                    }
+
+
+
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+            });
+        } else {
+
+            // for (var i = 0; i < getstoreinf.length; i++) {
+
+            //         var row_data = {
+            //             "asn": '',
+            //             "packed_item": '' ,
+            //             "transferred_item": '' ,
+            //             "received_item": '' ,
+            //             "db_status": '' ,
+            //             "status":''
+
+            //         };
+
+
+
+            //         table_data.push(row_data);
+            //     }
+
+            res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+        }
+
+    })
+        .catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '2177-get_problem_asn');
+            res.end(error);
+        });
+
+
 });
 
 
-function get_payload_stock_count(var_payload,var_storename,var_date){
+function get_payload_stock_count(var_payload, var_storename, var_date) {
     return new Promise((resolve, reject) => {
 
-    var payload = var_payload;
-   
-    var pay22 = JSON.parse(payload);
-    var resultset =  pay22.results;
-    var storename = var_storename;
-    var date = var_date;
-    
-    var my_arr = {};
-    var counted = 0;
-    get_payload_db_stock_count(storename,date).then(function(returnData22){
+        var payload = var_payload;
 
-   
-        var db_data         = returnData22.db_data;
-       
-        var counted =  0;
-        var db_skues = '';
+        var pay22 = JSON.parse(payload);
+        var resultset = pay22.results;
+        var storename = var_storename;
+        var date = var_date;
+
         var my_arr = {};
-        for(var k=0;k<resultset.length;k++){
-            
-            sku = resultset[k].SKU_original;
-            if(typeof(db_data[sku])!=="undefined")
-            {
-
-                // db_skues = sku;
-
-                // my_arr[sku]=db_data[sku]
+        var counted = 0;
+        get_payload_db_stock_count(storename, date).then(function (returnData22) {
 
 
+            var db_data = returnData22.db_data;
 
-            }else{
+            var counted = 0;
+            var db_skues = '';
+            var my_arr = {};
+            for (var k = 0; k < resultset.length; k++) {
 
-                my_arr[sku]=1;
-                
+                sku = resultset[k].SKU_original;
+                if (typeof (db_data[sku]) !== "undefined") {
+
+                    // db_skues = sku;
+
+                    // my_arr[sku]=db_data[sku]
+
+
+
+                } else {
+
+                    my_arr[sku] = 1;
+
+                }
+
+
+
             }
 
-            
-            
-        }
+            let sendparamData = {
+                resultdata: my_arr
+            }
 
-        let sendparamData= {
-            resultdata: my_arr
-        }
+            resolve(sendparamData);
 
-        resolve(sendparamData);
-         
 
-    })    
-   
-    // console.log(my_arr)
+        })
+
+        // console.log(my_arr)
 
     });
 }
 
 
-function get_payload_db_stock_count(var_storename,var_db_date){
+function get_payload_db_stock_count(var_storename, var_db_date) {
 
     return new Promise((resolve, reject) => {
 
         var storename = var_storename;
         var date = var_db_date;
 
-        
-        var query= "SELECT * FROM stock_count_"+storename+" where stockcountdate='"+date+"'";
+
+        var query = "SELECT * FROM stock_count_" + storename + " where stockcountdate='" + date + "'";
 
         mysql.queryCustom(query)
-        .then(function(result) {
-            if (result.status == "1") {
-                // res.end(JSON.stringify(result.results));
-                var result_set = result.results;
-                var sku = '';
-                var qty_add = 0;
-                var my_arr = {};
-                for(var i = 0;i<result_set.length;i++){
-                    // if(result_set[i].code =='20825355'){
-                        my_arr[result_set[i].code]=result_set[i].counted;
-                    // }
+            .then(function (result) {
+                if (result.status == "1") {
+                    // res.end(JSON.stringify(result.results));
+                    var result_set = result.results;
+                    var sku = '';
+                    var qty_add = 0;
+                    var my_arr = {};
+                    for (var i = 0; i < result_set.length; i++) {
+                        // if(result_set[i].code =='20825355'){
+                        my_arr[result_set[i].code] = result_set[i].counted;
+                        // }
+
+                    }
+
+
+
+                    let sendparam = {
+                        db_data: my_arr
+                    }
+                    resolve(sendparam);
 
                 }
-
-
-              
-            let sendparam = {
-               db_data:my_arr 
-            }    
-            resolve(sendparam);
-
-            }
-        })
-        .catch(function(error) {
-            console2.log('Error', error, '2314-get_payload_db_stock_count');
-            // res.end(error);
-        });
+            })
+            .catch(function (error) {
+                console2.log('Error', error, '2314-get_payload_db_stock_count');
+                // res.end(error);
+            });
 
 
 
@@ -4367,96 +4346,91 @@ function get_payload_db_stock_count(var_storename,var_db_date){
 router.post('/get_extra_stock_count', (req, res, next) => {
     console2.execution_info('get_extra_stock_count');
     // console.log(req.body.Payload);
-    if(req.body.Payload !=='' && req.body.StoreID !== '' && req.body.FromDate !== ''){
-            
+    if (req.body.Payload !== '' && req.body.StoreID !== '' && req.body.FromDate !== '') {
+
         var payload = req.body.Payload;
         var storenamme = req.body.StoreID;
-        var date =  req.body.FromDate;
-        get_payload_stock_count(req.body.Payload,req.body.StoreID,req.body.FromDate).then(function(returnData){
+        var date = req.body.FromDate;
+        get_payload_stock_count(req.body.Payload, req.body.StoreID, req.body.FromDate).then(function (returnData) {
 
-                    
+
             var get_payload_stock_count = returnData.resultdata;
 
-            get_payload_db_stock_count(storenamme,date).then(function(returnData_db){
+            get_payload_db_stock_count(storenamme, date).then(function (returnData_db) {
 
                 var db_date2 = returnData_db.db_data;
                 console.log(Object.keys(get_payload_stock_count).length)
                 console.log(Object.keys(db_date2).length)
-            
-                if(Object.keys(get_payload_stock_count).length>Object.keys(db_date2).length)
-            {
-                var table_data = [];
 
-              
-                for (var element in get_payload_stock_count) {
+                if (Object.keys(get_payload_stock_count).length > Object.keys(db_date2).length) {
+                    var table_data = [];
 
-                    //console.log(element)
-                    if(get_payload_stock_count[element] in db_date2)
-                    {
 
-                        rowdata={
-                            "sku":element,
-                            "qty":get_payload_stock_count[element]
-                        }  
+                    for (var element in get_payload_stock_count) {
+
+                        //console.log(element)
+                        if (get_payload_stock_count[element] in db_date2) {
+
+                            rowdata = {
+                                "sku": element,
+                                "qty": get_payload_stock_count[element]
+                            }
+                        }
+
+                        else {
+                            rowdata = {
+                                "sku": element,
+                                "qty": '0'
+                            }
+                        }
+
+                        table_data.push(rowdata)
+
                     }
 
-                    else
-                    {
-                        rowdata={
-                            "sku":element,
-                            "qty":'0'
-                        }   
+
+                } else {
+
+                    var table_data = [];
+
+                    for (var element in db_date2) {
+                        if (db_date2 in get_payload_stock_count) {
+                            rowdata = {
+                                "sku": element,
+                                "qty": db_date2[element]
+                            }
+                        }
+
+                        else {
+                            rowdata = {
+                                "sku": element,
+                                "qty": db_date2[element]
+                            }
+                        }
+
+                        table_data.push(rowdata)
+
                     }
-                     
-                    table_data.push(rowdata)
-                   
+                    //console.log(table_data);
+
                 }
-                
-                
-            }else{
-
-                var table_data = [];
-                    
-                for (var element in db_date2) {
-                    if(db_date2 in get_payload_stock_count)
-                    {
-                        rowdata={
-                            "sku":element,
-                            "qty":db_date2[element]
-                        }  
-                    }
-
-                    else
-                    {
-                        rowdata={
-                            "sku":element,
-                            "qty":db_date2[element]
-                        }  
-                    }
-                     
-                    table_data.push(rowdata)
-                   
-                }
-                //console.log(table_data);
-                
-            }
-            res.end('{"aaData":'+JSON.stringify(table_data)+'}');
+                res.end('{"aaData":' + JSON.stringify(table_data) + '}');
 
 
             });
-           
-            
-            
-                                
-        }); 
-    }else{
-         var table_data = {
-            "sku":'',
-            "qty":''
-         }
 
-        res.end('{"aaData":'+JSON.stringify(table_data)+'}');
-    } 
+
+
+
+        });
+    } else {
+        var table_data = {
+            "sku": '',
+            "qty": ''
+        }
+
+        res.end('{"aaData":' + JSON.stringify(table_data) + '}');
+    }
 })
 
 router.post('/GetAsnDataDate', authenticationMidleware(), (req, res, next) => {
@@ -4469,7 +4443,7 @@ router.post('/GetAsnDataDate', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT date FROM `asn_master` where 1 GROUP BY date"
 
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -4477,19 +4451,19 @@ router.post('/GetAsnDataDate', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '2314-GetAsnDataDate');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2777-GetAsnDataDate');
+        console2.log('Error', 'Catch Expection' + e, '2777-GetAsnDataDate');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2784-GetAsnDataDate');
+            console2.log('Error', 'Catch Expection' + e, '2784-GetAsnDataDate');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -4501,7 +4475,7 @@ router.post('/GetAsnDataDate', authenticationMidleware(), (req, res, next) => {
 router.post('/new_getasndata', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('new_getasndata');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -4515,10 +4489,10 @@ router.post('/new_getasndata', authenticationMidleware(), (req, res, next) => {
         var query_select = '';
         var query_count_per = '';
 
-        var storeid = session.storeid;
+        var storeid = '';
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         //console.log(order_col);
 
@@ -4547,14 +4521,14 @@ router.post('/new_getasndata', authenticationMidleware(), (req, res, next) => {
         }
 
         if (req.body.source != "" && req.body.source != 0 && req.body.source != "0") {
-           
-            if(req.body.source == 'all_store'){
+
+            if (req.body.source == 'all_store') {
                 cond += ''
-            }else{
-               cond += ' AND ( source="' + req.body.source + '" OR destination="' + req.body.source + '" ) ' 
+            } else {
+                cond += ' AND ( source="' + req.body.source + '" OR destination="' + req.body.source + '" ) '
             }
-            
-        } 
+
+        }
         else {
             cond += ' AND source="000" OR destination="000" '
         }
@@ -4563,99 +4537,99 @@ router.post('/new_getasndata', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND asn="' + req.body.Asn + '" '
         }
-  
-        if (mysql.check_permission('new_asndata', session.user_permission)) {
 
-            if (session.user_id == 1) {
+        //if (mysql.check_permission('new_asndata', session.user_permission)) {
 
-                query_select = "SELECT  " +
-                    " *  FROM `asn_master`  where 1 " + search_cond + " " + cond +
-                    " GROUP BY asn,status" + order_by_cond;
+        //if (session.user_id == 1) {
 
-            
-                query_count_per = " select count(*) as `my_count` " +
-                    "from (SELECT count(*) as total_item, a.* " +
-                    "FROM `asn_master` a where 1 " + search_cond + " " + cond +
-                    "GROUP BY asn,status) sq ";
-
-            } else {
-
-                query_select = "SELECT  " +
-                    " *  FROM `asn_master` where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
-                    " GROUP BY asn,status" + order_by_cond;
+        query_select = "SELECT  " +
+            " *  FROM `asn_master`  where 1 " + search_cond + " " + cond +
+            " GROUP BY asn,status" + order_by_cond;
 
 
-                //console.log(query_select);
-                query_count_per = " select count(*) as `my_count` " +
-                    "from (SELECT count(*) as total_item, a.* " +
-                    "FROM `asn_master` a where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
-                    "GROUP BY asn,status) sq ";
+        query_count_per = " select count(*) as `my_count` " +
+            "from (SELECT count(*) as total_item, a.* " +
+            "FROM `asn_master` a where 1 " + search_cond + " " + cond +
+            "GROUP BY asn,status) sq ";
 
-                //console.log(query_count_per);
-            }
+        // } else {
 
-            //console.log(query_select);
-
-            mysql.queryCustom(query_count_per).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-
-                        var table_data = [];
-
-                        var button = '';
-
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-                            if (getstoreinf[i].status == 'cancelled') {
-
-                                button = '';
-
-                            } else {
-                                button = '| <button type="button" asn_id=' + getstoreinf[i].asn + ' class="btn cancel_asn btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Cancel</button>'
-                            }
-
-                            var row_data = {
-                                "date": getstoreinf[i].date,
-                                "asn": getstoreinf[i].asn,
-                                "source": getstoreinf[i].source,
-                                "destination": getstoreinf[i].destination,
-                                "packed_item": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="packing" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].packed_item + '</button>',
-                                "transferred_item": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="shipping" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].transferred_item + '</button>',
-                                "received_item": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="receiving" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].received_item + '</button>',
-                                "status": getstoreinf[i].status,
-                                "action": '<button type="button"  asn_id=' + getstoreinf[i].asn + '  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">View</button>' + button,
-
-                            };
+        //     query_select = "SELECT  " +
+        //         " *  FROM `asn_master` where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
+        //         " GROUP BY asn,status" + order_by_cond;
 
 
-                            table_data.push(row_data);
-                        }
+        //     //console.log(query_select);
+        //     query_count_per = " select count(*) as `my_count` " +
+        //         "from (SELECT count(*) as total_item, a.* " +
+        //         "FROM `asn_master` a where (source in (" + storeid + ")  or destination in (" + storeid + ")) " + search_cond + " " + cond +
+        //         "GROUP BY asn,status) sq ";
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+        //     //console.log(query_count_per);
+        // }
+
+        //console.log(query_select);
+
+        mysql.queryCustom(query_count_per).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            mysql.queryCustom(query_select + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+
+                var table_data = [];
+
+                var button = '';
+
+                for (var i = 0; i < getstoreinf.length; i++) {
+
+                    if (getstoreinf[i].status == 'cancelled') {
+
+                        button = '';
+
+                    } else {
+                        button = '| <button type="button" asn_id=' + getstoreinf[i].asn + ' class="btn cancel_asn btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Cancel</button>'
+                    }
+
+                    var row_data = {
+                        "date": getstoreinf[i].date,
+                        "asn": getstoreinf[i].asn,
+                        "source": getstoreinf[i].source,
+                        "destination": getstoreinf[i].destination,
+                        "packed_item": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="packing" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].packed_item + '</button>',
+                        "transferred_item": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="shipping" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].transferred_item + '</button>',
+                        "received_item": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status="receiving" class="btn asn_info_model btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].received_item + '</button>',
+                        "status": getstoreinf[i].status,
+                        "action": '<button type="button"  asn_id=' + getstoreinf[i].asn + '  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">View</button>' + button,
+
+                    };
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '2291-new_getasndata');
-                        res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '2295-new_getasndata');
-                res.end(error);
-            });
-        }
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '2291-new_getasndata');
+                    res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '2295-new_getasndata');
+            res.end(error);
+        });
+        //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '2934-new_getasndata');
+        console2.log('Error', 'Catch Expection' + e, '2934-new_getasndata');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '2941-new_getasndata');
+            console2.log('Error', 'Catch Expection' + e, '2941-new_getasndata');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -4739,58 +4713,58 @@ router.post('/short_asn_details', authenticationMidleware(), (req, res, next) =>
 
 
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
+                    getstoreinf = result.results;
 
-                        var table_data = [];
-                        var button = '';
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-
-
-                            var row_data = {
-
-                                "date": getstoreinf[i].date,
-                                "asn": getstoreinf[i].asn,
-                                "source": getstoreinf[i].source,
-                                "destination": getstoreinf[i].destination,
-                                "packed_item": getstoreinf[i].packed_item,
-                                "transferred_item": getstoreinf[i].transferred_item,
-                                "received_item": getstoreinf[i].received_item,
-                                "status": getstoreinf[i].status,
-                            };
+                    var table_data = [];
+                    var button = '';
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            table_data.push(row_data);
-                        }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        var row_data = {
+
+                            "date": getstoreinf[i].date,
+                            "asn": getstoreinf[i].asn,
+                            "source": getstoreinf[i].source,
+                            "destination": getstoreinf[i].destination,
+                            "packed_item": getstoreinf[i].packed_item,
+                            "transferred_item": getstoreinf[i].transferred_item,
+                            "received_item": getstoreinf[i].received_item,
+                            "status": getstoreinf[i].status,
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '2408-short_asn_details');
                         res.end(error);
                         //res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '2413-short_asn_details');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3068-short_asn_details');
+        console2.log('Error', 'Catch Expection' + e, '3068-short_asn_details');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3075-short_asn_details');
+            console2.log('Error', 'Catch Expection' + e, '3075-short_asn_details');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -4872,57 +4846,57 @@ router.post('/access_asn_details', authenticationMidleware(), (req, res, next) =
 
 
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
+                    getstoreinf = result.results;
 
-                        var table_data = [];
-                        var button = '';
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-
-
-                            var row_data = {
-
-                                "date": getstoreinf[i].date,
-                                "asn": getstoreinf[i].asn,
-                                "source": getstoreinf[i].source,
-                                "destination": getstoreinf[i].destination,
-                                "packed_item": getstoreinf[i].packed_item,
-                                "transferred_item": getstoreinf[i].transferred_item,
-                                "received_item": getstoreinf[i].received_item,
-                                "status": getstoreinf[i].status,
-                            };
+                    var table_data = [];
+                    var button = '';
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            table_data.push(row_data);
-                        }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        var row_data = {
+
+                            "date": getstoreinf[i].date,
+                            "asn": getstoreinf[i].asn,
+                            "source": getstoreinf[i].source,
+                            "destination": getstoreinf[i].destination,
+                            "packed_item": getstoreinf[i].packed_item,
+                            "transferred_item": getstoreinf[i].transferred_item,
+                            "received_item": getstoreinf[i].received_item,
+                            "status": getstoreinf[i].status,
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '2524-access_asn_details');
                         res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '2528-access_asn_details');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3199-access_asn_details');
+        console2.log('Error', 'Catch Expection' + e, '3199-access_asn_details');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3206-access_asn_details');
+            console2.log('Error', 'Catch Expection' + e, '3206-access_asn_details');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -5008,57 +4982,57 @@ router.post('/Cancel_getasndata', authenticationMidleware(), (req, res, next) =>
             //console.log("sssssssssss"+new_query)
             //abdulrehmanijaz
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
+                    getstoreinf = result.results;
+                    //console.log(gettop20our)
+                    var table_data = [];
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
-                            var row_data = {
-                                "id": getstoreinf[i].id,
-                                "date": getstoreinf[i].date,
-                                "asn": getstoreinf[i].asn,
-                                "process_status": getstoreinf[i].process,
-                                "department": getstoreinf[i].department,
-                                "destination": getstoreinf[i].destination_location,
-                                "style": getstoreinf[i].style,
-                                "color": getstoreinf[i].color,
-                                "brand": getstoreinf[i].brand,
-                                "action": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status=' + getstoreinf[i].process + ' class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
-                                // "purchase_order":getstoreinf[i].purchase_order,
-                                // "user":getstoreinf[i].user,
-                            };
-
-
-                            table_data.push(row_data);
-                        }
-
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        var row_data = {
+                            "id": getstoreinf[i].id,
+                            "date": getstoreinf[i].date,
+                            "asn": getstoreinf[i].asn,
+                            "process_status": getstoreinf[i].process,
+                            "department": getstoreinf[i].department,
+                            "destination": getstoreinf[i].destination_location,
+                            "style": getstoreinf[i].style,
+                            "color": getstoreinf[i].color,
+                            "brand": getstoreinf[i].brand,
+                            "action": '<button type="button" asn_id=' + getstoreinf[i].asn + ' process_status=' + getstoreinf[i].process + ' class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
+                            // "purchase_order":getstoreinf[i].purchase_order,
+                            // "user":getstoreinf[i].user,
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '2643-Cancel_getasndata');
                         res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '2647-Cancel_getasndata');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3334-Cancel_getasndata');
+        console2.log('Error', 'Catch Expection' + e, '3334-Cancel_getasndata');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3341-Cancel_getasndata');
+            console2.log('Error', 'Catch Expection' + e, '3341-Cancel_getasndata');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -5071,7 +5045,7 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
     console2.execution_info('getgoodsForGi_Cancellation');
 
     try {
-        var session = req.session;
+        //var session = req.session;
 
         var cond = '';
         var order_by_cond = '';
@@ -5084,14 +5058,15 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
         var order_by = req.body.order[0].dir;
 
 
-        var storeid = session.storeid;
+        var storeid = '';
 
-        storeid = storeid.split('[').join('');
-        storeid = storeid.split(']').join('');
+        // storeid = storeid.split('[').join('');
+        // storeid = storeid.split(']').join('');
 
         var query_select = '';
         var query_count_per = '';
 
+        console.log(req.body.store_id)
 
         if (order_col == 0 || order_col == 1 || order_col == 2 || order_col == 3 || order_col == 4 || order_col == 5 || order_col == 6 || order_col == 7) {
             order_by_cond = " ORDER BY " + req.body.columns[order_col]['data'] + " " + order_by;
@@ -5117,7 +5092,7 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         } else if (req.body.from_my_date != "" &&
             req.body.from_my_date != 0 &&
@@ -5149,9 +5124,9 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
 
             cond += ' AND DATE(date) = DATE("' + from_date + '")'
 
-           
 
-            
+
+
 
         } else if (req.body.to_my_date != "" &&
             req.body.to_my_date != 0 &&
@@ -5163,21 +5138,21 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         }
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
 
-            if(req.body.store_id == "all_destination"){
+            if (req.body.store_id == "all_destination") {
                 cond += '';
-            }else{
+            } else {
                 cond += ' AND store="' + req.body.store_id + '" '
             }
-        
-        } 
+
+        }
         else {
-            cond += ' AND store="000"'
+            cond += ' AND store LIKE "000%"'
         }
 
 
@@ -5212,94 +5187,93 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
 
 
 
-        if (mysql.check_permission('GoodsStockStore', session.user_permission)) {
+        // if (mysql.check_permission('GoodsStockStore', session.user_permission)) {
 
 
-            if (session.user_id == 1) {
+        //     if (session.user_id == 1) {
 
-                query_select = "SELECT * FROM `goods_item_store` " +
-                    " where (is_deleted='0' OR is_deleted='2') " + cond + " " + search_cond + "  " + order_by_cond;
+        query_select = "SELECT * FROM `goods_item_store` " +
+            " where (is_deleted='0' OR is_deleted='2') " + cond + " " + search_cond + "  " + order_by_cond;
 
-                query_count_per = " select count(*) as `my_count` from " +
-                    " (SELECT * FROM `goods_item_store`  where (is_deleted='0' OR is_deleted='2') " + cond + " " + search_cond + ") sq ";
+        query_count_per = " select count(*) as `my_count` from " +
+            " (SELECT * FROM `goods_item_store`  where (is_deleted='0' OR is_deleted='2') " + cond + " " + search_cond + ") sq ";
 
-            } else {
-
-
-                query_select = "SELECT * FROM `goods_item_store` " +
-                    " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
+        // } else {
 
 
-                query_count_per = " select count(*) as `my_count` from " +
-                    " (SELECT * FROM `goods_item_store`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
-
-            }
-
-            console.log(query_select);
-            mysql.queryCustom(query_count_per).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-                        var date_good = '';
-                        var utc = '';
-
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
+        //     query_select = "SELECT * FROM `goods_item_store` " +
+        //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
 
 
-                            date_good = getstoreinf[i].date;
-                            if(date_good!="")
-                            {
-                                utc = new Date(date_good);
-                                date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
-                                date_good = date_good.toString()
-                            }
+        //     query_count_per = " select count(*) as `my_count` from " +
+        //         " (SELECT * FROM `goods_item_store`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
+
+        // }
+
+        console.log(query_select);
+        mysql.queryCustom(query_count_per).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            mysql.queryCustom(query_select + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+                var date_good = '';
+                var utc = '';
+
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            var row_data = {
-                                "date": date_good,
-                                "refno": getstoreinf[i].refno,
-                                "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
-                                "supplier_number": getstoreinf[i].supplier_number,
-                                "shipment_number": getstoreinf[i].shipment_number,
-                                "store": getstoreinf[i].store,
-                                "purchase_order": getstoreinf[i].purchase_order,
-                                 
-                                 "epc": getstoreinf[i].epc,
-                                "remarks": getstoreinf[i].remarks,
-                                "id": getstoreinf[i].id,
-                                "comments": (getstoreinf[i].is_deleted == 2 ? 'Cancelled' : '<button type="button" goods_item_store_id=' + getstoreinf[i].goods_item_store_id + ' class="btn cancel_gi btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Cancel</button>')+'',
-                            };
+                    date_good = getstoreinf[i].date;
+                    if (date_good != "") {
+                        utc = new Date(date_good);
+                        date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
+                        date_good = date_good.toString()
+                    }
 
 
-                            table_data.push(row_data);
-                        }
+                    var row_data = {
+                        "date": date_good,
+                        "refno": getstoreinf[i].refno,
+                        "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
+                        "supplier_number": getstoreinf[i].supplier_number,
+                        "shipment_number": getstoreinf[i].shipment_number,
+                        "store": getstoreinf[i].store,
+                        "purchase_order": getstoreinf[i].purchase_order,
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        "epc": getstoreinf[i].epc,
+                        "remarks": getstoreinf[i].remarks,
+                        "id": getstoreinf[i].id,
+                        "comments": (getstoreinf[i].is_deleted == 2 ? 'Cancelled' : '<button type="button" goods_item_store_id=' + getstoreinf[i].goods_item_store_id + ' class="btn cancel_gi btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Cancel</button>') + '',
+                    };
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '2823-getgoodsForGi_Cancellation');
-                        res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '2827-getgoodsForGi_Cancellation');
-                res.end(error);
-            });
-        }
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '2823-getgoodsForGi_Cancellation');
+                    res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '2827-getgoodsForGi_Cancellation');
+            res.end(error);
+        });
+        //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3532-getgoodsForGi_Cancellation');
+        console2.log('Error', 'Catch Expection' + e, '3532-getgoodsForGi_Cancellation');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3539-getgoodsForGi_Cancellation');
+            console2.log('Error', 'Catch Expection' + e, '3539-getgoodsForGi_Cancellation');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -5309,33 +5283,33 @@ router.post('/getgoodsForGi_Cancellation', authenticationMidleware(), (req, res,
 });
 /*********** CancelGI ***********/
 router.post('/CancelGI', (req, res, next) => {
-console2.execution_info('CancelGI');
+    console2.execution_info('CancelGI');
     try {
         var session = req.session;
 
         var process_type = req.body.process_type
         var goods_item_store_id = req.body.goods_item_store_id;
         var update_query = "UPDATE `goods_item_store` SET is_deleted= 2 WHERE `goods_item_store_id` ='" + goods_item_store_id + "' ";
-        mysql.queryCustom(update_query).then(function(result) {
+        mysql.queryCustom(update_query).then(function (result) {
             if (result.status == "1") {
                 // res.end(JSON.stringify(result.results));
                 res.end('done');
             } else {
                 console2.log('Error', JSON.stringify(result.error), '217-CancelGI');
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
 
             console2.log('Error', JSON.stringify(error), '223-CancelGI');
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '268-CancelGI');
+        console2.log('Error', 'Catch Expection' + e, '268-CancelGI');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Went Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '275-CancelGI');
+            console2.log('Error', 'Catch Expection' + e, '275-CancelGI');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Went Wrong !'
@@ -5362,7 +5336,7 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
 
 
         // var storeid = session.storeid;
-
+        var storeid = '';
         // storeid = storeid.split('[').join('');
         // storeid = storeid.split(']').join('');
 
@@ -5394,7 +5368,7 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         } else if (req.body.from_my_date != "" &&
             req.body.from_my_date != 0 &&
@@ -5426,9 +5400,9 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND DATE(date) = DATE("' + from_date + '")'
 
-           
 
-            
+
+
 
         } else if (req.body.to_my_date != "" &&
             req.body.to_my_date != 0 &&
@@ -5440,21 +5414,21 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         }
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
 
-            if(req.body.store_id == "all_destination"){
+            if (req.body.store_id == "all_destination") {
                 cond += '';
-            }else{
+            } else {
                 cond += ' AND store="' + req.body.store_id + '" '
             }
-        
-        } 
+
+        }
         else {
-            cond += ' AND store="000"'
+            cond += ' AND store like "000%"'
         }
 
 
@@ -5492,93 +5466,92 @@ router.post('/getgoodsstore', authenticationMidleware(), (req, res, next) => {
         //if (mysql.check_permission('GoodsStockStore', session.user_permission)) {
 
 
-            //if (session.user_id == 1) {
+        //if (session.user_id == 1) {
 
-                query_select = "SELECT * FROM `goods_item_store` " +
-                    " where is_deleted='0' " + cond + " " + search_cond + "  " + order_by_cond;
+        query_select = "SELECT * FROM `goods_item_store` " +
+            " where is_deleted='0' " + cond + " " + search_cond + "  " + order_by_cond;
 
-                query_count_per = " select count(*) as `my_count` from " +
-                    " (SELECT * FROM `goods_item_store`  where is_deleted='0' " + cond + " " + search_cond + ") sq ";
+        query_count_per = " select count(*) as `my_count` from " +
+            " (SELECT * FROM `goods_item_store`  where is_deleted='0' " + cond + " " + search_cond + ") sq ";
 
-            // } else {
-
-
-            //     query_select = "SELECT * FROM `goods_item_store` " +
-            //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
+        // } else {
 
 
-            //     query_count_per = " select count(*) as `my_count` from " +
-            //         " (SELECT * FROM `goods_item_store`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
-
-            // }
-
-            //console.log(query_select);
-            mysql.queryCustom(query_count_per).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-                        var date_good = '';
-                        var utc = '';
-
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
+        //     query_select = "SELECT * FROM `goods_item_store` " +
+        //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
 
 
-                            date_good = getstoreinf[i].date;
-                            if(date_good!="")
-                            {
-                                utc = new Date(date_good);
-                                date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
-                                date_good = date_good.toString()
-                            }
+        //     query_count_per = " select count(*) as `my_count` from " +
+        //         " (SELECT * FROM `goods_item_store`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
+
+        // }
+
+        //console.log(query_select);
+        mysql.queryCustom(query_count_per).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            mysql.queryCustom(query_select + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+                var date_good = '';
+                var utc = '';
+
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            var row_data = {
-                                "date": date_good,
-                                "refno": getstoreinf[i].refno,
-                                "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
-                                "supplier_number": getstoreinf[i].supplier_number,
-                                "shipment_number": getstoreinf[i].shipment_number,
-                                "store": getstoreinf[i].store,
-                                "purchase_order": getstoreinf[i].purchase_order,
-                                 
-                                 "epc": getstoreinf[i].epc,
-                                "remarks": getstoreinf[i].remarks,
-                                "id": getstoreinf[i].id,
-                                "comments": getstoreinf[i].comments,
-                                // "action":'<button type="button" edit_id='+getstoreinf[i].id+'  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>',
-
-                            };
+                    date_good = getstoreinf[i].date;
+                    if (date_good != "") {
+                        utc = new Date(date_good);
+                        date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
+                        date_good = date_good.toString()
+                    }
 
 
-                            table_data.push(row_data);
-                        }
+                    var row_data = {
+                        "date": date_good,
+                        "refno": getstoreinf[i].refno,
+                        "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
+                        "supplier_number": getstoreinf[i].supplier_number,
+                        "shipment_number": getstoreinf[i].shipment_number,
+                        "store": getstoreinf[i].store,
+                        "purchase_order": getstoreinf[i].purchase_order,
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                        "epc": getstoreinf[i].epc,
+                        "remarks": getstoreinf[i].remarks,
+                        "id": getstoreinf[i].id,
+                        "comments": getstoreinf[i].comments,
+                        // "action":'<button type="button" edit_id='+getstoreinf[i].id+'  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>',
+
+                    };
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '2823-getgoodsstore');
-                        res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '2827-getgoodsstore');
-                res.end(error);
-            });
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '2823-getgoodsstore');
+                    res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '2827-getgoodsstore');
+            res.end(error);
+        });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3532-getgoodsstore');
+        console2.log('Error', 'Catch Expection' + e, '3532-getgoodsstore');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3539-getgoodsstore');
+            console2.log('Error', 'Catch Expection' + e, '3539-getgoodsstore');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -5636,7 +5609,7 @@ router.post('/getgoodsstoreDetails', authenticationMidleware(), (req, res, next)
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         } else if (req.body.from_my_date != "" &&
             req.body.from_my_date != 0 &&
@@ -5668,9 +5641,9 @@ router.post('/getgoodsstoreDetails', authenticationMidleware(), (req, res, next)
 
             cond += ' AND DATE(date) = DATE("' + from_date + '")'
 
-           
 
-            
+
+
 
         } else if (req.body.to_my_date != "" &&
             req.body.to_my_date != 0 &&
@@ -5682,19 +5655,19 @@ router.post('/getgoodsstoreDetails', authenticationMidleware(), (req, res, next)
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         }
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
 
-            if(req.body.store_id == "all_destination"){
+            if (req.body.store_id == "all_destination") {
                 cond += '';
-            }else{
+            } else {
                 cond += ' AND store="' + req.body.store_id + '" '
             }
-        
-        } 
+
+        }
         else {
             cond += ' AND store="000"'
         }
@@ -5755,59 +5728,58 @@ router.post('/getgoodsstoreDetails', authenticationMidleware(), (req, res, next)
             }
 
             //console.log(query_select);
-            mysql.queryCustom(query_count_per).then(function(result) {
+            mysql.queryCustom(query_count_per).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
+                mysql.queryCustom(query_select + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        var date_good = '';
-                        var utc = '';
+                    getstoreinf = result.results;
+                    var date_good = '';
+                    var utc = '';
 
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-
-                            date_good = getstoreinf[i].date;
-                            if(date_good!="")
-                            {
-                                utc = new Date(date_good);
-                                date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
-                                date_good = date_good.toString()
-                            }
+                    var table_data = [];
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                            var row_data = {
-                                "date": date_good,
-                                "refno": getstoreinf[i].refno,
-                                "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
-                                "supplier_number": getstoreinf[i].supplier_number,
-                                "shipment_number": getstoreinf[i].shipment_number,
-                                "store": getstoreinf[i].store,
-                                "purchase_order": getstoreinf[i].purchase_order,
-                                 
-                                 "epc": getstoreinf[i].epc,
-                                "remarks": getstoreinf[i].remarks,
-                                "id": getstoreinf[i].id,
-                                "comments": getstoreinf[i].comments,
-                                // "action":'<button type="button" edit_id='+getstoreinf[i].id+'  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>',
-
-                            };
-
-
-                            table_data.push(row_data);
+                        date_good = getstoreinf[i].date;
+                        if (date_good != "") {
+                            utc = new Date(date_good);
+                            date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                            date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
+                            date_good = date_good.toString()
                         }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                        var row_data = {
+                            "date": date_good,
+                            "refno": getstoreinf[i].refno,
+                            "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
+                            "supplier_number": getstoreinf[i].supplier_number,
+                            "shipment_number": getstoreinf[i].shipment_number,
+                            "store": getstoreinf[i].store,
+                            "purchase_order": getstoreinf[i].purchase_order,
+
+                            "epc": getstoreinf[i].epc,
+                            "remarks": getstoreinf[i].remarks,
+                            "id": getstoreinf[i].id,
+                            "comments": getstoreinf[i].comments,
+                            // "action":'<button type="button" edit_id='+getstoreinf[i].id+'  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>',
+
+                        };
 
 
-                    })
-                    .catch(function(error) {
+                        table_data.push(row_data);
+                    }
+
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '2823-getgoodsstore');
                         res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '2827-getgoodsstore');
                 res.end(error);
             });
@@ -5846,7 +5818,7 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
 
 
         // var storeid = session.storeid;
-
+        var storeid = '';
         // storeid = storeid.split('[').join('');
         // storeid = storeid.split(']').join('');
 
@@ -5878,7 +5850,7 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         } else if (req.body.from_my_date != "" &&
             req.body.from_my_date != 0 &&
@@ -5910,9 +5882,9 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND DATE(date) = DATE("' + from_date + '")'
 
-           
 
-            
+
+
 
         } else if (req.body.to_my_date != "" &&
             req.body.to_my_date != 0 &&
@@ -5924,21 +5896,21 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
 
-            
+
 
         }
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
 
-            if(req.body.store_id == "all_destination"){
+            if (req.body.store_id == "all_destination") {
                 cond += '';
-            }else{
+            } else {
                 cond += ' AND store="' + req.body.store_id + '" '
             }
-        
-        } 
+
+        }
         else {
-            cond += ' AND store="000"'
+            cond += ' AND store like "000%"'
         }
 
 
@@ -5946,7 +5918,7 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
             cond += ' AND retail_item_batch_id="' + req.body.RetailItemBatchId + '" '
         }
 
-       
+
 
         if (req.body.Retail_Item_Batch_Id != "" && req.body.Retail_Item_Batch_Id != 0 &&
             req.body.Retail_Item_Batch_Id != undefined) {
@@ -5958,88 +5930,87 @@ router.post('/getgoodssummary', authenticationMidleware(), (req, res, next) => {
         //if (mysql.check_permission('GoodsSummary', session.user_permission)) {
 
 
-            //if (session.user_id == 1) {
-                query_select = `SELECT store, retail_item_batch_id,
+        //if (session.user_id == 1) {
+        query_select = `SELECT store, retail_item_batch_id,
                  COUNT(retail_item_batch_id) as Items_Count, 
                  date FROM goods_item_store 
-                  WHERE 1 and   is_deleted  = '0' `+cond+`  
+                  WHERE 1 and   is_deleted  = '0' `+ cond + `  
                   GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc`
 
 
-                  query_count_per = ` select count(*) as my_count from 
+        query_count_per = ` select count(*) as my_count from 
                   (SELECT store, retail_item_batch_id, COUNT(retail_item_batch_id) as Items_Count, 
                  date FROM goods_item_store 
-                  WHERE 1 and   is_deleted  = '0' `+cond+`  
+                  WHERE 1 and   is_deleted  = '0' `+ cond + `  
                   GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc) sq`
 
-                
-               //console.log(query_select)
 
-            // } else {
+        console.log(query_select)
 
-
-            //     query_select = `SELECT store, retail_item_batch_id,
-            //          COUNT(retail_item_batch_id) as Items_Count, 
-            //          date FROM goods_item_store 
-            //           WHERE 1 and   is_deleted  = '0' and store in (` + storeid + `)  `+cond+`  
-            //           GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc`
+        // } else {
 
 
-            //    query_count_per = ` select count(*) as my_count from 
-            //       (SELECT store, retail_item_batch_id, COUNT(retail_item_batch_id) as Items_Count, 
-            //      date FROM goods_item_store 
-            //       WHERE 1 and   is_deleted  = '0' and  store in (` + storeid + `)  `+cond+`  
-            //       GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc) sq`
-    
-            // }
-
-            //console.log(query_select);
-            mysql.queryCustom(query_count_per).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-                        var date_good = '';
-                        var utc = '';
-
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
+        //     query_select = `SELECT store, retail_item_batch_id,
+        //          COUNT(retail_item_batch_id) as Items_Count, 
+        //          date FROM goods_item_store 
+        //           WHERE 1 and   is_deleted  = '0' and store in (` + storeid + `)  `+cond+`  
+        //           GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc`
 
 
-                            date_good = getstoreinf[i].date;
-                            if(date_good!="")
-                            {
-                                utc = new Date(date_good);
-                                date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
-                                date_good = date_good.toString()
-                            }
-                           
+        //    query_count_per = ` select count(*) as my_count from 
+        //       (SELECT store, retail_item_batch_id, COUNT(retail_item_batch_id) as Items_Count, 
+        //      date FROM goods_item_store 
+        //       WHERE 1 and   is_deleted  = '0' and  store in (` + storeid + `)  `+cond+`  
+        //       GROUP BY retail_item_batch_id HAVING COUNT(retail_item_batch_id)> 0 order by date Asc) sq`
 
-                            var row_data = {
-                                "store": getstoreinf[i].store,
-                                "retail_item_batch_id": '<button type="button" store_id=' + getstoreinf[i].store + ' retail_item_batch_id='+getstoreinf[i].retail_item_batch_id+' class="btn goods_info btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].retail_item_batch_id+ '</button>',
-                                "item_count":'<button type="button" store_id=' + getstoreinf[i].store + ' item_count='+getstoreinf[i].Items_Count+' class="btn goods_info btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].Items_Count+ '</button>',
-                                "date": date_good,   
-                            };
+        // }
 
+        //console.log(query_select);
+        mysql.queryCustom(query_count_per).then(function (result) {
+            total_rec = result.results[0].my_count;
 
-                            table_data.push(row_data);
-                        }
+            mysql.queryCustom(query_select + limit_cond).then(function (result) {
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                getstoreinf = result.results;
+                var date_good = '';
+                var utc = '';
+
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '2823-getgoodssummary');
-                        res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '2827-getgoodssummary');
-                res.end(error);
-            });
+                    date_good = getstoreinf[i].date;
+                    if (date_good != "") {
+                        utc = new Date(date_good);
+                        date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
+                        date_good = date_good.toString()
+                    }
+
+
+                    var row_data = {
+                        "store": getstoreinf[i].store,
+                        "retail_item_batch_id": '<button type="button" store_id=' + getstoreinf[i].store + ' retail_item_batch_id=' + getstoreinf[i].retail_item_batch_id + ' class="btn goods_info btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].retail_item_batch_id + '</button>',
+                        "item_count": '<button type="button" store_id=' + getstoreinf[i].store + ' item_count=' + getstoreinf[i].Items_Count + ' class="btn goods_info btn-default" style="color:#fff;border:0;border-radius:0px;background:transparent;width:50%;border-bottom: 1px solid blue;">' + getstoreinf[i].Items_Count + '</button>',
+                        "date": date_good,
+                    };
+
+
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '2823-getgoodssummary');
+                    res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '2827-getgoodssummary');
+            res.end(error);
+        });
         //}
     } catch (e) {
         console2.log('Error', 'Catch Expection', '3532-getgoodssummary');
@@ -6077,7 +6048,7 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
         var query_count_per = '';
 
         // var storeid = session.storeid;
-
+        var storeid = '';
         // storeid = storeid.split('[').join('');
         // storeid = storeid.split(']').join('');
 
@@ -6105,7 +6076,7 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
             var to_date = dateFormat(to_my_date, "yyyy-mm-dd");
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
-           
+
 
         } else if (req.body.from_my_date != "" &&
             req.body.from_my_date != 0 &&
@@ -6136,7 +6107,7 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
             var from_date = dateFormat(from_my_date, "yyyy-mm-dd");
 
             cond += ' AND DATE(date) = DATE("' + from_date + '")'
-         
+
 
         } else if (req.body.to_my_date != "" &&
             req.body.to_my_date != 0 &&
@@ -6147,22 +6118,22 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
             var to_date = dateFormat(to_my_date, "yyyy-mm-dd");
 
             cond += ' AND DATE(date) = DATE("' + to_date + '")'
-          
+
 
         }
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
-            
-            if(req.body.store_id == "all_destination"){
+
+            if (req.body.store_id == "all_destination") {
                 cond += '';
-            }else{
+            } else {
                 cond += ' AND store="' + req.body.store_id + '" '
             }
 
-            
-        } 
+
+        }
         else {
-            cond += ' AND store="000" '
+            cond += ' AND store like "000%" '
         }
 
 
@@ -6196,93 +6167,92 @@ router.post('/getgoodswarehouse', authenticationMidleware(), (req, res, next) =>
 
         //if (mysql.check_permission('GoodsStockWareHouse', session.user_permission)) {
 
-            //console.log(session.user_id);
-            //if (session.user_id == 1) {
+        //console.log(session.user_id);
+        //if (session.user_id == 1) {
 
-                query_select = "SELECT * FROM `goods_item_warehouse` " +
-                    " where 1 " + cond + " " + search_cond + "  " + order_by_cond;
+        query_select = "SELECT * FROM `goods_item_warehouse` " +
+            " where 1 " + cond + " " + search_cond + "  " + order_by_cond;
 
-                query_count_per = " select count(*) as `my_count` from " +
-                    " (SELECT * FROM `goods_item_warehouse`  where 1 " + cond + " " + search_cond + ") sq ";
+        query_count_per = " select count(*) as `my_count` from " +
+            " (SELECT * FROM `goods_item_warehouse`  where 1 " + cond + " " + search_cond + ") sq ";
 
-            // } else {
-
-
-            //     query_select = "SELECT * FROM `goods_item_warehouse` " +
-            //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
+        // } else {
 
 
-            //     query_count_per = " select count(*) as `my_count` from " +
-            //         " (SELECT * FROM `goods_item_warehouse`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
-
-            // }
-
-            //console.log(query_select);
-
-            mysql.queryCustom(query_count_per).then(function(result) {
-                total_rec = result.results[0].my_count;
-
-                mysql.queryCustom(query_select + limit_cond).then(function(result) {
-
-                        getstoreinf = result.results;
-
-                        var table_data = [];
-                        var date_good = '';
-                        var utc = '';
-                        for (var i = 0; i < getstoreinf.length; i++) {
-
-                            date_good = getstoreinf[i].date;
-                            if(date_good!="")
-                            {
-                                utc = new Date(date_good);
-                                date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
-                                date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
-                                date_good = date_good.toString()
-                            }
+        //     query_select = "SELECT * FROM `goods_item_warehouse` " +
+        //         " where store in (" + storeid + ") " + cond + " " + search_cond + "  " + order_by_cond;
 
 
-                            var row_data = {
-                                "date": date_good,
-                                "refno": getstoreinf[i].refno,
-                                "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
-                                "supplier_number": getstoreinf[i].supplier_number,
-                                "shipment_number": getstoreinf[i].shipment_number,
-                                "store": getstoreinf[i].store,
-                                "purchase_order": getstoreinf[i].purchase_order,
-                                "comments": getstoreinf[i].comments,
-                                "id": getstoreinf[i].id,
-                                "epc": getstoreinf[i].epc,
-                                "remarks": getstoreinf[i].remarks
-                                // "action":'<button type="button" edit_id='+getstoreinf[i].id+'  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>',
+        //     query_count_per = " select count(*) as `my_count` from " +
+        //         " (SELECT * FROM `goods_item_warehouse`  where store in (" + storeid + ") " + cond + " " + search_cond + ") sq ";
 
-                            };
+        // }
+
+        console.log(query_select);
+
+        mysql.queryCustom(query_count_per).then(function (result) {
+            total_rec = result.results[0].my_count;
+
+            mysql.queryCustom(query_select + limit_cond).then(function (result) {
+
+                getstoreinf = result.results;
+
+                var table_data = [];
+                var date_good = '';
+                var utc = '';
+                for (var i = 0; i < getstoreinf.length; i++) {
+
+                    date_good = getstoreinf[i].date;
+                    if (date_good != "") {
+                        utc = new Date(date_good);
+                        date_good = new Date(utc.getTime() + (3 * 60 * 60 * 1000));
+                        date_good = dateFormat(date_good, "yyyy-mm-dd HH:MM:ss");
+                        date_good = date_good.toString()
+                    }
 
 
-                            table_data.push(row_data);
-                        }
+                    var row_data = {
+                        "date": date_good,
+                        "refno": getstoreinf[i].refno,
+                        "retail_item_batch_id": getstoreinf[i].retail_item_batch_id,
+                        "supplier_number": getstoreinf[i].supplier_number,
+                        "shipment_number": getstoreinf[i].shipment_number,
+                        "store": getstoreinf[i].store,
+                        "purchase_order": getstoreinf[i].purchase_order,
+                        "comments": getstoreinf[i].comments,
+                        "id": getstoreinf[i].id,
+                        "epc": getstoreinf[i].epc,
+                        "remarks": getstoreinf[i].remarks
+                        // "action":'<button type="button" edit_id='+getstoreinf[i].id+'  class="btn asn_details btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>',
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    };
 
 
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error), '3000-getgoodswarehouse');
-                        res.end(error);
-                    });
-            }).catch(function(error) {
-                console2.log('Error', JSON.stringify(error), '3004-getgoodswarehouse');
-                res.end(error);
-            });
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+
+            })
+                .catch(function (error) {
+                    console2.log('Error', JSON.stringify(error), '3000-getgoodswarehouse');
+                    res.end(error);
+                });
+        }).catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '3004-getgoodswarehouse');
+            res.end(error);
+        });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3727-getgoodswarehouse');
+        console2.log('Error', 'Catch Expection' + e, '3727-getgoodswarehouse');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3734-getgoodswarehouse');
+            console2.log('Error', 'Catch Expection' + e, '3734-getgoodswarehouse');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6331,57 +6301,57 @@ router.post('/getprinter', authenticationMidleware(), (req, res, next) => {
         //console.log("sssssssssss"+new_query)
         //abdulrehmanijaz
         if (mysql.check_permission('printer', session.user_permission)) {
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
-                            store_id = getstoreinf[i].storeid;
-                            store_id = store_id.split('[').join('');
-                            store_id = store_id.split(']').join('');
-                            store_id = store_id.split('"').join('');
-                            var row_data = {
-                                "id": getstoreinf[i].id,
-                                "name": getstoreinf[i].name,
-                                "ip": getstoreinf[i].ip,
-                                "port": getstoreinf[i].port,
-                                "storeid": store_id,
-                                //'<button type="button" store_id=' + getstoreinf[i].storeid + ' class="btn storename btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
-                                "status": getstoreinf[i].status,
-                                "remarks": getstoreinf[i].remarks,
-                                'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn PrinterEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                    getstoreinf = result.results;
+                    //console.log(gettop20our)
+                    var table_data = [];
+                    for (var i = 0; i < getstoreinf.length; i++) {
+                        store_id = getstoreinf[i].storeid;
+                        store_id = store_id.split('[').join('');
+                        store_id = store_id.split(']').join('');
+                        store_id = store_id.split('"').join('');
+                        var row_data = {
+                            "id": getstoreinf[i].id,
+                            "name": getstoreinf[i].name,
+                            "ip": getstoreinf[i].ip,
+                            "port": getstoreinf[i].port,
+                            "storeid": store_id,
+                            //'<button type="button" store_id=' + getstoreinf[i].storeid + ' class="btn storename btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
+                            "status": getstoreinf[i].status,
+                            "remarks": getstoreinf[i].remarks,
+                            'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn PrinterEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
 
-                            };
+                        };
 
 
-                            table_data.push(row_data);
-                        }
+                        table_data.push(row_data);
+                    }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
 
-                    })
-                    .catch(function(error) {
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '3083-getprinter');
                         res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3087-getprinter');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3825-getprinter');
+        console2.log('Error', 'Catch Expection' + e, '3825-getprinter');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3832-getprinter');
+            console2.log('Error', 'Catch Expection' + e, '3832-getprinter');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6433,57 +6403,57 @@ router.post('/getzplinfo', authenticationMidleware(), (req, res, next) => {
         //console.log("sssssssssss"+new_query)
         //abdulrehmanijaz
         if (mysql.check_permission('zpl', session.user_permission)) {
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
 
 
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        //'<button type="button" store_id=' + getstoreinf[i].storeid + ' class="btn storename btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>'
-                        var table_data = [];
-                        var store_id = '';
-                        for (var i = 0; i < getstoreinf.length; i++) {
+                    getstoreinf = result.results;
+                    //'<button type="button" store_id=' + getstoreinf[i].storeid + ' class="btn storename btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>'
+                    var table_data = [];
+                    var store_id = '';
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
-                            store_id = getstoreinf[i].storeid;
-                            store_id = store_id.split('[').join('');
-                            store_id = store_id.split(']').join('');
-                            store_id = store_id.split('"').join('');
-                            var row_data = {
-                                "id": getstoreinf[i].id,
-                                "name": getstoreinf[i].name,
-                                "zplbutton": '<button type="button" zpl_id=' + getstoreinf[i].id + ' class="btn store_zpl_id btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
-                                "storeid": store_id,
-                                "status": getstoreinf[i].status,
-                                "remarks": unescape(getstoreinf[i].remarks),
-                                'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn ZPLEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
-                            };
+                        store_id = getstoreinf[i].storeid;
+                        store_id = store_id.split('[').join('');
+                        store_id = store_id.split(']').join('');
+                        store_id = store_id.split('"').join('');
+                        var row_data = {
+                            "id": getstoreinf[i].id,
+                            "name": getstoreinf[i].name,
+                            "zplbutton": '<button type="button" zpl_id=' + getstoreinf[i].id + ' class="btn store_zpl_id btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
+                            "storeid": store_id,
+                            "status": getstoreinf[i].status,
+                            "remarks": unescape(getstoreinf[i].remarks),
+                            'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn ZPLEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                        };
 
 
-                            table_data.push(row_data);
-                        }
+                        table_data.push(row_data);
+                    }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
-                    })
-                    .catch(function(error) {
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '3182-getzplinfo');
                         res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3186-getzplinfo');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3926-getzplinfo');
+        console2.log('Error', 'Catch Expection' + e, '3926-getzplinfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3933-getzplinfo');
+            console2.log('Error', 'Catch Expection' + e, '3933-getzplinfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6506,7 +6476,7 @@ router.post('/ViewZPLModel', authenticationMidleware(), (req, res, next) => {
 
 
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -6514,13 +6484,13 @@ router.post('/ViewZPLModel', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3228-ViewZPLModel');
                 res.end(error);
 
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '3970-ViewZPLModel');
+        console2.log('Error', 'Catch Expection' + e, '3970-ViewZPLModel');
 
         if (e instanceof TypeError) {
             res.status(500).send({
@@ -6528,7 +6498,7 @@ router.post('/ViewZPLModel', authenticationMidleware(), (req, res, next) => {
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '3978-ViewZPLModel');
+            console2.log('Error', 'Catch Expection' + e, '3978-ViewZPLModel');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6555,60 +6525,60 @@ router.post('/qrcodeRequset', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT * FROM handheld_devices WHERE id = '" + device_id + "'"
 
         //console.log(new_query);
-        mysql.queryCustom(new_query).then(function(result) {
-                if (result.status == "1") {
-                    var result22 = JSON.stringify(result.results[0]);
-                    var response_data = JSON.parse(result22);
-                    //res.end(response_data);
+        mysql.queryCustom(new_query).then(function (result) {
+            if (result.status == "1") {
+                var result22 = JSON.stringify(result.results[0]);
+                var response_data = JSON.parse(result22);
+                //res.end(response_data);
 
 
 
-                    var ns_connection2 = response_data.ns_connection;
-                    ns_connection2 = ns_connection2.toLocaleLowerCase();
+                var ns_connection2 = response_data.ns_connection;
+                ns_connection2 = ns_connection2.toLocaleLowerCase();
 
-                    var device_ip2 = response_data.device_ip;
+                var device_ip2 = response_data.device_ip;
 
-                    var ss_connection2 = response_data.ss_connection;
+                var ss_connection2 = response_data.ss_connection;
 
-                    ss_connection2 = ss_connection2.toLocaleLowerCase();
+                ss_connection2 = ss_connection2.toLocaleLowerCase();
 
-                    var server_ip2 = response_data.server_ip;
-                    var username2 = response_data.username;
-                    var password2 = response_data.password;
-                    var store_id2 = response_data.storeid;
+                var server_ip2 = response_data.server_ip;
+                var username2 = response_data.username;
+                var password2 = response_data.password;
+                var store_id2 = response_data.storeid;
 
-                    var QRCode = require('qrcode');
+                var QRCode = require('qrcode');
 
-                    console.log("" + ss_connection2 + "|" + server_ip2 + "|" + ns_connection2 + "|" + device_ip2 + "|" + username2 + "|" + password2 + "|" + store_id2 + "");
+                console.log("" + ss_connection2 + "|" + server_ip2 + "|" + ns_connection2 + "|" + device_ip2 + "|" + username2 + "|" + password2 + "|" + store_id2 + "");
 
 
 
-                    QRCode.toDataURL("" + ss_connection2 + "|" + server_ip2 + "|" + ns_connection2 + "|" + device_ip2 + "|" + username2 + "|" + password2 + "|" + store_id2 + "", function(err, url) {
-                        //console.log(url)
-                        res.end("<a href='" + url + "' download><img id='qrcode' src='" + url + "'></a>");
-                    })
-                    //res.end("aa");
+                QRCode.toDataURL("" + ss_connection2 + "|" + server_ip2 + "|" + ns_connection2 + "|" + device_ip2 + "|" + username2 + "|" + password2 + "|" + store_id2 + "", function (err, url) {
+                    //console.log(url)
+                    res.end("<a href='" + url + "' download><img id='qrcode' src='" + url + "'></a>");
+                })
+                //res.end("aa");
 
-                } else {
+            } else {
 
-                    console2.log('Error', JSON.stringify(result.error), '3285-qrcodeRequset');
-                    res.end(result.error);
+                console2.log('Error', JSON.stringify(result.error), '3285-qrcodeRequset');
+                res.end(result.error);
 
-                }
-            })
-            .catch(function(error) {
+            }
+        })
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3228-qrcodeRequset');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4050-qrcodeRequset');
+        console2.log('Error', 'Catch Expection' + e, '4050-qrcodeRequset');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4057-qrcodeRequset');
+            console2.log('Error', 'Catch Expection' + e, '4057-qrcodeRequset');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6651,11 +6621,11 @@ router.post('/gethandhelddevice', authenticationMidleware(), (req, res, next) =>
         }
 
         if (req.body.DeviceID != "" && req.body.DeviceID != 0 && req.body.DeviceID != "0") {
-           // cond += ' AND HD.device_unique_id="' + req.body.DeviceID + '" '
+            // cond += ' AND HD.device_unique_id="' + req.body.DeviceID + '" '
         }
 
         if (req.body.StoreID != "" && req.body.StoreID != 0 && req.body.StoreID != "0") {
-          //  cond += ' AND HD.storeid="' + req.body.StoreID + '" '
+            //  cond += ' AND HD.storeid="' + req.body.StoreID + '" '
         }
 
         if (req.body.storeid != "" && req.body.storeid != 0 && req.body.storeid != "0") {
@@ -6682,50 +6652,50 @@ router.post('/gethandhelddevice', authenticationMidleware(), (req, res, next) =>
         //abdulrehmanijaz
         //res.end(query_count);
         //if (mysql.check_permission('handheldDevices', session.user_permission)) {
-        mysql.queryCustom(query_count).then(function(result) {
+        mysql.queryCustom(query_count).then(function (result) {
             total_rec = result.results[0].my_count;
 
-            mysql.queryCustom(new_query + limit_cond).then(function(result) {
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                    getstoreinf = result.results;
-
-
-                    var table_data = [];
-                    var qr_code_button = '';
-                    var edit_button_dev = '';
-                    var edit_button = '';
-
-                    for (var i = 0; i < getstoreinf.length; i++) {
-                        //  if(getstoreinf[i].login_flag == 0){
-                        qr_code_button = '<button type="button" device_id=' + getstoreinf[i].id + ' class="btn handhelddevices btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">QrCode</button>';
-                        edit_button_dev = '<a type="button" href="/edithandhelddevice/'+getstoreinf[i].id +'"><button type="button" edit_id=' + getstoreinf[i].id + ' class="btn HandheldEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a>&nbsp;';
-                        // }else{
-                        //   qr_code_button = '';
-                        //   edit_button_dev= '';  
-                        // }
-
-                        var row_data = {
-                            "username": getstoreinf[i].username,
-                            "description": getstoreinf[i].description,
-                            "status": getstoreinf[i].statuss,
-                            "storeid": getstoreinf[i].storename,
-                            "uuid": getstoreinf[i].uuid,
-                            "qr_code": qr_code_button,
-                            'action': edit_button_dev + '<button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
-
-                        };
+                getstoreinf = result.results;
 
 
-                        table_data.push(row_data);
-                    }
+                var table_data = [];
+                var qr_code_button = '';
+                var edit_button_dev = '';
+                var edit_button = '';
 
-                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
-                })
-                .catch(function(error) {
+                for (var i = 0; i < getstoreinf.length; i++) {
+                    //  if(getstoreinf[i].login_flag == 0){
+                    qr_code_button = '<button type="button" device_id=' + getstoreinf[i].id + ' class="btn handhelddevices btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">QrCode</button>';
+                    edit_button_dev = '<a type="button" href="/edithandhelddevice/' + getstoreinf[i].id + '"><button type="button" edit_id=' + getstoreinf[i].id + ' class="btn HandheldEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a>&nbsp;';
+                    // }else{
+                    //   qr_code_button = '';
+                    //   edit_button_dev= '';  
+                    // }
+
+                    var row_data = {
+                        "username": getstoreinf[i].username,
+                        "description": getstoreinf[i].description,
+                        "status": getstoreinf[i].statuss,
+                        "storeid": getstoreinf[i].storename,
+                        "uuid": getstoreinf[i].uuid,
+                        "qr_code": qr_code_button,
+                        'action': edit_button_dev + '<button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+
+                    };
+
+
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '3400-gethandhelddevice');
                     res.end(error);
                 });
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '3404-gethandhelddevice');
             res.end(error);
         });
@@ -6735,14 +6705,14 @@ router.post('/gethandhelddevice', authenticationMidleware(), (req, res, next) =>
         //     res.end("Testing");
         // }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4183-gethandhelddevice');
+        console2.log('Error', 'Catch Expection' + e, '4183-gethandhelddevice');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4190-gethandhelddevice');
+            console2.log('Error', 'Catch Expection' + e, '4190-gethandhelddevice');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6801,50 +6771,50 @@ router.post('/ExecutiveSummaryReport', authenticationMidleware(), (req, res, nex
 
         //abdulrehmanijaz
         //if(mysql.check_permission('HandheldDevices',session.user_permission)){   
-        mysql.queryCustom(query_count).then(function(result) {
+        mysql.queryCustom(query_count).then(function (result) {
             total_rec = result.results[0].my_count;
 
-            mysql.queryCustom(new_query + limit_cond).then(function(result) {
+            mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                    getstoreinf = result.results;
-
-
-                    var table_data = [];
-                    for (var i = 0; i < getstoreinf.length; i++) {
-
-                        var row_data = {
-                            "code": getstoreinf[i].code,
-                            "initial": getstoreinf[i].initial,
-                            "counted": getstoreinf[i].counted,
-                            "unexpected": getstoreinf[i].unexpected,
-                            "missing": getstoreinf[i].missing,
-                            "expected": getstoreinf[i].expected,
-                        };
+                getstoreinf = result.results;
 
 
-                        table_data.push(row_data);
-                    }
+                var table_data = [];
+                for (var i = 0; i < getstoreinf.length; i++) {
 
-                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
-                })
-                .catch(function(error) {
+                    var row_data = {
+                        "code": getstoreinf[i].code,
+                        "initial": getstoreinf[i].initial,
+                        "counted": getstoreinf[i].counted,
+                        "unexpected": getstoreinf[i].unexpected,
+                        "missing": getstoreinf[i].missing,
+                        "expected": getstoreinf[i].expected,
+                    };
+
+
+                    table_data.push(row_data);
+                }
+
+                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '3489-ExecutiveSummaryReport');
                     res.end(error);
                 })
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '3493-ExecutiveSummaryReport');
             res.end(error);
         });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4284-ExecutiveSummaryReport');
+        console2.log('Error', 'Catch Expection' + e, '4284-ExecutiveSummaryReport');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4291-ExecutiveSummaryReport');
+            console2.log('Error', 'Catch Expection' + e, '4291-ExecutiveSummaryReport');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6925,52 +6895,52 @@ router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
             //console.log('==============='+new_query);
             //console.log(new_query);
 
-            mysql.queryCustom(query_count).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
-                mysql.queryCustom(new_query + limit_cond).then(function(result) {
+                mysql.queryCustom(new_query + limit_cond).then(function (result) {
 
-                        getstoreinf = result.results;
-                        //console.log(gettop20our)
-                        var table_data = [];
-                        for (var i = 0; i < getstoreinf.length; i++) {
+                    getstoreinf = result.results;
+                    //console.log(gettop20our)
+                    var table_data = [];
+                    for (var i = 0; i < getstoreinf.length; i++) {
 
-                            var row_data = {
-                                "storeid": getstoreinf[i].storeid,
-                                "storename": getstoreinf[i].storename,
-                                "store_location": getstoreinf[i].store_location,
-                                "lat_lng": getstoreinf[i].lat_lng,
-                                "store_country": getstoreinf[i].store_country,
-                                "store_company": getstoreinf[i].store_company,
-                                "store_type": getstoreinf[i].store_type,
-                                "status": getstoreinf[i].statuss,
-                                'action': '<button type="button" edit_id=' + getstoreinf[i].storeid + ' class="btn StoreEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].storeid + ' store_name=' + getstoreinf[i].storename + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                        var row_data = {
+                            "storeid": getstoreinf[i].storeid,
+                            "storename": getstoreinf[i].storename,
+                            "store_location": getstoreinf[i].store_location,
+                            "lat_lng": getstoreinf[i].lat_lng,
+                            "store_country": getstoreinf[i].store_country,
+                            "store_company": getstoreinf[i].store_company,
+                            "store_type": getstoreinf[i].store_type,
+                            "status": getstoreinf[i].statuss,
+                            'action': '<button type="button" edit_id=' + getstoreinf[i].storeid + ' class="btn StoreEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].storeid + ' store_name=' + getstoreinf[i].storename + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
 
-                            };
+                        };
 
 
-                            table_data.push(row_data);
-                        }
+                        table_data.push(row_data);
+                    }
 
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
-                    })
-                    .catch(function(error) {
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '3598-getstoreinfo');
                         res.end(error);
                     });
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3603-getstoreinfo');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4409-getstoreinfo');
+        console2.log('Error', 'Catch Expection' + e, '4409-getstoreinfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4416-getstoreinfo');
+            console2.log('Error', 'Catch Expection' + e, '4416-getstoreinfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -6991,7 +6961,7 @@ router.post('/gettop20over', authenticationMidleware(), (req, res, next) => {
         var cond = '';
         var totalrecord = '';
 
-       
+
         var order_col = req.body.order[0].column;
         var order_by = req.body.order[0].dir;
 
@@ -7023,117 +6993,117 @@ router.post('/gettop20over', authenticationMidleware(), (req, res, next) => {
         }
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
             cond += ' AND SC.storeid="' + req.body.store_id + '" '
-        }else{
+        } else {
             cond += ' AND SC.storeid="000"'
         }
 
         //if (mysql.check_permission('stockSummary', session.user_permission)) {
 
-            var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
-                "sum(unexpected) AS sum_diff " +
-                "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
+        var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
+            "sum(unexpected) AS sum_diff " +
+            "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
 
-            mysql.queryCustom(Sum_new_query).then(function(sumresult) {
+        mysql.queryCustom(Sum_new_query).then(function (sumresult) {
 
-                totalrecord = JSON.stringify(sumresult.results)
+            totalrecord = JSON.stringify(sumresult.results)
 
-                var count_query = "SELECT" +
-                    " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
-                    " SC.code as skucode ," +
-                    " SC.supplier_item_no as supplier_item_no ," +
-                    " (SC.initial) AS expected," +
-                    " (unexpected) AS diff , " +
-                    " round(ABS(((unexpected)/ (initial))*100),2) as diffper " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " " +
-                    " where  unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond;
+            var count_query = "SELECT" +
+                " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
+                " SC.code as skucode ," +
+                " SC.supplier_item_no as supplier_item_no ," +
+                " (SC.initial) AS expected," +
+                " (unexpected) AS diff , " +
+                " round(ABS(((unexpected)/ (initial))*100),2) as diffper " +
+                " FROM " + stock_count_tb + " SC " +
+                " " +
+                " where  unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " order by diff desc " + order_by_cond;
 
-                    var new_query = "SELECT" +
-                    " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
-                    " SC.code as skucode ," +
-                    " SC.supplier_item_no as supplier_item_no ," +
-                    " (SC.initial) AS expected," +
-                    " (unexpected) AS diff , " +
-                    " round(ABS(((unexpected)/ (initial))*100),2) as diffper " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " " +
-                    " where  unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond  +" "+limit_cond;
-                //and (initial < counted ) 
-                //res.end(new_query);
+            var new_query = "SELECT" +
+                " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
+                " SC.code as skucode ," +
+                " SC.supplier_item_no as supplier_item_no ," +
+                " (SC.initial) AS expected," +
+                " (unexpected) AS diff , " +
+                " round(ABS(((unexpected)/ (initial))*100),2) as diffper " +
+                " FROM " + stock_count_tb + " SC " +
+                " " +
+                " where  unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " order by diff desc " + order_by_cond + " " + limit_cond;
+            //and (initial < counted ) 
+            //res.end(new_query);
 
-                mysql.queryCustom(count_query).then(function(result) {
-                    var total_rec=result.results.length;
-                    mysql.queryCustom(new_query).then(function(result) {
-                        gettop20 = result.results;
-                        //console.log(gettop20)
-                        var table_data = [];
-                        if (gettop20.length > 0) {
-                            for (var i = 0; i < gettop20.length; i++) {
-
-
-                                var row_data = {
-                                    "aatotalsum": totalrecord,
-                                    "departmentname": gettop20[i].departmentname,
-                                    "brandname": unescape(gettop20[i].brandname),
-
-                                    "diff": Math.abs(gettop20[i].diff),
-                                    "skucode": gettop20[i].skucode,
-                                    "expected": gettop20[i].expected,
-                                    "diffper": gettop20[i].diffper,
-                                    "supplier_item_no": gettop20[i].supplier_item_no,
-                                };
+            mysql.queryCustom(count_query).then(function (result) {
+                var total_rec = result.results.length;
+                mysql.queryCustom(new_query).then(function (result) {
+                    gettop20 = result.results;
+                    //console.log(gettop20)
+                    var table_data = [];
+                    if (gettop20.length > 0) {
+                        for (var i = 0; i < gettop20.length; i++) {
 
 
-                                table_data.push(row_data);
-                            }
-
-                        } else {
                             var row_data = {
                                 "aatotalsum": totalrecord,
-                                "departmentname": " ",
-                                "brandname": " ",
+                                "departmentname": gettop20[i].departmentname,
+                                "brandname": unescape(gettop20[i].brandname),
 
-                                "diff": " ",
-                                "skucode": " ",
-                                "expected": " ",
-                                "diffper": "0",
-                                "supplier_item_no": " ",
+                                "diff": Math.abs(gettop20[i].diff),
+                                "skucode": gettop20[i].skucode,
+                                "expected": gettop20[i].expected,
+                                "diffper": gettop20[i].diffper,
+                                "supplier_item_no": gettop20[i].supplier_item_no,
                             };
 
 
                             table_data.push(row_data);
                         }
 
+                    } else {
+                        var row_data = {
+                            "aatotalsum": totalrecord,
+                            "departmentname": " ",
+                            "brandname": " ",
 
-                        //res.end(JSON.stringify(result.results));
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                            "diff": " ",
+                            "skucode": " ",
+                            "expected": " ",
+                            "diffper": "0",
+                            "supplier_item_no": " ",
+                        };
 
-                    })
-                    .catch(function(error) {
+
+                        table_data.push(row_data);
+                    }
+
+
+                    //res.end(JSON.stringify(result.results));
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '3716-gettop20over');
                         res.end(error);
                     });
-                })
-                .catch(function(error) {
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '3716-gettop20over');
                     res.end(error);
                 });
-            })
+        })
 
         /*} else {
             res.end("Not allowed");
         }*/
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4452-gettop20over');
+        console2.log('Error', 'Catch Expection' + e, '4452-gettop20over');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4459-gettop20over');
+            console2.log('Error', 'Catch Expection' + e, '4459-gettop20over');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7144,8 +7114,8 @@ router.post('/gettop20over', authenticationMidleware(), (req, res, next) => {
 
 
 router.post('/gettop20over_all', authenticationMidleware(), (req, res, next) => {
-    
-    console2.execution_info('gettop20over_all');    
+
+    console2.execution_info('gettop20over_all');
     try {
         //var session = req.session;
         var limit_cond = ' limit 0,25 ';
@@ -7153,12 +7123,11 @@ router.post('/gettop20over_all', authenticationMidleware(), (req, res, next) => 
         var search_cond = '';
         var cond = '';
         var totalrecord = '';
-        var show_over="no";
-        if (req.body.show_over =="yes" )
-        {
-            show_over="yes";
+        var show_over = "no";
+        if (req.body.show_over == "yes") {
+            show_over = "yes";
         }
-        
+
         if (req.body.start != "" && req.body.length != "") {
             limit_cond = ' limit  ' + req.body.start + " , " + req.body.length;
         }
@@ -7194,153 +7163,152 @@ router.post('/gettop20over_all', authenticationMidleware(), (req, res, next) => 
         }
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
             cond += ' AND SC.storeid="' + req.body.store_id + '" '
-        }else{
+        } else {
             cond += ' AND SC.storeid="000"'
         }
 
         //if (mysql.check_permission('all_under_over', session.user_permission)) {
 
-            var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
-                "sum(unexpected) AS sum_diff " +
-                "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
+        var Sum_new_query = "SELECT sum(SC.initial) AS sum_expected," +
+            "sum(unexpected) AS sum_diff " +
+            "FROM " + stock_count_tb + " SC WHERE 1 and SC.departmentid<> 'null' " + cond;
 
-            mysql.queryCustom(Sum_new_query).then(function(sumresult) {
+        mysql.queryCustom(Sum_new_query).then(function (sumresult) {
 
-                totalrecord = JSON.stringify(sumresult.results)
-              
+            totalrecord = JSON.stringify(sumresult.results)
 
-                if(show_over == "yes"){
 
-                    var count_query = "SELECT" +
+            if (show_over == "yes") {
+
+                var count_query = "SELECT" +
                     " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
                     " SC.code as skucode ," +
                     " SC.supplier_item_no as supplier_item_no ," +
                     " (SC.initial) AS expected," +
                     " (unexpected) AS diff , " +
                     " round(ABS(((unexpected)/ (initial))*100),2) as diffper , SC.suppliername " +
-                    
+
                     " FROM " + stock_count_tb + " SC " +
                     " " +
                     " where  unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
                     " order by diff desc " + order_by_cond;
 
-                    var new_query = "SELECT" +
+                var new_query = "SELECT" +
                     " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
                     " SC.code as skucode ," +
                     " SC.supplier_item_no as supplier_item_no ," +
                     " (SC.initial) AS expected," +
                     " (unexpected) AS diff , " +
-                    
+
                     " round(ABS(((unexpected)/ (initial))*100),2) as diffper, SC.suppliername " +
                     " FROM " + stock_count_tb + " SC " +
                     " " +
                     " where  unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond  +" "+limit_cond;
-                }
-                else
-                {
-                    var count_query = "SELECT" +
+                    " order by diff desc " + order_by_cond + " " + limit_cond;
+            }
+            else {
+                var count_query = "SELECT" +
                     " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
                     " SC.code as skucode ," +
                     " SC.supplier_item_no as supplier_item_no ," +
                     " (SC.initial) AS expected," +
                     " (unexpected) AS diff , " +
                     " round(ABS(((unexpected)/ (initial))*100),2) as diffper , SC.suppliername " +
-                    
+
                     " FROM " + stock_count_tb + " SC " +
                     " " +
                     " where initial<>0 and unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
                     " order by diff desc " + order_by_cond;
 
-                    var new_query = "SELECT" +
+                var new_query = "SELECT" +
                     " SC.departmentid as departmentname, SC.code,SC.brand_name AS brandname," +
                     " SC.code as skucode ," +
                     " SC.supplier_item_no as supplier_item_no ," +
                     " (SC.initial) AS expected," +
                     " (unexpected) AS diff , " +
-                    
+
                     " round(ABS(((unexpected)/ (initial))*100),2) as diffper, SC.suppliername " +
                     " FROM " + stock_count_tb + " SC " +
                     " " +
                     " where  initial<>0  and unexpected <> 0  and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " order by diff desc " + order_by_cond  +" "+limit_cond;
-                }
-                //and (initial < counted ) 
-                //res.end(new_query);
+                    " order by diff desc " + order_by_cond + " " + limit_cond;
+            }
+            //and (initial < counted ) 
+            //res.end(new_query);
 
-                mysql.queryCustom(count_query).then(function(result) {
-                    var total_rec=result.results.length;
-                    mysql.queryCustom(new_query).then(function(result) {
-                        gettop20 = result.results;
-                        //console.log(gettop20)
-                        var table_data = [];
-                        if (gettop20.length > 0) {
-                            for (var i = 0; i < gettop20.length; i++) {
-
-
-                                var row_data = {
-                                    "aatotalsum": totalrecord,
-                                    "departmentname": gettop20[i].departmentname,
-                                    "brandname": unescape(gettop20[i].brandname),
-
-                                    "diff": Math.abs(gettop20[i].diff),
-                                    "skucode": gettop20[i].skucode,
-                                    "expected": gettop20[i].expected,
-                                    "diffper": gettop20[i].diffper,
-                                    "suppliername":unescape(gettop20[i].suppliername),
-                                    "supplier_item_no": gettop20[i].supplier_item_no,
-                                };
+            mysql.queryCustom(count_query).then(function (result) {
+                var total_rec = result.results.length;
+                mysql.queryCustom(new_query).then(function (result) {
+                    gettop20 = result.results;
+                    //console.log(gettop20)
+                    var table_data = [];
+                    if (gettop20.length > 0) {
+                        for (var i = 0; i < gettop20.length; i++) {
 
 
-                                table_data.push(row_data);
-                            }
-
-                        } else {
                             var row_data = {
                                 "aatotalsum": totalrecord,
-                                "departmentname": " ",
-                                "brandname": " ",
+                                "departmentname": gettop20[i].departmentname,
+                                "brandname": unescape(gettop20[i].brandname),
 
-                                "diff": " ",
-                                "skucode": " ",
-                                "expected": " ",
-                                "diffper": "0",
-                                "suppliername":"",
-                                "supplier_item_no":"",
+                                "diff": Math.abs(gettop20[i].diff),
+                                "skucode": gettop20[i].skucode,
+                                "expected": gettop20[i].expected,
+                                "diffper": gettop20[i].diffper,
+                                "suppliername": unescape(gettop20[i].suppliername),
+                                "supplier_item_no": gettop20[i].supplier_item_no,
                             };
 
 
                             table_data.push(row_data);
                         }
 
+                    } else {
+                        var row_data = {
+                            "aatotalsum": totalrecord,
+                            "departmentname": " ",
+                            "brandname": " ",
 
-                        //res.end(JSON.stringify(result.results));
-                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                            "diff": " ",
+                            "skucode": " ",
+                            "expected": " ",
+                            "diffper": "0",
+                            "suppliername": "",
+                            "supplier_item_no": "",
+                        };
 
-                    })
-                    .catch(function(error) {
+
+                        table_data.push(row_data);
+                    }
+
+
+                    //res.end(JSON.stringify(result.results));
+                    res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '3716-gettop20over');
                         res.end(error);
                     });
-                })
-                .catch(function(error) {
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '3716-gettop20over');
                     res.end(error);
                 });
-            })
+        })
 
         /*} else {
             res.end("Not allowed");
         }*/
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4452-gettop20over');
+        console2.log('Error', 'Catch Expection' + e, '4452-gettop20over');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4459-gettop20over');
+            console2.log('Error', 'Catch Expection' + e, '4459-gettop20over');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7369,7 +7337,7 @@ router.post('/getDepartment', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT departmentid FROM `" + stock_count_tb + "` WHERE departmentid <> '' " +
             " AND departmentid<>'null'  GROUP by departmentid order by id desc";
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7377,19 +7345,19 @@ router.post('/getDepartment', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3744-getDepartment');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4601-getDepartment');
+        console2.log('Error', 'Catch Expection' + e, '4601-getDepartment');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4608-getDepartment');
+            console2.log('Error', 'Catch Expection' + e, '4608-getDepartment');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7417,7 +7385,7 @@ router.post('/getColors', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT color FROM " + stock_count_tb + " where " +
             " color<>'null' GROUP BY color order by id desc";
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7425,19 +7393,19 @@ router.post('/getColors', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3764-getColors');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4649-getColors');
+        console2.log('Error', 'Catch Expection' + e, '4649-getColors');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4656-getColors');
+            console2.log('Error', 'Catch Expection' + e, '4656-getColors');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7448,14 +7416,14 @@ router.post('/getColors', authenticationMidleware(), (req, res, next) => {
 
 
 router.post('/getColorsForInventory', authenticationMidleware(), (req, res, next) => {
-   
+
     console2.execution_info('getColorsForInventory');
     try {
         var session = req.session;
         var new_query = "SELECT color FROM epc where " +
             " color<>'null' GROUP BY color order by id desc";
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7463,19 +7431,19 @@ router.post('/getColorsForInventory', authenticationMidleware(), (req, res, next
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3764-getColorsForInventory');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4649-getColorsForInventory');
+        console2.log('Error', 'Catch Expection' + e, '4649-getColorsForInventory');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4656-getColorsForInventory');
+            console2.log('Error', 'Catch Expection' + e, '4656-getColorsForInventory');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7503,7 +7471,7 @@ router.post('/getSize', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT size FROM " + stock_count_tb + " where " +
             " size<>'null' GROUP BY size order by id desc";
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7511,19 +7479,19 @@ router.post('/getSize', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3784-getSize');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4696-getSizes');
+        console2.log('Error', 'Catch Expection' + e, '4696-getSizes');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4703-getSizes');
+            console2.log('Error', 'Catch Expection' + e, '4703-getSizes');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7534,14 +7502,14 @@ router.post('/getSize', authenticationMidleware(), (req, res, next) => {
 
 
 router.post('/getSizeForInventory', authenticationMidleware(), (req, res, next) => {
-     
+
     console2.execution_info('getSizeForInventory');
     try {
         var session = req.session;
         var new_query = "SELECT size FROM epc  where " +
             " size<>'null' GROUP BY size order by id desc";
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7549,19 +7517,19 @@ router.post('/getSizeForInventory', authenticationMidleware(), (req, res, next) 
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3784-getSizeForInventory');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4696-getSizeForInventory');
+        console2.log('Error', 'Catch Expection' + e, '4696-getSizeForInventory');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4703-getSizeForInventory');
+            console2.log('Error', 'Catch Expection' + e, '4703-getSizeForInventory');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7572,7 +7540,7 @@ router.post('/getSizeForInventory', authenticationMidleware(), (req, res, next) 
 
 
 router.post('/getStockCountDate', authenticationMidleware(), (req, res, next) => {
-    
+
     console2.execution_info('getStockCountDate');
     try {
         var session = req.session;
@@ -7590,7 +7558,7 @@ router.post('/getStockCountDate', authenticationMidleware(), (req, res, next) =>
 
         //console.log("select stockcountdate from "+stock_count_tb+"  group by stockcountdate");
         mysql.queryCustom("select stockcountdate from " + stock_count_tb + " where  stockcountdate is not null group by stockcountdate")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7598,19 +7566,19 @@ router.post('/getStockCountDate', authenticationMidleware(), (req, res, next) =>
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3803-getStockCountDate');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4743-getStockCountDate');
+        console2.log('Error', 'Catch Expection' + e, '4743-getStockCountDate');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4750-getStockCountDate');
+            console2.log('Error', 'Catch Expection' + e, '4750-getStockCountDate');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7623,12 +7591,12 @@ router.post('/getStockCountDate', authenticationMidleware(), (req, res, next) =>
 
 //GetStoreInfoGoods
 router.post('/GoodsStockStore_retail_item', authenticationMidleware(), (req, res, next) => {
-    
+
     console2.execution_info('GoodsStockStore_retail_item');
     try {
         var session = req.session;
         mysql.queryCustom("SELECT retail_item_batch_id FROM goods_item_store GROUP BY  retail_item_batch_id")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7636,19 +7604,19 @@ router.post('/GoodsStockStore_retail_item', authenticationMidleware(), (req, res
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3821-GoodsStockStore_retail_item');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4779-GoodsStockStore_retail_item');
+        console2.log('Error', 'Catch Expection' + e, '4779-GoodsStockStore_retail_item');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4786-GoodsStockStore_retail_item');
+            console2.log('Error', 'Catch Expection' + e, '4786-GoodsStockStore_retail_item');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7667,7 +7635,7 @@ router.post('/GoodsWareHoue_retail_item_batch_id', authenticationMidleware(), (r
     try {
         var session = req.session;
         mysql.queryCustom("SELECT retail_item_batch_id FROM goods_item_warehouse GROUP BY   retail_item_batch_id")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7675,19 +7643,19 @@ router.post('/GoodsWareHoue_retail_item_batch_id', authenticationMidleware(), (r
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3844-GoodsWareHoue_retail_item_batch_id');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4818-GoodsWareHoue_retail_item_batch_id');
+        console2.log('Error', 'Catch Expection' + e, '4818-GoodsWareHoue_retail_item_batch_id');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4825-GoodsWareHoue_retail_item_batch_id');
+            console2.log('Error', 'Catch Expection' + e, '4825-GoodsWareHoue_retail_item_batch_id');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7703,7 +7671,7 @@ router.post('/GetRoles', authenticationMidleware(), (req, res, next) => {
     try {
         var session = req.session;
         mysql.querySelect("tb_roles", " order by role_id DESC", "*")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7711,19 +7679,19 @@ router.post('/GetRoles', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3863-GetRoles');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4853-GetRoles');
+        console2.log('Error', 'Catch Expection' + e, '4853-GetRoles');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4860-GetRoles');
+            console2.log('Error', 'Catch Expection' + e, '4860-GetRoles');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7739,9 +7707,9 @@ router.post('/getZPL', authenticationMidleware(), (req, res, next) => {
         var session = req.session;
         var store_id = req.body.store_id;
         var query = "SELECT id,zpl,name FROM zpl where storeid like '%" + store_id + "%'"
-       
+
         mysql.queryCustom(query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7749,19 +7717,19 @@ router.post('/getZPL', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3884-getZPL');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4890-getZPL');
+        console2.log('Error', 'Catch Expection' + e, '4890-getZPL');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4897-getZPL');
+            console2.log('Error', 'Catch Expection' + e, '4897-getZPL');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7777,18 +7745,16 @@ router.post('/getZPL_new', authenticationMidleware(), (req, res, next) => {
         var session = req.session;
         var store_id = req.body.store_id;
         var user_id = session.user_id;
-       
-        if(user_id>0)
-        {
+
+        if (user_id > 0) {
             var query = "SELECT id,zpl,name FROM zpl where storeid like '%" + store_id + "%' "
         }
-        else
-        {
+        else {
             var query = "SELECT id,zpl,name FROM zpl where storeid like '%" + store_id + "%' and restrict_user NOT like '%" + user_id + "%'"
         }
-        
+
         mysql.queryCustom(query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7796,19 +7762,19 @@ router.post('/getZPL_new', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3884-getZPL');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4890-getZPL');
+        console2.log('Error', 'Catch Expection' + e, '4890-getZPL');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4897-getZPL');
+            console2.log('Error', 'Catch Expection' + e, '4897-getZPL');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7833,7 +7799,7 @@ router.post('/getPrinterInfo', authenticationMidleware(), (req, res, next) => {
         var query = "SELECT id,name FROM printer  where storeid like '%" + store_id + "%'  order by id desc"
 
         mysql.queryCustom(query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7841,19 +7807,19 @@ router.post('/getPrinterInfo', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3912-getPrinterInfo');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4933-getPrinterInfo');
+        console2.log('Error', 'Catch Expection' + e, '4933-getPrinterInfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4940-getPrinterInfo');
+            console2.log('Error', 'Catch Expection' + e, '4940-getPrinterInfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7875,7 +7841,7 @@ router.post('/getPrinterInfo_new', authenticationMidleware(), (req, res, next) =
         var query = "SELECT id,name FROM printer  where storeid like '%" + store_id + "%'  order by id desc"
 
         mysql.queryCustom(query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -7883,19 +7849,19 @@ router.post('/getPrinterInfo_new', authenticationMidleware(), (req, res, next) =
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '3912-getPrinterInfo');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '4933-getPrinterInfo');
+        console2.log('Error', 'Catch Expection' + e, '4933-getPrinterInfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '4940-getPrinterInfo');
+            console2.log('Error', 'Catch Expection' + e, '4940-getPrinterInfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -7973,12 +7939,12 @@ router.post('/ConfirmApiRequestPrinter', authenticationMidleware(), (req, res, n
         // console.log('Retail_Product_Gender>>>>>>>>>>>>>.'+Retail_Product_Gender);
         // console.log('Retail_Product_SupplierItemNum>>>>>>>>>>>>>.'+Retail_Product_SupplierItemNum);
 
-        
+
         var iot_ip = process.env.IOT_PLATFORM_IP;
         var ip = iot_ip.split("'").join('');
 
 
-       // console.log('http://'+ip+'/innovent/TAGIT')
+        // console.log('http://'+ip+'/innovent/TAGIT')
         // const options = {
         //     url: 'http://'+ip+'/innovent/TAGIT',
         //     method: 'PATCH',
@@ -8021,45 +7987,45 @@ router.post('/ConfirmApiRequestPrinter', authenticationMidleware(), (req, res, n
         //         '"user":{"value":"store' + location + '"},'+
         //         '"zone":{"value":"' + storeid + '.00101.1"}}}]'
         // };
-       
-       const options = {
-            url: 'http://'+ip+'/innovent/TAGIT',
+
+        const options = {
+            url: 'http://' + ip + '/innovent/TAGIT',
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
                 'apikey': process.env.IOT_API_KEY,
             },
-            body: '[{'+
-                   '"group": ">RUBAIYAT",'+
-                   '"thingTypeCode": "ITEM",'+
-                   '"serialNumber": "' + epc + '",'+
-                   '"udfs": {'+
-                        '"deviceId": {"value": "C2A0622C-CB02-41E9-9465-9946B282B38F"},'+
-                        '"Retail_Bizlocation": {"value": "' + storeid + '"},'+
-                        '"sourceModule": {"value": "Printing"},'+
-                        '"Retail_Printer": {"value": "PrinterID"},'+
-                        '"Retail_Product_SKU": {"value": "'+sku+'"},'+
-                        '"Retail_Product_SKUOriginal": {"value": "'+original_sku+'"},'+
-                        '"Retail_Product_UniqueID": {"value": "'+uid+'"},'+
-                        '"Retail_Product_UPC": {"value": "'+sku+'"},'+
-                        '"Retail_ZPL": {"value": "RUBAzpl_EN"},'+
-                        '"source": {"value": "PRINTING_APP"},'+
-                        '"user": {"value": "store' + location + '"},'+
-                        '"zone": {"value": "' + storeid + '.00101.1"},'+
-                      
-                        '"Retail_TagIT_Info_1":{"value":"' + PO_NO + '"},' +
-                        '"Retail_TagIT_Info_2":{"value":"' + Supplier_ID + '"},' +
-                        '"Retail_TagIT_Info_3":{"value":"' + Shipment_no + '"},' +
-                        '"Retail_TagIT_Info_4":{"value":"' + Comments + '"}' +
-                    '}'+
+            body: '[{' +
+                '"group": ">RUBAIYAT",' +
+                '"thingTypeCode": "ITEM",' +
+                '"serialNumber": "' + epc + '",' +
+                '"udfs": {' +
+                '"deviceId": {"value": "C2A0622C-CB02-41E9-9465-9946B282B38F"},' +
+                '"Retail_Bizlocation": {"value": "' + storeid + '"},' +
+                '"sourceModule": {"value": "Printing"},' +
+                '"Retail_Printer": {"value": "PrinterID"},' +
+                '"Retail_Product_SKU": {"value": "' + sku + '"},' +
+                '"Retail_Product_SKUOriginal": {"value": "' + original_sku + '"},' +
+                '"Retail_Product_UniqueID": {"value": "' + uid + '"},' +
+                '"Retail_Product_UPC": {"value": "' + sku + '"},' +
+                '"Retail_ZPL": {"value": "RUBAzpl_EN"},' +
+                '"source": {"value": "PRINTING_APP"},' +
+                '"user": {"value": "store' + location + '"},' +
+                '"zone": {"value": "' + storeid + '.00101.1"},' +
+
+                '"Retail_TagIT_Info_1":{"value":"' + PO_NO + '"},' +
+                '"Retail_TagIT_Info_2":{"value":"' + Supplier_ID + '"},' +
+                '"Retail_TagIT_Info_3":{"value":"' + Shipment_no + '"},' +
+                '"Retail_TagIT_Info_4":{"value":"' + Comments + '"}' +
+                '}' +
                 '}]'
         };
-    // console.log(options);
-        
+        // console.log(options);
 
 
 
-        request(options, function(err, res, body) {
+
+        request(options, function (err, res, body) {
             let wjson = body;
             // console.log(wjson);
 
@@ -8068,7 +8034,7 @@ router.post('/ConfirmApiRequestPrinter', authenticationMidleware(), (req, res, n
             var update_query = "UPDATE `zpl_printer` SET " +
                 " `suppliername`= '" + supplier_name + "', " +
                 " `storeid`='" + storeid + "', " +
-                " `zplid`='"+zpl+"' ,`status`='print'," +
+                " `zplid`='" + zpl + "' ,`status`='print'," +
                 " `Retail_Product_Price`= '" + retail_product_price + "'," +
                 " `Retail_Product_VAT`= '" + retail_product_vat + "'," +
                 " `Retail_Product_SP_VAT_EN`='" + retail_product_sp_vat_en + "'," +
@@ -8093,17 +8059,17 @@ router.post('/ConfirmApiRequestPrinter', authenticationMidleware(), (req, res, n
             // var update_query = "UPDATE zpl_printer SET status= 'print',zplid = '"+zpl+"' " +
             // "WHERE epc = '" + epc + "'";
 
-            mysql.queryCustom(update_query).then(function(result) {
+            mysql.queryCustom(update_query).then(function (result) {
 
 
-                    if (result.status == "1") {
-                        // res.end(JSON.stringify(result.results));
-                    } else {
-                        console2.log('Error', JSON.stringify(result.error), '4064-ConfirmApiRequestPrinter');
-                        res.end(result.error);
-                    }
-                })
-                .catch(function(error) {
+                if (result.status == "1") {
+                    // res.end(JSON.stringify(result.results));
+                } else {
+                    console2.log('Error', JSON.stringify(result.error), '4064-ConfirmApiRequestPrinter');
+                    res.end(result.error);
+                }
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4069-ConfirmApiRequestPrinter');
                     res.end(error);
                 });
@@ -8112,14 +8078,14 @@ router.post('/ConfirmApiRequestPrinter', authenticationMidleware(), (req, res, n
 
         res.end("ok");
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5120-ConfirmApiRequestPrinter');
+        console2.log('Error', 'Catch Expection' + e, '5120-ConfirmApiRequestPrinter');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5127-ConfirmApiRequestPrinter');
+            console2.log('Error', 'Catch Expection' + e, '5127-ConfirmApiRequestPrinter');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -8131,7 +8097,7 @@ router.post('/ConfirmApiRequestPrinter', authenticationMidleware(), (req, res, n
 });
 
 router.post('/ConfirmApiRequestPrinter_new', authenticationMidleware(), (req, res, next) => {
-   
+
     console2.execution_info('ConfirmApiRequestPrinter_new');
     try {
         var session = req.session;
@@ -8181,12 +8147,12 @@ router.post('/ConfirmApiRequestPrinter_new', authenticationMidleware(), (req, re
         var update_query = "UPDATE `zpl_printer` SET " +
             " `suppliername`= '" + supplier_name + "', " +
             " `storeid`='" + storeid + "', " +
-            " `zplid`='"+zpl+"' ,`status`='print' " +
-         
+            " `zplid`='" + zpl + "' ,`status`='print' " +
+
             " WHERE epc = '" + epc + "'";
-        
+
         //console.log(update_query);
-        mysql.queryCustom(update_query).then(function(result) {
+        mysql.queryCustom(update_query).then(function (result) {
 
 
             if (result.status == "1") {
@@ -8196,23 +8162,23 @@ router.post('/ConfirmApiRequestPrinter_new', authenticationMidleware(), (req, re
                 res.end(result.error);
             }
         })
-        .catch(function(error) {
-            console2.log('Error', JSON.stringify(error), '4069-ConfirmApiRequestPrinter');
-            res.end(error);
-        });
+            .catch(function (error) {
+                console2.log('Error', JSON.stringify(error), '4069-ConfirmApiRequestPrinter');
+                res.end(error);
+            });
 
-        
+
 
         res.end("ok");
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5120-ConfirmApiRequestPrinter');
+        console2.log('Error', 'Catch Expection' + e, '5120-ConfirmApiRequestPrinter');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5127-ConfirmApiRequestPrinter');
+            console2.log('Error', 'Catch Expection' + e, '5127-ConfirmApiRequestPrinter');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -8378,7 +8344,7 @@ router.post('/AddPrinterForm', authenticationMidleware(), (req, res, next) => {
         }
 
         var select = "SELECT reference_value FROM reference_table"
-        mysql.queryCustom(select).then(function(result) {
+        mysql.queryCustom(select).then(function (result) {
             if (result.status == "1") {
 
                 var update_unique = "";
@@ -8417,10 +8383,10 @@ router.post('/AddPrinterForm', authenticationMidleware(), (req, res, next) => {
                     //printer code here//
 
                 }
-                var update_unique = "CALL get_reference_value('"+qty+"');"
+                var update_unique = "CALL get_reference_value('" + qty + "');"
                 //update_unique = "UPDATE `reference_table` SET `reference_value` = reference_value+" + qty
 
-                mysql.queryCustom(update_unique).then(function(result) {
+                mysql.queryCustom(update_unique).then(function (result) {
                     if (result.status == "1") {
                         // res.end(JSON.stringify(result.results));
                     } else {
@@ -8428,7 +8394,7 @@ router.post('/AddPrinterForm', authenticationMidleware(), (req, res, next) => {
                         //res.end((result.error);
                         //res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4286-AddPrinterForm refrence table');
                     //res.end((result.error);
                     //res.end(error);
@@ -8438,45 +8404,45 @@ router.post('/AddPrinterForm', authenticationMidleware(), (req, res, next) => {
                 const insertText = tobe_dump.slice(',', -1);
 
                 //console.log("+++++++++++++++++++"+insertText);
-                mysql.queryCustom(insertText).then(function(result) {
-                        if (result.status == "1") {
+                mysql.queryCustom(insertText).then(function (result) {
+                    if (result.status == "1") {
 
-                            //Check_EPC_ZPL(epc);   
-                            var select_query = "SELECT  * FROM `zpl_printer` " +
-                                " WHERE 1 and uid='" + req.body.UID + "' and status <>'print' and load_id = '" + load_id + "' "
-                            // console.log(select_query);
+                        //Check_EPC_ZPL(epc);   
+                        var select_query = "SELECT  * FROM `zpl_printer` " +
+                            " WHERE 1 and uid='" + req.body.UID + "' and status <>'print' and load_id = '" + load_id + "' "
+                        // console.log(select_query);
 
-                            mysql.queryCustom(select_query).then(function(result) {
-                                    if (result.status == "1") {
+                        mysql.queryCustom(select_query).then(function (result) {
+                            if (result.status == "1") {
 
-                                        var total_id = result.results;
-
-
-                                        var printerDump = '';
-
-                                        for (var i = 0; i < total_id.length; i++) {
-
-                                            printerDump += total_id[i].epc + ','
-                                        }
+                                var total_id = result.results;
 
 
+                                var printerDump = '';
 
-                                        res.end(JSON.stringify(printerDump));
-                                    } else {
-                                        //res.end(result.error);
-                                    }
-                                })
-                                .catch(function(error) {
-                                    console2.log('Error', JSON.stringify(error), '4324-AddPrinterForm first catch');
-                                    //res.end(error);
-                                });
+                                for (var i = 0; i < total_id.length; i++) {
 
-                            //res.end(JSON.stringify(result.results));
-                        } else {
-                            //res.end(result.error);
-                        }
-                    })
-                    .catch(function(error) {
+                                    printerDump += total_id[i].epc + ','
+                                }
+
+
+
+                                res.end(JSON.stringify(printerDump));
+                            } else {
+                                //res.end(result.error);
+                            }
+                        })
+                            .catch(function (error) {
+                                console2.log('Error', JSON.stringify(error), '4324-AddPrinterForm first catch');
+                                //res.end(error);
+                            });
+
+                        //res.end(JSON.stringify(result.results));
+                    } else {
+                        //res.end(result.error);
+                    }
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '4332-AddPrinterForm 2nd catch');
                         //res.end(error);
                     });
@@ -8484,20 +8450,20 @@ router.post('/AddPrinterForm', authenticationMidleware(), (req, res, next) => {
             } else {
                 // res.end(result.error);
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4339-AddPrinterForm 3rd catch');
             res.end(error);
         });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5409-AddPrinterForm');
+        console2.log('Error', 'Catch Expection' + e, '5409-AddPrinterForm');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5416-AddPrinterForm');
+            console2.log('Error', 'Catch Expection' + e, '5416-AddPrinterForm');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -8512,35 +8478,33 @@ function check_epc_exist_zpl(epc) {
         var epc_code = epc;
         return new Promise((resolve) => {
 
-            
 
-            mysql.queryCustom("SELECT * FROM zpl_printer WHERE epc='"+epc_code+ "'").then(function(result) {
 
-               
-                if (result.results.length !== 0) 
-                {
+            mysql.queryCustom("SELECT * FROM zpl_printer WHERE epc='" + epc_code + "'").then(function (result) {
+
+
+                if (result.results.length !== 0) {
                     let sendparam = {
                         exist: "1",
                     }
                     resolve(sendparam);
                 }
-                else
-                {
+                else {
                     let sendparam = {
                         exist: "0",
                     }
-                    resolve(sendparam); 
+                    resolve(sendparam);
                 }
             })
 
         })
-    }catch(e){
-       
-        console2.log('Error', 'Catch Expection'+e, '8514-check_epc_exist_zpl');
-        if(e instanceof TypeError){
-            console2.log('Error', 'Catch Expection'+e, '8514-check_epc_exist_zpl');
-        }else{
-            console2.log('Error', 'Catch Expection'+e, '8514-check_epc_exist_zpl');
+    } catch (e) {
+
+        console2.log('Error', 'Catch Expection' + e, '8514-check_epc_exist_zpl');
+        if (e instanceof TypeError) {
+            console2.log('Error', 'Catch Expection' + e, '8514-check_epc_exist_zpl');
+        } else {
+            console2.log('Error', 'Catch Expection' + e, '8514-check_epc_exist_zpl');
         }
     }
 
@@ -8548,11 +8512,11 @@ function check_epc_exist_zpl(epc) {
 }
 
 router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, next) => {
-       
+
     console2.execution_info('AddPrinterForm_new_new');
     try {
         var session = req.session;
-        
+
 
         var now = new Date();
         var qty = req.body.qty
@@ -8703,7 +8667,7 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
         }
 
         var select = "SELECT reference_value FROM reference_table"
-        mysql.queryCustom(select).then(async function(result) {
+        mysql.queryCustom(select).then(async function (result) {
             if (result.status == "1") {
 
                 var update_unique = "";
@@ -8716,9 +8680,9 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                     " `printerid`, `zplid`, `status`,`Retail_Product_Price`,`Retail_Product_VAT` " +
                     " ,`Retail_Product_SP_VAT_EN`,`Retail_Product_Color`," +
                     "`Retail_Product_Size`,`Retail_Product_Season`" +
-                    ",`Retail_Product_Gender`,`Retail_Product_SupplierItemNum`,`load_id`,`date_time`,`user_id`"+
+                    ",`Retail_Product_Gender`,`Retail_Product_SupplierItemNum`,`load_id`,`date_time`,`user_id`" +
 
-                    " ,sku,PO_NO,Supplier_ID,Shipment_no,Comments)" +" VALUES "
+                    " ,sku,PO_NO,Supplier_ID,Shipment_no,Comments)" + " VALUES "
 
                 var date_time = dateFormat(now, "yyyy-mm-dd");
                 var user_id = session.user_id;
@@ -8733,8 +8697,7 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                     var epc_status = await check_epc_exist_zpl(epc);
 
 
-                    if(epc_status.exist=="0")
-                    {
+                    if (epc_status.exist == "0") {
                         tobe_dump += "('" + req.body.UID + "','" + epc + "','" + req.body.SupplierName + "','" + qty + "' ," +
                             "'" + req.body.StoreID + "','" + req.body.Printer + "','" + req.body.ZPL + "','Pending'," +
                             "'" + req.body.Retail_Product_Price + "'," +
@@ -8743,16 +8706,16 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                             "'" + req.body.Retail_Product_Color + "','" + req.body.Retail_Product_Size + "'," +
                             "'" + req.body.Retail_Product_Season + "'," +
                             "'" + req.body.Retail_Product_Gender + "'," +
-                            "'" + req.body.Retail_Product_SupplierItemNum + "','" + load_id + "','" + date_time + 
-                            "','" + user_id + "','" + SKU + "','" +  PO_NO+ "','" + Supplier_ID+ "','" + Shipment_no + "','" + Comments + "'),";
+                            "'" + req.body.Retail_Product_SupplierItemNum + "','" + load_id + "','" + date_time +
+                            "','" + user_id + "','" + SKU + "','" + PO_NO + "','" + Supplier_ID + "','" + Shipment_no + "','" + Comments + "'),";
                     }
 
                 }
-               // console.log(tobe_dump);
+                // console.log(tobe_dump);
 
                 update_unique = "UPDATE `reference_table` SET `reference_value` = reference_value+" + qty
 
-                mysql.queryCustom(update_unique).then(function(result) {
+                mysql.queryCustom(update_unique).then(function (result) {
                     if (result.status == "1") {
                         // res.end(JSON.stringify(result.results));
                     } else {
@@ -8760,7 +8723,7 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                         //res.end((result.error);
                         //res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4286-AddPrinterForm_new refrence table');
                     //res.end((result.error);
                     //res.end(error);
@@ -8770,113 +8733,113 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                 const insertText = tobe_dump.slice(',', -1);
 
                 //console.log("+++++++++++++++++++"+insertText);
-                mysql.queryCustom(insertText).then(function(result) {
-                        if (result.status == "1") {
+                mysql.queryCustom(insertText).then(function (result) {
+                    if (result.status == "1") {
 
-                            //Check_EPC_ZPL(epc);   
-                            var select_query = "SELECT  * FROM `zpl_printer` " +
-                                " WHERE 1 and uid='" + req.body.UID + "' and status <>'print' and load_id = '" + load_id + "' "
-                            // console.log(select_query);
+                        //Check_EPC_ZPL(epc);   
+                        var select_query = "SELECT  * FROM `zpl_printer` " +
+                            " WHERE 1 and uid='" + req.body.UID + "' and status <>'print' and load_id = '" + load_id + "' "
+                        // console.log(select_query);
 
-                            mysql.queryCustom(select_query).then(function(result) {
-                                    if (result.status == "1") {
+                        mysql.queryCustom(select_query).then(function (result) {
+                            if (result.status == "1") {
 
-                                        var total_id = result.results;
+                                var total_id = result.results;
 
 
-                                        var printerDump = '';
-                                        var print_body='';
+                                var printerDump = '';
+                                var print_body = '';
 
-                                        for (var i = 0; i < total_id.length; i++) {
+                                for (var i = 0; i < total_id.length; i++) {
 
-                                            printerDump += total_id[i].epc + ',';
-                                            print_body += '{'+
-                                           '"group": ">RUBAIYAT",'+
-                                           '"thingTypeCode": "ITEM",'+
-                                           '"serialNumber": "' + total_id[i].epc + '",'+
-                                           '"udfs": {'+
-                                                '"deviceId": {"value": "C2A0622C-CB02-41E9-9465-9946B282B38F"},'+
-                                                '"Retail_Bizlocation": {"value": "' + storeid + '"},'+
-                                                '"sourceModule": {"value": "Printing"},'+
-                                                '"Retail_Printer": {"value": "PrinterID"},'+
-                                                '"Retail_Product_SKU": {"value": "'+SKU+'"},'+
-                                                '"Retail_Product_SKUOriginal": {"value": "'+original_sku+'"},'+
-                                                '"Retail_Product_UniqueID": {"value": "'+UID+'"},'+
-                                                '"Retail_Product_UPC": {"value": "'+SKU+'"},'+
-                                                '"Retail_ZPL": {"value": "RUBAzpl_EN"},'+
-                                                '"source": {"value": "PRINTING_APP"},'+
-                                                '"user": {"value": "store' + location + '"},'+
-                                                '"zone": {"value": "' + storeid + '.00101.1"},'+
-                                              
-                                                '"Retail_TagIT_Info_1":{"value":"' + PO_NO + '"},' +
-                                                '"Retail_TagIT_Info_2":{"value":"' + Supplier_ID + '"},' +
-                                                '"Retail_TagIT_Info_3":{"value":"' + Shipment_no + '"},' +
-                                                '"Retail_TagIT_Info_4":{"value":"' + Comments + '"}' +
-                                            '}'+
+                                    printerDump += total_id[i].epc + ',';
+                                    print_body += '{' +
+                                        '"group": ">RUBAIYAT",' +
+                                        '"thingTypeCode": "ITEM",' +
+                                        '"serialNumber": "' + total_id[i].epc + '",' +
+                                        '"udfs": {' +
+                                        '"deviceId": {"value": "C2A0622C-CB02-41E9-9465-9946B282B38F"},' +
+                                        '"Retail_Bizlocation": {"value": "' + storeid + '"},' +
+                                        '"sourceModule": {"value": "Printing"},' +
+                                        '"Retail_Printer": {"value": "PrinterID"},' +
+                                        '"Retail_Product_SKU": {"value": "' + SKU + '"},' +
+                                        '"Retail_Product_SKUOriginal": {"value": "' + original_sku + '"},' +
+                                        '"Retail_Product_UniqueID": {"value": "' + UID + '"},' +
+                                        '"Retail_Product_UPC": {"value": "' + SKU + '"},' +
+                                        '"Retail_ZPL": {"value": "RUBAzpl_EN"},' +
+                                        '"source": {"value": "PRINTING_APP"},' +
+                                        '"user": {"value": "store' + location + '"},' +
+                                        '"zone": {"value": "' + storeid + '.00101.1"},' +
+
+                                        '"Retail_TagIT_Info_1":{"value":"' + PO_NO + '"},' +
+                                        '"Retail_TagIT_Info_2":{"value":"' + Supplier_ID + '"},' +
+                                        '"Retail_TagIT_Info_3":{"value":"' + Shipment_no + '"},' +
+                                        '"Retail_TagIT_Info_4":{"value":"' + Comments + '"}' +
+                                        '}' +
                                         '},';
 
-                                        }
-                                        print_body=print_body.substring(0, print_body.length - 1);
-                                        var iot_ip = process.env.IOT_API_NEW;
-                                        
-                                        //
-                                        //console.log(print_body);
-                                        const options = {
-                                            url: iot_ip+'innovent/TAGIT',
-                                            method: 'PATCH',
-                                            headers: {
-                                                'content-type': 'application/json',
-                                                'apikey': process.env.IOT_API_KEY,
-                                            },
-                                            body: '['+print_body+']'
+                                }
+                                print_body = print_body.substring(0, print_body.length - 1);
+                                var iot_ip = process.env.IOT_API_NEW;
+
+                                //
+                                //console.log(print_body);
+                                const options = {
+                                    url: iot_ip + 'innovent/TAGIT',
+                                    method: 'PATCH',
+                                    headers: {
+                                        'content-type': 'application/json',
+                                        'apikey': process.env.IOT_API_KEY,
+                                    },
+                                    body: '[' + print_body + ']'
+                                };
+                                // var body22 = '['+print_body+']';
+                                // console.log(body22)
+                                request(options, function (err, res, body) {
+                                    let wjson = body;
+                                    var status = res.statusCode;
+
+
+
+                                    if (parseInt(status) !== 200) {
+
+                                        const message = {
+                                            from: 'saqib@innodaba.com', // Sender address
+                                            to: 'zeeshangill11@gmail.com', // List of recipients
+                                            subject: 'Zpl Print Epc', // Subject line
+                                            text: "This " + printerDump + " Epc not printed Successfully !" // Plain text body
                                         };
-                                        // var body22 = '['+print_body+']';
-                                        // console.log(body22)
-                                        request(options, function(err, res, body) {
-                                            let wjson = body;
-                                            var status = res.statusCode;
-                                            
-                                            
-
-                                            if(parseInt(status)!==200){
-
-                                                const message = {
-                                                    from: 'saqib@innodaba.com', // Sender address
-                                                    to: 'zeeshangill11@gmail.com', // List of recipients
-                                                    subject: 'Zpl Print Epc', // Subject line
-                                                    text: "This " +printerDump+" Epc not printed Successfully !" // Plain text body
-                                                };
-                                                transport.sendMail(message, function(err, info) {
-                                                    if (err) {
-                                                        console.log(err)
-                                                    } else {
-                                                        console.log(info);
-                                                    }
-                                                });
-                                                
-
+                                        transport.sendMail(message, function (err, info) {
+                                            if (err) {
+                                                console.log(err)
+                                            } else {
+                                                console.log(info);
                                             }
                                         });
-                                        
 
 
-
-                                        res.end(JSON.stringify(printerDump));
-                                    } else {
-                                        //res.end(result.error);
                                     }
-                                })
-                                .catch(function(error) {
-                                    console2.log('Error', JSON.stringify(error), '4324-AddPrinterForm_new first catch');
-                                    //res.end(error);
                                 });
 
-                            //res.end(JSON.stringify(result.results));
-                        } else {
-                            //res.end(result.error);
-                        }
-                    })
-                    .catch(function(error) {
+
+
+
+                                res.end(JSON.stringify(printerDump));
+                            } else {
+                                //res.end(result.error);
+                            }
+                        })
+                            .catch(function (error) {
+                                console2.log('Error', JSON.stringify(error), '4324-AddPrinterForm_new first catch');
+                                //res.end(error);
+                            });
+
+                        //res.end(JSON.stringify(result.results));
+                    } else {
+                        //res.end(result.error);
+                    }
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '4332-AddPrinterForm_new 2nd catch');
                         //res.end(error);
                     });
@@ -8884,20 +8847,20 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
             } else {
                 // res.end(result.error);
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4339-AddPrinterForm_new 3rd catch');
             res.end(error);
         });
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5409-AddPrinterForm_new');
+        console2.log('Error', 'Catch Expection' + e, '5409-AddPrinterForm_new');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5416-AddPrinterForm_new');
+            console2.log('Error', 'Catch Expection' + e, '5416-AddPrinterForm_new');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -8912,21 +8875,21 @@ router.post('/getStoreName', authenticationMidleware(), (req, res, next) => {
     //console2.execution_info(userId);
     try {
         // var session = req.session;
-        // var storeid = session.storeid='0000405';
+        var storeid = '0000405';
 
-        // storeid = storeid.split('[').join('');
-        // storeid = storeid.split(']').join('');
+        storeid = storeid.split('[').join('');
+        storeid = storeid.split(']').join('');
 
         var query = '';
 
         //if (session.user_id == 1) {
-            query = "SELECT * FROM tb_store WHERE 1 and storename<>'null' GROUP BY storename ORDER BY storeid DESC"
+        query = "SELECT * FROM tb_store WHERE 1 and storename<>'null' GROUP BY storename ORDER BY storeid DESC"
         // } else {
         //     query = "SELECT * FROM tb_store WHERE storename<>'null' and storename IN (" + storeid + ") GROUP BY storename ORDER BY storeid DESC"
         // }
         //console.log(query);
 
-        mysql.queryCustom(query).then(function(result) {
+        mysql.queryCustom(query).then(function (result) {
             if (result.status == "1") {
                 res.end(JSON.stringify(result.results));
             } else {
@@ -8934,19 +8897,19 @@ router.post('/getStoreName', authenticationMidleware(), (req, res, next) => {
                 res.end(result.error);
 
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4375-getStoreName');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5460-getStoreName');
+        console2.log('Error', 'Catch Expection' + e, '5460-getStoreName');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5467-getStoreName');
+            console2.log('Error', 'Catch Expection' + e, '5467-getStoreName');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -8967,27 +8930,27 @@ router.post('/getUserData', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT * FROM users order by id desc";
 
         mysql.queryCustom(new_query)
-        .then(function(result) {
-            if (result.status == "1") {
-                res.end(JSON.stringify(result.results));
-            } else {
-                console2.log('Error', JSON.stringify(result.error), '4556-GetUserinformationdrop filter');
-                res.end(result.error);
-            }
-        })
-        .catch(function(error) {
-            console2.log('Error', JSON.stringify(error), '4561-GetUserinformationdrop filter');
-            res.end(error);
-        });
+            .then(function (result) {
+                if (result.status == "1") {
+                    res.end(JSON.stringify(result.results));
+                } else {
+                    console2.log('Error', JSON.stringify(result.error), '4556-GetUserinformationdrop filter');
+                    res.end(result.error);
+                }
+            })
+            .catch(function (error) {
+                console2.log('Error', JSON.stringify(error), '4561-GetUserinformationdrop filter');
+                res.end(error);
+            });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5460-getStoreName');
+        console2.log('Error', 'Catch Expection' + e, '5460-getStoreName');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5467-getStoreName');
+            console2.log('Error', 'Catch Expection' + e, '5467-getStoreName');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9008,13 +8971,13 @@ router.post('/getUsers', authenticationMidleware(), (req, res, next) => {
         var query = '';
 
         //if (session.user_id == 1) {
-            query = "SELECT * FROM `users`  ORDER BY id DESC"
+        query = "SELECT * FROM `users`  ORDER BY id DESC"
         // } else {
         //     query = "SELECT * FROM `users` storeid IN (" + storeid + ") ORDER BY id DESC"
         // }
         //console.log(query);
 
-        mysql.queryCustom(query).then(function(result) {
+        mysql.queryCustom(query).then(function (result) {
             if (result.status == "1") {
                 res.end(JSON.stringify(result.results));
             } else {
@@ -9022,19 +8985,19 @@ router.post('/getUsers', authenticationMidleware(), (req, res, next) => {
                 res.end(result.error);
 
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4511-getUsers');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5506-getUsers');
+        console2.log('Error', 'Catch Expection' + e, '5506-getUsers');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5513-getUsers');
+            console2.log('Error', 'Catch Expection' + e, '5513-getUsers');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9055,26 +9018,26 @@ router.post('/getAsnDestination', authenticationMidleware(), (req, res, next) =>
             " and destination<>'null' GROUP by destination order by id DESC"
         //console.log(query);
 
-        mysql.queryCustom(new_query).then(function(result) {
+        mysql.queryCustom(new_query).then(function (result) {
             if (result.status == "1") {
                 res.end(JSON.stringify(result.results));
             } else {
                 console2.log('Error', JSON.stringify(result.error), '4396-getAsnDestination filter');
                 res.end(result.error);
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4400-getAsnDestination filter');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5545-getAsnDestination');
+        console2.log('Error', 'Catch Expection' + e, '5545-getAsnDestination');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5552-getAsnDestination');
+            console2.log('Error', 'Catch Expection' + e, '5552-getAsnDestination');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9094,26 +9057,26 @@ router.post('/ZplDataProductMaster', authenticationMidleware(), (req, res, next)
         var new_query = "SELECT * From product_item_master WHERE ean_no = '" + req.body.uid + "'"
         //console.log(query);
 
-        mysql.queryCustom(new_query).then(function(result) {
+        mysql.queryCustom(new_query).then(function (result) {
             if (result.status == "1") {
                 res.end(JSON.stringify(result.results));
             } else {
                 console2.log('Error', JSON.stringify(result.error), '4418-ZplDataProductMaster filter');
                 res.end(error);
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4422-ZplDataProductMaster filter');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5583-ZplDataProductMaster');
+        console2.log('Error', 'Catch Expection' + e, '5583-ZplDataProductMaster');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5590-ZplDataProductMaster');
+            console2.log('Error', 'Catch Expection' + e, '5590-ZplDataProductMaster');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9132,26 +9095,26 @@ router.post('/ZplDataProductMaster_new', authenticationMidleware(), (req, res, n
         var new_query = "SELECT * From product_item_master WHERE ean_no = '" + req.body.uid + "'"
         //console.log(query);
 
-        mysql.queryCustom(new_query).then(function(result) {
+        mysql.queryCustom(new_query).then(function (result) {
             if (result.status == "1") {
                 res.end(JSON.stringify(result.results));
             } else {
                 console2.log('Error', JSON.stringify(result.error), '4418-ZplDataProductMaster filter');
                 res.end(error);
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4422-ZplDataProductMaster filter');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5583-ZplDataProductMaster');
+        console2.log('Error', 'Catch Expection' + e, '5583-ZplDataProductMaster');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5590-ZplDataProductMaster');
+            console2.log('Error', 'Catch Expection' + e, '5590-ZplDataProductMaster');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9170,7 +9133,7 @@ router.post('/getAsnStatus', authenticationMidleware(), (req, res, next) => {
         var new_query = 'SELECT status FROM asn_master group by status'
         //console.log(query);
 
-        mysql.queryCustom(new_query).then(function(result) {
+        mysql.queryCustom(new_query).then(function (result) {
             if (result.status == "1") {
                 res.end(JSON.stringify(result.results));
             } else {
@@ -9178,19 +9141,19 @@ router.post('/getAsnStatus', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '4441-getAsnStatus filter');
                 res.end(error);
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '4445-getAsnStatus filter');
             res.end(error);
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5622-getAsnStatus');
+        console2.log('Error', 'Catch Expection' + e, '5622-getAsnStatus');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5629-getAsnStatus');
+            console2.log('Error', 'Catch Expection' + e, '5629-getAsnStatus');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9220,7 +9183,7 @@ router.post('/getStoreCompany', authenticationMidleware(), (req, res, next) => {
         //console.log(query);
 
         mysql.queryCustom(query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -9229,19 +9192,19 @@ router.post('/getStoreCompany', authenticationMidleware(), (req, res, next) => {
                     res.end(error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '4479-getStoreCompany filter');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5672-getStoreCompany');
+        console2.log('Error', 'Catch Expection' + e, '5672-getStoreCompany');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5679-getStoreCompany');
+            console2.log('Error', 'Catch Expection' + e, '5679-getStoreCompany');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9273,7 +9236,7 @@ router.post('/store_country', authenticationMidleware(), (req, res, next) => {
         //console.log(query);
 
         mysql.queryCustom(query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -9281,19 +9244,19 @@ router.post('/store_country', authenticationMidleware(), (req, res, next) => {
                     res.end(error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '4514-store_country filter');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5723-store_country');
+        console2.log('Error', 'Catch Expection' + e, '5723-store_country');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5730-store_country');
+            console2.log('Error', 'Catch Expection' + e, '5730-store_country');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9315,7 +9278,7 @@ router.post('/getDevieceID', authenticationMidleware(), (req, res, next) => {
         var new_query = "SELECT * FROM handheld_devices GROUP BY device_unique_id order by id desc";
         //console.log("dddddddddddddddd"+new_query);
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -9323,19 +9286,19 @@ router.post('/getDevieceID', authenticationMidleware(), (req, res, next) => {
                     res.end(error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '4539-getDevieceID filter');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5764-getDevieceID');
+        console2.log('Error', 'Catch Expection' + e, '5764-getDevieceID');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5771-getDevieceID');
+            console2.log('Error', 'Catch Expection' + e, '5771-getDevieceID');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9354,7 +9317,7 @@ router.post('/GetUserinformationdrop', authenticationMidleware(), (req, res, nex
         var new_query = "SELECT * FROM users order by id desc";
 
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -9362,19 +9325,19 @@ router.post('/GetUserinformationdrop', authenticationMidleware(), (req, res, nex
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '4561-GetUserinformationdrop filter');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5802-GetUserinformationdrop');
+        console2.log('Error', 'Catch Expection' + e, '5802-GetUserinformationdrop');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5809-GetUserinformationdrop');
+            console2.log('Error', 'Catch Expection' + e, '5809-GetUserinformationdrop');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9390,11 +9353,11 @@ router.post('/GetDeviceInfo', authenticationMidleware(), (req, res, next) => {
         var storeid = session.storeid;
 
 
-        var new_query = "SELECT deviceid FROM tb_audit WHERE deviceid <> '' "+ 
-        " AND deviceid<>'null' GROUP BY deviceid  ORDER BY auditid DESC";
+        var new_query = "SELECT deviceid FROM tb_audit WHERE deviceid <> '' " +
+            " AND deviceid<>'null' GROUP BY deviceid  ORDER BY auditid DESC";
         //console.log(new_query);
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -9402,19 +9365,19 @@ router.post('/GetDeviceInfo', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '4582-GetDeviceInfo filter');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5839-GetDeviceInfo');
+        console2.log('Error', 'Catch Expection' + e, '5839-GetDeviceInfo');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5846-GetDeviceInfo');
+            console2.log('Error', 'Catch Expection' + e, '5846-GetDeviceInfo');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9448,7 +9411,7 @@ router.post('/supply_chain_Receive_today', authenticationMidleware(), (req, res,
 
 
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
@@ -9457,21 +9420,21 @@ router.post('/supply_chain_Receive_today', authenticationMidleware(), (req, res,
                         res.end(result.error);
 
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4619-supply_chain_Receive_today supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5894-supply_chain_Receive_today');
+        console2.log('Error', 'Catch Expection' + e, '5894-supply_chain_Receive_today');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5901-supply_chain_Receive_today');
+            console2.log('Error', 'Catch Expection' + e, '5901-supply_chain_Receive_today');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9515,28 +9478,28 @@ router.post('/Supply_Chain_Receive_Last_Month', authenticationMidleware(), (req,
                     " AND date <= '" + CheckDate + "'";
 
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
                         console2.log('Error', JSON.stringify(result.error), '4662-Supply_Chain_Receive_Last_Month supplychaindashboard');
                         res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4666-Supply_Chain_Receive_Last_Month supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '5957-Supply_Chain_Receive_Last_Month');
+        console2.log('Error', 'Catch Expection' + e, '5957-Supply_Chain_Receive_Last_Month');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '5946-Supply_Chain_Receive_Last_Month');
+            console2.log('Error', 'Catch Expection' + e, '5946-Supply_Chain_Receive_Last_Month');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9590,28 +9553,28 @@ router.post('/Supply_Chain_Last_Week_Received', authenticationMidleware(), (req,
                 // console.log("?????????????????++++"+new_query);
 
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
                         console2.log('Error', JSON.stringify(result.error), '4719-Supply_Chain_Last_Week_Received supplychaindashboard');
                         res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4723-Supply_Chain_Last_Week_Received supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6030-Supply_Chain_Last_Week_Received');
+        console2.log('Error', 'Catch Expection' + e, '6030-Supply_Chain_Last_Week_Received');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6037-Supply_Chain_Last_Week_Received');
+            console2.log('Error', 'Catch Expection' + e, '6037-Supply_Chain_Last_Week_Received');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9645,7 +9608,7 @@ router.post('/supply_chain_Expected_Today', authenticationMidleware(), (req, res
                     " and date = '" + CheckDate + "' order by id desc";
 
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
@@ -9655,21 +9618,21 @@ router.post('/supply_chain_Expected_Today', authenticationMidleware(), (req, res
 
 
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4763-supply_chain_Expected_Today supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6086-supply_chain_Expected_Today');
+        console2.log('Error', 'Catch Expection' + e, '6086-supply_chain_Expected_Today');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6093-supply_chain_Expected_Today');
+            console2.log('Error', 'Catch Expection' + e, '6093-supply_chain_Expected_Today');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9703,29 +9666,29 @@ router.post('/Expected_Today_dashboard', authenticationMidleware(), (req, res, n
                     " WHERE 1  and destination IN ( " + storeid + ") and date = '" + CheckDate + "' order by id desc";
 
 
-                mysql.queryCustom(new_query).then(function(result) {
-                        if (result.status == "1") {
-                            res.end(JSON.stringify(result.results));
-                        } else {
-                            console2.log('Error', JSON.stringify(result.error), '4796-Expected_Today_dashboard supplychaindashboard');
-                            res.end(result.error);
-                        }
-                    })
-                    .catch(function(error) {
+                mysql.queryCustom(new_query).then(function (result) {
+                    if (result.status == "1") {
+                        res.end(JSON.stringify(result.results));
+                    } else {
+                        console2.log('Error', JSON.stringify(result.error), '4796-Expected_Today_dashboard supplychaindashboard');
+                        res.end(result.error);
+                    }
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '4808-Expected_Today_dashboard supplychaindashboard');
                         res.end(error);
                     });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6140-Expected_Today_dashboard');
+        console2.log('Error', 'Catch Expection' + e, '6140-Expected_Today_dashboard');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6147-Expected_Today_dashboard');
+            console2.log('Error', 'Catch Expection' + e, '6147-Expected_Today_dashboard');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9753,32 +9716,32 @@ router.post('/Expected_Today_home_dashboard_details', authenticationMidleware(),
                 var new_query = "SELECT * FROM `asn_master` WHERE transferred_item > 0 " +
                     " and received_item = 0  AND date <= '" + CheckDate + "' AND destination IN (" + storeid + ") order by `date` desc limit 0,20";
                 //console.log("Expected_Today_home_dashboard_details>>>>>zzzzzzz>>>>>>>>"+new_query);
-                mysql.queryCustom(new_query).then(function(result) {
-                        if (result.status == "1") {
-                            res.end(JSON.stringify(result.results));
-                        } else {
+                mysql.queryCustom(new_query).then(function (result) {
+                    if (result.status == "1") {
+                        res.end(JSON.stringify(result.results));
+                    } else {
 
-                            console2.log('Error', JSON.stringify(result.error), '4829-Expected_Today_home_dashboard_details supplychaindashboard');
-                            res.end(result.error);
+                        console2.log('Error', JSON.stringify(result.error), '4829-Expected_Today_home_dashboard_details supplychaindashboard');
+                        res.end(result.error);
 
 
-                        }
-                    })
-                    .catch(function(error) {
+                    }
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '4836-Expected_Today_home_dashboard_details supplychaindashboard');
                         res.end(error);
                     });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6191-Expected_Today_home_dashboard_details');
+        console2.log('Error', 'Catch Expection' + e, '6191-Expected_Today_home_dashboard_details');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6198-Expected_Today_home_dashboard_details');
+            console2.log('Error', 'Catch Expection' + e, '6198-Expected_Today_home_dashboard_details');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9826,7 +9789,7 @@ router.post('/Supply_Chain_Expected_Last_Month', authenticationMidleware(), (req
 
                 //console.log("<<>>>>>>>>>>>>>>>>>>>zzzzzzzz"+new_query);
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
@@ -9834,21 +9797,21 @@ router.post('/Supply_Chain_Expected_Last_Month', authenticationMidleware(), (req
                         res.end(result.error);
 
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4888-Supply_Chain_Expected_Last_Month supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6259-Supply_Chain_Expected_Last_Month');
+        console2.log('Error', 'Catch Expection' + e, '6259-Supply_Chain_Expected_Last_Month');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6266-Supply_Chain_Expected_Last_Month');
+            console2.log('Error', 'Catch Expection' + e, '6266-Supply_Chain_Expected_Last_Month');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9898,7 +9861,7 @@ router.post('/Supply_Chain_Last_Week_Expected', authenticationMidleware(), (req,
                     " and  date >= '" + lastWeek + "' AND date <= '" + CheckDate + "'";
 
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
@@ -9908,21 +9871,21 @@ router.post('/Supply_Chain_Last_Week_Expected', authenticationMidleware(), (req,
 
 
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4944-Supply_Chain_Last_Week_Expected supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6331-Supply_Chain_Last_Week_Expected');
+        console2.log('Error', 'Catch Expection' + e, '6331-Supply_Chain_Last_Week_Expected');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6338-Supply_Chain_Last_Week_Expected');
+            console2.log('Error', 'Catch Expection' + e, '6338-Supply_Chain_Last_Week_Expected');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -9954,28 +9917,28 @@ router.post('/supply_chain_Shipped_Today', authenticationMidleware(), (req, res,
                 var new_query = "SELECT SUM(transferred_item) as shipping_receiving_total from `asn_master` where 1 " +
                     " and  date = '" + CheckDate + "' and source in (" + storeid + ") ";
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
                         console2.log('Error', JSON.stringify(result.error), '4976-supply_chain_Shipped_Today supplychaindashboard');
                         res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '4980-supply_chain_Shipped_Today supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6382-supply_chain_Shipped_Today');
+        console2.log('Error', 'Catch Expection' + e, '6382-supply_chain_Shipped_Today');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6389-supply_chain_Shipped_Today');
+            console2.log('Error', 'Catch Expection' + e, '6389-supply_chain_Shipped_Today');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10024,28 +9987,28 @@ router.post('/Supply_Chain_Last_Week_Shipped', authenticationMidleware(), (req, 
 
                 //console.log("<><>>>>><<<????>><<}}}"+new_query)
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
                         console2.log('Error', JSON.stringify(result.error), '5028-Supply_Chain_Last_Week_Shipped supplychaindashboard');
                         res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '5033-Supply_Chain_Last_Week_Shipped supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6450-Supply_Chain_Last_Week_Shipped');
+        console2.log('Error', 'Catch Expection' + e, '6450-Supply_Chain_Last_Week_Shipped');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6457-Supply_Chain_Last_Week_Shipped');
+            console2.log('Error', 'Catch Expection' + e, '6457-Supply_Chain_Last_Week_Shipped');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10094,29 +10057,29 @@ router.post('/Last_Week_Shipped_Dashboard', authenticationMidleware(), (req, res
 
                 //res.end("<><><><><><><><><><><><><><><"+new_query)
 
-                mysql.queryCustom(new_query).then(function(result) {
-                        if (result.status == "1") {
-                            res.end(JSON.stringify(result.results));
-                        } else {
-                            console2.log('Error', JSON.stringify(result.error), '5080-Last_Week_Shipped_Dashboard supplychaindashboard');
-                            res.end(result.error);
-                        }
-                    })
-                    .catch(function(error) {
+                mysql.queryCustom(new_query).then(function (result) {
+                    if (result.status == "1") {
+                        res.end(JSON.stringify(result.results));
+                    } else {
+                        console2.log('Error', JSON.stringify(result.error), '5080-Last_Week_Shipped_Dashboard supplychaindashboard');
+                        res.end(result.error);
+                    }
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '5085-Last_Week_Shipped_Dashboard supplychaindashboard');
                         res.end(error);
                     });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6519-Last_Week_Shipped_Dashboard');
+        console2.log('Error', 'Catch Expection' + e, '6519-Last_Week_Shipped_Dashboard');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6526-Last_Week_Shipped_Dashboard');
+            console2.log('Error', 'Catch Expection' + e, '6526-Last_Week_Shipped_Dashboard');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10162,29 +10125,29 @@ router.post('/Last_Week_Shipped_dashboard_Details', authenticationMidleware(), (
                     "and source in (" + storeid + ") order by `date` desc limit 0,10";
 
                 // console.log("+Last_Week_Shipped_dashboard_Details+++++++++++++++++"+new_query);   
-                mysql.queryCustom(new_query).then(function(result) {
-                        if (result.status == "1") {
-                            res.end(JSON.stringify(result.results));
-                        } else {
-                            console2.log('Error', JSON.stringify(result.error), '5130-Last_Week_Shipped_dashboard_Details supplychaindashboard');
-                            res.end(result.error);
-                        }
-                    })
-                    .catch(function(error) {
+                mysql.queryCustom(new_query).then(function (result) {
+                    if (result.status == "1") {
+                        res.end(JSON.stringify(result.results));
+                    } else {
+                        console2.log('Error', JSON.stringify(result.error), '5130-Last_Week_Shipped_dashboard_Details supplychaindashboard');
+                        res.end(result.error);
+                    }
+                })
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '5135-Last_Week_Shipped_dashboard_Details supplychaindashboard');
                         res.end(error);
                     });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6585-Last_Week_Shipped_dashboard_Details');
+        console2.log('Error', 'Catch Expection' + e, '6585-Last_Week_Shipped_dashboard_Details');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6592-Last_Week_Shipped_dashboard_Details');
+            console2.log('Error', 'Catch Expection' + e, '6592-Last_Week_Shipped_dashboard_Details');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10225,28 +10188,28 @@ router.post('/Supply_Chain_Shipped_Last_Month', authenticationMidleware(), (req,
 
 
 
-                mysql.queryCustom(new_query).then(function(result) {
+                mysql.queryCustom(new_query).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
                         console2.log('Error', JSON.stringify(result.error), '5175-Supply_Chain_Shipped_Last_Month supplychaindashboard');
                         res.end(result.error);
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '5179-Supply_Chain_Shipped_Last_Month supplychaindashboard');
                     res.end(error);
                 });
             }
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6545-Supply_Chain_Shipped_Last_Month');
+        console2.log('Error', 'Catch Expection' + e, '6545-Supply_Chain_Shipped_Last_Month');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6552-Supply_Chain_Shipped_Last_Month');
+            console2.log('Error', 'Catch Expection' + e, '6552-Supply_Chain_Shipped_Last_Month');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10282,27 +10245,27 @@ router.post('/ExcessInAsn', authenticationMidleware(), (req, res, next) => {
                 "FROM asn_master WHERE transferred_item < received_item "
             //console.log(">>>>>>>>>>>>>>>>>>>"+new_query);
 
-            mysql.queryCustom(new_query).then(function(result) {
+            mysql.queryCustom(new_query).then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
                     console2.log('Error', JSON.stringify(result.error), '5214-ExcessInAsn supplychaindashboard');
                     res.end(result.error);
                 }
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5218-ExcessInAsn supplychaindashboard');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6699-ExcessInAsn');
+        console2.log('Error', 'Catch Expection' + e, '6699-ExcessInAsn');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6706-ExcessInAsn');
+            console2.log('Error', 'Catch Expection' + e, '6706-ExcessInAsn');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10338,27 +10301,27 @@ router.post('/ShortageinASN', authenticationMidleware(), (req, res, next) => {
 
             //console.log(">>>>>>>>>>>>>>>>>>>"+new_query);
 
-            mysql.queryCustom(new_query).then(function(result) {
+            mysql.queryCustom(new_query).then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
                     console2.log('Error', JSON.stringify(result.error), '5252-ShortageinASN supplychaindashboard');
                     res.end(result.error);
                 }
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5256-ShortageinASN supplychaindashboard');
                 res.end(error);
             });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6753-ShortageinASN');
+        console2.log('Error', 'Catch Expection' + e, '6753-ShortageinASN');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6760-ShortageinASN');
+            console2.log('Error', 'Catch Expection' + e, '6760-ShortageinASN');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10377,10 +10340,10 @@ router.post('/log_type', authenticationMidleware(), (req, res, next) => {
         var storeid = session.storeid;
 
 
-        var new_query = "SELECT log_type FROM tb_audit WHERE log_type<>'' AND log_type<>'null' "+ 
-        " GROUP BY log_type ORDER BY auditid DESC";
+        var new_query = "SELECT log_type FROM tb_audit WHERE log_type<>'' AND log_type<>'null' " +
+            " GROUP BY log_type ORDER BY auditid DESC";
         mysql.queryCustom(new_query)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10388,19 +10351,19 @@ router.post('/log_type', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5280-log_type');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6792-log_type');
+        console2.log('Error', 'Catch Expection' + e, '6792-log_type');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6799-log_type');
+            console2.log('Error', 'Catch Expection' + e, '6799-log_type');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10416,9 +10379,9 @@ router.post('/getBrandName', authenticationMidleware(), (req, res, next) => {
     try {
         var session = req.session;
         mysql.queryCustom("SELECT DISTINCT(brand) As brand_name,SC.code AS skucode " +
-                " FROM `stock_count` SC " +
-                "RIGHT JOIN product_item_master PM ON SC.code = PM.skucode GROUP BY PM.brand")
-            .then(function(result) {
+            " FROM `stock_count` SC " +
+            "RIGHT JOIN product_item_master PM ON SC.code = PM.skucode GROUP BY PM.brand")
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10426,19 +10389,19 @@ router.post('/getBrandName', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5301-getBrandName');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6829-getBrandNam');
+        console2.log('Error', 'Catch Expection' + e, '6829-getBrandNam');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6836-getBrandNam');
+            console2.log('Error', 'Catch Expection' + e, '6836-getBrandNam');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10466,9 +10429,9 @@ router.post('/getBrandNameNew', authenticationMidleware(), (req, res, next) => {
         }
 
         mysql.queryCustom("SELECT DISTINCT(brand_name) As brand_name,SC.code AS skucode " +
-                " FROM `" + stock_count_tb + "` SC where brand_name<>'null'" +
-                " GROUP BY SC.brand_name")
-            .then(function(result) {
+            " FROM `" + stock_count_tb + "` SC where brand_name<>'null'" +
+            " GROUP BY SC.brand_name")
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10476,19 +10439,19 @@ router.post('/getBrandNameNew', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5319-getBrandNameNew');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6878-getBrandNameNew');
+        console2.log('Error', 'Catch Expection' + e, '6878-getBrandNameNew');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6885-getBrandNameNew');
+            console2.log('Error', 'Catch Expection' + e, '6885-getBrandNameNew');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10503,9 +10466,9 @@ router.post('/getBrandNameNewForinventory', authenticationMidleware(), (req, res
         var session = req.session;
 
         mysql.queryCustom("SELECT DISTINCT(brand) As brand_name" +
-                " FROM epc epc where brand<>'null'" +
-                " GROUP BY brand")
-            .then(function(result) {
+            " FROM epc epc where brand<>'null'" +
+            " GROUP BY brand")
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10513,19 +10476,19 @@ router.post('/getBrandNameNewForinventory', authenticationMidleware(), (req, res
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5319-getBrandNameNewForinventory');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6878-getBrandNameNewForinventory');
+        console2.log('Error', 'Catch Expection' + e, '6878-getBrandNameNewForinventory');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6885-getBrandNameNewForinventory');
+            console2.log('Error', 'Catch Expection' + e, '6885-getBrandNameNewForinventory');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10539,8 +10502,8 @@ router.post('/getSkuCode', authenticationMidleware(), (req, res, next) => {
     try {
         var session = req.session;
         mysql.queryCustom("SELECT SC.code AS skucode  FROM `stock_count` SC " +
-                " INNER JOIN product_item_master PM ON SC.code = PM.skucode group by SC.code")
-            .then(function(result) {
+            " INNER JOIN product_item_master PM ON SC.code = PM.skucode group by SC.code")
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10548,19 +10511,19 @@ router.post('/getSkuCode', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5337-getSkuCode');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6912-getSkuCode');
+        console2.log('Error', 'Catch Expection' + e, '6912-getSkuCode');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6919-getSkuCode');
+            console2.log('Error', 'Catch Expection' + e, '6919-getSkuCode');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10574,7 +10537,7 @@ router.post('/Epc', authenticationMidleware(), (req, res, next) => {
     try {
         var session = req.session;
         mysql.queryCustom("SELECT epc FROM `epc` SC GROUP BY epc")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10582,19 +10545,19 @@ router.post('/Epc', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5354-Epc');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6945-Epc');
+        console2.log('Error', 'Catch Expection' + e, '6945-Epc');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6952-Epc');
+            console2.log('Error', 'Catch Expection' + e, '6952-Epc');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10608,7 +10571,7 @@ router.post('/stockCountData', authenticationMidleware(), (req, res, next) => {
     try {
         var session = req.session;
         mysql.querySelect("stock_count", " order by id desc", "*")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10616,19 +10579,19 @@ router.post('/stockCountData', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5371-stockCountData');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '6912-getSkuCode');
+        console2.log('Error', 'Catch Expection' + e, '6912-getSkuCode');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '6985-getSkuCode');
+            console2.log('Error', 'Catch Expection' + e, '6985-getSkuCode');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10651,7 +10614,7 @@ router.post('/GetEditUserRecord', authenticationMidleware(), (req, res, next) =>
             " WHERE US.id= '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
         mysql.queryCustom(query_new)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10659,19 +10622,19 @@ router.post('/GetEditUserRecord', authenticationMidleware(), (req, res, next) =>
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5397-GetEditUserRecord');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7020-GetEditUserRecord');
+        console2.log('Error', 'Catch Expection' + e, '7020-GetEditUserRecord');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7027-GetEditUserRecord');
+            console2.log('Error', 'Catch Expection' + e, '7027-GetEditUserRecord');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10690,7 +10653,7 @@ router.post('/GetHandHeldDeviceRecord', authenticationMidleware(), (req, res, ne
             " WHERE id= '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
         mysql.queryCustom(query_new)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10698,19 +10661,19 @@ router.post('/GetHandHeldDeviceRecord', authenticationMidleware(), (req, res, ne
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5419-GetHandHeldDeviceRecord');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7058-GetHandHeldDeviceRecord');
+        console2.log('Error', 'Catch Expection' + e, '7058-GetHandHeldDeviceRecord');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7065-GetHandHeldDeviceRecord');
+            console2.log('Error', 'Catch Expection' + e, '7065-GetHandHeldDeviceRecord');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10729,7 +10692,7 @@ router.post('/GetEditPrinterRecord', authenticationMidleware(), (req, res, next)
             " WHERE id = '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
         mysql.queryCustom(query_new)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10737,19 +10700,19 @@ router.post('/GetEditPrinterRecord', authenticationMidleware(), (req, res, next)
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5441-GetEditPrinterRecord');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7096-GetEditPrinterRecord');
+        console2.log('Error', 'Catch Expection' + e, '7096-GetEditPrinterRecord');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7103-GetEditPrinterRecord');
+            console2.log('Error', 'Catch Expection' + e, '7103-GetEditPrinterRecord');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10768,7 +10731,7 @@ router.post('/GetEditStoreRecord', authenticationMidleware(), (req, res, next) =
             " WHERE storeid = '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
         mysql.queryCustom(query_new)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10776,19 +10739,19 @@ router.post('/GetEditStoreRecord', authenticationMidleware(), (req, res, next) =
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5463-GetEditStoreRecord');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7134-GetEditStoreRecord');
+        console2.log('Error', 'Catch Expection' + e, '7134-GetEditStoreRecord');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7141-GetEditStoreRecord');
+            console2.log('Error', 'Catch Expection' + e, '7141-GetEditStoreRecord');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10807,7 +10770,7 @@ router.post('/GetEditRolesRecord', authenticationMidleware(), (req, res, next) =
             " WHERE role_id= '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
         mysql.queryCustom(query_new)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10815,19 +10778,19 @@ router.post('/GetEditRolesRecord', authenticationMidleware(), (req, res, next) =
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5485-GetEditRolesRecord');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7172-GetEditRolesRecord');
+        console2.log('Error', 'Catch Expection' + e, '7172-GetEditRolesRecord');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7179-GetEditRolesRecord');
+            console2.log('Error', 'Catch Expection' + e, '7179-GetEditRolesRecord');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10846,7 +10809,7 @@ router.post('/GetEditZip', authenticationMidleware(), (req, res, next) => {
             " WHERE id= '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
         mysql.queryCustom(query_new)
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -10854,19 +10817,19 @@ router.post('/GetEditZip', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5507-GetEditZip');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7210-GetEditZip');
+        console2.log('Error', 'Catch Expection' + e, '7210-GetEditZip');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7217-GetEditZip');
+            console2.log('Error', 'Catch Expection' + e, '7217-GetEditZip');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10890,7 +10853,7 @@ function check_storname(storname) {
 
 
 
-            mysql.queryCustom("SELECT storename FROM tb_store WHERE storename= '" + name + "' ").then(function(result) {
+            mysql.queryCustom("SELECT storename FROM tb_store WHERE storename= '" + name + "' ").then(function (result) {
 
                 //console.log("<<<<<<<<<<<<<<<<<<<");
                 // console.log(util.inspect(result, {showHidden: false, depth: null}))
@@ -10916,14 +10879,14 @@ function check_storname(storname) {
 
         })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7267-check_storname');
+        console2.log('Error', 'Catch Expection' + e, '7267-check_storname');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7274-check_storname');
+            console2.log('Error', 'Catch Expection' + e, '7274-check_storname');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -10943,7 +10906,7 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
         function AddStore() {
             return new Promise((resolve) => {
                 var create_STS = '';
-                check_storname(data.StoreName).then(function(sendparam) {
+                check_storname(data.StoreName).then(function (sendparam) {
 
                     var error_name = sendparam.error;
                     //console.log(" after geeting sendparam ");
@@ -10967,7 +10930,7 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                         entryData["store_type"] = data.store_type;
 
 
-                        mysql.queryInsert("tb_store", entryData).then(function(result) {
+                        mysql.queryInsert("tb_store", entryData).then(function (result) {
                             resolve(result);
 
 
@@ -10983,7 +10946,7 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                                 FROM stock_count_` + data.StoreName + `
                                 WHERE code = var_sku and stockcountdate=var_date and storeid=var_store_id;
                                 IF total =0 THEN
-                                   insert into stock_count_`+data.StoreName+` set code=var_sku, stockcountdate=var_date, initial=0,counted=1,unexpected=1, storeid=var_store_id,
+                                   insert into stock_count_`+ data.StoreName + ` set code=var_sku, stockcountdate=var_date, initial=0,counted=1,unexpected=1, storeid=var_store_id,
                                     counted_sf=(SELECT count(*) FROM epc_temp where 
                                     item_code =var_sku and check_date=var_date and place='salesfloor' ),
                                     counted_sr=(SELECT count(*) FROM epc_temp where 
@@ -11018,16 +10981,16 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                                 END IF;
                                 END
                                 ;`
-                            mysql.queryCustom(create_SP).then(function() {
+                            mysql.queryCustom(create_SP).then(function () {
 
 
 
-                            }).catch(function(error) {
+                            }).catch(function (error) {
                                 console2.log('Error', JSON.stringify(error), '5508-create_SP');
                                 console.log(error);
                             });
 
-                            var create_table = `CREATE TABLE stock_count_`+data.StoreName+` (
+                            var create_table = `CREATE TABLE stock_count_` + data.StoreName + ` (
                                 id int(20) NOT NULL,
                                 storeid varchar(128) DEFAULT NULL,
                                 departmentid varchar(128) DEFAULT NULL,
@@ -11056,16 +11019,16 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                                 totalprice varchar(250) DEFAULT NULL
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
 
-                            mysql.queryCustom(create_table).then(function() {
+                            mysql.queryCustom(create_table).then(function () {
 
 
-                            }).catch(function(error) {
+                            }).catch(function (error) {
                                 console2.log('Error', JSON.stringify(error), '5903-create_table');
                                 console.log(error);
                             });
 
                             var new_sp_store = `
-                                                CREATE  PROCEDURE \`stock_count_check_`+data.StoreName+`\`( 
+                                                CREATE  PROCEDURE \`stock_count_check_`+ data.StoreName + `\`( 
                                                     IN var_store VARCHAR(255),
                                                     IN var_date VARCHAR(255))
                                                 BEGIN
@@ -11076,16 +11039,16 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                                                     
                                                     IF data_from_stock_count != ''  THEN
                                                     
-                                                        select count(*) INTO data_from_stock_count_storevise FROM stock_count_`+data.StoreName+` WHERE NOT EXISTS ( SELECT 1
+                                                        select count(*) INTO data_from_stock_count_storevise FROM stock_count_`+ data.StoreName + ` WHERE NOT EXISTS ( SELECT 1
                                                         from
                                                             stock_count_temp 
                                                         WHERE
-                                                            stock_count_`+data.StoreName+`.code = stock_count_temp.code and storeid = var_store and stockcountdate = var_date
+                                                            stock_count_`+ data.StoreName + `.code = stock_count_temp.code and storeid = var_store and stockcountdate = var_date
                                                            );
                                                        
                                                        IF data_from_stock_count_storevise !='' THEN 
                                                         
-                                                       INSERT INTO stock_count_`+data.StoreName+`
+                                                       INSERT INTO stock_count_`+ data.StoreName + `
                                                   (storeid, departmentid, code, initial, counted, delta, 
                                                   unexpected, missing, expected, accuracy, expected_sf,
                                                    expected_sr, counted_sf, counted_sr, scanned, 
@@ -11098,11 +11061,11 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                                                 totalprice 
                                                 FROM stock_count_temp WHERE NOT EXISTS ( SELECT 1
                                                     from
-                                                        stock_count_`+data.StoreName+`
-                                                WHERE stock_count_`+data.StoreName+`.code = stock_count_temp.code and storeid = var_store and stockcountdate = var_date
+                                                        stock_count_`+ data.StoreName + `
+                                                WHERE stock_count_`+ data.StoreName + `.code = stock_count_temp.code and storeid = var_store and stockcountdate = var_date
                                                    );
                                                    
-                                                    UPDATE stock_count_`+data.StoreName+` t1
+                                                    UPDATE stock_count_`+ data.StoreName + ` t1
                                                 INNER JOIN stock_count_temp t2
                                                 SET t1.storeid= t2.storeid,t1.departmentid= t2.departmentid,t1.code=t2.code,t1.initial=t2.initial,t1.counted=t2.counted,t1.delta=t2.delta,t1.unexpected=t2.unexpected,t1.missing=t2.missing,t1.expected=t2.expected,t1.accuracy=t2.expected,t1.expected_sf=t2.expected_sf,t1.expected_sr=t2.expected_sr,t1.counted_sf=t2.counted_sf,t1.counted_sr=t2.counted_sr,t1.scanned=t2.scanned,t1.stockcountdate=t2.stockcountdate,t1.brand_name=t2.brand_name,t1.color=t2.color,t1.size=t2.size,t1.style=t2.style,t1.price=t2.price,t1.season=t2.season,t1.is_deleted=t2.is_deleted,t1.suppliername=t2.suppliername,t1.totalprice=t2.totalprice
                                                 WHERE t1.code = t2.code AND t1.stockcountdate=var_date;
@@ -11117,17 +11080,17 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                                                     
                                                 END;`
 
-                                            mysql.queryCustom(new_sp_store).then(function() {
+                            mysql.queryCustom(new_sp_store).then(function () {
 
 
-                                            }).catch(function(error) {
-                                                console2.log('Error', JSON.stringify(error), '5903-new_sp_store');
-                                                console.log(error);
-                                            });    
+                            }).catch(function (error) {
+                                console2.log('Error', JSON.stringify(error), '5903-new_sp_store');
+                                console.log(error);
+                            });
 
 
 
-                        }).catch(function(error) {
+                        }).catch(function (error) {
                             console2.log('Error', JSON.stringify(error), '5593-AddStore');
                             throw new Error(error);
                         });
@@ -11136,7 +11099,7 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
             });
         }
         AddStore()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -11155,19 +11118,19 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5619-AddStore');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7444-AddStore');
+        console2.log('Error', 'Catch Expection' + e, '7444-AddStore');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7451-AddStore');
+            console2.log('Error', 'Catch Expection' + e, '7451-AddStore');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11206,9 +11169,9 @@ router.post('/AddUserRole', authenticationMidleware(), (req, res, next) => {
                     entryData["user_permission"] = data.user_permission;
                     //entryData["stockcountdate"] = data.StockCountDate;
 
-                    mysql.queryInsert("tb_roles", entryData).then(function(result) {
+                    mysql.queryInsert("tb_roles", entryData).then(function (result) {
                         res.end(JSON.stringify(result.results));
-                    }).catch(function(error) {
+                    }).catch(function (error) {
                         console2.log('Error', JSON.stringify(result.error), '5656-AddUserRole');
                         res.end(result.error);
                     });
@@ -11216,20 +11179,20 @@ router.post('/AddUserRole', authenticationMidleware(), (req, res, next) => {
             }
             AddUserRoles()
 
-                .catch(function(error) {
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '5664-AddUserRole');
                     throw new Error(error);
                 })
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7505-AddUserRole');
+        console2.log('Error', 'Catch Expection' + e, '7505-AddUserRole');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7512-AddUserRole');
+            console2.log('Error', 'Catch Expection' + e, '7512-AddUserRole');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11241,7 +11204,7 @@ router.post('/AddUserRole', authenticationMidleware(), (req, res, next) => {
 
 //SELECT * FROM `product_item_master` WHERE 1 AND skucode = '12211' OR ean_no = '11221'
 
-function check_product_item_master(skucode,ean_no) {
+function check_product_item_master(skucode, ean_no) {
     try {
         return new Promise((resolve) => {
 
@@ -11251,16 +11214,16 @@ function check_product_item_master(skucode,ean_no) {
             var ean_no22 = ean_no;
 
 
-           
+
             var sku_code_send = '';
             var ean_no_send = '';
 
             var sku_error = '';
             var ean_error = '';
 
-            mysql.queryCustom("SELECT * FROM `product_item_master` WHERE 1 AND skucode = '"+skucode22+"' OR ean_no = '"+ean_no22+"'").then(function(result) {
+            mysql.queryCustom("SELECT * FROM `product_item_master` WHERE 1 AND skucode = '" + skucode22 + "' OR ean_no = '" + ean_no22 + "'").then(function (result) {
 
-                
+
 
                 if (result.results.length !== 0) {
                     sku_code_send = result.results[0].skucode;
@@ -11268,14 +11231,14 @@ function check_product_item_master(skucode,ean_no) {
                 }
                 // errorean = 'Sku Code or Ean no already inserted';
 
-                if (sku_code_send == skucode22 ) {
+                if (sku_code_send == skucode22) {
                     sku_error = 'Sku already inserted !';
 
                 } else {
                     sku_code_send = skucode22;
                 }
 
-                if (ean_no_send == ean_no22 ) {
+                if (ean_no_send == ean_no22) {
                     ean_error = 'Ean no already inserted !';
 
                 } else {
@@ -11283,11 +11246,11 @@ function check_product_item_master(skucode,ean_no) {
                 }
 
 
-                
+
                 let sendparam = {
                     error: {
-                      sku_error:sku_error,
-                      ean_error:ean_error 
+                        sku_error: sku_error,
+                        ean_error: ean_error
                     },
                     sku_code_send: sku_code_send,
                     ean_no_send: ean_no_send,
@@ -11298,14 +11261,14 @@ function check_product_item_master(skucode,ean_no) {
 
         })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7267-check_product_item_master');
+        console2.log('Error', 'Catch Expection' + e, '7267-check_product_item_master');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7274-check_product_item_master');
+            console2.log('Error', 'Catch Expection' + e, '7274-check_product_item_master');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11330,30 +11293,30 @@ router.post('/AddProduct_item_master', authenticationMidleware(), (req, res, nex
 
                     var entryData = [];
 
-                    check_product_item_master(data.skucode,data.ean_no).then(function(sendparam) {
+                    check_product_item_master(data.skucode, data.ean_no).then(function (sendparam) {
 
 
                         var error22 = sendparam.error;
                         //console.log(error22);
-                       
+
                         if (error22.sku_error !== '' || error22.ean_error !== '') {
                             //console.log(sendparam);
-                           
+
 
                             var sku_code_send22 = error22.sku_error;
                             var ean_no_send22 = error22.ean_error;
 
                             res.end(JSON.stringify({
                                 "error22": {
-                                    sku_error:sku_code_send22,
-                                    ean_error:ean_no_send22
+                                    sku_error: sku_code_send22,
+                                    ean_error: ean_no_send22
                                 }
                             }));
-                        }else{
-                           // console.log('elseeeeeeeeeeeeeeeeeeeeeeeeee');
+                        } else {
+                            // console.log('elseeeeeeeeeeeeeeeeeeeeeeeeee');
 
                             var user_id = session.passport.user;
-                           
+
                             entryData["skucode"] = data.skucode;
                             entryData["product_des"] = data.product_des;
                             entryData["item_code"] = data.item_code;
@@ -11395,44 +11358,44 @@ router.post('/AddProduct_item_master', authenticationMidleware(), (req, res, nex
                             entryData["country"] = data.country;
 
                             entryData["supplier_no"] = data.supplier_no;
-                            entryData["po_supplier_no"] = data.po_supplier_no; 
+                            entryData["po_supplier_no"] = data.po_supplier_no;
 
-                            mysql.queryInsert("product_item_master", entryData).then(function(result) {
+                            mysql.queryInsert("product_item_master", entryData).then(function (result) {
                                 res.end(JSON.stringify(result.results));
-                            }).catch(function(error) {
+                            }).catch(function (error) {
                                 console2.log('Error', JSON.stringify(result.error), '5656-AddProduct_item_master');
                                 res.end(result.error);
                             });
 
 
- 
+
 
                         }
 
-                        
-                    })    
+
+                    })
 
 
 
-                   
+
                 });
             }
             AddProduct_item()
 
-                .catch(function(error) {
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '5664-AddProduct_item_master');
                     throw new Error(error);
                 })
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7505-AddProduct_item_master');
+        console2.log('Error', 'Catch Expection' + e, '7505-AddProduct_item_master');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7512-AddProduct_item_master');
+            console2.log('Error', 'Catch Expection' + e, '7512-AddProduct_item_master');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11456,7 +11419,7 @@ function check_username_users(username2) {
 
 
 
-            mysql.queryCustom("SELECT username FROM users WHERE username= '" + name + "' ").then(function(result) {
+            mysql.queryCustom("SELECT username FROM users WHERE username= '" + name + "' ").then(function (result) {
 
                 //console.log("<<<<<<<<<<<<<<<<<<<");
                 // console.log(util.inspect(result, {showHidden: false, depth: null}))
@@ -11482,14 +11445,14 @@ function check_username_users(username2) {
 
         })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7560-check_username_users');
+        console2.log('Error', 'Catch Expection' + e, '7560-check_username_users');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7567-check_username_users');
+            console2.log('Error', 'Catch Expection' + e, '7567-check_username_users');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11510,7 +11473,7 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
             function AddUser() {
                 return new Promise((resolve) => {
 
-                    check_username_users(data.username).then(function(sendparam) {
+                    check_username_users(data.username).then(function (sendparam) {
 
                         var error_name = sendparam.error;
                         //console.log(" after geeting sendparam ");
@@ -11539,10 +11502,10 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
                             entryData["status"] = data.status;
 
                             mysql.queryInsert("users", entryData)
-                                .then(function(result) {
+                                .then(function (result) {
                                     res.end(JSON.stringify(result.results));
                                 })
-                                .catch(function(error) {
+                                .catch(function (error) {
                                     console2.log('Error', JSON.stringify(result.error), '5751-AddUser');
                                     res.end(result.error);
                                 });
@@ -11553,19 +11516,19 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
                 });
             }
             AddUser()
-                .catch(function(error) {
+                .catch(function (error) {
                     throw new Error(error);
                 })
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7635-AddUser');
+        console2.log('Error', 'Catch Expection' + e, '7635-AddUser');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7642-AddUser');
+            console2.log('Error', 'Catch Expection' + e, '7642-AddUser');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11581,43 +11544,43 @@ router.post('/addretailapi', authenticationMidleware(), (req, res, next) => {
         var data = req.body;
         var session = req.session;
         //if (mysql.check_permission('UserRoles', session.user_permission)) {
-            function AddRetailApi() {
-                return new Promise((resolve) => {
-                    var user_id = session.passport.user;
-                    var entryData = [];
+        function AddRetailApi() {
+            return new Promise((resolve) => {
+                var user_id = session.passport.user;
+                var entryData = [];
 
-                    entryData["request_name"] = data.request_name;
-                    entryData["envoirment"] = data.envoirment;
-                    entryData["endpoint"] = data.endpoint;
-                    entryData["payload"] = data.payload;
-                    entryData["server_protocol"] = data.server_protocol;
-                    
-                    
-                    mysql.queryInsert("retailapis", entryData)
-                        .then(function(result) {
-                            res.end(JSON.stringify(result.results));
-                        })
-                        .catch(function(error) {
-                            console2.log('Error', JSON.stringify(result.error), '7684-AddRetailApi');
-                            res.end(result.error);
-                        });
-                });
-            }
-            AddRetailApi()
-                .catch(function(error) {
-                    console2.log('Error', JSON.stringify(result.error), '7691-AddRetailApi');
-                    throw new Error(error);
-                })
-       // }
+                entryData["request_name"] = data.request_name;
+                entryData["envoirment"] = data.envoirment;
+                entryData["endpoint"] = data.endpoint;
+                entryData["payload"] = data.payload;
+                entryData["server_protocol"] = data.server_protocol;
+
+
+                mysql.queryInsert("retailapis", entryData)
+                    .then(function (result) {
+                        res.end(JSON.stringify(result.results));
+                    })
+                    .catch(function (error) {
+                        console2.log('Error', JSON.stringify(result.error), '7684-AddRetailApi');
+                        res.end(result.error);
+                    });
+            });
+        }
+        AddRetailApi()
+            .catch(function (error) {
+                console2.log('Error', JSON.stringify(result.error), '7691-AddRetailApi');
+                throw new Error(error);
+            })
+        // }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7696-AddRetailApi');
+        console2.log('Error', 'Catch Expection' + e, '7696-AddRetailApi');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7703-AddRetailApi');
+            console2.log('Error', 'Catch Expection' + e, '7703-AddRetailApi');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11646,32 +11609,32 @@ router.post('/AddZPL', authenticationMidleware(), (req, res, next) => {
                     entryData["status"] = data.status;
                     entryData["remarks"] = escape(data.remarks);
                     //entryData["stockcountdate"] = data.StockCountDate;
-                   
+
                     mysql.queryInsert("zpl", entryData)
-                        .then(function(result) {
+                        .then(function (result) {
                             res.end(JSON.stringify(result.results));
-                    })
-                    .catch(function(error) {
-                        console2.log('Error', JSON.stringify(error.error), '5791-AddZPL');
-                        res.end(JSON.stringify(error.error));
-                    });
+                        })
+                        .catch(function (error) {
+                            console2.log('Error', JSON.stringify(error.error), '5791-AddZPL');
+                            res.end(JSON.stringify(error.error));
+                        });
                 });
             }
             AddZpl()
-                .catch(function(error) {
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(errorc.error), '5798-AddZPL');
                     throw new Error(error);
                 })
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7688-AddZPL');
+        console2.log('Error', 'Catch Expection' + e, '7688-AddZPL');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7695-AddZPL');
+            console2.log('Error', 'Catch Expection' + e, '7695-AddZPL');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11694,7 +11657,7 @@ function check_username(username2) {
 
 
 
-            mysql.queryCustom("SELECT username FROM handheld_devices WHERE username= '" + name + "' ").then(function(result) {
+            mysql.queryCustom("SELECT username FROM handheld_devices WHERE username= '" + name + "' ").then(function (result) {
 
                 //console.log("<<<<<<<<<<<<<<<<<<<");
                 // console.log(util.inspect(result, {showHidden: false, depth: null}))
@@ -11720,14 +11683,14 @@ function check_username(username2) {
 
         })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7744-check_username');
+        console2.log('Error', 'Catch Expection' + e, '7744-check_username');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7751-check_username');
+            console2.log('Error', 'Catch Expection' + e, '7751-check_username');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11748,88 +11711,88 @@ router.post('/AddHandHeldDevice', authenticationMidleware(), (req, res, next) =>
 
         //console.log("i am enter in AddHandHeldDevice");
         //if (mysql.check_permission('handheldDevices', session.user_permission)) {
-            //console.log("permission condition true");
+        //console.log("permission condition true");
 
-            function HandheldDevices() {
-                
-                return new Promise((resolve) => {
+        function HandheldDevices() {
 
-                    var username = req.body.UserName;
-                  
+            return new Promise((resolve) => {
 
-                    check_username(username).then(function(sendparam) {
-
-                    
+                var username = req.body.UserName;
 
 
-                        var error_name = sendparam.error;
-                   
-                        if (error_name !== '0') {
-                            //console.log(" in srrorrrrr ");
-                            res.end(JSON.stringify({
-                                "error22": error_name
-                            }));
-                        } else {
-
-                            //var user_id = session.passport.user;
-                            var entryData = [];
-                            var password = '';
-
-                            // console.log(" before calling genSaltSync");
-
-                            let salt = bcrypt.genSaltSync(10);
-                            password = bcrypt.hashSync(data.Password, salt);
-                            //console.log(" after calling genSaltSync");
-                            //password = bcrypt.hashSync(data.Password, 10);
-
-                            entryData["username"] = req.body.UserName;
-                            entryData["password"] = password;
-                            entryData["device_unique_id"] = data.DeviceID;
-                            entryData["ns_connection"] = data.NonSecureIP;
-                            entryData["ss_connection"] = data.SecureIP;
-                            entryData["device_ip"] = data.DeveiceIP;
-                            entryData["server_ip"] = data.ServerIP;
-                            entryData["status"] = data.status;
-                            entryData["storeid"] = data.StoreID;
-                            entryData["description"] = data.Description;
-
-                          
-                            mysql.queryInsert("handheld_devices", entryData).then(function(result) {
-                                //res.end(JSON.stringify(result.results));
-                                res.end(JSON.stringify({status: "1",title: "Success",icon: "success",text: "Device Added Successfully"}));
-                            }).catch(function(error) {
-                                console2.log('Error', JSON.stringify(error.error), '5907-AddHandHeldDevice');
-                                res.end(error.error);
-                            });
-
-                        }
-
-                    })
+                check_username(username).then(function (sendparam) {
 
 
 
 
+                    var error_name = sendparam.error;
+
+                    if (error_name !== '0') {
+                        //console.log(" in srrorrrrr ");
+                        res.end(JSON.stringify({
+                            "error22": error_name
+                        }));
+                    } else {
+
+                        //var user_id = session.passport.user;
+                        var entryData = [];
+                        var password = '';
+
+                        // console.log(" before calling genSaltSync");
+
+                        let salt = bcrypt.genSaltSync(10);
+                        password = bcrypt.hashSync(data.Password, salt);
+                        //console.log(" after calling genSaltSync");
+                        //password = bcrypt.hashSync(data.Password, 10);
+
+                        entryData["username"] = req.body.UserName;
+                        entryData["password"] = password;
+                        entryData["device_unique_id"] = data.DeviceID;
+                        entryData["ns_connection"] = data.NonSecureIP;
+                        entryData["ss_connection"] = data.SecureIP;
+                        entryData["device_ip"] = data.DeveiceIP;
+                        entryData["server_ip"] = data.ServerIP;
+                        entryData["status"] = data.status;
+                        entryData["storeid"] = data.StoreID;
+                        entryData["description"] = data.Description;
 
 
-                });
-            }
-            HandheldDevices()
-                .catch(function(error) {
-                    console2.log('Error', JSON.stringify(error), '5924-AddHandHeldDevice');
-                    throw new Error(error);
+                        mysql.queryInsert("handheld_devices", entryData).then(function (result) {
+                            //res.end(JSON.stringify(result.results));
+                            res.end(JSON.stringify({ status: "1", title: "Success", icon: "success", text: "Device Added Successfully" }));
+                        }).catch(function (error) {
+                            console2.log('Error', JSON.stringify(error.error), '5907-AddHandHeldDevice');
+                            res.end(error.error);
+                        });
+
+                    }
+
                 })
+
+
+
+
+
+
+            });
+        }
+        HandheldDevices()
+            .catch(function (error) {
+                console2.log('Error', JSON.stringify(error), '5924-AddHandHeldDevice');
+                throw new Error(error);
+            })
         /*} else {
             res.end("No Permission");
         }*/
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7850-AddHandHeldDevice');
+        console2.log('Error', 'Catch Expection' + e, '7850-AddHandHeldDevice');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7857-AddHandHeldDevice');
+            console2.log('Error', 'Catch Expection' + e, '7857-AddHandHeldDevice');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11862,10 +11825,10 @@ router.post('/AddPrinter', authenticationMidleware(), (req, res, next) => {
                 //entryData["stockcountdate"] = data.StockCountDate;
 
                 mysql.queryInsert("printer", entryData)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error.error), '5960-AddPrinter');
                         res.end(error.error);
                     });
@@ -11874,20 +11837,20 @@ router.post('/AddPrinter', authenticationMidleware(), (req, res, next) => {
         AddPrinter()
 
 
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '5969-AddPrinter');
                 throw new Error(error);
             })
         // } 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7907-AddPrinter');
+        console2.log('Error', 'Catch Expection' + e, '7907-AddPrinter');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7914-AddPrinter');
+            console2.log('Error', 'Catch Expection' + e, '7914-AddPrinter');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -11942,18 +11905,18 @@ router.post('/EditHandHeldDevice', authenticationMidleware(), (req, res, next) =
                     id: data.hidden_id,
                 }
                 mysql.queryUpdate("handheld_devices", entryData, whereQuery)
-                    .then(function(result) {
-                        res.end(JSON.stringify({status: "1",title: "Success",icon: "success",text: "Device Updated Successfully"}));
+                    .then(function (result) {
+                        res.end(JSON.stringify({ status: "1", title: "Success", icon: "success", text: "Device Updated Successfully" }));
                         //res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '6024-EditHandHeldDevice');
                         res.end(JSON.stringify(error));
                     });
             });
         }
         HandheldDevice()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -11961,19 +11924,19 @@ router.post('/EditHandHeldDevice', authenticationMidleware(), (req, res, next) =
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6039-EditHandHeldDevice');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '7992-EditHandHeldDevice');
+        console2.log('Error', 'Catch Expection' + e, '7992-EditHandHeldDevice');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '7999-EditHandHeldDevice');
+            console2.log('Error', 'Catch Expection' + e, '7999-EditHandHeldDevice');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12027,17 +11990,17 @@ router.post('/EditUserRecord', authenticationMidleware(), (req, res, next) => {
                     id: data.id,
                 }
                 mysql.queryUpdate("users", entryData, whereQuery)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '6092-EditUserRecord');
                         res.end(JSON.stringify(error));
                     });
             });
         }
         editUsers()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -12045,19 +12008,19 @@ router.post('/EditUserRecord', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6107-EditUserRecord');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8076-EditUserRecord');
+        console2.log('Error', 'Catch Expection' + e, '8076-EditUserRecord');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8083-EditUserRecord');
+            console2.log('Error', 'Catch Expection' + e, '8083-EditUserRecord');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12097,17 +12060,17 @@ router.post('/EditPrinter', authenticationMidleware(), (req, res, next) => {
                 }
                 //"printer",entryData,whereQuery
                 mysql.queryUpdate("printer", entryData, whereQuery)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '6146-EditPrinter');
                         res.end(JSON.stringify(error));
                     });
             });
         }
         editUsers()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -12115,19 +12078,19 @@ router.post('/EditPrinter', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6161-EditPrinter');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8146-EditPrinter');
+        console2.log('Error', 'Catch Expection' + e, '8146-EditPrinter');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8153-EditPrinter');
+            console2.log('Error', 'Catch Expection' + e, '8153-EditPrinter');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12163,17 +12126,17 @@ router.post('/EditStore', authenticationMidleware(), (req, res, next) => {
                 }
                 //"printer",entryData,whereQuery
                 mysql.queryUpdate("tb_store", entryData, whereQuery)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '6195-EditStore');
                         res.end(JSON.stringify(error));
                     });
             });
         }
         editUsers()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -12181,19 +12144,19 @@ router.post('/EditStore', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6210-EditStore');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8211-EditStore');
+        console2.log('Error', 'Catch Expection' + e, '8211-EditStore');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8218-EditStore');
+            console2.log('Error', 'Catch Expection' + e, '8218-EditStore');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12220,24 +12183,24 @@ router.post('/EditRetailApi', authenticationMidleware(), (req, res, next) => {
                 entryData["endpoint"] = data.endpoint;
                 entryData["payload"] = data.payload;
                 entryData["server_protocol"] = data.server_protocol;
-              
+
 
                 var whereQuery = {
                     id: data.Retail_id,
                 }
                 //"printer",entryData,whereQuery
                 mysql.queryUpdate("retailapis", entryData, whereQuery)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '8315-EditRetailApi');
                         res.end(JSON.stringify(error));
                     });
             });
         }
         EditRetailApi()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -12245,19 +12208,19 @@ router.post('/EditRetailApi', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '8330-EditRetailApi');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8334-EditRetailApi');
+        console2.log('Error', 'Catch Expection' + e, '8334-EditRetailApi');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8341-EditRetailApi');
+            console2.log('Error', 'Catch Expection' + e, '8341-EditRetailApi');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12289,17 +12252,17 @@ router.post('/EditRoles', authenticationMidleware(), (req, res, next) => {
                     role_id: data.id,
                 }
                 mysql.queryUpdate("tb_roles", entryData, whereQuery)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '6239-EditRoles');
                         res.end(JSON.stringify(error));
                     });
             });
         }
         editUsers()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -12307,19 +12270,19 @@ router.post('/EditRoles', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6254-EditRoles');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8272-EditRoles');
+        console2.log('Error', 'Catch Expection' + e, '8272-EditRoles');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8279-EditRoles');
+            console2.log('Error', 'Catch Expection' + e, '8279-EditRoles');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12352,16 +12315,16 @@ router.post('/EditZpl', authenticationMidleware(), (req, res, next) => {
                 }
                 // console.log("zpl", entryData, whereQuery);
                 mysql.queryUpdate("zpl", entryData, whereQuery)
-                    .then(function(result) {
+                    .then(function (result) {
                         res.end(JSON.stringify(result.results));
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         res.end(JSON.stringify(result.results));
                     });
             });
         }
         editUsers()
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -12369,19 +12332,19 @@ router.post('/EditZpl', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6298-EditZpl');
                 throw new Error(error);
             })
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8333-EditZpl');
+        console2.log('Error', 'Catch Expection' + e, '8333-EditZpl');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8340-EditZpl');
+            console2.log('Error', 'Catch Expection' + e, '8340-EditZpl');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12395,7 +12358,7 @@ router.post('/userDelete', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('userDelete');
     try {
         mysql.queryCustom("DELETE FROM users Where id = '" + req.body.id + "'")
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12415,7 +12378,7 @@ router.post('/userDelete', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6327-userDelete');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12427,14 +12390,14 @@ router.post('/userDelete', authenticationMidleware(), (req, res, next) => {
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8385-userDelete');
+        console2.log('Error', 'Catch Expection' + e, '8385-userDelete');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8392-userDelete');
+            console2.log('Error', 'Catch Expection' + e, '8392-userDelete');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12448,7 +12411,7 @@ router.post('/RetailDelete', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('RetailDelete');
     try {
         mysql.queryCustom("DELETE FROM retailapis Where id = '" + req.body.id + "'")
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12468,7 +12431,7 @@ router.post('/RetailDelete', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6327-RetailDelete');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12480,14 +12443,14 @@ router.post('/RetailDelete', authenticationMidleware(), (req, res, next) => {
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8385-RetailDelete');
+        console2.log('Error', 'Catch Expection' + e, '8385-RetailDelete');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8392-RetailDelete');
+            console2.log('Error', 'Catch Expection' + e, '8392-RetailDelete');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12507,14 +12470,14 @@ router.post('/storeDelete', authenticationMidleware(), (req, res, next) => {
 
         if (storename !== '' && storename !== undefined) {
             delete_query = "DELETE FROM tb_store Where storeid = '" + req.body.id + "';" +
-                "DROP TABLE IF EXISTS stock_count_" + storename + ";DROP PROCEDURE IF EXISTS `update_stock_count_" + storename + "`;"+ 
+                "DROP TABLE IF EXISTS stock_count_" + storename + ";DROP PROCEDURE IF EXISTS `update_stock_count_" + storename + "`;" +
                 " DROP PROCEDURE IF EXISTS `stock_count_check_" + storename + "`  ";
         } else {
             delete_query = "DELETE FROM tb_store Where storeid = '" + req.body.id + "';"
         }
 
         mysql.queryCustom(delete_query)
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12534,7 +12497,7 @@ router.post('/storeDelete', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6364-storeDelete');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12546,14 +12509,14 @@ router.post('/storeDelete', authenticationMidleware(), (req, res, next) => {
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8448-storeDelete');
+        console2.log('Error', 'Catch Expection' + e, '8448-storeDelete');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8455-storeDelete');
+            console2.log('Error', 'Catch Expection' + e, '8455-storeDelete');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12567,7 +12530,7 @@ router.post('/DeleteDeviceHandheld', authenticationMidleware(), (req, res, next)
     console2.execution_info('DeleteDeviceHandheld');
     try {
         mysql.queryCustom("DELETE FROM handheld_devices Where id = '" + req.body.id + "'")
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12587,7 +12550,7 @@ router.post('/DeleteDeviceHandheld', authenticationMidleware(), (req, res, next)
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6400-DeleteDeviceHandheld');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12599,14 +12562,14 @@ router.post('/DeleteDeviceHandheld', authenticationMidleware(), (req, res, next)
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8500-DeleteDeviceHandheld');
+        console2.log('Error', 'Catch Expection' + e, '8500-DeleteDeviceHandheld');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8507-DeleteDeviceHandheld');
+            console2.log('Error', 'Catch Expection' + e, '8507-DeleteDeviceHandheld');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12622,7 +12585,7 @@ router.post('/zplDelete', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('zplDelete');
     try {
         mysql.queryCustom("DELETE FROM zpl Where id = '" + req.body.id + "'")
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12642,7 +12605,7 @@ router.post('/zplDelete', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6438-zplDelete');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12654,14 +12617,14 @@ router.post('/zplDelete', authenticationMidleware(), (req, res, next) => {
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8554-zplDelete');
+        console2.log('Error', 'Catch Expection' + e, '8554-zplDelete');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8561-zplDelete');
+            console2.log('Error', 'Catch Expection' + e, '8561-zplDelete');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12676,7 +12639,7 @@ router.post('/DeletePrinter', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('DeletePrinter');
     try {
         mysql.queryCustom("DELETE FROM printer Where id = '" + req.body.id + "'")
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12696,7 +12659,7 @@ router.post('/DeletePrinter', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6475-DeletePrinter');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12708,14 +12671,14 @@ router.post('/DeletePrinter', authenticationMidleware(), (req, res, next) => {
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8607-DeletePrinter');
+        console2.log('Error', 'Catch Expection' + e, '8607-DeletePrinter');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8614-DeletePrinter');
+            console2.log('Error', 'Catch Expection' + e, '8614-DeletePrinter');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12730,7 +12693,7 @@ router.post('/RolesDelete', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('RolesDelete');
     try {
         var query_role = "SELECT role_id FROM users";
-        mysql.queryCustom(query_role).then(function(result) {
+        mysql.queryCustom(query_role).then(function (result) {
 
             return new Promise((resolve) => {
                 //var roleid ='';
@@ -12742,14 +12705,14 @@ router.post('/RolesDelete', authenticationMidleware(), (req, res, next) => {
                 }
 
             });
-        }).catch(function(error) {
+        }).catch(function (error) {
             console2.log('Error', JSON.stringify(error), '6506-RolesDelete');
             res.end(error);
         });
 
 
         mysql.queryCustom("DELETE FROM tb_roles WHERE role_id = '" + req.body.id + "'")
-            .then(function(response) {
+            .then(function (response) {
                 if (response.status == "1") {
                     var Message = JSON.stringify({
                         status: "1",
@@ -12769,7 +12732,7 @@ router.post('/RolesDelete', authenticationMidleware(), (req, res, next) => {
                     res.end(Message);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(response.error), '6533-RolesDelete');
                 var errorMessage = JSON.stringify({
                     status: "0",
@@ -12781,14 +12744,14 @@ router.post('/RolesDelete', authenticationMidleware(), (req, res, next) => {
                 res.end(errorMessage);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8680-RolesDelete');
+        console2.log('Error', 'Catch Expection' + e, '8680-RolesDelete');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8687-RolesDelete');
+            console2.log('Error', 'Catch Expection' + e, '8687-RolesDelete');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12826,30 +12789,30 @@ router.post('/sumofStocksummay', authenticationMidleware(), (req, res, next) => 
                 " WHERE 1";
             //console.log(query_new);
 
-            mysql.queryCustom(query_new).then(function(result) {
+            mysql.queryCustom(query_new).then(function (result) {
 
-                    if (result.status == "1") {
-                        res.end(JSON.stringify(result.results));
-                    } else {
-                        console2.log('Error', JSON.stringify(result.error), '6577-sumofStocksummay');
-                        res.end(result.error);
-                    }
+                if (result.status == "1") {
+                    res.end(JSON.stringify(result.results));
+                } else {
+                    console2.log('Error', JSON.stringify(result.error), '6577-sumofStocksummay');
+                    res.end(result.error);
+                }
 
-                })
-                .catch(function(error) {
+            })
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '6583-sumofStocksummay');
                     res.end(error);
                 });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8740-sumofStocksummay');
+        console2.log('Error', 'Catch Expection' + e, '8740-sumofStocksummay');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8747-sumofStocksummay');
+            console2.log('Error', 'Catch Expection' + e, '8747-sumofStocksummay');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12869,7 +12832,7 @@ router.post('/getuserPermissions', authenticationMidleware(), (req, res, next) =
             "WHERE US.id = '" + session.user_id + "'"
         mysql.queryCustom(new_query)
 
-            .then(function(result) {
+            .then(function (result) {
                 //console.log(result)
                 if (result.status == "1") {
 
@@ -12881,20 +12844,20 @@ router.post('/getuserPermissions', authenticationMidleware(), (req, res, next) =
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6612-getuserPermissions');
                 res.end(error);
             });
 
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8784-getuserPermissions');
+        console2.log('Error', 'Catch Expection' + e, '8784-getuserPermissions');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8791-getuserPermissions');
+            console2.log('Error', 'Catch Expection' + e, '8791-getuserPermissions');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -12924,7 +12887,7 @@ router.post('/getuserdetails', authenticationMidleware(), (req, res, next) => {
         //console.log(new_query); 
         mysql.queryCustom(new_query)
 
-            .then(function(result) {
+            .then(function (result) {
                 //console.log(result)
                 if (result.status == "1") {
 
@@ -12940,19 +12903,19 @@ router.post('/getuserdetails', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6656-getuserdetails');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '8841-getuserdetails');
+        console2.log('Error', 'Catch Expection' + e, '8841-getuserdetails');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '8848-getuserdetails');
+            console2.log('Error', 'Catch Expection' + e, '8848-getuserdetails');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13006,7 +12969,7 @@ router.post('/stockSummaryReport', authenticationMidleware(), (req, res, next) =
 
         if (req.body.store_id != "" && req.body.store_id != 0 && req.body.store_id != "0") {
             cond += ' AND SC.storeid="' + req.body.store_id + '" '
-        }else{
+        } else {
             cond += ' AND SC.storeid="000"'
         }
 
@@ -13017,160 +12980,160 @@ router.post('/stockSummaryReport', authenticationMidleware(), (req, res, next) =
 
         //if (mysql.check_permission('stockSummary', session.user_permission)) {
 
-            var totalrecord = '';
+        var totalrecord = '';
 
-            var sumQuery = "SELECT ROUND(((SUM(SC.initial)-ABS(SUM(SC.unexpected)))*100/SUM(SC.initial)),2) " +
-                "AS uiasum," +
-                "SUM(initial) AS expectedsum, ABS(SUM(unexpected)) AS unexpectedsum, " +
-                "SUM(counted) AS countedsum,ABS(SUM(missing)) AS missingsum, " +
-                "SUM(expected_sf) AS expectedsfsum,SUM(expected_sr) AS expectedsrsum, " +
-                "SUM(counted_sf) AS countedsfsum,SUM(counted_sr) AS countedsrsum,SUM(scanned)" +
-                " AS scannedsum  from " + stock_count_tb + " SC " +
-                "where 1 and SC.departmentid<> 'null' " + cond + " "
-            //console.log("<<<<<<<<<<<"+sumQuery);
+        var sumQuery = "SELECT ROUND(((SUM(SC.initial)-ABS(SUM(SC.unexpected)))*100/SUM(SC.initial)),2) " +
+            "AS uiasum," +
+            "SUM(initial) AS expectedsum, ABS(SUM(unexpected)) AS unexpectedsum, " +
+            "SUM(counted) AS countedsum,ABS(SUM(missing)) AS missingsum, " +
+            "SUM(expected_sf) AS expectedsfsum,SUM(expected_sr) AS expectedsrsum, " +
+            "SUM(counted_sf) AS countedsfsum,SUM(counted_sr) AS countedsrsum,SUM(scanned)" +
+            " AS scannedsum  from " + stock_count_tb + " SC " +
+            "where 1 and SC.departmentid<> 'null' " + cond + " "
+        //console.log("<<<<<<<<<<<"+sumQuery);
 
-            mysql.queryCustom(sumQuery).then(function(result) {
-                totalrecord = JSON.stringify(result.results);
+        mysql.queryCustom(sumQuery).then(function (result) {
+            totalrecord = JSON.stringify(result.results);
 
-                //console.log('sssstotalrecord'+totalrecord);
-                var query_new = "SELECT SC.code AS SKU_code,SC.storeid, " +
-                    " SC.departmentid as departmentname22, " +
-
-                  
-                    "SC.brand_name AS brandname,"+ 
-                    "SC.size AS size,SC.color AS color,"+ 
-
-                    " sum(SC.missing) AS remaining," +
-                    " sum(SC.initial) AS expected," +
-                    " sum(SC.counted) as counted , " +
-                    " sum(SC.counted_sf) AS countedsf," +
-                    " sum(SC.unexpected) AS unexpected," +
-                    " sum(SC.missing) AS missing, " +
-                    " sum(SC.expected_sr) AS expectedsr, " +
-                    " sum(SC.expected_sf) AS expectedsf, " +
-                    " sum(SC.scanned) AS scanned," +
-                    " sum(SC.counted_sr) AS countedsr, " +
-                    " SC.stockcountdate AS date " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " WHERE 1 and SC.departmentid<> 'null'" + cond + " " + search_cond + "  " +
-                    " GROUP BY SC.departmentid " + order_by_cond;
-
-                //console.log("++++++++++++++++" + query_new);
-
-                var query_count = " select count(*) as `my_count` from ( SELECT SC.storeid," +
-                    "SC.missing AS remaining,SC.initial AS expected," +
-                    " SC.counted,SC.counted_sf AS countedsf, " +
-                    " SC.counted_sr AS countedsr " +
-                    " FROM " + stock_count_tb + " SC " +
-                    " WHERE 1 and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
-                    " GROUP BY SC.departmentid ) sq ";
-
-                //abdulrehmanijaz
-                //console.log("====>>>>>>>>>>>"+query_new);
+            //console.log('sssstotalrecord'+totalrecord);
+            var query_new = "SELECT SC.code AS SKU_code,SC.storeid, " +
+                " SC.departmentid as departmentname22, " +
 
 
-                mysql.queryCustom(query_count).then(function(result) {
-                    total_rec = result.results[0].my_count;
+                "SC.brand_name AS brandname," +
+                "SC.size AS size,SC.color AS color," +
+
+                " sum(SC.missing) AS remaining," +
+                " sum(SC.initial) AS expected," +
+                " sum(SC.counted) as counted , " +
+                " sum(SC.counted_sf) AS countedsf," +
+                " sum(SC.unexpected) AS unexpected," +
+                " sum(SC.missing) AS missing, " +
+                " sum(SC.expected_sr) AS expectedsr, " +
+                " sum(SC.expected_sf) AS expectedsf, " +
+                " sum(SC.scanned) AS scanned," +
+                " sum(SC.counted_sr) AS countedsr, " +
+                " SC.stockcountdate AS date " +
+                " FROM " + stock_count_tb + " SC " +
+                " WHERE 1 and SC.departmentid<> 'null'" + cond + " " + search_cond + "  " +
+                " GROUP BY SC.departmentid " + order_by_cond;
+
+            //console.log("++++++++++++++++" + query_new);
+
+            var query_count = " select count(*) as `my_count` from ( SELECT SC.storeid," +
+                "SC.missing AS remaining,SC.initial AS expected," +
+                " SC.counted,SC.counted_sf AS countedsf, " +
+                " SC.counted_sr AS countedsr " +
+                " FROM " + stock_count_tb + " SC " +
+                " WHERE 1 and SC.departmentid<> 'null' " + cond + " " + search_cond + "  " +
+                " GROUP BY SC.departmentid ) sq ";
+
+            //abdulrehmanijaz
+            //console.log("====>>>>>>>>>>>"+query_new);
 
 
-                    mysql.queryCustom(query_new).then(function(result) {
+            mysql.queryCustom(query_count).then(function (result) {
+                total_rec = result.results[0].my_count;
 
 
-                            summaryData = result.results;
-                            var table_data = [];
-
-                            if (summaryData.length > 0) {
-
-                                for (var i = 0; i < summaryData.length; i++) {
-
-                                    var accuracyForm = parseFloat(summaryData[i].expected) - parseFloat(Math.abs(summaryData[i].missing));
-                                    var accuracyForm2 = parseFloat(accuracyForm) * parseFloat(100);
-                                    var accuracyForm3 = parseFloat(accuracyForm2) / parseFloat(summaryData[i].expected);
-
-                                    var uiaForm = parseFloat(summaryData[i].expected) - (parseFloat(Math.abs(summaryData[i].unexpected)) + parseFloat(Math.abs(summaryData[i].missing)));
-                                    var uiaForm2 = parseFloat(uiaForm) * parseFloat(100);
-                                    var uiaForm3 = parseFloat(uiaForm2) / parseFloat(summaryData[i].expected);
-
-                                    var row_data = {
-                                        "aatotal_sum": totalrecord,
-                                        "accuracyCount": summaryData[i].accuracyCount,
-                                        // "SKU_code": summaryData[i].SKU_code,
-                                        "date": summaryData[i].date,
-                                        "store": summaryData[i].storeid,
-                                        "department": summaryData[i].departmentname22,
-
-                                        "accuracy": accuracyForm3.toFixed(2),
-                                        "uia": uiaForm3.toFixed(2),
-                                        "expected": summaryData[i].expected,
-                                        "counted": summaryData[i].counted,
-                                        "unexpected": summaryData[i].unexpected,
-                                        "missing": "-" + (summaryData[i].missing).toString(),
-                                        "expectedsf": summaryData[i].expectedsf,
-                                        "expectedsr": summaryData[i].expectedsr,
-                                        "countedsf": summaryData[i].countedsf,
-                                        "countedsr": summaryData[i].countedsr,
-                                        "scanned": summaryData[i].scanned,
-
-                                    };
-                                    table_data.push(row_data);
-                                }
-
-                                //console.log(totalrecord);
-                                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                mysql.queryCustom(query_new).then(function (result) {
 
 
+                    summaryData = result.results;
+                    var table_data = [];
 
-                            } else {
-                                //console.log('ssss'+totalrecord);
-                                var row_data = {
-                                    "aatotal_sum": totalrecord,
-                                    "accuracyCount": '',
-                                    "SKU_code": '',
-                                    "date": 'No Record Found',
-                                    "store": '',
-                                    "department": '',
-                                    "accuracy": '',
-                                    "uia": '',
-                                    "expected": '',
-                                    "counted": '',
-                                    "unexpected": '',
-                                    "missing": '',
-                                    "expectedsf": '',
-                                    "expectedsr": '',
-                                    "countedsf": '',
-                                    "countedsr": '',
-                                    "scanned": '',
-                                };
+                    if (summaryData.length > 0) {
 
-                                table_data.push(row_data);
+                        for (var i = 0; i < summaryData.length; i++) {
 
-                                res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+                            var accuracyForm = parseFloat(summaryData[i].expected) - parseFloat(Math.abs(summaryData[i].missing));
+                            var accuracyForm2 = parseFloat(accuracyForm) * parseFloat(100);
+                            var accuracyForm3 = parseFloat(accuracyForm2) / parseFloat(summaryData[i].expected);
 
-                            }
+                            var uiaForm = parseFloat(summaryData[i].expected) - (parseFloat(Math.abs(summaryData[i].unexpected)) + parseFloat(Math.abs(summaryData[i].missing)));
+                            var uiaForm2 = parseFloat(uiaForm) * parseFloat(100);
+                            var uiaForm3 = parseFloat(uiaForm2) / parseFloat(summaryData[i].expected);
+
+                            var row_data = {
+                                "aatotal_sum": totalrecord,
+                                "accuracyCount": summaryData[i].accuracyCount,
+                                // "SKU_code": summaryData[i].SKU_code,
+                                "date": summaryData[i].date,
+                                "store": summaryData[i].storeid,
+                                "department": summaryData[i].departmentname22,
+
+                                "accuracy": accuracyForm3.toFixed(2),
+                                "uia": uiaForm3.toFixed(2),
+                                "expected": summaryData[i].expected,
+                                "counted": summaryData[i].counted,
+                                "unexpected": summaryData[i].unexpected,
+                                "missing": "-" + (summaryData[i].missing).toString(),
+                                "expectedsf": summaryData[i].expectedsf,
+                                "expectedsr": summaryData[i].expectedsr,
+                                "countedsf": summaryData[i].countedsf,
+                                "countedsr": summaryData[i].countedsr,
+                                "scanned": summaryData[i].scanned,
+
+                            };
+                            table_data.push(row_data);
+                        }
+
+                        //console.log(totalrecord);
+                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
 
 
-                        })
-                        .catch(function(error) {
-                            console2.log('Error', JSON.stringify(error), '6831-stockSummaryReport');
-                            res.end(error);
-                        })
-                }).catch(function(error) {
-                    console2.log('Error', JSON.stringify(error), '6835-stockSummaryReport');
-                    res.end(error);
-                });
-                //console.log(totalrecord);
 
-            })
+                    } else {
+                        //console.log('ssss'+totalrecord);
+                        var row_data = {
+                            "aatotal_sum": totalrecord,
+                            "accuracyCount": '',
+                            "SKU_code": '',
+                            "date": 'No Record Found',
+                            "store": '',
+                            "department": '',
+                            "accuracy": '',
+                            "uia": '',
+                            "expected": '',
+                            "counted": '',
+                            "unexpected": '',
+                            "missing": '',
+                            "expectedsf": '',
+                            "expectedsr": '',
+                            "countedsf": '',
+                            "countedsr": '',
+                            "scanned": '',
+                        };
+
+                        table_data.push(row_data);
+
+                        res.end('{"aaData":' + JSON.stringify(table_data) + ',"iTotalRecords":"' + total_rec + '","iTotalDisplayRecords":"' + total_rec + '"}');
+
+                    }
+
+
+                })
+                    .catch(function (error) {
+                        console2.log('Error', JSON.stringify(error), '6831-stockSummaryReport');
+                        res.end(error);
+                    })
+            }).catch(function (error) {
+                console2.log('Error', JSON.stringify(error), '6835-stockSummaryReport');
+                res.end(error);
+            });
+            //console.log(totalrecord);
+
+        })
         //}
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9057-stockSummaryReport');
+        console2.log('Error', 'Catch Expection' + e, '9057-stockSummaryReport');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9064-stockSummaryReport');
+            console2.log('Error', 'Catch Expection' + e, '9064-stockSummaryReport');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13220,7 +13183,7 @@ router.post('/getStockCountData', authenticationMidleware(), (req, res, next) =>
             //zeeshan
 
             mysql.queryCustom(new_query)
-                .then(function(result) {
+                .then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
@@ -13229,20 +13192,20 @@ router.post('/getStockCountData', authenticationMidleware(), (req, res, next) =>
                         res.end(result.error);
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '6835-getStockCountData');
                     res.end(error);
                 });
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9128-getStockCountData');
+        console2.log('Error', 'Catch Expection' + e, '9128-getStockCountData');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9135-getStockCountData');
+            console2.log('Error', 'Catch Expection' + e, '9135-getStockCountData');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13258,7 +13221,7 @@ router.post('/Cancel_AsnFilters', authenticationMidleware(), (req, res, next) =>
     try {
         var session = req.session;
         mysql.queryCustom("SELECT process FROM cancel_asn_items GROUP BY process")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -13266,19 +13229,19 @@ router.post('/Cancel_AsnFilters', authenticationMidleware(), (req, res, next) =>
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6901-Cancel_AsnFilters');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9163-Cancel_AsnFilters');
+        console2.log('Error', 'Catch Expection' + e, '9163-Cancel_AsnFilters');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9170-Cancel_AsnFilters');
+            console2.log('Error', 'Catch Expection' + e, '9170-Cancel_AsnFilters');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13292,7 +13255,7 @@ router.post('/cancelstore_id', authenticationMidleware(), (req, res, next) => {
     try {
         var session = req.session;
         mysql.queryCustom("SELECT store_id FROM cancel_asn_items GROUP BY store_id")
-            .then(function(result) {
+            .then(function (result) {
                 if (result.status == "1") {
                     res.end(JSON.stringify(result.results));
                 } else {
@@ -13300,19 +13263,19 @@ router.post('/cancelstore_id', authenticationMidleware(), (req, res, next) => {
                     res.end(result.error);
                 }
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console2.log('Error', JSON.stringify(error), '6918-cancelstore_id');
                 res.end(error);
             });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9196-cancelstore_id');
+        console2.log('Error', 'Catch Expection' + e, '9196-cancelstore_id');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9203-cancelstore_id');
+            console2.log('Error', 'Catch Expection' + e, '9203-cancelstore_id');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13348,22 +13311,21 @@ router.post('/AddCronJobTask', (req, res, next) => {
 
 
             if (token == 'innovent@123') {
-                var status=1;
-                if(process_type=="CycleCount")
-                {
-                    status=1;
+                var status = 1;
+                if (process_type == "CycleCount") {
+                    status = 1;
                 }
                 var Addtask = "INSERT INTO cronjob_taks (Retail_CycleCountID,process_type,store_id,destinationStore,status) " +
                     "VALUES ('" + Retail_CycleCountID + "','" + process_type + "' , '" + store_id + "' , '" + destinationStore + "' , '" + status + "' )";
 
 
-                mysql.queryCustom(Addtask).then(function(result) {
+                mysql.queryCustom(Addtask).then(function (result) {
                     if (result.status == "1") {
                         res.end(JSON.stringify(result.results));
                     } else {
                         res.end(JSON.stringify(result));
                     }
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console2.log('Error', JSON.stringify(error), '6960-AddCronJobTask stockcount record');
                     res.end(error);
                 });
@@ -13377,14 +13339,14 @@ router.post('/AddCronJobTask', (req, res, next) => {
             res.json(JSON.stringify(response));
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9236-AddCronJobTask');
+        console2.log('Error', 'Catch Expection' + e, '9236-AddCronJobTask');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9270-AddCronJobTask');
+            console2.log('Error', 'Catch Expection' + e, '9270-AddCronJobTask');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13416,14 +13378,14 @@ function check_exist(password, result, user_uuid) {
 
         });
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9302-check_exist');
+        console2.log('Error', 'Catch Expection' + e, '9302-check_exist');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9309-check_exist');
+            console2.log('Error', 'Catch Expection' + e, '9309-check_exist');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13463,7 +13425,7 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
                 //console.log(check_status);
                 var selectquery = "select * from handheld_devices where username= '" + username + "' ";
                 mysql.queryCustom(selectquery)
-                    .then(function(result) {
+                    .then(function (result) {
                         //console.log((result));
                         if (result.status == "1") {
                             if (result.results.length > 0) {
@@ -13491,7 +13453,7 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
 
                                 // bcrypt.compare(password, result.results[0].password, function(err, result) {
                                 if (password == result.results[0].password) {
-                                    check_exist(password, resss, user_uuid).then(function(ressss2) {
+                                    check_exist(password, resss, user_uuid).then(function (ressss2) {
 
                                         if (ressss2 == "0") {
                                             //console.log(typeof ressss2);
@@ -13506,13 +13468,13 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
                                                 "'" + ss_connection + "','" + device_ip + "','" + server_ip + "','" + user_uuid + "', '" + CheckDate + "' )"
 
                                             //console.log(insert_query);
-                                            mysql.queryCustom(insert_query).then(function(result) {
+                                            mysql.queryCustom(insert_query).then(function (result) {
                                                 if (result.status == "1") {
 
                                                 } else {
 
                                                 }
-                                            }).catch(function(error) {
+                                            }).catch(function (error) {
                                                 //res.end(error);
                                                 console2.log('Error', JSON.stringify(error), '7078-HandHeldDevice_Api stockcount record');
                                             });
@@ -13526,13 +13488,13 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
                                             var update = "UPDATE `handheld_devices` " +
                                                 " SET `uuid` = '" + user_uuid + "',`handheld_date`= '" + CheckDate2 + "'  WHERE  username = '" + username + "' and password = '" + password22 + "'";
                                             //console.log(update);
-                                            mysql.queryCustom(update).then(function(result) {
+                                            mysql.queryCustom(update).then(function (result) {
                                                 if (result.status == "1") {
                                                     // res.end(JSON.stringify(result.results));
                                                 } else {
                                                     //res.end(result.error);
                                                 }
-                                            }).catch(function(error) {
+                                            }).catch(function (error) {
                                                 //res.end(error);
                                             });
                                         }
@@ -13559,7 +13521,7 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
                             res.json(JSON.stringify(response));
                         }
                     })
-                    .catch(function(error) {
+                    .catch(function (error) {
                         res.json(JSON.stringify(response));
                     })
             } else {
@@ -13573,14 +13535,14 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
             res.json(JSON.stringify(response));
         }
     } catch (e) {
-        console2.log('Error', 'Catch Expection'+e, '9458-HandHeldDevice_Api');
+        console2.log('Error', 'Catch Expection' + e, '9458-HandHeldDevice_Api');
         if (e instanceof TypeError) {
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
             });
         } else {
-            console2.log('Error', 'Catch Expection'+e, '9465-HandHeldDevice_Api');
+            console2.log('Error', 'Catch Expection' + e, '9465-HandHeldDevice_Api');
             res.status(500).send({
                 error: '1',
                 message: 'SomeThing Wrong !'
@@ -13592,11 +13554,11 @@ router.post('/HandHeldDevice_Api', (req, res, next) => {
 
 router.get('/faultyskus', (req, res, next) => {
     console2.execution_info('faultyskus');
-    
-    var new_query = "SELECT * FROM zpl_printer "+ 
-    " WHERE sku IS NOT NULL AND epc IS NOT NULL AND sku <> '' AND epc <> '' ";
 
-    mysql.queryCustom(new_query).then(function(result) {
+    var new_query = "SELECT * FROM zpl_printer " +
+        " WHERE sku IS NOT NULL AND epc IS NOT NULL AND sku <> '' AND epc <> '' ";
+
+    mysql.queryCustom(new_query).then(function (result) {
         if (result.status == "1") {
             var record_set = result.results;
             var parse_new = epc_parse;
@@ -13610,27 +13572,27 @@ router.get('/faultyskus', (req, res, next) => {
             var sku_split = '';
             var epc = '';
             //console.log(total)
-            for(var i= 0;i<record_set.length;i++){
+            for (var i = 0; i < record_set.length; i++) {
                 //console.log(record_set[i].epc);
-                sku_parts    = parse_new.parse(record_set[i].epc);
-                sku          = sku_parts.Sku;
-                sku_int      = parseInt(sku,10);
-                sku_split    = record_set[i].sku;
-                sku_split    = sku_split.split('000000').join('');
-               
-                // if (i=5 && i < 10){
-                    if(sku_int>0){
-                        //console.log(sku_int)
-                        //console.log(sku_int +"<<<====>>s"+sku_split);
-                        if(parseInt(sku_int) !== parseInt(sku_split)){
-                            epc += "'"+record_set[i].epc+"' ,"
-                            //f_data_push[sku_int]=sku_split;
-                        }
+                sku_parts = parse_new.parse(record_set[i].epc);
+                sku = sku_parts.Sku;
+                sku_int = parseInt(sku, 10);
+                sku_split = record_set[i].sku;
+                sku_split = sku_split.split('000000').join('');
 
+                // if (i=5 && i < 10){
+                if (sku_int > 0) {
+                    //console.log(sku_int)
+                    //console.log(sku_int +"<<<====>>s"+sku_split);
+                    if (parseInt(sku_int) !== parseInt(sku_split)) {
+                        epc += "'" + record_set[i].epc + "' ,"
+                        //f_data_push[sku_int]=sku_split;
                     }
+
+                }
                 // }
             }
-            
+
             //console.log(data_push)
 
 
@@ -13640,11 +13602,11 @@ router.get('/faultyskus', (req, res, next) => {
         } else {
 
         }
-    }).catch(function(error) {
+    }).catch(function (error) {
         //res.end(error);
         console2.log('Error', JSON.stringify(error), '7078-faultyskus');
     });
-    
+
 });
 
 
@@ -13662,11 +13624,11 @@ router.get('/*', (req, res, next) => {
     res.end(JSON.stringify(response));
 });
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
     done(null, obj);
 });
 
@@ -13681,16 +13643,16 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 function authenticationMidleware() {
-   
+
     return (req, res, next) => {
         //  const token = req.header('auth-token');
         //   console.log(token);
-    // if (!token) {
-    //     res.status(401).send({ error: '5', message:"Authenticate using a valid token" });
-    // }
-    //      const data = jwt.verify(token, JWT_SECRET);
-    //      req.user = data.user;
-    //      console.log(req.user)
+        // if (!token) {
+        //     res.status(401).send({ error: '5', message:"Authenticate using a valid token" });
+        // }
+        //      const data = jwt.verify(token, JWT_SECRET);
+        //      req.user = data.user;
+        //      console.log(req.user)
         return next();
         //if (req.isAuthenticated()) res.redirect('/login');
     }

@@ -32,6 +32,8 @@ import GoodsStockStore from "./components/supplyChain/GoodsStockStore";
 import GoodsStockWareHouse from "./components/supplyChain/GoodsStockWareHouse";
 import zplReport from "./components/TagIT/zplReport";
 import zplReport_sku from "./components/TagIT/zplReport_sku";
+import transferCancellation from "./components/transferCancellation/transferCancellation";
+import gi_cancellation from "./components/transferCancellation/gi_cancellation";
 
 class App extends Component {
 
@@ -39,49 +41,53 @@ class App extends Component {
     super(props);
     this.getState = this.getState.bind(this)
   }
-  getState(){
+  getState() {
     this.props.giveMeState(this.state)
   }
   render() {
-    
+
     return (
-          <>
-         <Switch>
-            <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
-            <Route exact path="/add" component={AddTutorial} />
-            <Route path="/tutorials/:id" component={Tutorial} />
-            <Route path="/login" component={Login} />
-            
-            <Route path="/executiveSummary" component={executiveSummary} />
-            <Route path="/executiveSummaryOnHandSimple" component={executiveSummaryOnHandSimple} />
-            <Route path="/underOvers" component={underOvers} />
-            <Route path="/AllOvers" component={AllOvers} />
-            <Route path="/executiveSummaryCount" component={executiveSummaryCount} />
-            <Route path="/executiveSummaryFront" component={executiveSummaryFront} />
-            <Route path="/executiveSummaryBack" component={executiveSummaryBack} />
-            <Route path="/CriticalOutOfStock" component={CriticalOutOfStock} />
-            
-            <Route path="/handheldDevices" component={handheldDevices} />
-            <Route path="/edithandhelddevice/:id" component={edithandhelddevice} />
-            <Route path="/addhandheldDevice" component={addhandheldDevice} />
+      <>
+        <Switch>
+          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
+          <Route exact path="/add" component={AddTutorial} />
+          <Route path="/tutorials/:id" component={Tutorial} />
+          <Route path="/login" component={Login} />
 
-            <Route path="/inventorybyitem" component={inventoryByItems} />
-            
-            <Route path="/dailyStockCountReport" component={dailyStockCountReport} />
-            
-            <Route path="/stockSummary" component={stockSummary} />
+          <Route path="/executiveSummary" component={executiveSummary} />
+          <Route path="/executiveSummaryOnHandSimple" component={executiveSummaryOnHandSimple} />
+          <Route path="/underOvers" component={underOvers} />
+          <Route path="/AllOvers" component={AllOvers} />
+          <Route path="/executiveSummaryCount" component={executiveSummaryCount} />
+          <Route path="/executiveSummaryFront" component={executiveSummaryFront} />
+          <Route path="/executiveSummaryBack" component={executiveSummaryBack} />
+          <Route path="/CriticalOutOfStock" component={CriticalOutOfStock} />
 
-            <Route path="/all_under_over" component={all_under_over} />
-            <Route path="/asndata" component={asnData} />
-            <Route path="/GoodsSummary" component={GoodsSummary} />
-            <Route path="/GoodsStockStore" component={GoodsStockStore} />
-            <Route path="/GoodsStockWareHouse" component={GoodsStockWareHouse} />
-            <Route path="/zplReport" component={zplReport} />
-            <Route path="/zplReport_sku" component={zplReport_sku} />
-          </Switch>
-          
-          </>
-     
+          <Route path="/handheldDevices" component={handheldDevices} />
+          <Route path="/edithandhelddevice/:id" component={edithandhelddevice} />
+          <Route path="/addhandheldDevice" component={addhandheldDevice} />
+
+          <Route path="/inventorybyitem" component={inventoryByItems} />
+
+          <Route path="/dailyStockCountReport" component={dailyStockCountReport} />
+
+          <Route path="/stockSummary" component={stockSummary} />
+          {/* Supply chain Reports */}
+          <Route path="/all_under_over" component={all_under_over} />
+          <Route path="/asndata" component={asnData} />
+          <Route path="/GoodsSummary" component={GoodsSummary} />
+          <Route path="/GoodsStockStore" component={GoodsStockStore} />
+          <Route path="/GoodsStockWareHouse" component={GoodsStockWareHouse} />
+          {/* Target IT Reports */}
+          <Route path="/zplReport" component={zplReport} />
+          <Route path="/zplReport_sku" component={zplReport_sku} />
+          {/* Admin Reports */}
+          <Route path="/transferCancellation" component={transferCancellation} />
+          <Route path="/gi_cancellation" component={gi_cancellation} />
+        </Switch>
+
+      </>
+
     );
   }
 }
