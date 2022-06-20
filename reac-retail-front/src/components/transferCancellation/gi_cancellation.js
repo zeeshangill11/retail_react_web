@@ -17,24 +17,26 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+
+
 import Cookies from 'universal-cookie';
 
-export default class asnData extends Component {
+export default class gi_cancellation extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
             startDate: '',
-            endDate: '',
+            toDate: '',
             store_list: [],
-            asn_list: [],
-            status_list: [],
             onhandtotal: 0,
             store_id: 0,
-            asn_id: 0,
-            status_id: 0,
-            Remarks: ' ',
-            IBT: ' '
+            EPC: " ",
+            SKU: " ",
+            sup_num: " ",
+            shp_num: " ",
+            rbi: " ",
+            error_msg: "",
         };
     }
 
@@ -44,37 +46,31 @@ export default class asnData extends Component {
         this.setState(store_list => ({
             store_list: stores
         }));
-        var asn = await common.get_asnDestination();
-        this.setState(asn_list => ({
-            asn_list: asn
-        }));
-        var status = await common.get_allStatus();
-        console.log(status)
-        this.setState(status_list => ({
-            status_list: status
-        }));
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
         var cookies = new Cookies();
+
         var myToken = cookies.get('myToken');
+        console.log(myToken)
+
 
         $(document).ready(function () {
 
             main_table = $('#dataTable').DataTable({
                 dom: 'Bfrtip',
+
                 buttons: [
                     {
                         extend: 'excel',
-                        title: 'IBT Data'
+                        title: 'AsnData'
                     }, {
 
                         extend: 'print',
-                        title: 'IBT Data'
+                        title: 'AsnData'
                     },
                 ],
                 "pageLength": 25,
-                "order": [[0, "desc"]],
                 'processing': true,
                 'serverSide': true,
                 "initComplete": function (settings, json) {
@@ -85,43 +81,47 @@ export default class asnData extends Component {
                     'loadingRecords': '&nbsp;',
                     'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
                 },
+
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': server_ip + 'stockCountRecords/getasndata/',
+                    'url': server_ip + 'stockCountRecords/getgoodsForGi_Cancellation/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
-                                "from_my_date": $("#FromDate").val(),
-                                "to_my_date": $('#ToDate').val(),
-                                "source": $('#StoreID').val(),
-                                "Destination": $('#AsnID').val(),
-                                "Status": $('#StatusID').val(),
-                                "Remarks": $('#Remarks').val(),
-                                "Asn": $('#IBT').val()
-
+                                "store_id": $("#StoreID").val(),
+                                //"RetailItemBatchId": $("#rbi").val(),
+                                "from_my_date": $("#fromdate").val(),
+                                "to_my_date": $('#todate').val(),
+                                "EPC": $('#EPC').val(),
+                                "SKU": $('#SKU').val(),
+                                "supplier_number": $('#sup_num').val(),
+                                "shipment_number": $('#shp_num').val(),
+                                "Retail_Item_Batch_Id": $('#rbi').val(),
                             });
                         },
                 },
+                "order": [[1, 'desc']],
                 "responsive": true,
                 "columns": [
-                    { "data": "asn" },
-                    { "data": "source" },
-                    { "data": "destination" },
-                    { "data": "packed_item_new" },
-                    { "data": "transferred_item_new" },
-                    { "data": "received_item_new" },
-                    { "data": "status" },
-                    { "data": "packing_date" },
-                    { "data": "packing_remarks" },
-                    { "data": "shipping_date" },
-                    { "data": "shipping_remarks" }
+                    { "data": "date" },
+                    { "data": "refno" },
+                    { "data": "retail_item_batch_id" },
+                    { "data": "supplier_number" },
+                    { "data": "shipment_number" },
+                    { "data": "store" },
+                    { "data": "purchase_order" },
+
+                    { "data": "epc" },
+                    { "data": "remarks" },
+                    { "data": "id" },
+                    { "data": "comments" },
+
                 ],
                 "searching": false,
-                "select": true,
-                "order": [[0, 'desc']],
+                "select": true
             });
         });
 
@@ -137,7 +137,7 @@ export default class asnData extends Component {
     }
 
     handleToDateChange = date => {
-        this.setState({ endDate: date })
+        this.setState({ toDate: date })
     }
     render() {
         return (
@@ -155,7 +155,7 @@ export default class asnData extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                IBT Data
+                                                GI Cancellation
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -176,34 +176,31 @@ export default class asnData extends Component {
                                             <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
                                                 <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
                                                 <div className="mb-0 filter-size">
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
-
-                                                    <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
 
                                                     <span id="iot_notification"></span>
+                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                        id="fromdate" name="fromdate" placeholderText="From: yyyy-mm-dd"
+                                                        dateFormat="yyyy-MM-dd" />
+
+                                                    <DatePicker onChange={this.handleToDateChange} selected={this.state.toDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                        id="todate" name="todate" placeholderText="To: yyyy-mm-dd"
+                                                        dateFormat="yyyy-MM-dd" />
+
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >
                                                         <option value="">All Stores</option>
                                                         {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
                                                     </select>
-                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="AsnID" id="AsnID" onChange={(e) => this.setState({ asn_id: e.target.value })} value={this.state.asn_id ? this.state.asn_id : 0} >
-                                                        <option value="">All Destination</option>
-                                                        {this.state.asn_list.map((x, y) => <option value={x.destination}>{x.destination}</option>)}
-                                                    </select>
-                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="StatusID" id="StatusID" onChange={(e) => this.setState({ status_id: e.target.value })} value={this.state.status_id ? this.state.status_id : 0} >
-                                                        <option value="">All Status</option>
-                                                        {this.state.status_list.map((x, y) => <option value={x.status}>{x.status}</option>)}
-                                                    </select>
-                                                    <input className="mx-2" type="text" placeholder="Remarks" name="Remarks" id="Remarks" onChange={(e) => this.setState({ Remarks: e.target.value })} value={this.state.Remarks ? this.state.Remarks.trim() : ""} ></input>
-                                                    <input className="mx-2" type="text" placeholder="IBT" name="IBT" id="IBT" onChange={(e) => this.setState({ IBT: e.target.value })} value={this.state.IBT ? this.state.IBT.trim() : ""} ></input>
+
+                                                    <input className="mx-2" type="text" placeholder="EPC" name="Epc" id="EPC" onChange={(e) => this.setState({ EPC: e.target.value })} value={this.state.EPC ? this.state.EPC.trim() : ""} ></input>
+                                                    <input className="mx-2" type="text" placeholder="SKU" name="SKU" id="SKU" onChange={(e) => this.setState({ SKU: e.target.value })} value={this.state.SKU ? this.state.SKU.trim() : ""} ></input>
+                                                    <input className="mx-2" type="text" placeholder="Supplier Number" name="sup_num" id="sup_num" onChange={(e) => this.setState({ sup_num: e.target.value })} value={this.state.sup_num ? this.state.sup_num.trim() : ""} ></input>
+                                                    <input className="mx-2" type="text" placeholder="Shipment Number" name="shp_num" id="shp_num" onChange={(e) => this.setState({ shp_num: e.target.value })} value={this.state.shp_num ? this.state.shp_num.trim() : ""} ></input>
+
+                                                    <input className="mx-2" type="text" placeholder="Retail Item Batch ID" name="rbi" id="rbi" onChange={(e) => this.setState({ rbi: e.target.value })} value={this.state.rbi ? this.state.rbi.trim() : ""} ></input>
+
                                                     <div className="d-inline-block mr-4 mb-0 w-25 my-2">
-                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block" >Search</button>
+                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Search</button>
                                                     </div>
                                                     <div className="error_block">
                                                         <span className="error error_msg">{this.state.error_msg}</span>
@@ -215,19 +212,17 @@ export default class asnData extends Component {
                                                 <table id="dataTable" class="text-center mm-datatable">
                                                     <thead class="bg-light text-capitalize">
                                                         <tr>
-                                                            <th>IBT</th>
-                                                            <th>Source</th>
-                                                            <th>Destination</th>
-                                                            <th>Packed Items</th>
-                                                            <th>Transfer Items</th>
-                                                            <th>Received Items</th>
+                                                            <th>Date</th>
+                                                            <th>SKU</th>
+                                                            <th>Retail Item Batch Id</th>
+                                                            <th>Supplier Number</th>
+                                                            <th>Shipment Number</th>
+                                                            <th>Store</th>
+                                                            <th>Purchase Order</th>
+                                                            <th>Epc</th>
+                                                            <th>Remarks</th>
+                                                            <th>Id</th>
                                                             <th>Status</th>
-                                                            <th>Packing Date</th>
-                                                            <th>Packing Remarks</th>
-                                                            <th>Shipping Date</th>
-                                                            <th>Shipping Remarks</th>
-                                                            {/* <th>Receiving Date</th>
-                                                            <th>Receiving Remarks</th> */}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -237,11 +232,11 @@ export default class asnData extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </div >
+                            </div >
+                        </div >
+                    </div >
+                </div >
             </>
         )
     }

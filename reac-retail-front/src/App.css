@@ -1504,3 +1504,10 @@ table.dataTable tbody td{
 .select_css{
   height: 35px !important;
 }
+
+.odd td:last-child{
+  width: 10%;
+}
+.even td:last-child{
+  width: 10%;
+}
