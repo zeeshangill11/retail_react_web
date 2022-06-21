@@ -46,13 +46,13 @@ export default class zplReport extends Component {
         this.setState(user_list => ({
             user_list: user
         }));
-        
+
         console.log(this.state.user_list)
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
         var cookies = new Cookies();
-var myToken = cookies.get('myToken');
+        var myToken = cookies.get('myToken');
 
         $(document).ready(function () {
             main_table = $('#dataTable').DataTable({
@@ -192,9 +192,12 @@ var myToken = cookies.get('myToken');
 
                                                     <input className="mx-2" type="text" placeholder="EPC" name="Epc" id="Epc" onChange={(e) => this.setState({ epc: e.target.value })} value={this.state.epc ? this.state.epc.trim() : ""} ></input>
                                                     <input className="mx-2" type="text" placeholder="uid" name="uid" id="uid" onChange={(e) => this.setState({ uid: e.target.value })} value={this.state.uid ? this.state.uid.trim() : ""} ></input>
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="date" name="date" placeholderText="From Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="date" name="date" placeholderText="From Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
+
 
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="userId" id="userId" onChange={(e) => this.setState({ user_id: e.target.value })} value={this.state.user_id ? this.state.user_id : 0} >

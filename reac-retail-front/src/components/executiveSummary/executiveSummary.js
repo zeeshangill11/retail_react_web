@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import Header from  '../header/header';
-import TopBar from  '../topBar/topBar';
+import Header from '../header/header';
+import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
 import Cookies from 'universal-cookie';
 var cookies = new Cookies();
@@ -45,13 +45,13 @@ export default class executiveSummary extends Component {
 			bnd: "",
 			dept: "",
 			size: "",
-			color:"",
-			date_state:[],
+			color: "",
+			date_state: [],
 		};
 
 	}
-	async onStoreIdChange (event) {
-		this.setState({store_id: event.target.value});
+	async onStoreIdChange(event) {
+		this.setState({ store_id: event.target.value });
 
 		let server_ip = await new_config.get_server_ip();
 		var store_id = this.state.store_id;
@@ -97,9 +97,9 @@ export default class executiveSummary extends Component {
 	async summaryValidate(event) {
 		var working = false;
 		var error = 0;
-		
+
 		var dates = this.state.summarydate;
-		var date = dates.getFullYear()+"-"+(dates.getMonth()+1)+"-"+dates.getDate();
+		var date = dates.getFullYear() + "-" + (dates.getMonth() + 1) + "-" + dates.getDate();
 		await this.setState({ formatteddate: date });
 
 		if (this.state.store_id == "" || this.state.store_id == null) {
@@ -133,7 +133,7 @@ export default class executiveSummary extends Component {
 		var bid = this.state.bnd;
 
 		var date = this.state.formatteddate;
-		
+
 		var storeid = this.state.store_id;
 		var size = this.state.size;
 		var color = this.state.color;
@@ -173,7 +173,7 @@ export default class executiveSummary extends Component {
 				'Connection': 'keep-alive',
 				'auth-token': myToken
 			},
-			body: "dptid="+dptid+"&bid="+bid +"&date="+date+"&storeid=" + storeid,
+			body: "dptid=" + dptid + "&bid=" + bid + "&date=" + date + "&storeid=" + storeid,
 		})
 			.then((response) => response.json())
 			.then((responseJson) => {
@@ -285,12 +285,12 @@ export default class executiveSummary extends Component {
 		else { this.setState({ operational_accuracy: 0 }) }
 		this.setState({ show_html: true })
 	}
-	
-  	handleDateChange = date => {
-	    this.setState({summarydate: date})
-  	}
 
-	
+	handleDateChange = date => {
+		this.setState({ summarydate: date })
+	}
+
+
 	async componentDidMount() {
 		var stores = await common.get_stores();
 		this.setState(store_list => ({
@@ -298,7 +298,7 @@ export default class executiveSummary extends Component {
 		}));
 
 		let all_data = await provider.get_report();
-		
+
 
 		/*
 		fetch( server_ip+'login/web_login2', {
@@ -365,39 +365,44 @@ export default class executiveSummary extends Component {
 										<div className="alert_msg"></div>
 										<div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
 											<h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
-											<div className="form-group d-inline-block mb-0">
-												<select className="sw150 d-inline-block mr-2 selectpicker select_css" data-live-search="true"
+											<div className="mb-0 filter-size">
+												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="StoreID" id="StoreID" onChange={evt => this.onStoreIdChange(evt)} value={this.state.f_storeid} >
 													<option value="">Store ID</option>
 													{this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
 												</select>
-												<select className="sw150 d-inline-block mr-2 selectpicker select_css" data-live-search="true"
+												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="DepartmentID" id="DepartmentID" onChange={(e) => this.setState({ dept: e.target.value })} value={this.state.dept} >
 													<option value="">All Department</option>
 													{this.state.dept_list.map((x, y) => <option value={x.departmentid}>{x.departmentid}</option>)}
 												</select>
-												<select className="sw150 d-inline-block mr-2 selectpicker select_css" data-live-search="true"
+												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="BrandID" id="BrandID" onChange={(e) => this.setState({ bnd: e.target.value })} value={this.state.bnd} >
 													<option value="">All Brands</option>
 													{this.state.brand_list.map((x, y) => <option value={x.brand_name}>{x.brand_name}</option>)}
 												</select>
-												<select className="sw150 d-inline-block mr-2 selectpicker select_css" data-live-search="true"
+												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="Color" id="Color" onChange={(e) => this.setState({ color: e.target.value })} value={this.state.color} >
 													<option value="">All Colors</option>
 													{this.state.color_list.map((x, y) => <option value={x.color}>{x.color}</option>)}
 												</select>
-												<select className="sw150 d-inline-block mr-2 selectpicker select_css" data-live-search="true"
+												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="Size" id="Size" onChange={(e) => this.setState({ size: e.target.value })} value={this.state.size} >
 													<option value="">All Sizes</option>
 													{this.state.size_list.map((x, y) => <option value={x.size}>{x.size}</option>)}
 												</select>
-												<DatePicker onChange={this.handleDateChange} selected={this.state.summarydate} className="form-control d-inline-block mr-2 date_picker_22" 
-												id="summarydate"  includeDates={this.state.date_state} name="date" placeholderText="Ex: yyyy-mm-dd" 
-												dateFormat="yyyy-MM-dd"/>
-												<span id="show_over_checkbox" >Show overs
-													<input type="checkbox" className="d-inline-block ml-2 mr-2" id="show_over" 
-													name="show_over" value='1' onChange={evt => this.onShowOverChange(evt)} />
-												</span>
+												<div className="d-inline-block" style={{ width: "150px !important" }}>
+													<DatePicker onChange={this.handleDateChange} selected={this.state.summarydate} className="form-control d-inline-block mr-2 date_picker_22"
+														id="summarydate" includeDates={this.state.date_state} name="date" placeholderText="Ex: yyyy-mm-dd"
+														dateFormat="yyyy-MM-dd" />
+												</div>
+												<div className="d-inline-block">
+													<label class="form-check-label" for="flexCheckDefault">
+															Show overs
+														</label>
+														<input type="checkbox" className="d-inline-block" id="show_over"
+															name="show_over" value='1' onChange={evt => this.onShowOverChange(evt)} />
+												</div>
 												<span id="iot_notification"></span>
 
 											</div>
@@ -408,7 +413,7 @@ export default class executiveSummary extends Component {
 										<div className="error_block">
 											<span className="error error_msg">{this.state.error_msg}</span>
 										</div>
-										{this.state.show_html?<div className="row ml-0 mr-0 hide" id="CountDynamic">
+										{this.state.show_html ? <div className="row ml-0 mr-0 hide" id="CountDynamic">
 											<div className="col-md-8">
 												<div className="row">
 													<div className="col-md-6 pl-1 pr-1 pr-md-2">
@@ -455,9 +460,9 @@ export default class executiveSummary extends Component {
 													<div className="col-md-4 pl-1 pr-1  pr-md-2 pl-md-2">
 														<div className="card-box p-4 item-accuracy-count">
 															<h4 className="d-inline-block mb-0">Count</h4>
-															{this.state.show_over == 'yes' ?<Link to={{pathname: '/executiveSummaryCount',state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }}} className="OneHandSimple cursor_pointer">
+															{this.state.show_over == 'yes' ? <Link to={{ pathname: '/executiveSummaryCount', state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept } }} className="OneHandSimple cursor_pointer">
 																<img src="./asserts/images/icon-open-list.png" className="float-right" />
-															</Link>:null}
+															</Link> : null}
 															<h2 className="text-center mb-4 mt-4 lower-font">
 																<span className="waiting" style={{ display: "none" }} >
 																	<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" />
@@ -469,9 +474,9 @@ export default class executiveSummary extends Component {
 													<div className="col-md-4 pl-1 pr-1 pl-md-2">
 														<div className="card-box px-3 py-2 item-accuracy-front-back">
 															<h4 className="d-inline-block mb-0">Front</h4>
-															{this.state.show_over == 'yes' ?<Link to={{pathname: '/executiveSummaryFront',state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }}} className="OneHandSimple cursor_pointer">
+															{this.state.show_over == 'yes' ? <Link to={{ pathname: '/executiveSummaryFront', state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept } }} className="OneHandSimple cursor_pointer">
 																<img src="./asserts/images/icon-open-list.png" className="float-right" />
-															</Link>:null}
+															</Link> : null}
 															<h2 className="text-center mb-1 mt-1 sec-lower-font">
 																<span className="waiting" style={{ display: "none" }} >
 																	<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" />
@@ -481,9 +486,9 @@ export default class executiveSummary extends Component {
 														</div>
 														<div className="card-box px-3 py-2  mt-2 item-accuracy-front-back">
 															<h4 className="d-inline-block mb-0">Back Store</h4>
-															{this.state.show_over == 'yes' ?<Link to={{pathname: '/executiveSummaryBack',state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }}} className="OneHandSimple cursor_pointer">
+															{this.state.show_over == 'yes' ? <Link to={{ pathname: '/executiveSummaryBack', state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept } }} className="OneHandSimple cursor_pointer">
 																<img src="./asserts/images/icon-open-list.png" className="float-right" />
-															</Link>:null}
+															</Link> : null}
 															<h2 className="text-center mb-1 mt-1 sec-lower-font">
 																<span className="waiting" style={{ display: "none" }} >
 																	<img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" />
@@ -516,11 +521,11 @@ export default class executiveSummary extends Component {
 												<div className="card-box-dark p-3 mb-2 black-right-card">
 													<h4 className="d-inline-block mb-0 text-danger">Unders</h4>
 													<Link to={{
-																pathname: '/underOvers',
-																state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }
-															}} className="Unders cursor_pointer">
-																<img src="./asserts/images/icon-open-list.png" className="float-right" />
-															</Link>
+														pathname: '/underOvers',
+														state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }
+													}} className="Unders cursor_pointer">
+														<img src="./asserts/images/icon-open-list.png" className="float-right" />
+													</Link>
 													<div>
 														<h3 className="mb-0  d-inline-block"><span className="small-text">Count</span>
 															<span className="waiting" style={{ display: "none" }} >
@@ -539,11 +544,11 @@ export default class executiveSummary extends Component {
 												<div className="card-box-dark p-3 mb-2 black-right-card">
 													<h4 className="d-inline-block mb-0 text-success">Overs</h4>
 													<Link to={{
-																pathname: '/AllOvers',
-																state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }
-															}} className="AllOvers cursor_pointer">
-																<img src="./asserts/images/icon-open-list.png" className="float-right" />
-															</Link>
+														pathname: '/AllOvers',
+														state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }
+													}} className="AllOvers cursor_pointer">
+														<img src="./asserts/images/icon-open-list.png" className="float-right" />
+													</Link>
 													<div>
 														<h3 className="mb-0  d-inline-block"><span className="small-text">Count</span>
 															<span className="waiting" style={{ display: "none" }} >
@@ -563,11 +568,11 @@ export default class executiveSummary extends Component {
 												<div className="card-box-dark p-3 mb-2 black-right-card">
 													<h4 className="d-inline-block mb-0 text-danger">Critical Out Of Stock</h4>
 													<Link to={{
-																pathname: '/CriticalOutOfStock',
-																state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }
-															}} className="CriticalOutOfStock cursor_pointer">
-																<img src="./asserts/images/icon-open-list.png" className="float-right" />
-															</Link>
+														pathname: '/CriticalOutOfStock',
+														state: { store_id: this.state.store_id, date: this.state.formatteddate, show_over: this.state.show_over, brand_id: this.state.bnd, department_id: this.state.dept }
+													}} className="CriticalOutOfStock cursor_pointer">
+														<img src="./asserts/images/icon-open-list.png" className="float-right" />
+													</Link>
 													<div>
 														<h3 className="mb-0 mt-3 d-inline-block">
 															<span className="small-text">Count</span>
@@ -580,7 +585,7 @@ export default class executiveSummary extends Component {
 													</div>
 												</div>
 											</div>
-										</div>:null}
+										</div> : null}
 										<p className="mb-0 p-2 light time-load-text text-light">Page Load: 0.35s</p>
 									</div>
 								</div>

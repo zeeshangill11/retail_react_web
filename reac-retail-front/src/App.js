@@ -34,6 +34,10 @@ import zplReport from "./components/TagIT/zplReport";
 import zplReport_sku from "./components/TagIT/zplReport_sku";
 import transferCancellation from "./components/transferCancellation/transferCancellation";
 import gi_cancellation from "./components/transferCancellation/gi_cancellation";
+import storeinfo from "./components/Stores/storeInfo";
+import printerInfo from "./components/Printers/printerInfo";
+import zplInfo from "./components/Zpl/zplInfo";
+import ibtDifferences from "./components/ibtDifferences/ibtDifferences";
 
 class App extends Component {
 
@@ -84,6 +88,10 @@ class App extends Component {
           {/* Admin Reports */}
           <Route path="/transferCancellation" component={transferCancellation} />
           <Route path="/gi_cancellation" component={gi_cancellation} />
+          <Route path="/storeinfo" component={storeinfo} />
+          <Route path="/printerInfo" component={printerInfo} />
+          <Route path="/zplInfo" component={zplInfo} />
+          <Route path="/ibtDifferences" component={ibtDifferences} />
         </Switch>
 
       </>

@@ -21,27 +21,20 @@ import $ from 'jquery';
 
 import Cookies from 'universal-cookie';
 
-export default class transferCancellation extends Component {
+export default class ibtDifferences extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
-            startDate: '',
-            store_list: [],
-            onhandtotal: 0,
-            store_id: 0,
-            uid: " ",
-            IBT: " ",
+            stdate: '',
+            ibt: " ",
             error_msg: "",
         };
     }
 
 
     componentDidMount = async () => {
-        var stores = await common.get_stores();
-        this.setState(store_list => ({
-            store_list: stores
-        }));
+
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
@@ -75,21 +68,21 @@ export default class transferCancellation extends Component {
                 },
                 'language': {
                     'loadingRecords': '&nbsp;',
-                    'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
+                    'processing': '&nbsp; &nbsp; Please wait... <br><div className="spinner"></div>'
                 },
 
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': server_ip + 'stockCountRecords/new_getasndata/',
+                    'url': server_ip + 'stockCountRecords/ibt_differenceReport/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
-                                "source": $('#StoreID').val(),
-                                "Date": $('#date').val(),
-                                "Asn": $('#IBT').val(),
+                                "ans": $("#ibt").val(),
+                                "datetime": $("#date").val(),
+
                             });
                         },
 
@@ -97,15 +90,13 @@ export default class transferCancellation extends Component {
                 "order": [[1, 'desc']],
                 "responsive": true,
                 "columns": [
-                    { "data": "date" },
+                    { "data": "id" },
+                    { "data": "datetime" },
                     { "data": "asn" },
-                    { "data": "source" },
-                    { "data": "destination" },
-                    { "data": "packed_item" },
-                    { "data": "transferred_item" },
-                    { "data": "received_item" },
-                    { "data": "status" },
-                    { "data": "action" },
+                    { "data": "send_mail" },
+                    { "data": "view_details" }
+
+
                 ],
                 "searching": false,
                 "select": true
@@ -118,13 +109,8 @@ export default class transferCancellation extends Component {
         });
 
     }
-
     handleFromDateChange = date => {
-        this.setState({ startDate: date })
-    }
-
-    handleToDateChange = date => {
-        this.setState({ endDate: date })
+        this.setState({ stdate: date })
     }
     render() {
         return (
@@ -142,7 +128,7 @@ export default class transferCancellation extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                Transfer Cancel IBT Data
+                                                ZPL
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -165,22 +151,16 @@ export default class transferCancellation extends Component {
                                                 <div className="mb-0 filter-size">
 
                                                     <span id="iot_notification"></span>
-                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >
-                                                        <option value="">All Stores</option>
-                                                        {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
-                                                    </select>
+
+                                                    <input className="mx-2" type="text" placeholder="IBT" name="ibt" id="ibt" onChange={(e) => this.setState({ ibt: e.target.value })} value={this.state.ibt ? this.state.ibt.trim() : ""} ></input>
                                                     <div className="d-inline-block" style={{ width: "150px !important" }}>
-                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                            id="date" name="date" placeholderText="Date: yyyy-mm-dd"
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.stdate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="date" name="date" placeholderText="From Date: yyyy-mm-dd"
                                                             dateFormat="yyyy-MM-dd" />
                                                     </div>
 
-
-                                                    <input className="mx-2" type="text" placeholder="IBT" name="IBT" id="IBT" onChange={(e) => this.setState({ IBT: e.target.value })} value={this.state.IBT ? this.state.IBT.trim() : ""} ></input>
-
                                                     <div className="d-inline-block mr-4 mb-0 w-25 my-2">
-                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Search</button>
+                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block" >Search</button>
                                                     </div>
                                                     <div className="error_block">
                                                         <span className="error error_msg">{this.state.error_msg}</span>
@@ -188,19 +168,15 @@ export default class transferCancellation extends Component {
                                                 </div>
 
                                             </div>
-                                            <div class="data-tables">
-                                                <table id="dataTable" class="text-center mm-datatable">
-                                                    <thead class="bg-light text-capitalize">
+                                            <div className="data-tables">
+                                                <table id="dataTable" className="text-center mm-datatable" style={{ width: "100%" }}>
+                                                    <thead className="bg-light text-capitalize">
                                                         <tr>
-                                                            <th>Date</th>
-                                                            <th>IBT</th>
-                                                            <th>Source</th>
-                                                            <th>Destination</th>
-                                                            <th>Packed Items</th>
-                                                            <th>Transfer Items</th>
-                                                            <th>Received Items</th>
-                                                            <th>Status</th>
-                                                            <th>Action</th>
+                                                            <th>ID</th>
+                                                            <th>Datetime</th>
+                                                            <th>ASN</th>
+                                                            <th>Send mail</th>
+                                                            <th style={{ width: "10%" }}>View Details</th>
 
                                                         </tr>
                                                     </thead>

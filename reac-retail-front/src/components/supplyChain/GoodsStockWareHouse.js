@@ -59,55 +59,55 @@ export default class GoodsStockWareHouse extends Component {
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
         var cookies = new Cookies();
-var myToken = cookies.get('myToken');
+        var myToken = cookies.get('myToken');
 
         $(document).ready(function () {
 
-            main_table=	$('#dataTable').DataTable( {
+            main_table = $('#dataTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
                     {
                         extend: 'excel',
                         title: 'GoodsStockWareHouse'
-                    },{
-    
+                    }, {
+
                         extend: 'print',
-                        title: 'GoodsStockWareHouse'       
+                        title: 'GoodsStockWareHouse'
                     },
                 ],
                 "pageLength": 25,
-                "order": [[ 0, "desc" ]],
+                "order": [[0, "desc"]],
                 'processing': true,
-                 "initComplete": function( settings, json ) {
-                     $(".data-tables").css('visibility','visible');
+                "initComplete": function (settings, json) {
+                    $(".data-tables").css('visibility', 'visible');
                     //$(".before_load_table").hide();
                 },
                 'language': {
                     'loadingRecords': '&nbsp;',
                     'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
-                }, 
+                },
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url':server_ip+'stockCountRecords/getgoodswarehouse/',
+                    'url': server_ip + 'stockCountRecords/getgoodswarehouse/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
-                    "data": 
-                    function ( d ) {
-                        return $.extend( {}, d, {
-                            "store_id": $( "#StoreID" ).val(),
-                            //"RetailItemBatchId":$( "#RetailItemBatchId" ).val(),
-                            "from_my_date":$( "#FromDate" ).val(),  
-                            "to_my_date" :$('#ToDate').val(),
-                            "EPC" :$('#EPC').val(),
-                            "SKU" :$('#SKU').val(),	
-                            "supplier_number" :$('#supplier_number').val(),
-                            "shipment_number" :$('#shipment_number').val(),
-                            "Retail_Item_Batch_Id" :$('#Retail_Item_Batch_Id').val(),
-                        } );
-                    },
-                },	
+                    "data":
+                        function (d) {
+                            return $.extend({}, d, {
+                                "store_id": $("#StoreID").val(),
+                                //"RetailItemBatchId":$( "#RetailItemBatchId" ).val(),
+                                "from_my_date": $("#FromDate").val(),
+                                "to_my_date": $('#ToDate').val(),
+                                "EPC": $('#EPC').val(),
+                                "SKU": $('#SKU').val(),
+                                "supplier_number": $('#supplier_number').val(),
+                                "shipment_number": $('#shipment_number').val(),
+                                "Retail_Item_Batch_Id": $('#Retail_Item_Batch_Id').val(),
+                            });
+                        },
+                },
                 "responsive": true,
                 "columns": [
                     { "data": "date" },
@@ -117,19 +117,19 @@ var myToken = cookies.get('myToken');
                     { "data": "shipment_number" },
                     { "data": "store" },
                     { "data": "purchase_order" },
-                    
+
                     { "data": "epc" },
                     { "data": "remarks" },
                     { "data": "id" },
                     { "data": "comments" },
                 ],
-                'columnDefs': [ {
-                    'targets': [2,,3,5], /* column index */
+                'columnDefs': [{
+                    'targets': [2, , 3, 5], /* column index */
                     'orderable': false, /* true or false */
-                 }],
+                }],
                 "searching": false,
             });
-        }); 
+        });
 
         $('.run').click(function () {
 
@@ -182,13 +182,18 @@ var myToken = cookies.get('myToken');
                                             <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
                                                 <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
                                                 <div className="mb-0 filter-size">
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
 
-                                                    <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
+
 
                                                     <span id="iot_notification"></span>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"

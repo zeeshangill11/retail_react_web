@@ -1511,3 +1511,7 @@ table.dataTable tbody td{
 .even td:last-child{
   width: 10%;
 }
+#show_over{
+  padding: 20px !important;
+  width: 20px;
+}

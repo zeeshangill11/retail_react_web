@@ -84,7 +84,7 @@ export default class zplReport extends Component {
                     'loadingRecords': '&nbsp;',
                     'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
                 },
-               
+
                 'serverMethod': 'post',
                 'ajax': {
                     'url': server_ip + 'stockCountRecords/GetZPLReportData/',
@@ -101,7 +101,7 @@ export default class zplReport extends Component {
                                 "user_id": $('#user_id').val(),
                             });
                         },
-                    
+
                 },
                 "order": [[1, 'desc']],
                 "responsive": true,
@@ -203,9 +203,12 @@ export default class zplReport extends Component {
 
                                                     <input className="mx-2" type="text" placeholder="EPC" name="Epc" id="Epc" onChange={(e) => this.setState({ epc: e.target.value })} value={this.state.epc ? this.state.epc.trim() : ""} ></input>
                                                     <input className="mx-2" type="text" placeholder="uid" name="uid" id="uid" onChange={(e) => this.setState({ uid: e.target.value })} value={this.state.uid ? this.state.uid.trim() : ""} ></input>
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="date" name="date" placeholderText="From Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="date" name="date" placeholderText="From Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
+
 
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="userId" id="userId" onChange={(e) => this.setState({ user_id: e.target.value })} value={this.state.user_id ? this.state.user_id : 0} >

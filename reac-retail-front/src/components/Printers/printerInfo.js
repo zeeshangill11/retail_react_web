@@ -21,17 +21,17 @@ import $ from 'jquery';
 
 import Cookies from 'universal-cookie';
 
-export default class transferCancellation extends Component {
+export default class printerInfo extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
-            startDate: '',
             store_list: [],
-            onhandtotal: 0,
+            company_list: [],
+            country_list: [],
             store_id: 0,
-            uid: " ",
-            IBT: " ",
+            country_id: 0,
+            company_id: 0,
             error_msg: "",
         };
     }
@@ -41,6 +41,14 @@ export default class transferCancellation extends Component {
         var stores = await common.get_stores();
         this.setState(store_list => ({
             store_list: stores
+        }));
+        var company = await common.get_storeCompany();
+        this.setState(company_list => ({
+            company_list: company
+        }));
+        var country = await common.get_storeCountry();
+        this.setState(country_list => ({
+            country_list: country
         }));
 
         const server_ip = await new_config.get_server_ip();
@@ -75,37 +83,29 @@ export default class transferCancellation extends Component {
                 },
                 'language': {
                     'loadingRecords': '&nbsp;',
-                    'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
+                    'processing': '&nbsp; &nbsp; Please wait... <br><div className="spinner"></div>'
                 },
 
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': server_ip + 'stockCountRecords/new_getasndata/',
+                    'url': server_ip + 'stockCountRecords/getprinter/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
-                    "data":
-                        function (d) {
-                            return $.extend({}, d, {
-                                "source": $('#StoreID').val(),
-                                "Date": $('#date').val(),
-                                "Asn": $('#IBT').val(),
-                            });
-                        },
 
                 },
                 "order": [[1, 'desc']],
                 "responsive": true,
                 "columns": [
-                    { "data": "date" },
-                    { "data": "asn" },
-                    { "data": "source" },
-                    { "data": "destination" },
-                    { "data": "packed_item" },
-                    { "data": "transferred_item" },
-                    { "data": "received_item" },
+                    { "data": "id" },
+                    { "data": "name" },
+                    { "data": "ip" },
+                    { "data": "port" },
+                    { "data": "storeid" },
                     { "data": "status" },
+                    { "data": "remarks" },
                     { "data": "action" },
+
                 ],
                 "searching": false,
                 "select": true
@@ -117,14 +117,6 @@ export default class transferCancellation extends Component {
             main_table.ajax.reload();
         });
 
-    }
-
-    handleFromDateChange = date => {
-        this.setState({ startDate: date })
-    }
-
-    handleToDateChange = date => {
-        this.setState({ endDate: date })
     }
     render() {
         return (
@@ -142,7 +134,7 @@ export default class transferCancellation extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                Transfer Cancel IBT Data
+                                                Printer Info
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -159,49 +151,20 @@ export default class transferCancellation extends Component {
                                         </div>
                                     </div>
                                     <div className="col-md-12">
-                                        <div className="card-body">
-                                            <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
-                                                <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
-                                                <div className="mb-0 filter-size">
+                                        <div className="card-body" style={{overflowY: "auto"}}>
 
-                                                    <span id="iot_notification"></span>
-                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >
-                                                        <option value="">All Stores</option>
-                                                        {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
-                                                    </select>
-                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
-                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                            id="date" name="date" placeholderText="Date: yyyy-mm-dd"
-                                                            dateFormat="yyyy-MM-dd" />
-                                                    </div>
-
-
-                                                    <input className="mx-2" type="text" placeholder="IBT" name="IBT" id="IBT" onChange={(e) => this.setState({ IBT: e.target.value })} value={this.state.IBT ? this.state.IBT.trim() : ""} ></input>
-
-                                                    <div className="d-inline-block mr-4 mb-0 w-25 my-2">
-                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Search</button>
-                                                    </div>
-                                                    <div className="error_block">
-                                                        <span className="error error_msg">{this.state.error_msg}</span>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="data-tables">
-                                                <table id="dataTable" class="text-center mm-datatable">
-                                                    <thead class="bg-light text-capitalize">
+                                            <div className="data-tables">
+                                                <table id="dataTable" className="text-center mm-datatable" style={{width: "100%"}}>
+                                                    <thead className="bg-light text-capitalize">
                                                         <tr>
-                                                            <th>Date</th>
-                                                            <th>IBT</th>
-                                                            <th>Source</th>
-                                                            <th>Destination</th>
-                                                            <th>Packed Items</th>
-                                                            <th>Transfer Items</th>
-                                                            <th>Received Items</th>
+                                                            <th>ID</th>
+                                                            <th>Name</th>
+                                                            <th>IP</th>
+                                                            <th>Port</th>
+                                                            <th>StoreName</th>
                                                             <th>Status</th>
+                                                            <th>Remarks</th>
                                                             <th>Action</th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>

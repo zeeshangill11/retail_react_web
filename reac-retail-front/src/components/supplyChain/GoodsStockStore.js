@@ -60,77 +60,77 @@ export default class GoodsStockStore extends Component {
         var main_table = ' ';
 
         var cookies = new Cookies();
-var myToken = cookies.get('myToken');
+        var myToken = cookies.get('myToken');
         $(document).ready(function () {
 
-            main_table=$('#dataTable').DataTable( {
+            main_table = $('#dataTable').DataTable({
                 dom: 'Bfrtip',
-                    buttons: [
-                        {
-                            extend: 'excel',
-                            title: 'GoodsStockStore'
-                        },{
-        
-                            extend: 'print',
-                            title: 'GoodsStockStore'       
-                        },
-                    ],
-                    "pageLength": 25,
-                    "order": [[ 0, "desc" ]],
-                    'processing': true,
-                    'serverSide': true,
-                     "initComplete": function( settings, json ) {
-                        $(".data-tables").css('visibility', 'visible');
-                        
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: 'GoodsStockStore'
+                    }, {
+
+                        extend: 'print',
+                        title: 'GoodsStockStore'
                     },
-                    'language': {
-                        'loadingRecords': '&nbsp;',
-                        'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
-                    }, 
-                    'serverMethod': 'post',
-                    'ajax': {
-                        'url':server_ip+'stockCountRecords/getgoodsstore/',
-                        'beforeSend': function (request) {
-                            request.setRequestHeader("auth-token", myToken);
-                        },
-                        "data": 
-                        function ( d ) {
-                            return $.extend( {}, d, {
-                                "store_id": $( "#StoreID" ).val(),
+                ],
+                "pageLength": 25,
+                "order": [[0, "desc"]],
+                'processing': true,
+                'serverSide': true,
+                "initComplete": function (settings, json) {
+                    $(".data-tables").css('visibility', 'visible');
+
+                },
+                'language': {
+                    'loadingRecords': '&nbsp;',
+                    'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
+                },
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': server_ip + 'stockCountRecords/getgoodsstore/',
+                    'beforeSend': function (request) {
+                        request.setRequestHeader("auth-token", myToken);
+                    },
+                    "data":
+                        function (d) {
+                            return $.extend({}, d, {
+                                "store_id": $("#StoreID").val(),
                                 // "RetailItemBatchId":$( "#RetailItemBatchId" ).val(),
-                                "from_my_date":$( "#FromDate" ).val(),	
-                                "to_my_date" :$('#ToDate').val(),
-                                "EPC" :$('#EPC').val(),
-                                "SKU" :$('#SKU').val(),
-                                "supplier_number" :$('#supplier_number').val(),
-                                "shipment_number" :$('#shipment_number').val(),
-                                "Retail_Item_Batch_Id" :$('#Retail_Item_Batch_Id').val(),
-                            } );
+                                "from_my_date": $("#FromDate").val(),
+                                "to_my_date": $('#ToDate').val(),
+                                "EPC": $('#EPC').val(),
+                                "SKU": $('#SKU').val(),
+                                "supplier_number": $('#supplier_number').val(),
+                                "shipment_number": $('#shipment_number').val(),
+                                "Retail_Item_Batch_Id": $('#Retail_Item_Batch_Id').val(),
+                            });
                         },
-                    },	
-                    "responsive": true,
-                    "columns": [
-                        { "data": "date" },
-                        { "data": "refno" },
-                        { "data": "retail_item_batch_id" },
-                        { "data": "supplier_number" },
-                        { "data": "shipment_number" },
-                        { "data": "store" },
-                        { "data": "purchase_order" },
-                        
-                        { "data": "epc" },
-                        { "data": "remarks" },
-                        { "data": "id" },
-                        { "data": "comments" },
-                        
-                    ],
-                    'columnDefs': [ {
-                        'targets': [2,,3,5], /* column index */
-                        'orderable': false, /* true or false */
-                     }],
-                    "searching": false,
-                });
-            }); 
+                },
+                "responsive": true,
+                "columns": [
+                    { "data": "date" },
+                    { "data": "refno" },
+                    { "data": "retail_item_batch_id" },
+                    { "data": "supplier_number" },
+                    { "data": "shipment_number" },
+                    { "data": "store" },
+                    { "data": "purchase_order" },
+
+                    { "data": "epc" },
+                    { "data": "remarks" },
+                    { "data": "id" },
+                    { "data": "comments" },
+
+                ],
+                'columnDefs': [{
+                    'targets': [2, , 3, 5], /* column index */
+                    'orderable': false, /* true or false */
+                }],
+                "searching": false,
+            });
+        });
 
         $('.run').click(function () {
 
@@ -162,7 +162,7 @@ var myToken = cookies.get('myToken');
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                            Goods Stock Store
+                                                Goods Stock Store
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -183,13 +183,18 @@ var myToken = cookies.get('myToken');
                                             <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
                                                 <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
                                                 <div className="mb-0 filter-size">
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
 
-                                                    <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
+
 
                                                     <span id="iot_notification"></span>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
@@ -200,7 +205,7 @@ var myToken = cookies.get('myToken');
 
                                                     <input className="mx-2" type="text" placeholder="EPC" name="epcID" id="epcID" onChange={(e) => this.setState({ epc: e.target.value })} value={this.state.epc ? this.state.epc.trim() : ""} ></input>
                                                     <input className="mx-2" type="text" placeholder="SKU" name="skuID" id="skuID" onChange={(e) => this.setState({ sku: e.target.value })} value={this.state.sku ? this.state.sku.trim() : ""} ></input>
-                                                    
+
                                                     <input className="mx-2" type="text" placeholder="Supplier Number" name="supplier_number" id="supplier_number" onChange={(e) => this.setState({ sup_num: e.target.value })} value={this.state.sup_num ? this.state.sup_num.trim() : ""} ></input>
                                                     <input className="mx-2" type="text" placeholder="Shipment Number" name="shipment_number" id="shipment_number" onChange={(e) => this.setState({ shp_num: e.target.value })} value={this.state.shp_num ? this.state.shp_num.trim() : ""} ></input>
                                                     <input className="mx-2" type="text" placeholder="Retail Item BatchId" name="Retail_Item_Batch_Id" id="Retail_Item_Batch_Id" onChange={(e) => this.setState({ BachId: e.target.value })} value={this.state.BachId ? this.state.BachId.trim() : ""} ></input>
@@ -215,30 +220,30 @@ var myToken = cookies.get('myToken');
 
                                             </div>
                                             <div class="data-tables">
-                       
-                             <table id="dataTable" class="text-center mm-datatable">
-                            <thead class="bg-light text-capitalize">
-                                <tr>
-                                    <th>Date</th>
-                                    <th>SKU</th>
-                                    <th>Retail Item Batch Id</th>
-                                    <th>Supplier Number</th>
-                                    <th>Shipment Number</th>
-                                    <th>Store</th>
-                                    <th>Purchase Order</th>
-                                    <th>Epc</th> 
-                                    <th>Remarks</th> 
-                                    <th>Id</th>
-                                    <th>Comments</th>        
-                                </tr>
-                            </thead>
-                            <tbody>
 
-                            </tbody>
-                        </table> 
-                      
-                       
-                    </div>
+                                                <table id="dataTable" class="text-center mm-datatable">
+                                                    <thead class="bg-light text-capitalize">
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>SKU</th>
+                                                            <th>Retail Item Batch Id</th>
+                                                            <th>Supplier Number</th>
+                                                            <th>Shipment Number</th>
+                                                            <th>Store</th>
+                                                            <th>Purchase Order</th>
+                                                            <th>Epc</th>
+                                                            <th>Remarks</th>
+                                                            <th>Id</th>
+                                                            <th>Comments</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
