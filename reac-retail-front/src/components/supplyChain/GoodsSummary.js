@@ -43,7 +43,7 @@ export default class GoodsSummary extends Component {
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
         var cookies = new Cookies();
-var myToken = cookies.get('myToken');
+        var myToken = cookies.get('myToken');
 
         $(document).ready(function () {
 
@@ -135,7 +135,7 @@ var myToken = cookies.get('myToken');
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                            Goods Summary
+                                                Goods Summary
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -156,13 +156,18 @@ var myToken = cookies.get('myToken');
                                             <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
                                                 <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
                                                 <div className="mb-0 filter-size">
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
 
-                                                    <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
+
 
                                                     <span id="iot_notification"></span>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"

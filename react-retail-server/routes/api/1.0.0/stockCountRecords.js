@@ -2098,7 +2098,7 @@ router.post('/getauditinfo', authenticationMidleware(), (req, res, next) => {
 router.post('/ibt_differenceReport', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('ibt_differenceReport');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -2130,7 +2130,8 @@ router.post('/ibt_differenceReport', authenticationMidleware(), (req, res, next)
         }
 
         if (req.body.datetime != "" && req.body.datetime != 0 && req.body.datetime != "0") {
-            cond += ' AND datetime="' + req.body.datetime + '" '
+             cond += 'and datetime>="' + req.body.datetime + ' 00:00:00" and datetime <= "' + req.body.datetime + ' 23:59:59"'
+           
         }
         // if (req.body.StoreID != "" && req.body.StoreID != 0 && req.body.StoreID != "0") {
         //     cond += ' AND storeid="' + req.body.StoreID + '" '
@@ -2140,7 +2141,7 @@ router.post('/ibt_differenceReport', authenticationMidleware(), (req, res, next)
         // }
 
         console.log("before permission")
-        if (mysql.check_permission('ibt_difference', session.user_permission)) {
+        //if (mysql.check_permission('ibt_difference', session.user_permission)) {
 
             var new_query = "SELECT " +
                 " * FROM notificaton_asn " +
@@ -2192,10 +2193,10 @@ router.post('/ibt_differenceReport', authenticationMidleware(), (req, res, next)
                 res.end(error);
                 //res.end(error);
             });
-        }
-        else {
-            res.end("permission not allowd");
-        }
+        //}
+        // else {
+        //     res.end("permission not allowd");
+        // }
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1905-ibt_differenceReport');
         if (e instanceof TypeError) {
@@ -6267,7 +6268,7 @@ router.post('/getprinter', authenticationMidleware(), (req, res, next) => {
 
     console2.execution_info('getprinter');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -6300,7 +6301,7 @@ router.post('/getprinter', authenticationMidleware(), (req, res, next) => {
         var query_count = " select count(*) as `my_count` from (SELECT * FROM printer WHERE 1 " + search_cond + ") sq ";
         //console.log("sssssssssss"+new_query)
         //abdulrehmanijaz
-        if (mysql.check_permission('printer', session.user_permission)) {
+        //if (mysql.check_permission('printer', session.user_permission)) {
             mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
@@ -6342,7 +6343,7 @@ router.post('/getprinter', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '3087-getprinter');
                 res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '3825-getprinter');
         if (e instanceof TypeError) {
@@ -6367,7 +6368,7 @@ router.post('/getprinter', authenticationMidleware(), (req, res, next) => {
 router.post('/getzplinfo', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getzplinfo');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -6402,7 +6403,7 @@ router.post('/getzplinfo', authenticationMidleware(), (req, res, next) => {
         var query_count = " select count(*) as `my_count` from (SELECT * FROM zpl WHERE 1 " + search_cond + ") sq ";
         //console.log("sssssssssss"+new_query)
         //abdulrehmanijaz
-        if (mysql.check_permission('zpl', session.user_permission)) {
+        //if (mysql.check_permission('zpl', session.user_permission)) {
             mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
@@ -6444,7 +6445,7 @@ router.post('/getzplinfo', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '3186-getzplinfo');
                 res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '3926-getzplinfo');
         if (e instanceof TypeError) {
@@ -6828,7 +6829,7 @@ router.post('/ExecutiveSummaryReport', authenticationMidleware(), (req, res, nex
 router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getstoreinfo');
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -6866,16 +6867,16 @@ router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
         //     cond += ' AND storecode="' + req.body.StoreCode + '" ';
         // }
 
-        if (mysql.check_permission('storeinfo', session.user_permission)) {
+        //if (mysql.check_permission('storeinfo', session.user_permission)) {
 
 
             var new_query = ''
             var query_count = ''
-            var storeid = session.storeid;
+            var storeid = '';
             storeid = storeid.split('[').join('');
             storeid = storeid.split(']').join('');
 
-            if (req.session.user_id == 1) {
+            //if (req.session.user_id == 1) {
 
                 new_query += "SELECT * ," +
                     " CASE WHEN status = 1 THEN 'Active' ELSE 'Disable' END AS statuss FROM tb_store WHERE 1 " + cond + search_cond + " " + order_by_cond;
@@ -6883,13 +6884,13 @@ router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
                 query_count += "select count(*) as `my_count` from (SELECT * FROM tb_store WHERE 1 " + cond + search_cond + ") sq ";
 
 
-            } else {
+            // } else {
 
-                new_query += "SELECT *," +
-                    " CASE WHEN status = 1 THEN 'Active' ELSE 'Disable' END AS statuss FROM tb_store WHERE storename IN (" + storeid + ") " + cond + search_cond + " " + order_by_cond;
+            //     new_query += "SELECT *," +
+            //         " CASE WHEN status = 1 THEN 'Active' ELSE 'Disable' END AS statuss FROM tb_store WHERE storename IN (" + storeid + ") " + cond + search_cond + " " + order_by_cond;
 
-                query_count += " select count(*) as `my_count` from (SELECT * FROM tb_store WHERE storename IN (" + storeid + ") " + cond + search_cond + ") sq ";
-            }
+            //     query_count += " select count(*) as `my_count` from (SELECT * FROM tb_store WHERE storename IN (" + storeid + ") " + cond + search_cond + ") sq ";
+            // }
 
 
             //console.log('==============='+new_query);
@@ -6931,7 +6932,7 @@ router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '3603-getstoreinfo');
                 res.end(error);
             });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '4409-getstoreinfo');
         if (e instanceof TypeError) {
@@ -9167,19 +9168,19 @@ router.post('/getAsnStatus', authenticationMidleware(), (req, res, next) => {
 router.post('/getStoreCompany', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getStoreCompany');
     try {
-        var session = req.session;
-        var storeid = session.storeid;
+        //var session = req.session;
+        var storeid = '';
 
         storeid = storeid.split('[').join('');
         storeid = storeid.split(']').join('');
 
         var query = '';
 
-        if (session.user_id == 1) {
+        //if (session.user_id == 1) {
             query = "SELECT * FROM tb_store WHERE 1 GROUP BY store_company ORDER BY storeid DESC"
-        } else {
-            query = "SELECT * FROM tb_store WHERE storeid IN (" + storeid + ") GROUP BY store_company ORDER BY storeid DESC"
-        }
+        // } else {
+        //     query = "SELECT * FROM tb_store WHERE storeid IN (" + storeid + ") GROUP BY store_company ORDER BY storeid DESC"
+        // }
         //console.log(query);
 
         mysql.queryCustom(query)
@@ -9220,19 +9221,19 @@ router.post('/getStoreCompany', authenticationMidleware(), (req, res, next) => {
 router.post('/store_country', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('store_country');
     try {
-        var session = req.session;
-        var storeid = session.storeid;
+        //var session = req.session;
+        var storeid = '';
 
         storeid = storeid.split('[').join('');
         storeid = storeid.split(']').join('');
 
         var query = '';
 
-        if (session.user_id == 1) {
+        //if (session.user_id == 1) {
             query = "SELECT * FROM tb_store WHERE 1 GROUP BY store_country ORDER BY storeid DESC"
-        } else {
-            query = "SELECT * FROM tb_store WHERE storeid IN (" + storeid + ") GROUP BY store_country ORDER BY storeid DESC"
-        }
+        // } else {
+        //     query = "SELECT * FROM tb_store WHERE storeid IN (" + storeid + ") GROUP BY store_country ORDER BY storeid DESC"
+        // }
         //console.log(query);
 
         mysql.queryCustom(query)

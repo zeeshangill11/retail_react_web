@@ -178,13 +178,18 @@ export default class gi_cancellation extends Component {
                                                 <div className="mb-0 filter-size">
 
                                                     <span id="iot_notification"></span>
-                                                    <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="fromdate" name="fromdate" placeholderText="From: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="fromdate" name="fromdate" placeholderText="From: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
 
-                                                    <DatePicker onChange={this.handleToDateChange} selected={this.state.toDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                        id="todate" name="todate" placeholderText="To: yyyy-mm-dd"
-                                                        dateFormat="yyyy-MM-dd" />
+                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
+                                                        <DatePicker onChange={this.handleToDateChange} selected={this.state.toDate} className="form-control d-inline-block mr-2 date_picker_22"
+                                                            id="todate" name="todate" placeholderText="To: yyyy-mm-dd"
+                                                            dateFormat="yyyy-MM-dd" />
+                                                    </div>
+
 
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >

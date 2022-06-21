@@ -17,24 +17,22 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+
+
 import Cookies from 'universal-cookie';
 
-export default class asnData extends Component {
+export default class storeInfo extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
-            startDate: '',
-            endDate: '',
             store_list: [],
-            asn_list: [],
-            status_list: [],
-            onhandtotal: 0,
+            company_list: [],
+            country_list: [],
             store_id: 0,
-            asn_id: 0,
-            status_id: 0,
-            Remarks: ' ',
-            IBT: ' '
+            country_id: 0,
+            company_id: 0,
+            error_msg: "",
         };
     }
 
@@ -44,37 +42,39 @@ export default class asnData extends Component {
         this.setState(store_list => ({
             store_list: stores
         }));
-        var asn = await common.get_asnDestination();
-        this.setState(asn_list => ({
-            asn_list: asn
+        var company = await common.get_storeCompany();
+        this.setState(company_list => ({
+            company_list: company
         }));
-        var status = await common.get_allStatus();
-        console.log(status)
-        this.setState(status_list => ({
-            status_list: status
+        var country = await common.get_storeCountry();
+        this.setState(country_list => ({
+            country_list: country
         }));
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
         var cookies = new Cookies();
+
         var myToken = cookies.get('myToken');
+        console.log(myToken)
+
 
         $(document).ready(function () {
 
             main_table = $('#dataTable').DataTable({
                 dom: 'Bfrtip',
+
                 buttons: [
                     {
                         extend: 'excel',
-                        title: 'IBT Data'
+                        title: 'AsnData'
                     }, {
 
                         extend: 'print',
-                        title: 'IBT Data'
+                        title: 'AsnData'
                     },
                 ],
                 "pageLength": 25,
-                "order": [[0, "desc"]],
                 'processing': true,
                 'serverSide': true,
                 "initComplete": function (settings, json) {
@@ -83,45 +83,41 @@ export default class asnData extends Component {
                 },
                 'language': {
                     'loadingRecords': '&nbsp;',
-                    'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
+                    'processing': '&nbsp; &nbsp; Please wait... <br><div className="spinner"></div>'
                 },
+
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': server_ip + 'stockCountRecords/getasndata/',
+                    'url': server_ip + 'stockCountRecords/getstoreinfo/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
-                                "from_my_date": $("#FromDate").val(),
-                                "to_my_date": $('#ToDate').val(),
-                                "source": $('#StoreID').val(),
-                                "Destination": $('#AsnID').val(),
-                                "Status": $('#StatusID').val(),
-                                "Remarks": $('#Remarks').val(),
-                                "Asn": $('#IBT').val()
-
+                                "storeid": $("#StoreID").val(),
+                                "Company": $("#company_id").val(),
+                                "Country": $("#country_id").val(),
                             });
                         },
+
                 },
+                "order": [[1, 'desc']],
                 "responsive": true,
                 "columns": [
-                    { "data": "asn" },
-                    { "data": "source" },
-                    { "data": "destination" },
-                    { "data": "packed_item_new" },
-                    { "data": "transferred_item_new" },
-                    { "data": "received_item_new" },
+                    { "data": "storeid" },
+                    { "data": "storename" },
+                    { "data": "store_location" },
+                    { "data": "lat_lng" },
+                    { "data": "store_country" },
+                    { "data": "store_company" },
+                    { "data": "store_type" },
                     { "data": "status" },
-                    { "data": "packing_date" },
-                    { "data": "packing_remarks" },
-                    { "data": "shipping_date" },
-                    { "data": "shipping_remarks" }
+                    { "data": "action" },
+
                 ],
                 "searching": false,
-                "select": true,
-                "order": [[0, 'desc']],
+                "select": true
             });
         });
 
@@ -130,14 +126,6 @@ export default class asnData extends Component {
             main_table.ajax.reload();
         });
 
-    }
-
-    handleFromDateChange = date => {
-        this.setState({ startDate: date })
-    }
-
-    handleToDateChange = date => {
-        this.setState({ endDate: date })
     }
     render() {
         return (
@@ -155,7 +143,7 @@ export default class asnData extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                IBT Data
+                                                Store Info
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -176,16 +164,6 @@ export default class asnData extends Component {
                                             <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
                                                 <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
                                                 <div className="mb-0 filter-size">
-                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
-                                                        <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                            id="FromDate" name="FromDate" placeholderText="From Date: yyyy-mm-dd"
-                                                            dateFormat="yyyy-MM-dd" />
-                                                    </div>
-                                                    <div className="d-inline-block" style={{ width: "150px !important" }}>
-                                                        <DatePicker onChange={this.handleToDateChange} selected={this.state.endDate} className="form-control d-inline-block mr-2 date_picker_22"
-                                                            id="ToDate" name="ToDate" placeholderText="To Date: yyyy-mm-dd"
-                                                            dateFormat="yyyy-MM-dd" />
-                                                    </div>
 
                                                     <span id="iot_notification"></span>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
@@ -194,19 +172,18 @@ export default class asnData extends Component {
                                                         {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
                                                     </select>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="AsnID" id="AsnID" onChange={(e) => this.setState({ asn_id: e.target.value })} value={this.state.asn_id ? this.state.asn_id : 0} >
-                                                        <option value="">All Destination</option>
-                                                        {this.state.asn_list.map((x, y) => <option value={x.destination}>{x.destination}</option>)}
+                                                        name="company_id" id="company_id" onChange={(e) => this.setState({ company_id: e.target.value })} value={this.state.company_id ? this.state.company_id : 0} >
+                                                        <option value="">Company</option>
+                                                        {this.state.company_list.map((x, y) => <option value={x.store_company}>{x.store_company}</option>)}
                                                     </select>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="StatusID" id="StatusID" onChange={(e) => this.setState({ status_id: e.target.value })} value={this.state.status_id ? this.state.status_id : 0} >
-                                                        <option value="">All Status</option>
-                                                        {this.state.status_list.map((x, y) => <option value={x.status}>{x.status}</option>)}
+                                                        name="country_id" id="country_id" onChange={(e) => this.setState({ country_id: e.target.value })} value={this.state.country_id ? this.state.country_id : 0} >
+                                                        <option value="">Country</option>
+                                                        {this.state.country_list.map((x, y) => <option value={x.store_country}>{x.store_country}</option>)}
                                                     </select>
-                                                    <input className="mx-2" type="text" placeholder="Remarks" name="Remarks" id="Remarks" onChange={(e) => this.setState({ Remarks: e.target.value })} value={this.state.Remarks ? this.state.Remarks.trim() : ""} ></input>
-                                                    <input className="mx-2" type="text" placeholder="IBT" name="IBT" id="IBT" onChange={(e) => this.setState({ IBT: e.target.value })} value={this.state.IBT ? this.state.IBT.trim() : ""} ></input>
+
                                                     <div className="d-inline-block mr-4 mb-0 w-25 my-2">
-                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block" >Search</button>
+                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Run</button>
                                                     </div>
                                                     <div className="error_block">
                                                         <span className="error error_msg">{this.state.error_msg}</span>
@@ -214,23 +191,19 @@ export default class asnData extends Component {
                                                 </div>
 
                                             </div>
-                                            <div class="data-tables">
-                                                <table id="dataTable" class="text-center mm-datatable">
-                                                    <thead class="bg-light text-capitalize">
+                                            <div className="data-tables">
+                                                <table id="dataTable" className="text-center mm-datatable" style={{ width: "100%" }}>
+                                                    <thead className="bg-light text-capitalize">
                                                         <tr>
-                                                            <th>IBT</th>
-                                                            <th>Source</th>
-                                                            <th>Destination</th>
-                                                            <th>Packed Items</th>
-                                                            <th>Transfer Items</th>
-                                                            <th>Received Items</th>
+                                                            <th>Store ID</th>
+                                                            <th>Store Name</th>
+                                                            <th>Store Location</th>
+                                                            <th>Lat Long</th>
+                                                            <th>Country Name</th>
+                                                            <th>Company</th>
+                                                            <th>Store Type</th>
                                                             <th>Status</th>
-                                                            <th>Packing Date</th>
-                                                            <th>Packing Remarks</th>
-                                                            <th>Shipping Date</th>
-                                                            <th>Shipping Remarks</th>
-                                                            {/* <th>Receiving Date</th>
-                                                            <th>Receiving Remarks</th> */}
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -240,11 +213,11 @@ export default class asnData extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </div >
+                            </div >
+                        </div >
+                    </div >
+                </div >
             </>
         )
     }
