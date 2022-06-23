@@ -8,7 +8,6 @@ import Tutorial from "./components/tutorial.component";
 import TutorialsList from "./components/tutorials-list.component";
 import Login from "./components/Login/Login";
 
-
 import executiveSummary from "./components/executiveSummary/executiveSummary";
 import executiveSummaryOnHandSimple from "./components/executiveSummary/executiveSummaryOnHandSimple";
 import underOvers from "./components/executiveSummary/underOvers";
@@ -38,6 +37,8 @@ import storeinfo from "./components/Stores/storeInfo";
 import printerInfo from "./components/Printers/printerInfo";
 import zplInfo from "./components/Zpl/zplInfo";
 import ibtDifferences from "./components/ibtDifferences/ibtDifferences";
+import audit from "./components/audit/audit";
+import rolesInfo from "./components/roles/rolesInfo";
 
 class App extends Component {
 
@@ -92,6 +93,8 @@ class App extends Component {
           <Route path="/printerInfo" component={printerInfo} />
           <Route path="/zplInfo" component={zplInfo} />
           <Route path="/ibtDifferences" component={ibtDifferences} />
+          <Route path="/audit" component={audit} />
+          <Route path="/rolesInfo" component={rolesInfo} />
         </Switch>
 
       </>

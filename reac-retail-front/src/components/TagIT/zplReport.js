@@ -94,7 +94,7 @@ export default class zplReport extends Component {
                     "data":
                         function (d) {
                             return $.extend({}, d, {
-                                "Storeid": $('#Storeid').val(),
+                                "Storeid": $('#StoreID').val(),
                                 "Epc": $('#Epc').val(),
                                 "uid": $('#uid').val(),
                                 "date22": $('#date').val(),
@@ -211,8 +211,8 @@ export default class zplReport extends Component {
 
 
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="userId" id="userId" onChange={(e) => this.setState({ user_id: e.target.value })} value={this.state.user_id ? this.state.user_id : 0} >
-                                                        <option value="">All Stores</option>
+                                                        name="user_id" id="user_id" onChange={(e) => this.setState({ user_id: e.target.value })} value={this.state.user_id ? this.state.user_id : 0} >
+                                                        <option value="0">All Users</option>
                                                         {this.state.user_list.map((x, y) => <option key={x.id} value={x.username}>{x.username}</option>)}
                                                     </select>
 
