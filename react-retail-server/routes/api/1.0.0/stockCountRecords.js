@@ -1807,7 +1807,7 @@ router.post('/totalusers', authenticationMidleware(), (req, res, next) => {
 router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getusersinfo');
     try {
-        var session = req.session;
+        // var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -1841,7 +1841,7 @@ router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
             cond += ' AND US.username="' + req.body.UserName + '"'
         }
 
-        if (mysql.check_permission('usersinfo', session.user_permission)) {
+        // if (mysql.check_permission('usersinfo', session.user_permission)) {
             var new_query = "SELECT " +
                 " *, TR.role_name AS role_name ,US.storeid ,CASE " +
                 " WHEN US.status = 1 THEN 'Active' WHEN US.status = 0 THEN 'Disable' " +
@@ -1916,8 +1916,9 @@ router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
                 res.end(error);
                 //res.end(error);
             });
-        }
-    } catch (e) {
+        // }
+    } 
+    catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1558-getusersinfo');
         if (e instanceof TypeError) {
             res.status(500).send({
@@ -7670,7 +7671,7 @@ router.post('/GoodsWareHoue_retail_item_batch_id', authenticationMidleware(), (r
 router.post('/GetRoles', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetRoles');
     try {
-        var session = req.session;
+        //var session = req.session;
         mysql.querySelect("tb_roles", " order by role_id DESC", "*")
             .then(function (result) {
                 if (result.status == "1") {
@@ -11148,12 +11149,12 @@ router.post('/AddUserRole', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('AddUserRole');
     try {
         var data = req.body;
-        var session = req.session;
-        if (mysql.check_permission('UserRoles', session.user_permission)) {
+        //var session = req.session;
+        //if (mysql.check_permission('UserRoles', session.user_permission)) {
 
             function AddUserRoles() {
                 return new Promise((resolve) => {
-                    var user_id = session.passport.user;
+                    //var user_id = session.passport.user;
 
 
                     var entryData = [];
@@ -11185,7 +11186,7 @@ router.post('/AddUserRole', authenticationMidleware(), (req, res, next) => {
                     console2.log('Error', JSON.stringify(error), '5664-AddUserRole');
                     throw new Error(error);
                 })
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '7505-AddUserRole');
         if (e instanceof TypeError) {
@@ -11470,8 +11471,8 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('AddUser');
     try {
         var data = req.body;
-        var session = req.session;
-        if (mysql.check_permission('usersinfo', session.user_permission)) {
+        // var session = req.session;
+        // if (mysql.check_permission('usersinfo', session.user_permission)) {
             function AddUser() {
                 return new Promise((resolve) => {
 
@@ -11488,7 +11489,7 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
                         } else {
 
 
-                            var user_id = session.passport.user;
+                            //var user_id = session.passport.user;
                             var entryData = [];
 
                             let salt = bcrypt.genSaltSync(10);
@@ -11502,7 +11503,7 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
                             entryData["role_id"] = data.roles;
                             entryData["storeid"] = data.StoreID;
                             entryData["status"] = data.status;
-
+                            //console.log(entryData)
                             mysql.queryInsert("users", entryData)
                                 .then(function (result) {
                                     res.end(JSON.stringify(result.results));
@@ -11521,7 +11522,7 @@ router.post('/AddUser', authenticationMidleware(), (req, res, next) => {
                 .catch(function (error) {
                     throw new Error(error);
                 })
-        }
+        // }
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '7635-AddUser');
         if (e instanceof TypeError) {

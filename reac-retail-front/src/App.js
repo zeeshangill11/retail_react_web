@@ -39,6 +39,8 @@ import zplInfo from "./components/Zpl/zplInfo";
 import ibtDifferences from "./components/ibtDifferences/ibtDifferences";
 import audit from "./components/audit/audit";
 import rolesInfo from "./components/roles/rolesInfo";
+import users from "./components/Users/users";
+import addUser from "./components/Users/addUser";
 
 class App extends Component {
 
@@ -95,6 +97,9 @@ class App extends Component {
           <Route path="/ibtDifferences" component={ibtDifferences} />
           <Route path="/audit" component={audit} />
           <Route path="/rolesInfo" component={rolesInfo} />
+          <Route path="/users" component={users} />
+          <Route path="/addUser" component={addUser} />
+
         </Switch>
 
       </>
