@@ -17,21 +17,23 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
+
+
 import Cookies from 'universal-cookie';
 
-export default class zplReport_sku extends Component {
+export default class audit extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
             startDate: '',
             store_list: [],
-            user_list: [],
-            onhandtotal: 0,
+            log_list: [],
             store_id: 0,
-            user_id: 0,
-            uid: " ",
-            epc: " ",
+            log_id: 0,
+            rcc: " ",
+            utc: "no",
+            uae: "yes",
             error_msg: "",
         };
     }
@@ -42,19 +44,22 @@ export default class zplReport_sku extends Component {
         this.setState(store_list => ({
             store_list: stores
         }));
-        var user = await common.get_user_datail();
-        this.setState(user_list => ({
-            user_list: user
+        var log = await common.get_logType();
+        this.setState(log_list => ({
+            log_list: log
         }));
-
-        console.log(this.state.user_list)
+        console.log(this.state.log_list)
 
         const server_ip = await new_config.get_server_ip();
         var main_table = ' ';
         var cookies = new Cookies();
+
         var myToken = cookies.get('myToken');
+        console.log(myToken)
+
 
         $(document).ready(function () {
+
             main_table = $('#dataTable').DataTable({
                 dom: 'Bfrtip',
 
@@ -79,39 +84,37 @@ export default class zplReport_sku extends Component {
                     'loadingRecords': '&nbsp;',
                     'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
                 },
+
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': server_ip + 'stockCountRecords/GetZPLReportData_sku/',
+                    'url': server_ip + 'stockCountRecords/getauditinfo/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
-                                "Storeid": $('#StoreID').val(),
-                                "Epc": $('#Epc').val(),
-                                "uid": $('#uid').val(),
-                                "date22": $('#date').val(),
-                                "user_id": $('#userId').val(),
+                                "retail_cyclecount_id": $("#rcc").val(),
+                                "LogType": $("#LogType").val(),
+                                "date": $("#date").val(),
+                                "StoreID": $("#StoreID").val(),
+                                // "show_uae_time":checkboxValue,
+                                // "show_utc_time":checkboxutc_time,	
                             });
                         },
+
                 },
                 "order": [[1, 'desc']],
                 "responsive": true,
                 "columns": [
-                    { "data": "uid" },
-                    /*{ "data": "epc" },*/
-                    { "data": "sku" },
-                    { "data": "Product_Name" },
-                    { "data": "PO_NO" },
-                    { "data": "Supplier_ID" },
-                    { "data": "Shipment_no" },
-                    { "data": "Comments" },
-
+                    { "data": "auditid" },
+                    { "data": "audit_text" },
+                    { "data": "date" },
+                    { "data": "log_type" },
                     { "data": "storeid" },
-
-                    { "data": "status" },
-
+                    { "data": "Retail_CycleCountID" },
+                    { "data": "audit_json" },
+                    { "data": "deviceid" },
                 ],
                 "searching": false,
                 "select": true
@@ -119,7 +122,18 @@ export default class zplReport_sku extends Component {
         });
 
         $('.run').click(function () {
-
+            main_table.ajax.reload();
+        });
+        var checkboxValue = false
+        $(document).on('change', '#uae_time', function () {
+            checkboxValue = $(this).is(':checked');
+            $('#utc_time').prop('checked', false)
+            main_table.ajax.reload();
+        });
+        var checkboxutc_time = false;
+        $(document).on('change', '#utc_time', function () {
+            checkboxutc_time = $(this).is(':checked');
+            $('#uae_time').prop('checked', false)
             main_table.ajax.reload();
         });
 
@@ -132,18 +146,20 @@ export default class zplReport_sku extends Component {
     handleToDateChange = date => {
         this.setState({ endDate: date })
     }
-    async summaryValidate(event) {
-        var error = 0;
-        if (this.state.store_id == "" || this.state.store_id == null) {
-            error = 1;
-            document.getElementById("StoreID").style.borderColor = "red"
-            this.setState({ error_msg: "Please Select Both Date!" })
+
+
+    async onTimeChange(event) {
+        if (this.state.uae == "yes") {
+            this.setState({ utc: 'yes' });
+            this.setState({ uae: 'no' });
+            console.log(this.state.utc)
+            console.log(this.state.uae)
         } else {
-            this.setState({ error_msg: "" })
-            document.getElementById("StoreID").style.borderColor = "#fff"
+            this.setState({ uae: 'yes' });
+            this.setState({ utc: 'no' });
+            console.log(this.state.utc)
+            console.log(this.state.uae)
         }
-
-
     }
     render() {
         return (
@@ -161,7 +177,7 @@ export default class zplReport_sku extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                Zpl Report (SKU)
+                                                Audit Info
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -184,29 +200,43 @@ export default class zplReport_sku extends Component {
                                                 <div className="mb-0 filter-size">
 
                                                     <span id="iot_notification"></span>
+                                                    <input className="mx-2" type="text" placeholder="Retail Cyclecount" name="rcc" id="rcc" onChange={(e) => this.setState({ rcc: e.target.value })} value={this.state.rcc ? this.state.rcc.trim() : ""} ></input>
+                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
+                                                        name="LogType" id="LogType" onChange={(e) => this.setState({ log_id: e.target.value })} value={this.state.log_id ? this.state.log_id : 0} >
+                                                        <option value="0">All Log</option>
+                                                        {this.state.log_list.map((x, y) => <option  value={x.log_type}>{x.log_type}</option>)}
+                                                    </select>
+
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >
                                                         <option value="">All Stores</option>
                                                         {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
                                                     </select>
-
-                                                    <input className="mx-2" type="text" placeholder="EPC" name="Epc" id="Epc" onChange={(e) => this.setState({ epc: e.target.value })} value={this.state.epc ? this.state.epc.trim() : ""} ></input>
-                                                    <input className="mx-2" type="text" placeholder="uid" name="uid" id="uid" onChange={(e) => this.setState({ uid: e.target.value })} value={this.state.uid ? this.state.uid.trim() : ""} ></input>
                                                     <div className="d-inline-block" style={{ width: "150px !important" }}>
                                                         <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
                                                             id="date" name="date" placeholderText="From Date: yyyy-mm-dd"
                                                             dateFormat="yyyy-MM-dd" />
                                                     </div>
 
-
-                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
-                                                        name="userId" id="userId" onChange={(e) => this.setState({ user_id: e.target.value })} value={this.state.user_id ? this.state.user_id : 0} >
-                                                        <option value="0">All Users</option>
-                                                        {this.state.user_list.map((x, y) => <option key={x.id} value={x.username}>{x.username}</option>)}
-                                                    </select>
-
                                                     <div className="d-inline-block mr-4 mb-0 w-25 my-2">
-                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block" onClick={evt => this.summaryValidate(evt)}>Search</button>
+                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Search</button>
+                                                    </div>
+
+                                                    <div class="d-inline-block">
+                                                        <label>Uae Time</label>
+                                                        <input type="checkbox"
+                                                            class="d-inline-block"
+                                                            id="uae_time"
+                                                            name="uae_time"
+                                                            style={{ width: "25px" }} />
+                                                    </div>
+                                                    <div class="d-inline-block">
+                                                        <label>Utc Time</label>
+                                                        <input type="checkbox"
+                                                            class="d-inline-block"
+                                                            id="utc_time"
+                                                            name="utc_time"
+                                                            style={{ width: "25px" }} />
                                                     </div>
                                                     <div className="error_block">
                                                         <span className="error error_msg">{this.state.error_msg}</span>
@@ -215,22 +245,17 @@ export default class zplReport_sku extends Component {
 
                                             </div>
                                             <div class="data-tables">
-                                                <table id="dataTable" class="text-center mm-datatable">
+                                                <table id="dataTable" class="text-center mm-datatable" style={{ width: "100%" }}>
                                                     <thead class="bg-light text-capitalize">
                                                         <tr>
-                                                            <th>uid</th>
-                                                            <th>SKU</th>
-                                                            <th>Product Name</th>
-                                                            <th>PO#</th>
-                                                            <th>Supplier ID</th>
-                                                            <th>Shipment No</th>
-                                                            <th>Comment</th>
-
-                                                            <th>storeid</th>
-
-                                                            <th>Status</th>
-
-
+                                                            <th>AuditId</th>
+                                                            <th>Audit Text</th>
+                                                            <th>Date</th>
+                                                            <th>Log Type</th>
+                                                            <th>Store Name</th>
+                                                            <th>Retail CycleCount</th>
+                                                            <th>Audit Json</th>
+                                                            <th>DeviceId</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

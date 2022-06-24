@@ -212,4 +212,22 @@ const get_storeCountry = async () =>  {
   }).catch((error) => console.error(error)).finally();
 }
 
-export default {get_stores,get_departments,get_brands,get_colors,get_sizes,get_dates, get_asnDestination,get_allStatus, get_user_datail, get_storeCompany, get_storeCountry}
+const get_logType = async () =>  {
+	let server_ip = await new_config.get_server_ip();
+	return fetch( server_ip+'stockCountRecords/log_type', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Connection': 'keep-alive',
+      'auth-token': myToken
+    },
+	})
+  .then((response) => response.json())
+  .then((responseJson) => {
+		var temp = responseJson; 
+		return temp;
+
+  }).catch((error) => console.error(error)).finally();
+}
+
+export default {get_stores,get_departments,get_brands,get_colors,get_sizes,get_dates, get_asnDestination,get_allStatus, get_user_datail, get_storeCompany, get_storeCountry, get_logType}

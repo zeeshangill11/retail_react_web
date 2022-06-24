@@ -1939,7 +1939,7 @@ router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
 router.post('/getauditinfo', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getauditinfo');
     try {
-        var session = req.session;
+        // var session = req.session;
         var cond = '';
         var order_by_cond = '';
         var search_cond = '';
@@ -1991,13 +1991,13 @@ router.post('/getauditinfo', authenticationMidleware(), (req, res, next) => {
             show_utc_time = "yes";
         }
 
-        if (mysql.check_permission('AuditInfo', session.user_permission)) {
+        // if (mysql.check_permission('AuditInfo', session.user_permission)) {
 
             var new_query = "SELECT " +
                 " * FROM tb_audit " +
                 " WHERE 1 " + cond + search_cond + " " + order_by_cond;
 
-            //console.log("++++-------"+new_query)
+            // console.log("++++-------"+new_query)
 
             var query_count = " select count(*) as `my_count` from (SELECT * FROM tb_audit US WHERE 1 " + cond + search_cond + ") sq ";
 
@@ -2076,7 +2076,7 @@ router.post('/getauditinfo', authenticationMidleware(), (req, res, next) => {
                 res.end(error);
                 //res.end(error);
             });
-        }
+        // }
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1667-getauditinfo');
         if (e instanceof TypeError) {
@@ -2911,7 +2911,7 @@ router.post('/GetZPLReportData_sku', authenticationMidleware(), (req, res, next)
             " a.*  FROM `zpl_printer` a where 1 " + search_cond + " " + cond +
             "  GROUP BY sku " + order_by_cond;
 
-        //console.log(new_query);
+        console.log(new_query);
 
         var query_count = " select count(*) as `my_count` " +
             " from (SELECT count(*) as total_item ,a.* " +
@@ -3452,7 +3452,7 @@ router.post('/StoreDiscrepencyTwo', authenticationMidleware(), (req, res, next) 
 router.post('/GetUserRoles', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetUserRoles');
     try {
-        var session = req.session;
+        // var session = req.session;
 
         var cond = '';
         var order_by_cond = '';
@@ -3487,7 +3487,7 @@ router.post('/GetUserRoles', authenticationMidleware(), (req, res, next) => {
         var query_count = "SELECT count(*) as `my_count` from (SELECT * FROM tb_roles WHERE 1 " + search_cond + ") sq ";
 
 
-        if (mysql.check_permission('UserRoles', session.user_permission)) {
+        // if (mysql.check_permission('UserRoles', session.user_permission)) {
             mysql.queryCustom(query_count).then(function (result) {
                 total_rec = result.results[0].my_count;
 
@@ -3527,7 +3527,7 @@ router.post('/GetUserRoles', authenticationMidleware(), (req, res, next) => {
                 console2.log('Error', JSON.stringify(error), '2005-GetUserRoles');
                 res.end(error);
             });
-        }
+        // }
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '2518-GetUserRoles');
         if (e instanceof TypeError) {
@@ -10337,8 +10337,9 @@ router.post('/log_type', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('log_type');
     try {
 
-        var session = req.session;
-        var storeid = session.storeid;
+        //var session = req.session;
+        // var storeid = session.storeid;
+        var storeid = '';
 
 
         var new_query = "SELECT log_type FROM tb_audit WHERE log_type<>'' AND log_type<>'null' " +
