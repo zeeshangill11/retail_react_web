@@ -86,8 +86,8 @@ class addhandheldDevice extends Component {
                       <p className="mb-0 dateTime"></p>
                     </div>
                     <div className="right d-inline-block float-right mt-2">
-                      <img src="/asserts/images/count/Group 9.png" height="30px" />
-                      <img src="/asserts/images/count/Icon feather-printer.png" height="30px" className="ml-1 mr-1" />
+                      <img src="/asserts/images/count/Group 9.png" style={{height: "30px"}} />
+                      <img src="/asserts/images/count/Icon feather-printer.png" style={{height: "30px"}} className="ml-1 mr-1" />
                     </div>
                   </div>
                   <div className="card-body">
@@ -118,7 +118,7 @@ class addhandheldDevice extends Component {
                         <div className="form-group col-md-6">
                           <label htmlFor="status">Status *</label>
                           <select className="form-control selectpicker" name="status" id="Status" 
-                          data-live-search="true" name="roles" value={this.state.status} 
+                          data-live-search="true" value={this.state.status} 
                           onChange={ (e) => this.setState({ status: e.target.value }) }>
                           <option value="1">Active</option>
                           <option value="0">Disable</option>
