@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
 import { Link } from "react-router-dom";
+import swal from 'sweetalert';
 
 import Header from '../header/header';
 import TopBar from '../topBar/topBar';
@@ -56,8 +57,6 @@ export default class storeInfo extends Component {
         var cookies = new Cookies();
 
         var myToken = cookies.get('myToken');
-        console.log(myToken)
-
 
         $(document).ready(function () {
 
@@ -125,6 +124,43 @@ export default class storeInfo extends Component {
 
             main_table.ajax.reload();
         });
+        $(document).on('click','.deleteRecord', function(){
+            var id = $(this).attr('del_id');
+            var store_name = $(this).attr('store_name');
+            swal({
+              title: "Are you sure?",
+              text: "You won't be able to revert this !",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                $.ajax({
+                    type:'POST',
+                    url: server_ip + "stockCountRecords/storeDelete",
+                    data:{
+                        "store_name":store_name,
+                        "id":id
+                    },
+                    success: function(data)
+                    {
+                        var response = JSON.parse(data);
+                        
+                        swal("Poof! Your Record has been deleted !", {
+                          icon: "success",
+                        });
+                        main_table.ajax.reload();
+                        
+                    }
+                });
+                
+              } else {
+                swal("Your Record is safe !");
+              }
+            });
+
+        });
 
     }
     render() {
@@ -169,7 +205,7 @@ export default class storeInfo extends Component {
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >
                                                         <option value="">All Stores</option>
-                                                        {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
+                                                        {this.state.store_list.map((x,y) => <option value={x.storename}>{x.storename}</option>)}
                                                     </select>
                                                     <select className="form-control d-inline-block mr-2" data-live-search="true"
                                                         name="company_id" id="company_id" onChange={(e) => this.setState({ company_id: e.target.value })} value={this.state.company_id ? this.state.company_id : 0} >
@@ -184,6 +220,7 @@ export default class storeInfo extends Component {
 
                                                     <div className="d-inline-block mr-4 mb-0 w-25 my-2">
                                                         <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Run</button>
+                                                        <Link className="btn btn-danger float-right" to="/addstore">Add Store</Link>
                                                     </div>
                                                     <div className="error_block">
                                                         <span className="error error_msg">{this.state.error_msg}</span>

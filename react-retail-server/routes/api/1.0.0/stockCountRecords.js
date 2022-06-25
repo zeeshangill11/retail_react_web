@@ -1581,42 +1581,35 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
 router.post('/totalstore', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('totalstore');
     try {
-        var session = req.session;
-        if (mysql.check_permission('dashboard', session.user_permission)) {
+        var user_id = 1;
 
-            var storeid = session.storeid;
+        storeid = '';
 
-            storeid = storeid.split('[').join('');
-            storeid = storeid.split(']').join('');
+        var query = '';
 
-            var query = '';
-
-            if (session.user_id == 1) {
-                query = "SELECT count(*) as total_store FROM tb_store "
-            } else {
-                query = "SELECT count(*) as total_store FROM tb_store WHERE  storename IN (" + storeid + ")"
-            }
-
-
-            mysql.queryCustom(query)
-
-                .then(function (result) {
-                    //console.log(result)
-                    if (result.status == "1") {
-                        res.end(JSON.stringify(result.results));
-                    } else {
-                        console2.log('Error', JSON.stringify(result.error), '966-totalstore');
-                        res.end(result.error);
-                        //res.end(result.error);
-                    }
-                })
-                .catch(function (error) {
-
-                    console2.log('Error', JSON.stringify(error), '937-totalstore');
-                    res.end(error);
-                    // res.end(error);
-                });
+        if (user_id == 1) {
+            query = "SELECT count(*) as total_store FROM tb_store "
+        } else {
+            query = "SELECT count(*) as total_store FROM tb_store WHERE  storename IN (" + storeid + ")"
         }
+
+
+        mysql.queryCustom(query)
+
+            .then(function (result) {
+                if (result.status == "1") {
+                    res.end(JSON.stringify(result.results));
+                } else {
+                    console2.log('Error', JSON.stringify(result.error), '966-totalstore');
+                    res.end(result.error);
+                    //res.end(result.error);
+                }
+            })
+            .catch(function (error) {
+
+                console2.log('Error', JSON.stringify(error), '937-totalstore');
+                res.end(error);
+            });
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1258-totalstore');
         if (e instanceof TypeError) {
@@ -1763,27 +1756,19 @@ router.post('/add_log', (req, res, next) => {
 router.post('/totalusers', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('totalusers');
     try {
-        var session = req.session;
-        //console.log("++++++"+session);
-        if (mysql.check_permission('dashboard', session.user_permission)) {
-            mysql.queryCustom("SELECT" +
-                " COUNT(id) AS total_users FROM users WHERE 1")
-                .then(function (result) {
-                    //console.log(result)
-                    if (result.status == "1") {
-                        res.end(JSON.stringify(result.results));
-                    } else {
-                        console2.log('Error', JSON.stringify(result.error), '1102-totalusers');
-                        res.end(error);
-                        //res.end(result.error);
-                    }
-                })
-                .catch(function (error) {
-                    console2.log('Error', JSON.stringify(error), '1108-totalusers');
-                    res.end(error);
-                    //res.end(error);
-                });
-        }
+        mysql.queryCustom("SELECT COUNT(id) AS total_users FROM users WHERE 1")
+        .then(function (result) {
+            if (result.status == "1") {
+                res.end(JSON.stringify(result.results));
+            } else {
+                console2.log('Error', JSON.stringify(result.error), '1102-totalusers');
+                res.end(error);
+            }
+        })
+        .catch(function (error) {
+            console2.log('Error', JSON.stringify(error), '1108-totalusers');
+            res.end(error);
+        });
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1424-totalusers');
         if (e instanceof TypeError) {
@@ -6905,7 +6890,7 @@ router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
                     //console.log(gettop20our)
                     var table_data = [];
                     for (var i = 0; i < getstoreinf.length; i++) {
-
+                        var edit_button_dev = '<a type="button" href="/editstore/' + getstoreinf[i].storeid + '"><button type="button" class="btn HandheldEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a>&nbsp;';
                         var row_data = {
                             "storeid": getstoreinf[i].storeid,
                             "storename": getstoreinf[i].storename,
@@ -6915,7 +6900,7 @@ router.post('/getstoreinfo', authenticationMidleware(), (req, res, next) => {
                             "store_company": getstoreinf[i].store_company,
                             "store_type": getstoreinf[i].store_type,
                             "status": getstoreinf[i].statuss,
-                            'action': '<button type="button" edit_id=' + getstoreinf[i].storeid + ' class="btn StoreEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].storeid + ' store_name=' + getstoreinf[i].storename + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                            'action': edit_button_dev+' <button type="button" del_id="'+getstoreinf[i].storeid+'" store_name="'+getstoreinf[i].storename+'" class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
 
                         };
 
@@ -10904,7 +10889,6 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('AddStore');
     try {
         var data = req.body;
-        var session = req.session;
 
         function AddStore() {
             return new Promise((resolve) => {
@@ -10912,18 +10896,13 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                 check_storname(data.StoreName).then(function (sendparam) {
 
                     var error_name = sendparam.error;
-                    //console.log(" after geeting sendparam ");
-                    //console.log(sendparam);
                     if (error_name !== '0') {
-                        //console.log(" in srrorrrrr ");
                         res.end(JSON.stringify({
                             "error22": error_name
                         }));
                     } else {
 
-                        var user_id = session.passport.user;
                         var entryData = [];
-                        //console.log(data);
                         entryData["storename"] = data.StoreName;
                         entryData["store_location"] = data.StoreLocation;
                         entryData["lat_lng"] = data.LatLng;
@@ -11108,7 +11087,7 @@ router.post('/AddStore', authenticationMidleware(), (req, res, next) => {
                         status: "1",
                         title: "Success",
                         icon: "success",
-                        text: "Stock Count Added Successfully"
+                        text: "Store Added Successfully"
                     });
                     res.end(Message);
                 } else {
@@ -12108,13 +12087,10 @@ router.post('/EditStore', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('EditStore');
     try {
         var data = req.body;
-        var session = req.session;
 
         function editUsers() {
             return new Promise((resolve) => {
-                var user_id = session.passport.user;
                 var entryData = [];
-                //console.log(data);
 
                 entryData["storename"] = data.StoreName;
                 entryData["store_location"] = data.StoreLocation;
@@ -12127,10 +12103,10 @@ router.post('/EditStore', authenticationMidleware(), (req, res, next) => {
                 var whereQuery = {
                     storeid: data.id,
                 }
-                //"printer",entryData,whereQuery
                 mysql.queryUpdate("tb_store", entryData, whereQuery)
                     .then(function (result) {
-                        res.end(JSON.stringify(result.results));
+                        res.end(JSON.stringify({ status: "1", title: "Success", icon: "success", text: "Store Updated Successfully" }));
+                        //res.end(JSON.stringify(result.results));
                     })
                     .catch(function (error) {
                         console2.log('Error', JSON.stringify(error), '6195-EditStore');
@@ -12486,7 +12462,7 @@ router.post('/storeDelete', authenticationMidleware(), (req, res, next) => {
                         status: "1",
                         title: "Success",
                         icon: "success",
-                        text: "Stock Count Deleted Successfully"
+                        text: "Store Deleted Successfully"
                     });
                     res.end(Message);
                 } else {

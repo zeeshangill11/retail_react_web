@@ -3,6 +3,8 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import dashboard from "./components/dashboard/dashboard";
+
 import AddTutorial from "./components/add-tutorial.component";
 import Tutorial from "./components/tutorial.component";
 import TutorialsList from "./components/tutorials-list.component";
@@ -33,7 +35,11 @@ import zplReport from "./components/TagIT/zplReport";
 import zplReport_sku from "./components/TagIT/zplReport_sku";
 import transferCancellation from "./components/transferCancellation/transferCancellation";
 import gi_cancellation from "./components/transferCancellation/gi_cancellation";
+
 import storeinfo from "./components/Stores/storeInfo";
+import editstore from "./components/Stores/editstore";
+import addstore from "./components/Stores/addstore";
+
 import printerInfo from "./components/Printers/printerInfo";
 import zplInfo from "./components/Zpl/zplInfo";
 import ibtDifferences from "./components/ibtDifferences/ibtDifferences";
@@ -57,10 +63,13 @@ class App extends Component {
       <>
         <Switch>
           <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
+          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
           <Route exact path="/add" component={AddTutorial} />
           <Route path="/tutorials/:id" component={Tutorial} />
           <Route path="/login" component={Login} />
 
+          <Route path="/dashboard" component={dashboard} />
+          
           <Route path="/executiveSummary" component={executiveSummary} />
           <Route path="/executiveSummaryOnHandSimple" component={executiveSummaryOnHandSimple} />
           <Route path="/underOvers" component={underOvers} />
@@ -91,7 +100,11 @@ class App extends Component {
           {/* Admin Reports */}
           <Route path="/transferCancellation" component={transferCancellation} />
           <Route path="/gi_cancellation" component={gi_cancellation} />
+
           <Route path="/storeinfo" component={storeinfo} />
+          <Route path="/editstore/:id" component={editstore} />
+          <Route path="/addstore" component={addstore} />
+          
           <Route path="/printerInfo" component={printerInfo} />
           <Route path="/zplInfo" component={zplInfo} />
           <Route path="/ibtDifferences" component={ibtDifferences} />
