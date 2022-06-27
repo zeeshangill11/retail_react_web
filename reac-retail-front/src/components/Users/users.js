@@ -98,6 +98,29 @@ export default class users extends Component {
             main_table.ajax.reload();
         });
 
+        $(document).on('click', '.deleteRecord', function () {
+            var del_id = $(this).attr('del_id');
+            if (window.confirm('Are you really wants to delete the device ?')) {
+                fetch(server_ip + 'stockCountRecords/userDelete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Connection': 'keep-alive',
+                    },
+                    body: "id=" + del_id,
+                })
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        var temp = responseJson;
+                        if (temp.status == 1) {
+                            main_table.ajax.reload();
+                        }
+                        console.log(temp);
+                    }).catch((error) => console.error(error)).finally();
+            }
+
+        });
+
     }
     render() {
         return (

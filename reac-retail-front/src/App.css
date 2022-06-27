@@ -848,9 +848,9 @@ li.float-right.nav-item {
   text-align: center;
 }
 
-.customNav .navbar-nav a {
-  /* margin-right: 15px !important; */
-}
+/* .customNav .navbar-nav a {
+  margin-right: 15px !important;
+} */
 
 .customNav .dropdown-menu .CustomsubMenu a img {
   height: 12px;
@@ -935,9 +935,9 @@ li.float-right.nav-item {
 #dashboard .dash_board .card.full {
   height: calc(100% - 10px);
 }
-#dashboard .dash_board .card-body h2 {
-  /*color: #373E43;*/
-}
+/* #dashboard .dash_board .card-body h2 {
+  color: #373E43;
+} */
 #dashboard .dash_board .card-body h2 p {
   margin-bottom: 0 !important;
   color: #ffffff;
@@ -1514,4 +1514,8 @@ table.dataTable tbody td{
 #show_over{
   padding: 20px !important;
   width: 20px;
+}
+
+#react-select-2-listbox{
+  color: #000 !important;
 }

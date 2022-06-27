@@ -19,11 +19,13 @@ import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
 import Cookies from 'universal-cookie';
 
-export default class addUser extends Component {
+export default class edituser extends Component {
     constructor(props) {
 
         super(props);
+        var edit_id = props.match.params.id;
         this.state = {
+            id: edit_id,
             Name: " ",
             UserName: " ",
             store_list: [],
@@ -44,38 +46,66 @@ export default class addUser extends Component {
         var rol = await common.get_allRoles();
         this.setState(role_list => ({ role_list: rol }));
 
+
+        var main_data = await this.geteditrecord();
+        if (main_data[0].name !== null) { this.setState({ Name: main_data[0].name }) }
+        if (main_data[0].username !== null) { this.setState({ UserName: main_data[0].username }) }
+        if (main_data[0].role_id !== null) { this.setState({ Role: main_data[0].role_id }) }
+        if (main_data[0].status !== null) { this.setState({ Status: main_data[0].status }) }
+        if (main_data[0].storeid !== null) { this.setState({ storeid: main_data[0].storeid }) }
+        
+    }
+    async geteditrecord() {
+        var cookies = new Cookies();
+        var myToken = cookies.get('myToken');
+        let server_ip = await new_config.get_server_ip();
+        return fetch(server_ip + 'stockCountRecords/GetEditUserRecord', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Connection': 'keep-alive',
+                'auth-token': myToken
+            },
+            body: "edit_id=" + this.state.id,
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                var temp = responseJson;
+                return temp;
+            }).catch((error) => console.error(error)).finally();
     }
     async handleSubmit(event) {
         event.preventDefault();
-        
-        
+
+
         const server_ip = await new_config.get_server_ip();
         var cookies = new Cookies();
         var myToken = cookies.get('myToken');
-    
-        fetch( server_ip+'stockCountRecords/AddUser', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Connection': 'keep-alive',
-            'auth-token': myToken
-          },
-          body: "name="+this.state.Name+
-              "&username="+this.state.UserName+
-              "&password="+this.state.Password+
-              "&roles="+this.state.Role+
-              "&StoreID="+this.state.storeid+
-              "&status="+this.state.Status,
+
+        fetch(server_ip + 'stockCountRecords/EditUserRecord', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Connection': 'keep-alive',
+                'auth-token': myToken
+            },
+            body: "name=" + this.state.Name +
+                "&username=" + this.state.UserName +
+                "&password=" + this.state.Password +
+                "&roles=" + this.state.Role +
+                "&StoreID=" + this.state.storeid +
+                "&status=" + this.state.Status +
+                "&id=" + this.state.id,
         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          var temp = responseJson; 
-          if (temp.status == 1) {
-            swal({title: temp.title,text: temp.text,icon: temp.icon})
-          }
-          this.props.history.push('/users')
-        }).catch((error) => console.error(error)).finally();
-      }
+            .then((response) => response.json())
+            .then((responseJson) => {
+                var temp = responseJson;
+                if (temp.status == 1) {
+                    swal({ title: temp.title, text: temp.text, icon: temp.icon })
+                }
+                this.props.history.push('/users')
+            }).catch((error) => console.error(error)).finally();
+    }
     render() {
         return (
             <>
@@ -92,7 +122,7 @@ export default class addUser extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                Users Info
+                                                Edit UserInfo
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -112,12 +142,14 @@ export default class addUser extends Component {
                                         <div className="card-body">
                                             <form autoComplete="off" id="AddDeviceForm" name="registration" onSubmit={this.handleSubmit.bind(this)}>
                                                 <span className="error_msg"></span>
+                                                <input type="hidden" name="hidden_id" id="hidden_id" value={this.state.id} />
+
                                                 <div className="form-row">
                                                     <div className="form-group col-md-6">
                                                         <label htmlFor="Name">Name *</label>
                                                         <input type="text" className="form-control" name="Name"
                                                             id="Name" placeholder="Name"
-                                                            defaultValue={this.state.Name}
+                                                            value={this.state.Name}
                                                             onChange={(e) => this.setState({ Name: e.target.value })} />
                                                         <span className="error Name_error"></span>
                                                     </div>
@@ -125,22 +157,22 @@ export default class addUser extends Component {
                                                         <label htmlFor="UserName">Username *</label>
                                                         <input type="text" className="form-control" name="UserName"
                                                             id="UserName" placeholder="User Name"
-                                                            defaultValue={this.state.UserName}
+                                                            value={this.state.UserName}
                                                             onChange={(e) => this.setState({ UserName: e.target.value })} />
                                                         <span className="error UserName_error"></span>
                                                     </div>
                                                     <div className="form-group col-md-6">
                                                         <label htmlFor="Password">Password *</label>
-                                                        <input type="text" className="form-control" name="Password"
-                                                            id="Password" placeholder="User Name"
-                                                            defaultValue={this.state.Password}
+                                                        <input type="password" className="form-control" name="Password"
+                                                            id="Password" placeholder="Password"
+                                                            value={this.state.Password}
                                                             onChange={(e) => this.setState({ Password: e.target.value })} />
                                                         <span className="error Password_error"></span>
                                                     </div>
                                                     <div className="form-group col-md-6">
                                                         <label htmlFor="status">Status *</label>
                                                         <select className="form-control selectpicker" name="status" id="Status"
-                                                            data-live-search="true" defaultValue={this.state.Status}
+                                                            data-live-search="true" value={this.state.Status}
                                                             onChange={(e) => this.setState({ Status: e.target.value })}>
                                                             <option value="1">Active</option>
                                                             <option value="0">Disable</option>
@@ -160,11 +192,11 @@ export default class addUser extends Component {
                                                     <div className="form-group col-md-6">
                                                         <label htmlFor="Password">Select Store *</label>
                                                         <select className="selectpicker form-control" data-live-search="true"
-                                                            name="StoreID" id="storeID" required="" onChange={(e) => this.setState({ storeid: e.target.value })} value={this.state.storeid ? this.state.storeid : 0}>
+                                                            name="StoreID" id="storeID" required="" onChange={(e) => this.setState({ storeid: e.target.value })} value={this.state.storeid}>
                                                             <option value="">Store ID</option>
                                                             {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
                                                         </select>
-                                                        <span className="error Password_error"></span>
+                                                        <span className="error error_StoreID"></span>
                                                     </div>
 
 
@@ -172,7 +204,7 @@ export default class addUser extends Component {
                                                         <div className="row">
                                                             <div className="col-md-4">
                                                                 <div className="but mt-5">
-                                                                    <button type="submit" id="submit" className="btn btn-primary btn-block">Add User</button>
+                                                                    <button type="submit" id="submit" className="btn btn-primary btn-block">Edit User</button>
                                                                 </div>
                                                             </div>
                                                         </div>

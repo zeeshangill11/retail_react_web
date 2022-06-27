@@ -1895,7 +1895,7 @@ router.post('/getusersinfo', authenticationMidleware(), (req, res, next) => {
                             "storeid": storeid,
                             "status": getstoreinf[i].qstatus,
                             "last_login": getstoreinf[i].last_login,
-                            'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn UserEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button>' + permission
+                            'action': '<a type="button" href="/edituser_info/' + getstoreinf[i].id + '"><button type="button" edit_id=' + getstoreinf[i].id + ' class="btn UserEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a>' + permission
                         };
 
                         table_data.push(row_data);
@@ -6429,7 +6429,7 @@ router.post('/getzplinfo', authenticationMidleware(), (req, res, next) => {
                             "storeid": store_id,
                             "status": getstoreinf[i].status,
                             "remarks": unescape(getstoreinf[i].remarks),
-                            'action': '<button type="button" edit_id=' + getstoreinf[i].id + ' class="btn ZPLEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                            'action': '<a type="button" href="/editzpl/' + getstoreinf[i].id + '"><button type="button" edit_id=' + getstoreinf[i].id + ' class="btn ZPLEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a> <button type="button" del_id=' + getstoreinf[i].id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
                         };
 
 
@@ -6472,7 +6472,7 @@ router.post('/getzplinfo', authenticationMidleware(), (req, res, next) => {
 router.post('/ViewZPLModel', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('ViewZPLModel');
     try {
-        var session = req.session;
+        //var session = req.session;
         var new_query = "SELECT zpl FROM zpl" +
             " WHERE id = '" + req.body.zpl_id + "' ";
 
@@ -10609,7 +10609,7 @@ router.post('/stockCountData', authenticationMidleware(), (req, res, next) => {
 router.post('/GetEditUserRecord', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetEditUserRecord');
     try {
-        var session = req.session;
+        //var session = req.session;
         var query_new = "SELECT  US.id AS id, TR.role_id AS role_id,US.storeid, " +
             " US.name AS name ,US.username AS username,US.status AS status," +
             " US.password AS password FROM users US " +
@@ -10807,7 +10807,7 @@ router.post('/GetEditRolesRecord', authenticationMidleware(), (req, res, next) =
 router.post('/GetEditZip', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('GetEditZip');
     try {
-        var session = req.session;
+        // var session = req.session;
         var query_new = "SELECT  * FROM zpl" +
             " WHERE id= '" + req.body.edit_id + "'";
         //console.log("----sssss--------"+query_new);
@@ -11599,11 +11599,11 @@ router.post('/AddZPL', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('AddZPL');
     try {
         var data = req.body;
-        var session = req.session;
-        if (mysql.check_permission('UserRoles', session.user_permission)) {
+        // var session = req.session;
+        // if (mysql.check_permission('UserRoles', session.user_permission)) {
             function AddZpl() {
                 return new Promise((resolve) => {
-                    var user_id = session.passport.user;
+                    // var user_id = session.passport.user;
                     var entryData = [];
 
                     entryData["name"] = data.name;
@@ -11628,7 +11628,7 @@ router.post('/AddZPL', authenticationMidleware(), (req, res, next) => {
                     console2.log('Error', JSON.stringify(errorc.error), '5798-AddZPL');
                     throw new Error(error);
                 })
-        }
+        // }
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '7688-AddZPL');
         if (e instanceof TypeError) {
@@ -11956,11 +11956,11 @@ router.post('/EditUserRecord', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('EditUserRecord');
     try {
         var data = req.body;
-        var session = req.session;
+        //var session = req.session;
 
         function editUsers() {
             return new Promise((resolve) => {
-                var user_id = session.passport.user;
+                // var user_id = session.passport.user;
                 var entryData = [];
 
                 var password = '';
@@ -12301,11 +12301,11 @@ router.post('/EditZpl', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('EditZpl');
     try {
         var data = req.body;
-        var session = req.session;
+        //var session = req.session;
         // console.log(data);
         function editUsers() {
             return new Promise((resolve) => {
-                var user_id = session.passport.user;
+                //var user_id = session.passport.user;
                 var entryData = [];
                 entryData["name"] = data.name;
                 entryData["zpl"] = data.zpl;
