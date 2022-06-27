@@ -44,6 +44,12 @@ import addUser from "./components/Users/addUser";
 import edituser_info from "./components/Users/edituser_info";
 import addzpl from "./components/Zpl/addzpl";
 import editzpl from "./components/Zpl/editzpl";
+import editroles from "./components/roles/editroles";
+import addUserRole from "./components/roles/addUserRoles";
+import admin_menu from "./components/Admin/admin_menu";
+import handle_cronjobs from "./components/Admin/handle_cronjobs";
+import soh_details from "./components/Admin/soh_details";
+import admin_error_log from "./components/Admin/admin_error_log";
 
 class App extends Component {
 
@@ -105,6 +111,12 @@ class App extends Component {
           <Route path="/edituser_info/:id" component={edituser_info} />
           <Route path="/addzpl" component={addzpl} />
           <Route path="/editzpl/:id" component={editzpl} />
+          <Route path="/addUserRoles" component={addUserRole} />
+          <Route path="/editroles/:id" component={editroles} />
+          <Route path="/admin_menu" component={admin_menu} />
+          <Route path="/handle_cronjobs" component={handle_cronjobs} />
+          <Route path="/soh_details" component={soh_details} />
+          <Route path="/admin_error_log" component={admin_error_log} />
 
         </Switch>
 

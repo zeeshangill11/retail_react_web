@@ -837,7 +837,7 @@ router.post('/updateCronJobtable', authenticationMidleware(), (req, res, next) =
 
     console2.execution_info('updateCronJobtable');
     try {
-        var session = req.session;
+        //var session = req.session;
         //if (mysql.check_permission('storeSku', session.user_permission) || mysql.check_permission('executiveSummary', session.user_permission)) {
 
         var new_query = "UPDATE cronjob_taks SET status = '0' WHERE id='" + req.body.cronjob_id + "'";
@@ -883,7 +883,7 @@ router.post('/SelectFiltersCronjob', authenticationMidleware(), (req, res, next)
 
     console2.execution_info('SelectFiltersCronjob');
     try {
-        var session = req.session;
+        //var session = req.session;
         //if (mysql.check_permission('storeSku', session.user_permission) || mysql.check_permission('executiveSummary', session.user_permission)) {
 
         var new_query = "SELECT process_type,store_id FROM `cronjob_taks` GROUP BY process_type ORDER BY id DESC";
@@ -930,7 +930,7 @@ router.post('/handlercronjobsApi', authenticationMidleware(), (req, res, next) =
 
     console2.execution_info('handlercronjobsApi');
     try {
-        var session = req.session;
+        //var session = req.session;
 
         var limit_cond = ' limit 0,25 ';
         var total_rec = '0';
@@ -3507,7 +3507,7 @@ router.post('/GetUserRoles', authenticationMidleware(), (req, res, next) => {
                             "role_name": getstoreinf[i].role_name,
                             "createddate": getstoreinf[i].createddate,
                             "viewpermissions": '<button type="button" role_id=' + getstoreinf[i].role_id + ' class="btn permission btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent" data-toggle="modal" data-target="#exampleModal">View</button>',
-                            'action': '<button type="button" edit_id=' + getstoreinf[i].role_id + ' class="btn RoleEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button> <button type="button" del_id=' + getstoreinf[i].role_id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
+                            'action': '<a type="button" href="/editroles/' + getstoreinf[i].id + '"><button type="button" edit_id=' + getstoreinf[i].role_id + ' class="btn RoleEdit btn-default" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Edit</button></a> <button type="button" del_id=' + getstoreinf[i].role_id + ' class="btn btn-default deleteRecord" style="color:#fff;border-color:#fff;border-radius:0px;background:transparent">Delete</button>'
                         };
 
                         table_data.push(row_data);

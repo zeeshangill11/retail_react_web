@@ -1505,12 +1505,12 @@ table.dataTable tbody td{
   height: 35px !important;
 }
 
-.odd td:last-child{
+/* .odd td:last-child{
   width: 10%;
-}
-.even td:last-child{
+} */
+/* .even td:last-child{
   width: 10%;
-}
+} */
 #show_over{
   padding: 20px !important;
   width: 20px;
@@ -1518,4 +1518,7 @@ table.dataTable tbody td{
 
 #react-select-2-listbox{
   color: #000 !important;
+}
+input[type="checkbox"], input[type="radio"] {
+  width: 20px;
 }
