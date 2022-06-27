@@ -115,6 +115,55 @@ export default class zplInfo extends Component {
             main_table.ajax.reload();
         });
 
+        $(document).on('click', '.deleteRecord', function () {
+            var del_id = $(this).attr('del_id');
+            if (window.confirm('Are you really wants to delete the device ?')) {
+                fetch(server_ip + 'stockCountRecords/zplDelete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Connection': 'keep-alive',
+                    },
+                    body: "id=" + del_id,
+                })
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        var temp = responseJson;
+                        if (temp.status == 1) {
+                            main_table.ajax.reload();
+                        }
+                        console.log(temp);
+                    }).catch((error) => console.error(error)).finally();
+            }
+
+        });
+        $(document).on('click', '.store_zpl_id', function () {
+            var zpl_id = $(this).attr('zpl_id');
+            $(".modal-title").text('ZPL');
+            var mythis = $('#FORM').show();
+            mythis.find('.waiting').show();
+
+                fetch(server_ip + 'stockCountRecords/ViewZPLModel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Connection': 'keep-alive',
+                    },
+                    body: "zpl_id=" + zpl_id,
+                })
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        var response_data = JSON.parse(responseJson);
+
+                        mythis.find('.waiting').hide();
+
+                        var list = '<div class="text-wrap" style="overflow: auto;">' + response_data[0].zpl + '</div>';
+                        
+                        $("#store_list").html(list);
+                    }).catch((error) => console.error(error)).finally();
+
+        });
+
     }
     render() {
         return (
@@ -150,10 +199,19 @@ export default class zplInfo extends Component {
                                     </div>
                                     <div className="col-md-12">
                                         <div className="card-body">
+                                            <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
+                                                <div className="mb-0 filter-size">
 
+                                                    <div className="d-inline-block mr-4 mb-05 my-2">
+                                                        <Link to="/addzpl" type="button" id="" className="btn btn-danger BtnAdd">Add User</Link>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
                                             <div className="data-tables">
-                                                <table id="dataTable" class="text-center mm-datatable" style={{width: "100%"}}>
-                                                    <thead class="bg-light text-capitalize">
+                                                <table id="dataTable" className="text-center mm-datatable" style={{ width: "100%" }}>
+                                                    <thead className="bg-light text-capitalize">
                                                         <tr>
                                                             <th>ID</th>
                                                             <th>Name</th>
@@ -176,6 +234,34 @@ export default class zplInfo extends Component {
                         </div >
                     </div >
                 </div >
+                <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">ZPL Stores</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="FORM">
+
+                                <div className="edit-manage"></div>
+                                <div className="modal-body" style={{ height: "560px" }}>
+                                    <div className="load" style={{ textAlig: "center" }}>
+                                        <span className="waiting" style={{ display: "none;" }}>
+                                            <img src="https://i.postimg.cc/3xVJyMYr/Eclipse-1s-200px.gif" alt="" width='32px' height='32px' />
+                                        </span>
+                                    </div>
+
+                                    <div id="store_list">
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </>
         )
     }

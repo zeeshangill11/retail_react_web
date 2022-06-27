@@ -22,18 +22,16 @@ import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
 import Cookies from 'universal-cookie';
 
-export default class addUser extends Component {
+export default class addzpl extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
             Name: " ",
-            UserName: " ",
             store_list: [],
-            role_list: [],
-            Role: '',
-            Status: '',
-            Password: '',
+            Status: 0,
+            zpl: '',
+            remarks: "",
             storeid: ''
         };
     }
@@ -44,39 +42,7 @@ export default class addUser extends Component {
         var stores = await common.get_stores();
         this.setState(store_list => ({ store_list: stores }));
 
-        // console.log(this.state.store_list)
-
-        // const dropDownValue = stores.map((response) => ({
-        //     "value": response.storeid,
-        //     "label": response.storename
-        // }))
-
-        // this.setState(
-        //     {
-        //         store_list: dropDownValue
-        //     }
-        // )
-
-        var rol = await common.get_allRoles();
-        this.setState(role_list => ({ role_list: rol }));
-
     }
-    // handleMultiChange(event) {
-    //     this.setState(
-    //         {
-    //             id: event.value,
-    //             email: event.label
-    //         }
-    //     )
-    // }
-    // handleMultiChange(option) {
-    //     this.setState((state) => {
-    //         return {
-    //             multiValue: option
-    //         };
-    //     });
-    //     console.log(this.state.multiValue);
-    // }
     async handleSubmit(event) {
         event.preventDefault();
 
@@ -85,7 +51,7 @@ export default class addUser extends Component {
         var cookies = new Cookies();
         var myToken = cookies.get('myToken');
 
-        fetch(server_ip + 'stockCountRecords/AddUser', {
+        fetch(server_ip + 'stockCountRecords/AddZPL', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -93,10 +59,9 @@ export default class addUser extends Component {
                 'auth-token': myToken
             },
             body: "name=" + this.state.Name +
-                "&username=" + this.state.UserName +
-                "&password=" + this.state.Password +
-                "&roles=" + this.state.Role +
-                "&StoreID=" + this.state.storeid +
+                "&zpl=" + this.state.zpl +
+                "&stoid=" + this.state.storeid +
+                "&remarks=" + this.state.remarks +
                 "&status=" + this.state.Status,
         })
             .then((response) => response.json())
@@ -105,7 +70,7 @@ export default class addUser extends Component {
                 if (temp.status == 1) {
                     swal({ title: temp.title, text: temp.text, icon: temp.icon })
                 }
-                this.props.history.push('/users')
+                this.props.history.push('/zplInfo')
             }).catch((error) => console.error(error)).finally();
     }
     render() {
@@ -124,7 +89,7 @@ export default class addUser extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                Users Info
+                                                Add ZPL
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -154,20 +119,29 @@ export default class addUser extends Component {
                                                         <span className="error Name_error"></span>
                                                     </div>
                                                     <div className="form-group col-md-6">
-                                                        <label htmlFor="UserName">Username *</label>
-                                                        <input type="text" className="form-control" name="UserName"
-                                                            id="UserName" placeholder="User Name"
-                                                            defaultValue={this.state.UserName}
-                                                            onChange={(e) => this.setState({ UserName: e.target.value })} />
-                                                        <span className="error UserName_error"></span>
+                                                        <label htmlFor="Password">Select Store *</label>
+                                                        <select className="selectpicker form-control" data-live-search="true" 
+                                                            name="StoreID" id="storeID" required="" onChange={(e) => this.setState({ storeid: e.target.value })} value={this.state.storeid ? this.state.storeid : 0}>
+                                                            <option value="">Store ID</option>
+                                                            {this.state.store_list.map((x, y) => <option key={x.storeid} value={x.storename}>{x.storename}</option>)}
+                                                        </select>
+                                                        <span className="error Password_error"></span>
                                                     </div>
                                                     <div className="form-group col-md-6">
-                                                        <label htmlFor="Password">Password *</label>
-                                                        <input type="text" className="form-control" name="Password"
-                                                            id="Password" placeholder="User Name"
-                                                            defaultValue={this.state.Password}
-                                                            onChange={(e) => this.setState({ Password: e.target.value })} />
-                                                        <span className="error Password_error"></span>
+                                                        <label htmlFor="UserName">ZPL *</label>
+                                                        <textarea type="text" className="form-control" name="zpl"
+                                                            id="zpl" placeholder="ZPL"
+                                                            defaultValue={this.state.zpl}
+                                                            onChange={(e) => this.setState({ zpl: e.target.value })} />
+                                                        <span className="error zpl_error"></span>
+                                                    </div>
+                                                    <div className="form-group col-md-6">
+                                                        <label htmlFor="UserName">Remarks *</label>
+                                                        <textarea type="text" className="form-control" name="remarks"
+                                                            id="remarks" placeholder="Remarks"
+                                                            defaultValue={this.state.remarks}
+                                                            onChange={(e) => this.setState({ remarks: e.target.value })} />
+                                                        <span className="error remarks_error"></span>
                                                     </div>
                                                     <div className="form-group col-md-6">
                                                         <label htmlFor="status">Status *</label>
@@ -179,45 +153,12 @@ export default class addUser extends Component {
                                                         </select>
                                                         <span className="error error_status"></span>
                                                     </div>
-                                                    <div className="form-group col-md-6">
-                                                        <label htmlFor="Password">Role *</label>
-                                                        <select className="selectpicker form-control" data-live-search="true"
-                                                            name="Role" id="Role" required="" value={this.state.Role}
-                                                            onChange={(e) => this.setState({ Role: e.target.value })}>
-                                                            <option value="">Select Role</option>
-                                                            {this.state.role_list.map((x, y) => <option value={x.role_name}>{x.role_name}</option>)}
-                                                        </select>
-                                                        <span className="error Password_error"></span>
-                                                    </div>
-                                                    <div className="form-group col-md-6">
-                                                        <label htmlFor="Password">Select Store *</label>
-                                                        <select className="selectpicker form-control" data-live-search="true" 
-                                                            name="StoreID" id="storeID" required="" onChange={(e) => this.setState({ storeid: e.target.value })} value={this.state.storeid ? this.state.storeid : 0}>
-                                                            <option value="">Store ID</option>
-                                                            {this.state.store_list.map((x, y) => <option key={x.storeid} value={x.storename}>{x.storename}</option>)}
-                                                        </select>
-                                                        <span className="error Password_error"></span>
-                                                    </div>
-
-                                                    {/* <div className="form-group col-md-6">
-                                                        <label htmlFor="Password">Select Store *</label>
-                                                        <Select
-                                                            name="filters"
-                                                            placeholder="Select Store"
-                                                            value={this.state.multiValue}
-                                                            options={this.state.store_list}
-                                                            onChange={this.handleMultiChange.bind(this)}
-                                                            isMulti={true}
-                                                        />
-                                                    </div> */}
-
-
 
                                                     <div className="form-group col-md-12" style={{ textAlign: "center" }}>
                                                         <div className="row">
                                                             <div className="col-md-4">
                                                                 <div className="but mt-5">
-                                                                    <button type="submit" id="submit" className="btn btn-primary btn-block">Add User</button>
+                                                                    <button type="submit" id="submit" className="btn btn-primary btn-block">Add ZPL</button>
                                                                 </div>
                                                             </div>
                                                         </div>

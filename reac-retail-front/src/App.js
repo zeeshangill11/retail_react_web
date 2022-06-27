@@ -41,6 +41,9 @@ import audit from "./components/audit/audit";
 import rolesInfo from "./components/roles/rolesInfo";
 import users from "./components/Users/users";
 import addUser from "./components/Users/addUser";
+import edituser_info from "./components/Users/edituser_info";
+import addzpl from "./components/Zpl/addzpl";
+import editzpl from "./components/Zpl/editzpl";
 
 class App extends Component {
 
@@ -99,6 +102,9 @@ class App extends Component {
           <Route path="/rolesInfo" component={rolesInfo} />
           <Route path="/users" component={users} />
           <Route path="/addUser" component={addUser} />
+          <Route path="/edituser_info/:id" component={edituser_info} />
+          <Route path="/addzpl" component={addzpl} />
+          <Route path="/editzpl/:id" component={editzpl} />
 
         </Switch>
 
