@@ -783,18 +783,19 @@ router.post('/soh_detailsController', authenticationMidleware(), (req, res, next
             var new_query_stock_store = '';
             var total_results = '';
           
-            var storeid = session.storeid;
+            // var storeid = session.storeid;
+            var storeid = '';
             
 
 
 
-            if (req.session.user_id == 1) {
+            //if (req.session.user_id == 1) {
 
                 new_query += "SELECT * ," +
                     " CASE WHEN status = 1 THEN 'Active' ELSE 'Disable' END AS statuss FROM tb_store WHERE 1 " + cond + search_cond + " " + order_by_cond;
 
                 query_count += "select count(*) as `my_count` from (SELECT * FROM tb_store WHERE 1 " + cond + search_cond + ") sq ";
-            }
+            //}
 
            
             mysql.queryCustom(query_count).then(function(result) {

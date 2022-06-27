@@ -25,12 +25,12 @@ export default class rolesInfo extends Component {
   constructor(props) {
 
     super(props);
-    
+
   }
 
 
   componentDidMount = async () => {
-    
+
 
     const server_ip = await new_config.get_server_ip();
     var main_table = ' ';
@@ -82,7 +82,7 @@ export default class rolesInfo extends Component {
           // { "data": "storename" },
           { "data": "createddate" },
           { "data": "viewpermissions" },
-          {"data":'action'},
+          { "data": 'action' },
         ],
         "searching": false,
         "select": true
@@ -127,7 +127,16 @@ export default class rolesInfo extends Component {
                   </div>
                   <div className="col-md-12">
                     <div className="card-body">
-                      
+                      <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
+                        <div className="mb-0 filter-size">
+
+                          <div className="d-inline-block mr-4 mb-05 my-2">
+                            <Link to="/addUserRoles.js" type="button" id="" className="btn btn-danger BtnAdd">Add User</Link>
+                          </div>
+
+                        </div>
+
+                      </div>
                       <div class="data-tables">
                         <table id="dataTable" class="text-center mm-datatable" style={{ width: "100%" }}>
                           <thead class="bg-light text-capitalize">
