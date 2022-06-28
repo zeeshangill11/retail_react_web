@@ -50,6 +50,9 @@ import admin_menu from "./components/Admin/admin_menu";
 import handle_cronjobs from "./components/Admin/handle_cronjobs";
 import soh_details from "./components/Admin/soh_details";
 import admin_error_log from "./components/Admin/admin_error_log";
+import problem_asn from "./components/Admin/problem_asn";
+import enterpriseReportOld from "./components/Admin/enterpriseReportOld";
+import stockSummaryExtras from "./components/Admin/stockSummaryExtras";
 
 class App extends Component {
 
@@ -117,6 +120,9 @@ class App extends Component {
           <Route path="/handle_cronjobs" component={handle_cronjobs} />
           <Route path="/soh_details" component={soh_details} />
           <Route path="/admin_error_log" component={admin_error_log} />
+          <Route path="/problem_asn" component={problem_asn} />
+          <Route path="/enterpriseReportOld" component={enterpriseReportOld} />
+          <Route path="/stockSummaryExtras" component={stockSummaryExtras} />
 
         </Switch>
 
