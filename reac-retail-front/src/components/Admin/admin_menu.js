@@ -8,7 +8,7 @@ import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import swal from 'sweetalert';
 import Cookies from 'universal-cookie';
 //jQuery libraries
 
@@ -30,14 +30,29 @@ export default class admin_menu extends Component {
 
 
     componentDidMount = async () => {
-
+        const server_ip = await new_config.get_server_ip();
         var cookies = new Cookies();
 
         var myToken = cookies.get('myToken');
         console.log(myToken)
+        $(document).on('click','.run_cron_job', function(){
+   
+            Run_CronJob();
+        }); 
 
+        function Run_CronJob(){
 
-
+            $.ajax({
+                type:'POST',
+                url: server_ip+"cronjobs/CronJobRun30",
+                success:function(data){
+                    
+                    swal("Run Successfully !");
+                    
+        
+                }
+            })
+        }
     }
     render() {
         return (
@@ -75,28 +90,54 @@ export default class admin_menu extends Component {
                                         <div className="card-body">
                                             <div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
                                                 <div className="row">
-                                                <div className="col-md-4">
-                                                    <div className="but mt-2">
-                                                        <Link to='/handle_cronjobs' className="btn btn-primary btn-block">Handle Cronjob</Link>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/handle_cronjobs' className="btn btn-primary btn-block">Handle Cronjob</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/soh_details' className="btn btn-secondary btn-block">Soh Handle</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/ibtDifferences' className="btn btn-success btn-block">Notification</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/admin_error_log' className="btn btn-danger btn-block">Error Log</Link>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/problem_asn' className="btn btn-warning btn-block">Problem Asn</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/stockSummaryExtras' className="btn btn-info btn-block">Stock Summary Extra</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/enterpriseReportOld' className="btn btn-primary btn-block">Enterprise Report Old</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <button className="btn btn-secondary btn-block run_cron_job">Run Cron Job</button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/dailyStockCountReport' className="btn btn-success btn-block">Enterprise Report</Link>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-4">
-                                                    <div className="but mt-2">
-                                                        <Link to='/soh_details' className="btn btn-secondary btn-block">Soh Handle</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <div className="but mt-2">
-                                                        <Link to='/ibtDifferences' className="btn btn-success btn-block">Notification</Link>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <div className="but mt-2">
-                                                        <Link to='/admin_error_log' className="btn btn-danger btn-block">Error Log</Link>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                                
+
 
                                             </div>
                                         </div>

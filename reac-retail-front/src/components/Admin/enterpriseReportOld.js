@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 //jQuery libraries
 
 import 'jquery/dist/jquery.min.js';
@@ -16,71 +17,89 @@ import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from 'jquery';
-import Cookies from 'universal-cookie';
 
-export default class dailyStockCountReport extends Component {
+
+import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
+
+export default class enterpriseReportOld extends Component {
     constructor(props) {
 
         super(props);
         this.state = {
+            store_list: [],
+            store_id: 0,
             startDate: '',
-            endDate: ''
+            endDate: '',
+            ibt: " ",
+            check: false,
         };
     }
+
+    async onShowOverChange(event) {
+        if (event.target.checked) {
+            this.setState({ check: true });
+        } else {
+            this.setState({ check: false });
+        }
+    }
     componentDidMount = async () => {
-
-
+        var stores = await common.get_stores();
+        this.setState(store_list => ({
+            store_list: stores
+        }));
         const server_ip = await new_config.get_server_ip();
-
         var main_table = ' ';
         var cookies = new Cookies();
+
         var myToken = cookies.get('myToken');
+        console.log(myToken)
+
+
         $(document).ready(function () {
+
             main_table = $('#dataTable').DataTable({
-                //dom: 'Bfrtip',
-                dom: 'Blrtip',
+                dom: 'Bfrtip',
+
                 buttons: [
                     {
-                        extend: 'excelHtml5',
-                        title: 'Stock Summary Details',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11]
-                        }
+                        extend: 'excel',
+                        title: 'AsnData'
                     }, {
 
                         extend: 'print',
-                        title: 'Stock Summary Details',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11]
-                        }
+                        title: 'AsnData'
                     },
                 ],
                 "pageLength": 25,
                 'processing': true,
+                'serverSide': true,
                 "initComplete": function (settings, json) {
                     $(".data-tables").css('visibility', 'visible');
                     //$(".before_load_table").hide();
                 },
                 'language': {
                     'loadingRecords': '&nbsp;',
-                    'processing': '&nbsp; &nbsp; Please wait... <br><div class="spinner"></div>'
+                    'processing': '&nbsp; &nbsp; Please wait... <br><div className="spinner"></div>'
                 },
-                'serverSide': false,
-                'select': true,
+
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': server_ip + 'inventoryData/executiveSummaryDateWise/',
+                    'url': server_ip + 'inventoryData/getStockCountOldDataReprt/',
                     'beforeSend': function (request) {
                         request.setRequestHeader("auth-token", myToken);
                     },
                     "data":
                         function (d) {
                             return $.extend({}, d, {
+                                "storeid": $("#StoreID").val(),
                                 "from_my_date": $("#Date").val(),
-                                "to_my_date": $("#EndDate").val(),
+                                "to_my_date": $('#EndDate').val(),
                             });
                         },
+
                 },
+                "order": [[1, 'desc']],
                 "responsive": true,
                 "columns": [
                     { "data": "date" },
@@ -97,30 +116,14 @@ export default class dailyStockCountReport extends Component {
                     { "data": "counted_sr" },
 
                 ],
-                'columnDefs': [{
-                    'targets': [0], /* column index */
-                    'orderable': false, /* true or false */
-                }],
                 "searching": false,
+                "select": true
             });
         });
-        $('.run').click(function () {
 
+        $('.run').click(function () {
             main_table.ajax.reload();
         });
-    }
-    async summaryValidate(event) {
-        var error = 0;
-        if (this.state.startDate == "" || this.state.startDate == null || this.state.endDate == "" || this.state.endDate == null) {
-            error = 1;
-            document.getElementById("FromDate").style.borderColor = "red"
-            document.getElementById("ToDate").style.borderColor = "red"
-            this.setState({ error_msg: "Please Select Both Date!" })
-        } else {
-            this.setState({ error_msg: "" })
-            document.getElementById("StoreID").style.borderColor = "#fff"
-        }
-
 
     }
 
@@ -147,7 +150,7 @@ export default class dailyStockCountReport extends Component {
                                     <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
-                                                Daily Stock Count Report
+                                                Stock Summary Details
                                             </h4>
                                             <p className="mb-0 dateTime"></p>
                                         </div>
@@ -169,6 +172,7 @@ export default class dailyStockCountReport extends Component {
                                                 <h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
                                                 <div className="mb-0 filter-size">
 
+                                                    <span id="iot_notification"></span>
                                                     <div className="d-inline-block" style={{ width: "150px !important" }}>
                                                         <DatePicker onChange={this.handleFromDateChange} selected={this.state.startDate} className="form-control d-inline-block mr-2 date_picker_22"
                                                             id="Date" name="date" placeholderText="From Date: yyyy-mm-dd"
@@ -179,20 +183,23 @@ export default class dailyStockCountReport extends Component {
                                                             id="EndDate" name="date" placeholderText="End Date: yyyy-mm-dd"
                                                             dateFormat="yyyy-MM-dd" />
                                                     </div>
-                                                    <span id="iot_notification"></span>
+                                                    <select className="form-control d-inline-block mr-2" data-live-search="true"
+                                                        name="StoreID" id="StoreID" onChange={(e) => this.setState({ store_id: e.target.value })} value={this.state.store_id ? this.state.store_id : 0} >
+                                                        <option value="">All Stores</option>
+                                                        {this.state.store_list.map((x, y) => <option key={x.storename} value={x.storename}>{x.storename}</option>)}
+                                                    </select>
+
                                                     <div className="d-inline-block mr-4 mb-0 w-25 my-2">
-                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block" onClick={evt => this.summaryValidate(evt)} >Search</button>
-                                                    </div>
-                                                    <div className="error_block">
-                                                        <span className="error error_msg">{this.state.error_msg}</span>
+                                                        <button type="button" id="executiveSummary" className="btn btn-primary btn-md run btn-block">Search</button>
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div className="data-tables">
-                                                <table id="dataTable" className="text-center mm-datatable_inventory">
-                                                    <thead className="bg-light text-capitalize">
+                                                <table id="dataTable" class="text-center mm-datatable" style={{width: "100%"}}>
+                                                    <thead class="bg-light text-capitalize">
                                                         <tr>
+
                                                             <th>Date</th>
                                                             <th>Store Name</th>
                                                             <th>On hand</th>
@@ -214,11 +221,11 @@ export default class dailyStockCountReport extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </div >
+                            </div >
+                        </div >
+                    </div >
+                </div >
             </>
         )
     }

@@ -3862,6 +3862,7 @@ router.post('/getasndata', authenticationMidleware(), (req, res, next) => {
     }
 });
 function check_problem_asn(var_start_date) {
+    
     return new Promise((resolve, reject) => {
 
         var date = var_start_date;
@@ -3896,8 +3897,9 @@ function check_problem_asn(var_start_date) {
 
             })
             .then((json) => {
+                console.log(json)
                 var response = json;
-                // var response = json;
+                //  var response = json;
                 var ibt_name = ''
                 var porcess_name = '';
                 var result_set = '';
@@ -3976,7 +3978,7 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
 
     // try {
     console2.execution_info('get_problem_asn');
-    var session = req.session;
+    //var session = req.session;
     var cond = '';
     var order_by_cond = '';
     var search_cond = '';
@@ -3990,7 +3992,8 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
     var query_select = '';
     var query_count_per = '';
 
-    var storeid = session.storeid;
+    // var storeid = session.storeid;
+    var storeid = '';
 
     storeid = storeid.split('[').join('');
     storeid = storeid.split(']').join('');
@@ -4057,7 +4060,7 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
 
     //if (mysql.check_permission('asndata', session.user_permission)) {
 
-    if (session.user_id == 1) {
+    //if (session.user_id == 1) {
 
         if (show_details == "yes") {
 
@@ -4084,6 +4087,7 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
 
                                     
                                     FROM asn_master AS t1 WHERE 1 `+ cond;
+                                    
 
             query_count_per = `select count(*) as my_count from ( SELECT 
                                 t1.asn,
@@ -4115,7 +4119,7 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
                                     
                                     FROM asn_master AS t1 WHERE 1 `+ cond;
 
-            console.log(query_select);
+            
 
             query_count_per = `select count(*) as my_count from ( SELECT 
                             t1.asn,
@@ -4135,7 +4139,7 @@ router.post('/get_problem_asn', authenticationMidleware(), (req, res, next) => {
         }
 
 
-    }
+    //}
 
     //console.log(query_select);
 
