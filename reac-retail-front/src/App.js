@@ -53,6 +53,7 @@ import admin_error_log from "./components/Admin/admin_error_log";
 import problem_asn from "./components/Admin/problem_asn";
 import enterpriseReportOld from "./components/Admin/enterpriseReportOld";
 import stockSummaryExtras from "./components/Admin/stockSummaryExtras";
+import dashboard from "./components/Admin/dashboard";
 
 class App extends Component {
 
@@ -123,6 +124,7 @@ class App extends Component {
           <Route path="/problem_asn" component={problem_asn} />
           <Route path="/enterpriseReportOld" component={enterpriseReportOld} />
           <Route path="/stockSummaryExtras" component={stockSummaryExtras} />
+          <Route path="/dashboard" component={dashboard} />
 
         </Switch>
 
