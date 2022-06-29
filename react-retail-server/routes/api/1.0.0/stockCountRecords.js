@@ -487,9 +487,9 @@ router.post('/itemViewProductItem', authenticationMidleware(), (req, res, next) 
 router.post('/getStoresDetailsDashboard', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getStoresDetailsDashboard');
     try {
-        var session = req.session;
+        //var session = req.session;
 
-        if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
+        //if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
             var new_query = "select stockcountdate AS date from tb_store where storename = '" + req.body.store_id + "'"
             //console.log(">>>>>>"+new_query);    
             mysql.queryCustom(new_query).then(function (result) {
@@ -507,7 +507,7 @@ router.post('/getStoresDetailsDashboard', authenticationMidleware(), (req, res, 
                 res.end(error);
                 //res.end(error);
             });
-        }
+       //}
 
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '475-getStoresDetailsDashboard');
@@ -574,7 +574,7 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
     console2.execution_info('getStoresPercentage');
 
     try {
-        var session = req.session;
+        //var session = req.session;
         var cond = '';
         var storeid = '';
 
@@ -587,7 +587,7 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
             cond += ' AND SC.stockcountdate="' + req.body.date + '" '
         }
 
-        if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
+        //if (mysql.check_permission('dashboard_home', session.user_permission) || mysql.check_permission('dashboard', session.user_permission)) {
             var new_query = " SELECT " +
                 " ABS(ROUND(((SUM(missing) / SUM(initial))*100 ),2)) AS missingpercentage," +
                 " ABS(ROUND(((SUM(unexpected) / SUM(initial))*100 ),2)) AS overpercentage ," +
@@ -614,7 +614,7 @@ router.post('/getStoresPercentage', authenticationMidleware(), (req, res, next) 
                 res.end(error);
                 //res.end(error);
             });
-        }
+        //}
 
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '579-getStoresPercentage');
@@ -1581,21 +1581,22 @@ router.post('/getallover', authenticationMidleware(), (req, res, next) => {
 router.post('/totalstore', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('totalstore');
     try {
-        var session = req.session;
-        if (mysql.check_permission('dashboard', session.user_permission)) {
+        //var session = req.session;
+        //if (mysql.check_permission('dashboard', session.user_permission)) {
 
-            var storeid = session.storeid;
+            // var storeid = session.storeid;
+            var storeid = '';
 
             storeid = storeid.split('[').join('');
             storeid = storeid.split(']').join('');
 
             var query = '';
 
-            if (session.user_id == 1) {
+            // if (session.user_id == 1) {
                 query = "SELECT count(*) as total_store FROM tb_store "
-            } else {
-                query = "SELECT count(*) as total_store FROM tb_store WHERE  storename IN (" + storeid + ")"
-            }
+            // } else {
+            //     query = "SELECT count(*) as total_store FROM tb_store WHERE  storename IN (" + storeid + ")"
+            // }
 
 
             mysql.queryCustom(query)
@@ -1616,7 +1617,7 @@ router.post('/totalstore', authenticationMidleware(), (req, res, next) => {
                     res.end(error);
                     // res.end(error);
                 });
-        }
+       // }
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1258-totalstore');
         if (e instanceof TypeError) {
@@ -1763,9 +1764,9 @@ router.post('/add_log', (req, res, next) => {
 router.post('/totalusers', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('totalusers');
     try {
-        var session = req.session;
+        //var session = req.session;
         //console.log("++++++"+session);
-        if (mysql.check_permission('dashboard', session.user_permission)) {
+        //if (mysql.check_permission('dashboard', session.user_permission)) {
             mysql.queryCustom("SELECT" +
                 " COUNT(id) AS total_users FROM users WHERE 1")
                 .then(function (result) {
@@ -1783,7 +1784,7 @@ router.post('/totalusers', authenticationMidleware(), (req, res, next) => {
                     res.end(error);
                     //res.end(error);
                 });
-        }
+        //}
     } catch (e) {
         console2.log('Error', 'Catch Expection' + e, '1424-totalusers');
         if (e instanceof TypeError) {
