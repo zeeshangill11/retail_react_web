@@ -241,7 +241,7 @@ export default class dashboard extends Component {
                                                                 <img src="./asserts/images/icon-open-list.png" className="float-right" />
                                                             </Link>
                                                             <div>
-                                                                {this.state.activity_list.map((x, y) => <p style={{fontSize: "13px", margin: "0px"}}>{x.date+ x.audit_text + x.log_type + x.deviceid + x.storeid + x.Retail_CycleCountID}</p>)}
+                                                                {this.state.activity_list.map((x, y) => <p style={{fontSize: "13px", margin: "0px"}}>{x.date+'--'+ x.audit_text +'--Log Type--'+ x.log_type +'--Device ID--'+ x.deviceid +'--Store ID--'+ x.storeid +'--Retail CycleCount ID--'+ x.Retail_CycleCountID}</p>)}
                                                             </div>
                                                         </div>
                                                     </div>
