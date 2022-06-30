@@ -54,6 +54,7 @@ import problem_asn from "./components/Admin/problem_asn";
 import enterpriseReportOld from "./components/Admin/enterpriseReportOld";
 import stockSummaryExtras from "./components/Admin/stockSummaryExtras";
 import dashboard from "./components/Admin/dashboard";
+import zplprinter_new from "./components/TagIT/zplprinter_new";
 
 class App extends Component {
 
@@ -101,6 +102,7 @@ class App extends Component {
           {/* Target IT Reports */}
           <Route path="/zplReport" component={zplReport} />
           <Route path="/zplReport_sku" component={zplReport_sku} />
+          <Route path="/zplprinter_new" component={zplprinter_new} />
           {/* Admin Reports */}
           <Route path="/transferCancellation" component={transferCancellation} />
           <Route path="/gi_cancellation" component={gi_cancellation} />

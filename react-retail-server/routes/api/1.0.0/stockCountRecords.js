@@ -7749,16 +7749,16 @@ router.post('/getZPL', authenticationMidleware(), (req, res, next) => {
 router.post('/getZPL_new', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('getZPL_new');
     try {
-        var session = req.session;
+        // var session = req.session;
         var store_id = req.body.store_id;
-        var user_id = session.user_id;
+        // var user_id = session.user_id;
 
-        if (user_id > 0) {
+        // if (user_id > 0) {
             var query = "SELECT id,zpl,name FROM zpl where storeid like '%" + store_id + "%' "
-        }
-        else {
-            var query = "SELECT id,zpl,name FROM zpl where storeid like '%" + store_id + "%' and restrict_user NOT like '%" + user_id + "%'"
-        }
+        // }
+        // else {
+        //     var query = "SELECT id,zpl,name FROM zpl where storeid like '%" + store_id + "%' and restrict_user NOT like '%" + user_id + "%'"
+        // }
 
         mysql.queryCustom(query)
             .then(function (result) {
@@ -7841,7 +7841,7 @@ router.post('/getPrinterInfo_new', authenticationMidleware(), (req, res, next) =
 
     console2.execution_info('getPrinterInfo_new');
     try {
-        var session = req.session;
+        // var session = req.session;
         var store_id = req.body.store_id;
 
 
