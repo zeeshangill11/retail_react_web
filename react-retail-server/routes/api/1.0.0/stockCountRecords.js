@@ -9095,8 +9095,8 @@ router.post('/ZplDataProductMaster', authenticationMidleware(), (req, res, next)
 router.post('/ZplDataProductMaster_new', authenticationMidleware(), (req, res, next) => {
     console2.execution_info('ZplDataProductMaster_new');
     try {
-        var session = req.session;
-        var storeid = session.storeid;
+        //var session = req.session;
+        var storeid = '';
 
 
         var new_query = "SELECT * From product_item_master WHERE ean_no = '" + req.body.uid + "'"
