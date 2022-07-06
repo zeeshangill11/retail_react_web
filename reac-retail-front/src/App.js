@@ -55,6 +55,7 @@ import enterpriseReportOld from "./components/Admin/enterpriseReportOld";
 import stockSummaryExtras from "./components/Admin/stockSummaryExtras";
 import dashboard from "./components/Admin/dashboard";
 import zplprinter_new from "./components/TagIT/zplprinter_new";
+import store_payload from "./components/Admin/store_payload";
 
 class App extends Component {
 
@@ -127,6 +128,7 @@ class App extends Component {
           <Route path="/enterpriseReportOld" component={enterpriseReportOld} />
           <Route path="/stockSummaryExtras" component={stockSummaryExtras} />
           <Route path="/dashboard" component={dashboard} />
+          <Route path="/store_payload" component={store_payload} />
 
         </Switch>
 

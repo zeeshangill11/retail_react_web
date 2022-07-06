@@ -8107,7 +8107,7 @@ router.post('/ConfirmApiRequestPrinter_new', authenticationMidleware(), (req, re
 
     console2.execution_info('ConfirmApiRequestPrinter_new');
     try {
-        var session = req.session;
+        // var session = req.session;
 
         var epc = req.body.epc;
         var zpl = req.body.zpl;
@@ -8521,12 +8521,13 @@ function check_epc_exist_zpl(epc) {
 router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, next) => {
 
     console2.execution_info('AddPrinterForm_new_new');
-    try {
-        var session = req.session;
+   // try {
+        // var session = req.session;
 
-
+    console.log(req.body)
         var now = new Date();
         var qty = req.body.qty
+        console.log(qty)
         var UID = req.body.UID
         var epc = req.body.epc
         var storeid = req.body.StoreID; //var storeid = req.body.store_id;
@@ -8557,17 +8558,18 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
         var style = req.body.style;
 
 
-
+        
+        
         const bigInt = require('big-integer');
-
+        
         function BitsHelper(val, len, valbase = 16) {
             this.val = val;
             this.bitlength = len;
-
+            
             this.bits = bigInt(val, valbase).toString(2);
             this.bits = Array(len - this.bits.length + 1).join('0') + this.bits;
         }
-
+        
         function getCheckDigit(key) {
             const paddedKey = key.padStart(18, '0')
             const numbers = paddedKey.split('').map(n => parseInt(n))
@@ -8578,9 +8580,9 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
             const next = Math.ceil(sum / 10) * 10;
             return next - sum;
         }
-
+        
         const header = '00110000';
-
+        
         const partition = {
             bits: {
                 company: [40, 37, 34, 30, 27, 24, 20],
@@ -8591,8 +8593,8 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                 reference: [1, 2, 3, 4, 5, 6, 7]
             }
         };
-
-
+        
+        
         function parse(epc) {
             const parts = {
                 Header: undefined,
@@ -8614,17 +8616,18 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                 CheckDigit: undefined,
                 Sku: undefined
             };
-
+            
             // initialize the bit helper
             const bh = new BitsHelper(epc, 96);
-
+            
             // make sure the incoming value is really SGTIN by checking the header
             if (bh.bits.slice(0, 8) !== header)
-                throw new Error(epc + ' is not a valid SGTIN.');
-
+            throw new Error(epc + ' is not a valid SGTIN.');
+            
             // ok, looks good.  parse the stuff we'll need to figure out the rest
             parts.Header = bh.bits.slice(0, 8);
             parts.Filter = parseInt(bh.bits.slice(8, 11), 2);
+            
             parts.Partition = parseInt(bh.bits.slice(11, 14), 2);
             // find the end of the company portion by calculating the number of bits
             // and adding it to the starting offset
@@ -8672,38 +8675,45 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
 
             return bigInt(epc, 2).toString(16).toUpperCase();
         }
+      
+ 
 
         var select = "SELECT reference_value FROM reference_table"
         mysql.queryCustom(select).then(async function (result) {
             if (result.status == "1") {
+
+               
 
                 var update_unique = "";
                 var epc = '';
                 var load_id = result.results[0].reference_value;
                 var reference_value = result.results[0].reference_value;
                 var tobe_dump = '';
-
+            
                 var tobe_dump = "INSERT INTO `zpl_printer` (`uid`, `epc`,`suppliername`,`qty`, `storeid`," +
                     " `printerid`, `zplid`, `status`,`Retail_Product_Price`,`Retail_Product_VAT` " +
                     " ,`Retail_Product_SP_VAT_EN`,`Retail_Product_Color`," +
                     "`Retail_Product_Size`,`Retail_Product_Season`" +
                     ",`Retail_Product_Gender`,`Retail_Product_SupplierItemNum`,`load_id`,`date_time`,`user_id`" +
-
+            
                     " ,sku,PO_NO,Supplier_ID,Shipment_no,Comments)" + " VALUES "
-
+            
                 var date_time = dateFormat(now, "yyyy-mm-dd");
-                var user_id = session.user_id;
-
+                // var user_id = session.user_id;
+                var user_id = '';
+               // console.log(tobe_dump);
+            
                 for (var i = 0; i < qty; i++) {
                     //console.log(qty);
                     reference_value = reference_value + 1;
-
+            
                     epc = (encode(SKU, reference_value));
-                    //console.log(epc);
+                    // console.log(epc);
                     //zeeshan
                     var epc_status = await check_epc_exist_zpl(epc);
-
-
+                    
+                    // console.log(epc_status);
+            
                     if (epc_status.exist == "0") {
                         tobe_dump += "('" + req.body.UID + "','" + epc + "','" + req.body.SupplierName + "','" + qty + "' ," +
                             "'" + req.body.StoreID + "','" + req.body.Printer + "','" + req.body.ZPL + "','Pending'," +
@@ -8716,164 +8726,167 @@ router.post('/AddPrinterForm_new', authenticationMidleware(), async (req, res, n
                             "'" + req.body.Retail_Product_SupplierItemNum + "','" + load_id + "','" + date_time +
                             "','" + user_id + "','" + SKU + "','" + PO_NO + "','" + Supplier_ID + "','" + Shipment_no + "','" + Comments + "'),";
                     }
-
+            
                 }
+                // console.log("(((((((((((((((((((((((((((((((((((((((");
                 // console.log(tobe_dump);
-
-                update_unique = "UPDATE `reference_table` SET `reference_value` = reference_value+" + qty
-
-                mysql.queryCustom(update_unique).then(function (result) {
-                    if (result.status == "1") {
-                        // res.end(JSON.stringify(result.results));
-                    } else {
-                        console2.log('Error', JSON.stringify(result.error), '4280-AddPrinterForm_new refrence table');
-                        //res.end((result.error);
-                        //res.end(result.error);
-                    }
-                }).catch(function (error) {
-                    console2.log('Error', JSON.stringify(error), '4286-AddPrinterForm_new refrence table');
-                    //res.end((result.error);
-                    //res.end(error);
-                });
-
-
-                const insertText = tobe_dump.slice(',', -1);
-
-                //console.log("+++++++++++++++++++"+insertText);
-                mysql.queryCustom(insertText).then(function (result) {
-                    if (result.status == "1") {
-
-                        //Check_EPC_ZPL(epc);   
-                        var select_query = "SELECT  * FROM `zpl_printer` " +
-                            " WHERE 1 and uid='" + req.body.UID + "' and status <>'print' and load_id = '" + load_id + "' "
-                        // console.log(select_query);
-
-                        mysql.queryCustom(select_query).then(function (result) {
-                            if (result.status == "1") {
-
-                                var total_id = result.results;
-
-
-                                var printerDump = '';
-                                var print_body = '';
-
-                                for (var i = 0; i < total_id.length; i++) {
-
-                                    printerDump += total_id[i].epc + ',';
-                                    print_body += '{' +
-                                        '"group": ">RUBAIYAT",' +
-                                        '"thingTypeCode": "ITEM",' +
-                                        '"serialNumber": "' + total_id[i].epc + '",' +
-                                        '"udfs": {' +
-                                        '"deviceId": {"value": "C2A0622C-CB02-41E9-9465-9946B282B38F"},' +
-                                        '"Retail_Bizlocation": {"value": "' + storeid + '"},' +
-                                        '"sourceModule": {"value": "Printing"},' +
-                                        '"Retail_Printer": {"value": "PrinterID"},' +
-                                        '"Retail_Product_SKU": {"value": "' + SKU + '"},' +
-                                        '"Retail_Product_SKUOriginal": {"value": "' + original_sku + '"},' +
-                                        '"Retail_Product_UniqueID": {"value": "' + UID + '"},' +
-                                        '"Retail_Product_UPC": {"value": "' + SKU + '"},' +
-                                        '"Retail_ZPL": {"value": "RUBAzpl_EN"},' +
-                                        '"source": {"value": "PRINTING_APP"},' +
-                                        '"user": {"value": "store' + location + '"},' +
-                                        '"zone": {"value": "' + storeid + '.00101.1"},' +
-
-                                        '"Retail_TagIT_Info_1":{"value":"' + PO_NO + '"},' +
-                                        '"Retail_TagIT_Info_2":{"value":"' + Supplier_ID + '"},' +
-                                        '"Retail_TagIT_Info_3":{"value":"' + Shipment_no + '"},' +
-                                        '"Retail_TagIT_Info_4":{"value":"' + Comments + '"}' +
-                                        '}' +
-                                        '},';
-
-                                }
-                                print_body = print_body.substring(0, print_body.length - 1);
-                                var iot_ip = process.env.IOT_API_NEW;
-
-                                //
-                                //console.log(print_body);
-                                const options = {
-                                    url: iot_ip + 'innovent/TAGIT',
-                                    method: 'PATCH',
-                                    headers: {
-                                        'content-type': 'application/json',
-                                        'apikey': process.env.IOT_API_KEY,
-                                    },
-                                    body: '[' + print_body + ']'
-                                };
-                                // var body22 = '['+print_body+']';
-                                // console.log(body22)
-                                request(options, function (err, res, body) {
-                                    let wjson = body;
-                                    var status = res.statusCode;
-
-
-
-                                    if (parseInt(status) !== 200) {
-
-                                        const message = {
-                                            from: 'saqib@innodaba.com', // Sender address
-                                            to: 'zeeshangill11@gmail.com', // List of recipients
-                                            subject: 'Zpl Print Epc', // Subject line
-                                            text: "This " + printerDump + " Epc not printed Successfully !" // Plain text body
-                                        };
-                                        transport.sendMail(message, function (err, info) {
-                                            if (err) {
-                                                console.log(err)
-                                            } else {
-                                                console.log(info);
-                                            }
-                                        });
-
-
-                                    }
-                                });
-
-
-
-
-                                res.end(JSON.stringify(printerDump));
-                            } else {
-                                //res.end(result.error);
-                            }
-                        })
-                            .catch(function (error) {
-                                console2.log('Error', JSON.stringify(error), '4324-AddPrinterForm_new first catch');
-                                //res.end(error);
-                            });
-
-                        //res.end(JSON.stringify(result.results));
-                    } else {
-                        //res.end(result.error);
-                    }
-                })
-                    .catch(function (error) {
-                        console2.log('Error', JSON.stringify(error), '4332-AddPrinterForm_new 2nd catch');
-                        //res.end(error);
-                    });
-
+                 update_unique = "UPDATE `reference_table` SET `reference_value` = reference_value+" + qty
+            
+                 mysql.queryCustom(update_unique).then(function (result) {
+                     if (result.status == "1") {
+                        // console.log("status................")
+                         // res.end(JSON.stringify(result.results));
+                     } else {
+                         console2.log('Error', JSON.stringify(result.error), '4280-AddPrinterForm_new refrence table');
+                         //res.end((result.error);
+                         //res.end(result.error);
+                     }
+                 }).catch(function (error) {
+                     console2.log('Error', JSON.stringify(error), '4286-AddPrinterForm_new refrence table');
+                     //res.end((result.error);
+                     //res.end(error);
+                 });
+            
+            
+                 const insertText = tobe_dump.slice(',', -1);
+            
+                 console.log("+++++++++++++++++++"+insertText);
+                 mysql.queryCustom(insertText).then(function (result) {
+                     if (result.status == "1") {
+                        // console.log("status2................")
+                         //Check_EPC_ZPL(epc);   
+                         var select_query = "SELECT  * FROM `zpl_printer` " +
+                             " WHERE 1 and uid='" + req.body.UID + "' and status <>'print' and load_id = '" + load_id + "' "
+                         // console.log(select_query);
+            
+                         mysql.queryCustom(select_query).then(function (result) {
+                             if (result.status == "1") {
+                                // console.log("status3................")
+                                 var total_id = result.results;
+            
+            
+                                 var printerDump = '';
+                                 var print_body = '';
+            
+                                 for (var i = 0; i < total_id.length; i++) {
+            
+                                     printerDump += total_id[i].epc + ',';
+                                     print_body += '{' +
+                                         '"group": ">RUBAIYAT",' +
+                                         '"thingTypeCode": "ITEM",' +
+                                         '"serialNumber": "' + total_id[i].epc + '",' +
+                                         '"udfs": {' +
+                                         '"deviceId": {"value": "C2A0622C-CB02-41E9-9465-9946B282B38F"},' +
+                                         '"Retail_Bizlocation": {"value": "' + storeid + '"},' +
+                                         '"sourceModule": {"value": "Printing"},' +
+                                         '"Retail_Printer": {"value": "PrinterID"},' +
+                                         '"Retail_Product_SKU": {"value": "' + SKU + '"},' +
+                                         '"Retail_Product_SKUOriginal": {"value": "' + original_sku + '"},' +
+                                         '"Retail_Product_UniqueID": {"value": "' + UID + '"},' +
+                                         '"Retail_Product_UPC": {"value": "' + SKU + '"},' +
+                                         '"Retail_ZPL": {"value": "RUBAzpl_EN"},' +
+                                         '"source": {"value": "PRINTING_APP"},' +
+                                         '"user": {"value": "store' + location + '"},' +
+                                         '"zone": {"value": "' + storeid + '.00101.1"},' +
+            
+                                         '"Retail_TagIT_Info_1":{"value":"' + PO_NO + '"},' +
+                                         '"Retail_TagIT_Info_2":{"value":"' + Supplier_ID + '"},' +
+                                         '"Retail_TagIT_Info_3":{"value":"' + Shipment_no + '"},' +
+                                         '"Retail_TagIT_Info_4":{"value":"' + Comments + '"}' +
+                                         '}' +
+                                         '},';
+            
+                                 }
+                                 print_body = print_body.substring(0, print_body.length - 1);
+                                 var iot_ip = process.env.IOT_API_NEW;
+            
+                                //  console.log("Body..................")
+                                //  console.log(print_body);
+                                //  const options = {
+                                //      url: iot_ip + 'innovent/TAGIT',
+                                //      method: 'PATCH',
+                                //      headers: {
+                                //          'content-type': 'application/json',
+                                //          'apikey': process.env.IOT_API_KEY,
+                                //      },
+                                //      body: '[' + print_body + ']'
+                                //  };
+                                //  // var body22 = '['+print_body+']';
+                                //  console.log(options)
+                                //  request(options, function (err, res, body) {
+                                //      let wjson = body;
+                                //      var status = res.statusCode;
+            
+            
+            
+                                //      if (parseInt(status) !== 200) {
+                                //         console.log("status200................")
+                                //          const message = {
+                                //              from: 'saqib@innodaba.com', // Sender address
+                                //              to: 'zeeshangill11@gmail.com', // List of recipients
+                                //              subject: 'Zpl Print Epc', // Subject line
+                                //              text: "This " + printerDump + " Epc not printed Successfully !" // Plain text body
+                                //          };
+                                //          transport.sendMail(message, function (err, info) {
+                                //              if (err) {
+                                //                  console.log(err)
+                                //              } else {
+                                //                  console.log(info);
+                                //              }
+                                //          });
+            
+            
+                                //      }
+                                //  });
+            
+            
+            
+            
+                                 res.end(JSON.stringify(printerDump));
+                             } else {
+                                 //res.end(result.error);
+                             }
+                         })
+                             .catch(function (error) {
+                                 console2.log('Error', JSON.stringify(error), '4324-AddPrinterForm_new first catch');
+                                 //res.end(error);
+                             });
+            
+                         //res.end(JSON.stringify(result.results));
+                     } else {
+                         //res.end(result.error);
+                     }
+                 })
+                     .catch(function (error) {
+                         console2.log('Error', JSON.stringify(error), '4332-AddPrinterForm_new 2nd catch');
+                         //res.end(error);
+                     });
+                
+            
             } else {
                 // res.end(result.error);
             }
         }).catch(function (error) {
+            console.log(JSON.stringify(error));
             console2.log('Error', JSON.stringify(error), '4339-AddPrinterForm_new 3rd catch');
             res.end(error);
         });
         //}
-    } catch (e) {
-        console2.log('Error', 'Catch Expection' + e, '5409-AddPrinterForm_new');
-        if (e instanceof TypeError) {
-            res.status(500).send({
-                error: '1',
-                message: 'SomeThing Wrong !'
-            });
-        } else {
-            console2.log('Error', 'Catch Expection' + e, '5416-AddPrinterForm_new');
-            res.status(500).send({
-                error: '1',
-                message: 'SomeThing Wrong !'
-            });
-        }
-    }
+    // } catch (e) {
+    //     console2.log('Error', 'Catch Expection' + e, '5409-AddPrinterForm_new');
+    //     if (e instanceof TypeError) {
+    //         res.status(500).send({
+    //             error: '1',
+    //             message: 'SomeThing Wrong !'
+    //         });
+    //     } else {
+    //         console2.log('Error', 'Catch Expection' + e, '5416-AddPrinterForm_new');
+    //         res.status(500).send({
+    //             error: '1',
+    //             message: 'SomeThing Wrong !'
+    //         });
+    //     }
+    // }
 });
 
 
