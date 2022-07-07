@@ -136,9 +136,17 @@ export default class admin_menu extends Component {
                                                             <Link to='/dailyStockCountReport' className="btn btn-success btn-block">Enterprise Report</Link>
                                                         </div>
                                                     </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/store_payload' className="btn btn-success btn-block">Store Payload</Link>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <div className="but mt-2">
+                                                            <Link to='/enterprise_report' className="btn btn-primary btn-block">Enterprise Report</Link>
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-
                                             </div>
                                         </div>
                                     </div>
