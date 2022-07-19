@@ -970,15 +970,16 @@ router.post('/GetASNDetailsReceiveingAPI', authenticationMidleware(), (req, res,
         abody = {
             "OriginStoreID":data.store,
             "ASN": data.asn,
-            "Process": "shipping",
-            "ProcessStatus": "intransit"
+            "Process":"shipping",
+            "ProcessStatus":"intransit"
+          
         };
-        //console.log(abody);
-        fetch(process.env.IOT_API + 'reportExecution/SUPPLYCHAINVERIFY', {
+        console.log(abody);
+        fetch(process.env.IOT_API2 + 'innovent/SUPPLYCHAINVERIFY', {
             method: 'post',
             body: JSON.stringify(abody),
             headers: {
-                'apikey': process.env.IOT_API_KEY,
+                'apikey': 'WYMOJXX8QZ4TBAWS',
                 'Content-Type': 'application/json'
             },
         })
@@ -987,20 +988,22 @@ router.post('/GetASNDetailsReceiveingAPI', authenticationMidleware(), (req, res,
             if (!contentType || !contentType.includes('application/json')) {
                 throw new TypeError("Oops, we haven't got JSON!");
             }
+            
             return res.json();
         }).catch(function(error) {
             console2.log('Error', JSON.stringify(error), '902-EpcDump API ASN json validation');
         }).then((json) => {
 
+            // console.log(json)
             var total_results = json.results; 
-            //console.log(total_results);                 
+            console.log(total_results);                 
             var total_items_stock = total_results.length;
             var temp2=[];
             if (total_items_stock > 0) {
                 for (var z = 0; z < total_results.length; z++) {
 
                     temp2.push(
-                        total_results[z]["thing.headers"].serialNumber,
+                        total_results[z].TagID,
                     );
                 }
                //console.log('qqqqqqqqqqq');
@@ -1032,7 +1035,10 @@ router.post('/ConfirmASNDetailsReceiveingAPI', authenticationMidleware(), (req, 
         //var session = req.session;
         var data = req.body;
         var storeID = data.storename;
+        // console.log(storeID)
         var username = storeID.split('000');
+        // console.log(username)
+
         var storeuser = username[1];
        
         var Asn = data.asn;
@@ -1050,7 +1056,7 @@ router.post('/ConfirmASNDetailsReceiveingAPI', authenticationMidleware(), (req, 
             && storeID !== undefined && storeID !== '' 
             && Retail_Bizlocation !== undefined && Retail_Bizlocation !== '' 
            ){
-            
+            // console.log('aaaaaaaaaaaaa')            
 
            
 
@@ -1067,9 +1073,10 @@ router.post('/ConfirmASNDetailsReceiveingAPI', authenticationMidleware(), (req, 
                 
                 });
                 payload22 += ']';
-
+                // console.log('aaaaaaaaaaaaa')
                 const editedText = payload22.slice(',', -2);
                sendJson = editedText+']';
+
             }else{
 
 
@@ -1089,7 +1096,7 @@ router.post('/ConfirmASNDetailsReceiveingAPI', authenticationMidleware(), (req, 
             //console.log(sendJson);
 
             const options = {
-                url: process.env.IOT_API+'things?upsert=true&verboseResult=false',
+                url: process.env.IOT_API2+'innovent?upsert=true&verboseResult=false',
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',

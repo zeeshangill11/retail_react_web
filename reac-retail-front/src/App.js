@@ -57,6 +57,8 @@ import dashboard from "./components/Admin/dashboard";
 import zplprinter_new from "./components/TagIT/zplprinter_new";
 import store_payload from "./components/Admin/store_payload";
 import enterprise_report from "./components/Admin/enterprise_report";
+import manual_receiving_asn from "./components/Admin/manual_receiving_asn";
+
 
 class App extends Component {
 
@@ -131,6 +133,7 @@ class App extends Component {
           <Route path="/dashboard" component={dashboard} />
           <Route path="/store_payload" component={store_payload} />
           <Route path="/enterprise_report" component={enterprise_report} />
+          <Route path="/manual_receiving_asn" component={manual_receiving_asn} />
 
         </Switch>
 
