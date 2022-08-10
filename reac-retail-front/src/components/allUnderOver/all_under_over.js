@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
-import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
 import Header from '../header/header';
 import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
@@ -24,10 +22,10 @@ export default class inventoryByItems extends Component {
 
     super(props);
     this.state = {
-      store_list:[],
-      date_state:[],
+      store_list: [],
+      date_state: [],
       store_id: 0,
-      summarydate:'',
+      summarydate: '',
       show_over: 'no',
       error_msg: "",
     };
@@ -57,7 +55,7 @@ export default class inventoryByItems extends Component {
   }
 
   handleDateChange = date => {
-    this.setState({summarydate: date})
+    this.setState({ summarydate: date })
   }
 
   componentDidMount = async () => {
@@ -71,9 +69,9 @@ export default class inventoryByItems extends Component {
     var store_id = 0;
     var summarydate = '';
     var gettop20 = [];
-    var main_table='';
-    var main_table2='';
-    var main_table3='';
+    var main_table = '';
+    var main_table2 = '';
+    var main_table3 = '';
     var cookies = new Cookies();
     var myToken = cookies.get('myToken');
     $(document).ready(function () {
@@ -84,21 +82,21 @@ export default class inventoryByItems extends Component {
       main_table2 = $('#dataTableTwoo').DataTable({
         dom: 'Bfrtip',
         buttons: [
-        {
-          extend: 'excel',
-          title: 'Top20Under'
-        }],
+          {
+            extend: 'excel',
+            title: 'Top20Under'
+          }],
         "pageLength": 25,
         'processing': true,
         'serverSide': true,
         'serverMethod': 'post',
         "paging": true,
         'ajax': {
-          'url': server_ip+'stockCountRecords/gettop20under_all/',
+          'url': server_ip + 'stockCountRecords/gettop20under_all/',
           'beforeSend': function (request) {
             request.setRequestHeader("auth-token", myToken);
-        },
-          "data": function(d) {
+          },
+          "data": function (d) {
             var yes_no = 'no';
             if ($('#show_over').prop('checked')) {
               yes_no = 'yes';
@@ -112,14 +110,14 @@ export default class inventoryByItems extends Component {
         },
         "responsive": true,
         "columns": [
-          {"data": "departmentname"},
-          {"data": "brandname"},
-          {"data": "skucode"},
-          {"data": "expected22"},
-          {"data": "diff"},
-          {"data": "diffper"},
-          {"data": "suppliername"},
-          {"data": "supplier_item_no"}
+          { "data": "departmentname" },
+          { "data": "brandname" },
+          { "data": "skucode" },
+          { "data": "expected22" },
+          { "data": "diff" },
+          { "data": "diffper" },
+          { "data": "suppliername" },
+          { "data": "supplier_item_no" }
         ],
         "searching": false,
         "scrollY": 500,
@@ -133,17 +131,17 @@ export default class inventoryByItems extends Component {
       main_table3 = $('#dataTableThree').DataTable({
         dom: 'Bfrtip',
         buttons: [
-        {
-          extend: 'excel',
-          title: 'Top20Over'
-        }],
+          {
+            extend: 'excel',
+            title: 'Top20Over'
+          }],
         "pageLength": 25,
         'processing': true,
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-          'url': server_ip+'stockCountRecords/gettop20over_all/',
-          "data": function(d) {
+          'url': server_ip + 'stockCountRecords/gettop20over_all/',
+          "data": function (d) {
             var yes_no = 'no';
             if ($('#show_over').prop('checked')) {
               yes_no = 'yes';
@@ -157,23 +155,23 @@ export default class inventoryByItems extends Component {
         },
         "responsive": true,
         "columns": [
-          {"data": "departmentname"},
-          {"data": "brandname"},
-          {"data": "skucode"},
-          {"data": "expected"},
-          {"data": "diff"},
-          {"data": "diffper"},
-          {"data": "suppliername"},
-          {"data": "supplier_item_no"}, 
+          { "data": "departmentname" },
+          { "data": "brandname" },
+          { "data": "skucode" },
+          { "data": "expected" },
+          { "data": "diff" },
+          { "data": "diffper" },
+          { "data": "suppliername" },
+          { "data": "supplier_item_no" },
         ],
         "searching": false,
         "scrollY": 500,
         'columnDefs': [{
-            'targets': [3, 4, 5],
-            'orderable': false,
-            "visible": false,
-            "targets": 5
-          }
+          'targets': [3, 4, 5],
+          'orderable': false,
+          "visible": false,
+          "targets": 5
+        }
         ],
       });
 
@@ -184,23 +182,23 @@ export default class inventoryByItems extends Component {
       var $this = $('#stockSummaryFilter');
       store_id = $('#StoreID').val();
       summarydate = $('#summarydate').val();
-      
+
       $(".error_msg").html('');
 
-      if(store_id=="" || store_id==null){
-        error=1;
-        $this.find('.StoreID_error').html('Please Select Store !')        
-      }else{
+      if (store_id == "" || store_id == null) {
+        error = 1;
+        $this.find('.StoreID_error').html('Please Select Store !')
+      } else {
         $this.find('.StoreID_error').html(' ')
       }
 
-      if(summarydate=="" || summarydate==null){
-        error=1;
-        $this.find('.Date_error').html('Please Select Date !')        
-      }else{
+      if (summarydate == "" || summarydate == null) {
+        error = 1;
+        $this.find('.Date_error').html('Please Select Date !')
+      } else {
         $this.find('.Date_error').html(' ')
       }
-      if(error == 0){
+      if (error == 0) {
         $(".visibile").show();
         $(".before_load_table").show();
         main_table2.ajax.reload();
@@ -209,10 +207,10 @@ export default class inventoryByItems extends Component {
         $(".before_load_table").hide();
 
 
-        setTimeout(function(){
+        setTimeout(function () {
           $('.mm-dataTableTwoo tr th:eq(2)').click();
           $('.mm-datatable3 tr th:eq(2)').click();
-        },2000)
+        }, 2000)
       }
     });
   }
@@ -231,7 +229,7 @@ export default class inventoryByItems extends Component {
                   <div className="card">
                     <div className="card-header">
                       <div className="left d-inline-block">
-                        <h4 className="mb-0"> <i className="ti-stats-up" style={{color:"#000"}}></i>
+                        <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
                           Inventory
                         </h4>
                         <p className="mb-0 dateTime"></p>
@@ -259,44 +257,44 @@ export default class inventoryByItems extends Component {
                                   {this.state.store_list.map((x, y) => <option value={x.storename}>{x.storename}</option>)}
                                 </select>
                                 <span className="error StoreID_error"></span>
-                              </div>                                     
+                              </div>
                             </div>
                             <div className="col-md-3">
                               <div className="form-group">
-                                <DatePicker onChange={this.handleDateChange} selected={this.state.summarydate} className="form-control" 
-                                id="summarydate" includeDates={this.state.date_state} name="summarydate" placeholderText="Ex: yyyy-mm-dd" 
-                                dateFormat="yyyy-MM-dd"/>
+                                <DatePicker onChange={this.handleDateChange} selected={this.state.summarydate} className="form-control"
+                                  id="summarydate" includeDates={this.state.date_state} name="summarydate" placeholderText="Ex: yyyy-mm-dd"
+                                  dateFormat="yyyy-MM-dd" />
                                 <span className="error Date_error"></span>
                               </div>
                             </div>
 
                             <div className="col-md-2" id="show_over_checkbox">
-                              <span style={{marginLeft:"40px"}}>
-                                <label htmlFor="show_over">Show overs</label> 
-                                <input type="checkbox" className="d-inline-block mr-2" 
-                                id="show_over" name="show_over" value='yes' style={{width:"20px"}}
-                                onChange={evt => this.onShowOverChange(evt)} />
+                              <span style={{ marginLeft: "40px" }}>
+                                <label htmlFor="show_over">Show overs</label>
+                                <input type="checkbox" className="d-inline-block mr-2"
+                                  id="show_over" name="show_over" value='yes' style={{ width: "20px" }}
+                                  onChange={evt => this.onShowOverChange(evt)} />
                               </span>
                             </div>
 
                             <div className="col-md-2">
-                              <div className="form-group">          
-                                <button type="button" 
-                                className="btn btn-primary btn-md run ml-4" 
-                                 id="run_stock">Search</button>
+                              <div className="form-group">
+                                <button type="button"
+                                  className="btn btn-primary btn-md run ml-4"
+                                  id="run_stock">Search</button>
                               </div>
-                            </div>                                
+                            </div>
                           </div>
                         </form>
-                        <div className="row stockSummaryTable visibile cardd2" style={{margin: "0px", width:"100%"}}>
+                        <div className="row stockSummaryTable visibile cardd2" style={{ margin: "0px", width: "100%" }}>
                           <div className="col-6 mt-5">
                             <div className="card">
                               <div className="card-header">
-                                <h4 className="light left d-inline-block" style={{color:"#373E43"}}>All Unders</h4>
+                                <h4 className="light left d-inline-block" style={{ color: "#373E43" }}>All Unders</h4>
                                 <div className="right d-inline-block float-right mt-2">
-                                  <span style={{cursor:"pointer"}} className="buttons_excel_count">
-                                  <img src="/assets/images/count/Group 10.png" height="30px" alt="" />
-                                  </span>    
+                                  <span style={{ cursor: "pointer" }} className="buttons_excel_count">
+                                    <img src="/assets/images/count/Group 10.png" height="30px" alt="" />
+                                  </span>
                                 </div>
                               </div>
                               <div className="card-body">
@@ -327,11 +325,11 @@ export default class inventoryByItems extends Component {
                           <div className="col-6 mt-5">
                             <div className="card">
                               <div className="card-header">
-                                <h4 className="light left d-inline-block" style={{color:"#373E43"}}>All Overs</h4>
+                                <h4 className="light left d-inline-block" style={{ color: "#373E43" }}>All Overs</h4>
                                 <div className="right d-inline-block float-right mt-2">
-                                  <span style={{cursor:"pointer"}} className="buttons_excel_count">
-                                  <img src="/assets/images/count/Group 10.png" height="30px" alt="" />
-                                  </span>    
+                                  <span style={{ cursor: "pointer" }} className="buttons_excel_count">
+                                    <img src="/assets/images/count/Group 10.png" height="30px" alt="" />
+                                  </span>
                                 </div>
                               </div>
                               <div className="card-body">
@@ -340,17 +338,17 @@ export default class inventoryByItems extends Component {
                                 </div>
                                 <div className="data-tables datatable-primary stocksummery">
                                   <table id="dataTableThree" className="text-center mm-datatable3">
-                                    <thead className="bg-light text-capitalize" style={{color: "#000"}}>
-                                    <tr>
-                                      <th>Department</th>
-                                      <th>Brand</th>
-                                      <th>SKU</th>
-                                      <th>Expected</th>
-                                      <th>Diff</th>
-                                      <th>Diff&nbsp;%</th>
-                                      <th>Suppliername</th>
-                                      <th>Supplier Item No.</th>
-                                    </tr>
+                                    <thead className="bg-light text-capitalize" style={{ color: "#000" }}>
+                                      <tr>
+                                        <th>Department</th>
+                                        <th>Brand</th>
+                                        <th>SKU</th>
+                                        <th>Expected</th>
+                                        <th>Diff</th>
+                                        <th>Diff&nbsp;%</th>
+                                        <th>Suppliername</th>
+                                        <th>Supplier Item No.</th>
+                                      </tr>
                                     </thead>
                                     <tbody>
                                     </tbody>
