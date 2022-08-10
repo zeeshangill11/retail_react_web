@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
-import { Link } from "react-router-dom";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
