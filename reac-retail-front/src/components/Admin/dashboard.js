@@ -172,7 +172,7 @@ export default class dashboard extends Component {
                         <div className="content-wrapper pb-4 ">
                             <div className="body-sec pl-2 pr-2" id="executive-summary-count-dashboard">
                                 <div className="card mb-5 pb-3">
-                                <div className="card-header">
+                                    <div className="card-header">
                                         <div className="left d-inline-block">
                                             <h4 className="mb-0"> <i className="ti-stats-up" style={{ color: "#000" }}></i>
                                                 Dashboard
@@ -182,7 +182,7 @@ export default class dashboard extends Component {
                                         <div className="right d-inline-block float-right mt-2">
 
                                             <img src="/asserts/images/count/Group 9.png" height='25px' />
-                                            
+
                                         </div>
                                     </div>
                                     <div className="card-body p-1">
@@ -241,7 +241,7 @@ export default class dashboard extends Component {
                                                                 <img src="./asserts/images/icon-open-list.png" className="float-right" />
                                                             </Link>
                                                             <div>
-                                                                {this.state.activity_list.map((x, y) => <p style={{fontSize: "13px", margin: "0px"}}>{x.date+'--'+ x.audit_text +'--Log Type--'+ x.log_type +'--Device ID--'+ x.deviceid +'--Store ID--'+ x.storeid +'--Retail CycleCount ID--'+ x.Retail_CycleCountID}</p>)}
+                                                                {this.state.activity_list.map((x, y) => <p style={{ fontSize: "13px", margin: "0px" }}>{x.date + '--' + x.audit_text + '--Log Type--' + x.log_type + '--Device ID--' + x.deviceid + '--Store ID--' + x.storeid + '--Retail CycleCount ID--' + x.Retail_CycleCountID}</p>)}
                                                             </div>
                                                         </div>
                                                     </div>

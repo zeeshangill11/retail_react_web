@@ -35,21 +35,21 @@ export default class admin_menu extends Component {
 
         var myToken = cookies.get('myToken');
         console.log(myToken)
-        $(document).on('click','.run_cron_job', function(){
-   
-            Run_CronJob();
-        }); 
+        $(document).on('click', '.run_cron_job', function () {
 
-        function Run_CronJob(){
+            Run_CronJob();
+        });
+
+        function Run_CronJob() {
 
             $.ajax({
-                type:'POST',
-                url: server_ip+"cronjobs/CronJobRun30",
-                success:function(data){
-                    
+                type: 'POST',
+                url: server_ip + "cronjobs/CronJobRun30",
+                success: function (data) {
+
                     swal("Run Successfully !");
-                    
-        
+
+
                 }
             })
         }

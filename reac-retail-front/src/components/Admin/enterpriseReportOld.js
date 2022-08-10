@@ -196,7 +196,7 @@ export default class enterpriseReportOld extends Component {
 
                                             </div>
                                             <div className="data-tables">
-                                                <table id="dataTable" class="text-center mm-datatable" style={{width: "100%"}}>
+                                                <table id="dataTable" class="text-center mm-datatable" style={{ width: "100%" }}>
                                                     <thead class="bg-light text-capitalize">
                                                         <tr>
 

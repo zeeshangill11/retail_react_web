@@ -80,11 +80,11 @@ export default class admin_error_log extends Component {
                         request.setRequestHeader("auth-token", myToken);
                     },
                     "data":
-                    function ( d ) {
-                        return $.extend( {}, d, {
-                            "storeid": $( "#StoreID" ).val(),
-                        });
-                    },
+                        function (d) {
+                            return $.extend({}, d, {
+                                "storeid": $("#StoreID").val(),
+                            });
+                        },
 
                 },
                 "order": [[1, 'desc']],
@@ -102,21 +102,20 @@ export default class admin_error_log extends Component {
         $('.run').click(function () {
             main_table.ajax.reload();
         });
-        $(document).on('click','.clear_file',function(){
+        $(document).on('click', '.clear_file', function () {
 
             $.ajax({
-                type:'POST',
-                url: server_ip+"inventoryData/clear_fileReport",
-                success: function(data)
-                {
-                   
+                type: 'POST',
+                url: server_ip + "inventoryData/clear_fileReport",
+                success: function (data) {
+
                     main_table.ajax.reload();
                     console.log(data);
-        
-                   // alert( $("#StoreID").val());
+
+                    // alert( $("#StoreID").val());
                 }
             });
-        
+
         });
 
 
@@ -159,9 +158,9 @@ export default class admin_error_log extends Component {
                                     <div className="col-md-12">
                                         <div className="card-body">
 
-                                                    <div className="d-inline-block mr-4 mb-0 my-2"  style={{float: "right"}}>
-                                                        <button type="button" id="executiveSummary" className="btn btn-danger btn-md clear_file btn-block">Clear</button>
-                                                    </div>
+                                            <div className="d-inline-block mr-4 mb-0 my-2" style={{ float: "right" }}>
+                                                <button type="button" id="executiveSummary" className="btn btn-danger btn-md clear_file btn-block">Clear</button>
+                                            </div>
                                             <div className="data-tables">
                                                 <table id="dataTable" className="text-center mm-datatable" style={{ width: "100%" }}>
                                                     <thead class="bg-light text-capitalize">
