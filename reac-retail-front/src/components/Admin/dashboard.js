@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
-// import provider from '../../services/executiveSummaryJS';
 import common from '../../services/commonFunctionsJS';
 import { Link } from "react-router-dom";
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import Header from '../header/header';
 import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
 import Cookies from 'universal-cookie';
-// var cookies = new Cookies();
-// var myToken = cookies.get('myToken');
 
 export default class dashboard extends Component {
     constructor(props) {
