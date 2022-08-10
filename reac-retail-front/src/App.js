@@ -74,7 +74,7 @@ class App extends Component {
     return (
       <>
         <Switch>
-          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
+          <Route exact path={["/"]} component={Login} />
           <Route exact path="/add" component={AddTutorial} />
           <Route path="/tutorials/:id" component={Tutorial} />
           <Route path="/login" component={Login} />

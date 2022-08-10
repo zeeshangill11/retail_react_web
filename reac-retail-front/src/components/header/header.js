@@ -38,6 +38,11 @@ function Header() {
 			}
 			document.querySelector("."+class_name+" .CustomsubMenu > a").classList.add("subMenuActive");
 
+			//left bar
+			
+				
+
+			
 
 
 		}, 300);
@@ -49,6 +54,17 @@ function Header() {
 
 
 	}
+	const componentDidMount  = () =>{
+		document.addEventListener("DOMContentLoaded", function(event) { 
+			alert('aaa');   
+			var left_menu_all = document.querySelectorAll('.left_menu_all');
+
+			for (var i = 0; i < left_menu_all.length; ++i) {
+				left_menu_all[i].style.display = "none";
+			}
+		});
+	}
+	
 
 	const handleClickItem = (e)=>{
 		var dropdown_items = document.getElementsByClassName('dropdown-item');
@@ -60,6 +76,7 @@ function Header() {
 
 	return (
 		<>
+			<link rel="stylesheet" href="./css/font-awesome.min.css" />
 			<link rel="stylesheet" href="./css/bootstrap.min.css" />
 
 			<link rel="stylesheet" href="./css/dashboard.min.css" />
