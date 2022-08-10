@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
-import { Link } from "react-router-dom";
 
 import Header from '../header/header';
 import TopBar from '../topBar/topBar';
@@ -147,14 +146,13 @@ export default class transferCancellation extends Component {
                                             <p className="mb-0 dateTime"></p>
                                         </div>
                                         <div className="right d-inline-block float-right mt-2">
-
-                                            <img src="/asserts/images/count/Group 9.png" height='25px' />
+                                            <img src="/asserts/images/count/Group 9.png" height='25px' alt="group9" />
                                             <span style={{ cursor: "pointer" }} className="button_print">
-                                                <img src="/asserts/images/count/Icon feather-printer.png" height='30px' className="ml-1 mr-1" />
+                                                <img src="/asserts/images/count/Icon feather-printer.png" height='30px' className="ml-1 mr-1" alt="feather"/>
                                             </span>
 
                                             <span style={{ cursor: "pointer" }} className="buttons_excel2">
-                                                <img src="/asserts/images/count/Group 10.png" height='30px' />
+                                                <img src="/asserts/images/count/Group 10.png" height='30px' alt="group10" />
                                             </span>
                                         </div>
                                     </div>

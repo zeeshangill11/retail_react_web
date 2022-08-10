@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
-import { Route, Redirect } from 'react-router';
-import executiveSummary from '../executiveSummary/executiveSummary';
+// import { Route, Redirect } from 'react-router';
+// import executiveSummary from '../executiveSummary/executiveSummary';
 import Cookies from 'universal-cookie';
 
 

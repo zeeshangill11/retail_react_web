@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import Header from '../header/header';
 import TopBar from '../topBar/topBar';
@@ -20,7 +20,7 @@ import $ from 'jquery';
 
 
 import Cookies from 'universal-cookie';
-import swal from 'sweetalert';
+// import swal from 'sweetalert';
 
 export default class stockSummaryExtras extends Component {
     constructor(props) {
