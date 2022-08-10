@@ -21,7 +21,7 @@ function leftBar() {
 					</li>
 				</ul>
 			</li>
-			<li className="nav-item active main_admin">
+			<li className="nav-item left_menu_all active main_admin">
 				<a className="nav-link nav-link-collapse admin_menu active222" href="dashboard" data-pjax="main-content"><img src="./asserts/images/icons/icon-admin.png" alt="" /> Admin</a>
 				<ul className="nav-second-level collapse admin" id="collapseSubItems2" data-parent="#navAccordion">
 					<li className="nav-item mm_admin dashboard_menu active222">
@@ -62,7 +62,7 @@ function leftBar() {
 					</li>
 				</ul>
 			</li>
-			<li className="nav-item main_count">
+			<li className="nav-item left_menu_all main_count">
 				<a className="nav-link nav-link-collapse count_menu active222" href="executiveSummary" data-pjax="main-content"><img src="./asserts/images/icon-count.png" alt=""/> Count</a>
 				<ul className="nav-second-level collapse count show" id="collapseSubItems5" data-parent="#navAccordion">
 					<li className="nav-item mm_executiveSummary executiveSummary_menu active active222">
@@ -79,7 +79,7 @@ function leftBar() {
 					</li>
 				</ul>
 			</li>
-			<li className="nav-item main_supplychain">
+			<li className="nav-item left_menu_all main_supplychain">
 				<a className="nav-link nav-link-collapse supplychain_menu active222" href="supplychaindashboard" data-pjax="main-content">
 				<img src="./asserts/images/Group21.png" alt="" /> Supply Chain</a>
 				<ul className="nav-second-level collapse supplychain" id="collapseSubItems6" data-parent="#navAccordion">
@@ -105,7 +105,7 @@ function leftBar() {
 					</li>
 				</ul>
 			</li>
-			<li className="nav-item active main_zplprinter">
+			<li className="nav-item left_menu_all main_zplprinter">
 				<a className="nav-link nav-link-collapse tagit_menu active222" id="hasSubItems" href="zplprinter" data-pjax="main-content">
 					<img src="./asserts/images/icons/icon-tags.png" alt="" /> TagIt</a>
 				<ul className="nav-second-level collapse zplprinter" id="collapseSubItems2" data-parent="#navAccordion">

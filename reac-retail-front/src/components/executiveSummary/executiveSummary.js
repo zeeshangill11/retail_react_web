@@ -364,8 +364,8 @@ export default class executiveSummary extends Component {
 									<div className="card-body p-1">
 										<div className="alert_msg"></div>
 										<div className="filters pl-1 pt-3 pb-3 pr-3" id="executiveSummaryFitler">
-											<h4 className="d-inline-block mr-4 mb-0  text-light">Filters</h4>
-											<div className="mb-0 filter-size">
+											<h4 className="d-inline-block mr-4 mb-0 text-light">Filters</h4>
+											<div className="form-group d-inline-block mb-0">
 												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="StoreID" id="StoreID" onChange={evt => this.onStoreIdChange(evt)} value={this.state.f_storeid} >
 													<option value="">Store ID</option>
@@ -379,7 +379,7 @@ export default class executiveSummary extends Component {
 												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="BrandID" id="BrandID" onChange={(e) => this.setState({ bnd: e.target.value })} value={this.state.bnd} >
 													<option value="">All Brands</option>
-													{this.state.brand_list.map((x, y) => <option value={x.brand_name}>{x.brand_name}</option>)}
+													{this.state.brand_list.map((x, y) => <option value={x.brand_name}>{unescape(x.brand_name)}</option>)}
 												</select>
 												<select className="form-control d-inline-block mr-2" data-live-search="true"
 													name="Color" id="Color" onChange={(e) => this.setState({ color: e.target.value })} value={this.state.color} >
