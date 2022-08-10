@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
-// import common from '../../services/commonFunctionsJS';
 import { Link } from "react-router-dom";
 
 import Header from '../header/header';

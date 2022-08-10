@@ -7,7 +7,6 @@ import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
 import "react-datepicker/dist/react-datepicker.css";
 
-//import "react-select/dist/react-select.css";
 //jQuery libraries
 
 import 'jquery/dist/jquery.min.js';

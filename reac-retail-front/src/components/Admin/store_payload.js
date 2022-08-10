@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import new_config from '../../services/config';
 import common from '../../services/commonFunctionsJS';
-// import { Link } from "react-router-dom";
 
 import Header from '../header/header';
 import TopBar from '../topBar/topBar';
 import LeftBar from '../leftBar/leftBar';
-// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 //jQuery libraries
@@ -16,7 +14,6 @@ import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-// import $ from 'jquery';
 
 
 import Cookies from 'universal-cookie';
